@@ -5,4 +5,7 @@ before_install:
 
 install: ./gradlew desktop:assemble
 
-script: ./gradlew desktop:check
+script: 
+ - ./gradlew framework:check
+ - ./gradlew core:check
+ - ./gradlew desktop:check

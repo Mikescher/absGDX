@@ -11,5 +11,5 @@ eclipse.project {
 }
 
 dependencies {
-    compile project(":framework")
+    compile project(":absGDX-framework")
 }

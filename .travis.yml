@@ -1,4 +1,6 @@
 language: java
 
-before_install:
+script:
  - chmod +x gradlew
+ - ./gradlew desktop:assemble
+ - ./gradlew desktop:check

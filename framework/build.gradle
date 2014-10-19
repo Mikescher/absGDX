@@ -7,9 +7,9 @@ sourceSets.main.java.srcDirs = [ "src/" ]
 
 
 eclipse.project {
-    name = appName + "-core"
+    name = "absGDX-framework"
 }
 
 dependencies {
-    compile project(":framework")
+    compile "com.badlogicgames.gdx:gdx:$gdxVersion"
 }

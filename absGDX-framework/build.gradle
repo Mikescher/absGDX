@@ -12,4 +12,6 @@ eclipse.project {
 
 dependencies {
     compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+
+    compile 'junit:junit:4.11'
 }

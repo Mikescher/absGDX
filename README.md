@@ -1,4 +1,4 @@
 absGDX
 =======
 
-[![Build Status](https://travis-ci.org/Mikescher/AbsCanvas.svg)](https://travis-ci.org/Mikescher/AbsCanvas)
+[![Build Status](https://api.travis-ci.org/Mikescher/absGDX.svg)](https://travis-ci.org/Mikescher/absGDX)

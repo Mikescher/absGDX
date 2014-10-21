@@ -1,6 +1,5 @@
 package de.samdev.absgdx.framework.map.mapsizeresolver;
 
-import com.badlogic.gdx.math.Vector2;
 
 public class MaximumBoundaryScreenScaleResolver implements AbstractMapScaleResolver {
 
@@ -16,17 +15,20 @@ public class MaximumBoundaryScreenScaleResolver implements AbstractMapScaleResol
 
 	@Override
 	public float getTileSize(int screenWidth, int screenHeight, int mapHeight, int mapWidth) {
-		if ((screenWidth * 1f / screenHeight) < (tilesY * 1f / tilesX))
+		float tx = Math.min(tilesX,  mapWidth);
+		float ty = Math.min(tilesY, mapHeight);
+		
+		if ((screenWidth * 1f / screenHeight) < (tilesY / tx))
 		{
-			return screenWidth * 1f / tilesX;
+			return screenWidth * 1f / tx;
 		}
-		else if ((screenWidth * 1f / screenHeight) > (tilesY * 1f / tilesX))
+		else if ((screenWidth * 1f / screenHeight) > (tilesY / tx))
 		{
-			return screenHeight * 1f / tilesY;
+			return screenHeight / ty;
 		}
 		else // equals
 		{
-			return screenHeight * 1f / tilesY;
+			return screenHeight / ty;
 		}
 	}
 

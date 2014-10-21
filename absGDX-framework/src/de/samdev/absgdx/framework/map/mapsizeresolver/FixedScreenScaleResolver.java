@@ -1,17 +1,18 @@
 package de.samdev.absgdx.framework.map.mapsizeresolver;
 
-import com.badlogic.gdx.math.Vector2;
 
 public class FixedScreenScaleResolver implements AbstractMapScaleResolver {
-
+	private final float fixedSize;
 	
 	public FixedScreenScaleResolver(float size) {
 		super();
+		
+		this.fixedSize = size;
 	}
 
 	@Override
 	public float getTileSize(int screenWidth, int screenHeight, int mapHeight, int mapWidth) {
-		return 1; // TODO implement
+		return fixedSize;
 	}
 
 }

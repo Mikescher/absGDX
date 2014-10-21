@@ -1,13 +1,16 @@
 package de.samdev.absgdx.framework.map.mapsizeresolver;
 
-import com.badlogic.gdx.math.Vector2;
-
 public class LimitedMinimumBoundaryScreenScaleResolver implements AbstractMapScaleResolver {
 
 	private final int tilesX;
 	private final int tilesY;
 	
-	public LimitedMinimumBoundaryScreenScaleResolver(int visibleTilesX, int visibleTilesY, float minimumSizePrecentage) {
+	/**
+	 * @param visibleTilesX the (optimal / minimal) amount of  
+	 * @param visibleTilesY
+	 * @param maximumCutPrecentage
+	 */
+	public LimitedMinimumBoundaryScreenScaleResolver(int visibleTilesX, int visibleTilesY, float maximumCutPrecentage) {
 		super();
 		
 		this.tilesX = visibleTilesX;

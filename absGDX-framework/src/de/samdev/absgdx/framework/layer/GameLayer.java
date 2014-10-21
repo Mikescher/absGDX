@@ -11,7 +11,6 @@ import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.map.TileMap;
 import de.samdev.absgdx.framework.map.mapsizeresolver.AbstractMapScaleResolver;
 import de.samdev.absgdx.framework.map.mapsizeresolver.ShowCompleteScreenScaleResolver;
-import de.samdev.absgdx.framework.math.align.AlignCorner5;
 
 public abstract class GameLayer extends AgdxLayer {
 	

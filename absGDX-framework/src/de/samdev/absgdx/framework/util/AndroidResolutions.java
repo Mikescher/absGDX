@@ -1,4 +1,4 @@
-package de.samdev.absgdx;
+package de.samdev.absgdx.framework.util;
 
 import com.badlogic.gdx.math.GridPoint2;
 

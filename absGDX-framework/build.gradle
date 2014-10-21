@@ -4,7 +4,7 @@ sourceCompatibility = 1.6
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 sourceSets.main.java.srcDirs = [ "src/" ]
-
+sourceSets.test.java.srcDirs = [ "src/" ]
 
 eclipse.project {
     name = "absGDX-framework"
@@ -13,5 +13,5 @@ eclipse.project {
 dependencies {
     compile "com.badlogicgames.gdx:gdx:$gdxVersion"
 
-    compile 'junit:junit:4.11'
+    compile 'junit:junit:4.10'
 }

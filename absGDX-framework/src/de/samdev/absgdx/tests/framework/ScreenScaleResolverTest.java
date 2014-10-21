@@ -2,8 +2,6 @@ package de.samdev.absgdx.tests.framework;
 
 import org.junit.Test;
 
-import com.badlogic.gdx.math.Vector2;
-
 import de.samdev.absgdx.framework.map.mapsizeresolver.FixedScreenScaleResolver;
 import de.samdev.absgdx.framework.map.mapsizeresolver.LimitedMinimumBoundaryScreenScaleResolver;
 import de.samdev.absgdx.framework.map.mapsizeresolver.MaximumBoundaryScreenScaleResolver;

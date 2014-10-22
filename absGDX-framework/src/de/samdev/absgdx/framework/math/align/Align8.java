@@ -33,7 +33,7 @@ public enum Align8 {
 			return new Vector2(-1, 00);
 
 		default:
-			throw new RuntimeException("Invalid enum value:" + this);
+			return null;
 		}
 	}
 }

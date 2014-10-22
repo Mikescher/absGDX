@@ -77,19 +77,19 @@ public class ScreenScaleResolverTest extends BaseUnitTest {
 
 	@Test
 	public void testLimitedMinimumBoundaryScreenScaleResolver() {
-		LimitedMinimumBoundaryScreenScaleResolver resolver = new LimitedMinimumBoundaryScreenScaleResolver(10, 10, 0.5f);
+		AbstractMapScaleResolver resolver = new LimitedMinimumBoundaryScreenScaleResolver(10, 10, 0.5f);
 
-		assertEquals(01f, resolver.getTileSize(100, 100, 100, 100));
+		assertEquals(10f, resolver.getTileSize(100, 100, 100, 100));
 		assertEquals(10f, resolver.getTileSize(100, 100, 10, 10));
-		assertEquals(.1f, resolver.getTileSize(10, 10, 100, 100));
+		assertEquals(1f,  resolver.getTileSize(10, 10, 100, 100));
 
-		assertEquals(100f, resolver.getTileSize(100, 100, 100, 1));
+		assertEquals(20f, resolver.getTileSize(100, 100, 100, 1));
 		assertEquals(10f, resolver.getTileSize(100, 100, 100, 10));
 
-		assertEquals(100f, resolver.getTileSize(100, 100, 1, 100));
+		assertEquals(20f, resolver.getTileSize(100, 100, 1, 100));
 		assertEquals(10f, resolver.getTileSize(100, 100, 10, 100));
 
-		assertEquals(.1f, resolver.getTileSize(100, 1, 100, 100));
-		assertEquals(.1f, resolver.getTileSize(1, 100, 100, 100));
+		assertEquals(.2f, resolver.getTileSize(100, 1, 100, 100));
+		assertEquals(.2f, resolver.getTileSize(1, 100, 100, 100));
 	}
 }

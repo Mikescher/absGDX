@@ -5,7 +5,6 @@ import java.util.Random;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.map.TileMap;
@@ -15,7 +14,8 @@ import de.samdev.absgdx.framework.map.mapsizeresolver.ShowCompleteScreenScaleRes
 public abstract class GameLayer extends AgdxLayer {
 
 	protected TileMap map;
-	protected AbstractMapScaleResolver mapScaleResolver = new ShowCompleteScreenScaleResolver();
+	
+	private AbstractMapScaleResolver mapScaleResolver = new ShowCompleteScreenScaleResolver();
 
 	public GameLayer(AgdxGame owner) {
 		super(owner);
@@ -44,5 +44,9 @@ public abstract class GameLayer extends AgdxLayer {
 
 	protected void loadEmptyMap(int w, int h) {
 		map = new TileMap(this.owner, w, h);
+	}
+	
+	protected void setMapScaleResolver(AbstractMapScaleResolver resolver) {
+		this.mapScaleResolver = resolver;
 	}
 }

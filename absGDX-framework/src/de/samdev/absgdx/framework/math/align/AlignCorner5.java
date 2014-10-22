@@ -24,7 +24,7 @@ public enum AlignCorner5 {
 			return new Vector2(00, 00);
 
 		default:
-			throw new RuntimeException("Invalid enum value:" + this);
+			return null;
 		}
 	}
 }

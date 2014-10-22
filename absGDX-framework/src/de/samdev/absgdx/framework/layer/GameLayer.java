@@ -9,13 +9,13 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.map.TileMap;
 import de.samdev.absgdx.framework.map.mapsizeresolver.AbstractMapScaleResolver;
-import de.samdev.absgdx.framework.map.mapsizeresolver.ShowCompleteScreenScaleResolver;
+import de.samdev.absgdx.framework.map.mapsizeresolver.ShowCompleteMapScaleResolver;
 
 public abstract class GameLayer extends AgdxLayer {
 
 	protected TileMap map;
 	
-	private AbstractMapScaleResolver mapScaleResolver = new ShowCompleteScreenScaleResolver();
+	private AbstractMapScaleResolver mapScaleResolver = new ShowCompleteMapScaleResolver();
 
 	public GameLayer(AgdxGame owner) {
 		super(owner);

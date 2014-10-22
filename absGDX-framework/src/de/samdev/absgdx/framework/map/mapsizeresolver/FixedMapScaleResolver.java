@@ -1,10 +1,10 @@
 package de.samdev.absgdx.framework.map.mapsizeresolver;
 
 
-public class FixedScreenScaleResolver implements AbstractMapScaleResolver {
+public class FixedMapScaleResolver implements AbstractMapScaleResolver {
 	private final float fixedSize;
 	
-	public FixedScreenScaleResolver(float size) {
+	public FixedMapScaleResolver(float size) {
 		super();
 		
 		this.fixedSize = size;

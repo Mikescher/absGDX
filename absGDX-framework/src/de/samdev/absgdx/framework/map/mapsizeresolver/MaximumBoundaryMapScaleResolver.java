@@ -1,12 +1,12 @@
 package de.samdev.absgdx.framework.map.mapsizeresolver;
 
 
-public class MaximumBoundaryScreenScaleResolver implements AbstractMapScaleResolver {
+public class MaximumBoundaryMapScaleResolver implements AbstractMapScaleResolver {
 
 	private final int tilesX;
 	private final int tilesY;
 	
-	public MaximumBoundaryScreenScaleResolver(int visibleTilesX, int visibleTilesY) {
+	public MaximumBoundaryMapScaleResolver(int visibleTilesX, int visibleTilesY) {
 		super();
 		
 		this.tilesX = visibleTilesX;

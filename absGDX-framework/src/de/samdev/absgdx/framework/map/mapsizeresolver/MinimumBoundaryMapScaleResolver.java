@@ -1,13 +1,12 @@
 package de.samdev.absgdx.framework.map.mapsizeresolver;
 
-import com.badlogic.gdx.math.Vector2;
 
-public class MinimumBoundaryScreenScaleResolver implements AbstractMapScaleResolver {
+public class MinimumBoundaryMapScaleResolver implements AbstractMapScaleResolver {
 
 	protected final int tilesX;
 	protected final int tilesY;
 	
-	public MinimumBoundaryScreenScaleResolver(int visibleTilesX, int visibleTilesY) {
+	public MinimumBoundaryMapScaleResolver(int visibleTilesX, int visibleTilesY) {
 		super();
 		
 		this.tilesX = visibleTilesX;

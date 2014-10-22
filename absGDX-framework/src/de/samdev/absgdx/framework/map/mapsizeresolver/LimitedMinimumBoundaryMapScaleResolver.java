@@ -1,6 +1,6 @@
 package de.samdev.absgdx.framework.map.mapsizeresolver;
 
-public class LimitedMinimumBoundaryScreenScaleResolver extends MinimumBoundaryScreenScaleResolver {
+public class LimitedMinimumBoundaryMapScaleResolver extends MinimumBoundaryMapScaleResolver {
 
 	private final float maximumCut;
 	
@@ -9,7 +9,7 @@ public class LimitedMinimumBoundaryScreenScaleResolver extends MinimumBoundarySc
 	 * @param visibleTilesY
 	 * @param maximumCutPrecentage
 	 */
-	public LimitedMinimumBoundaryScreenScaleResolver(int visibleTilesX, int visibleTilesY, float maximumCutPrecentage) {
+	public LimitedMinimumBoundaryMapScaleResolver(int visibleTilesX, int visibleTilesY, float maximumCutPrecentage) {
 		super(visibleTilesX, visibleTilesY);
 		
 		this.maximumCut = maximumCutPrecentage;
@@ -21,10 +21,7 @@ public class LimitedMinimumBoundaryScreenScaleResolver extends MinimumBoundarySc
 		float ty = Math.min(tilesY, mapHeight);
 		
 		float scale = super.getTileSize(screenWidth, screenHeight, mapWidth, mapHeight);
-		
 		float cut = 1 - ((screenWidth * screenHeight) / (tx * scale * ty * scale));
-		
-		System.out.println("] cut: " + cut + " && scale:" + scale);
 		
 		if (cut > maximumCut)
 		{

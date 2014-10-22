@@ -11,7 +11,7 @@ public class FixedScreenScaleResolver implements AbstractMapScaleResolver {
 	}
 
 	@Override
-	public float getTileSize(int screenWidth, int screenHeight, int mapHeight, int mapWidth) {
+	public float getTileSize(int screenWidth, int screenHeight, int mapWidth, int mapHeight) {
 		return fixedSize;
 	}
 

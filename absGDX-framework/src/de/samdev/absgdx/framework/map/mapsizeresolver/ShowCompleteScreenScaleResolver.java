@@ -8,9 +8,9 @@ public class ShowCompleteScreenScaleResolver implements AbstractMapScaleResolver
 	}
 
 	@Override
-	public float getTileSize(int screenWidth, int screenHeight, int mapHeight, int mapWidth) {
-		MaximumBoundaryScreenScaleResolver resolver = new MaximumBoundaryScreenScaleResolver(mapHeight, mapWidth);
+	public float getTileSize(int screenWidth, int screenHeight, int mapWidth, int mapHeight) {
+		AbstractMapScaleResolver resolver = new MaximumBoundaryScreenScaleResolver(mapWidth, mapHeight);
 		
-		return resolver.getTileSize(screenWidth, screenHeight, mapHeight, mapWidth);
+		return resolver.getTileSize(screenWidth, screenHeight, mapWidth, mapHeight);
 	}
 }

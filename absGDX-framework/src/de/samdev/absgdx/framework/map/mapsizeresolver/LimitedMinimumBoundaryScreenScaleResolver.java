@@ -18,7 +18,7 @@ public class LimitedMinimumBoundaryScreenScaleResolver implements AbstractMapSca
 	}
 
 	@Override
-	public float getTileSize(int screenWidth, int screenHeight, int mapHeight, int mapWidth) {
+	public float getTileSize(int screenWidth, int screenHeight, int mapWidth, int mapHeight) {
 		return 1; // TODO implement
 	}
 

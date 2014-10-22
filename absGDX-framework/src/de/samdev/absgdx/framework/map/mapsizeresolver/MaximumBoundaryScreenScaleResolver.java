@@ -14,15 +14,15 @@ public class MaximumBoundaryScreenScaleResolver implements AbstractMapScaleResol
 	}
 
 	@Override
-	public float getTileSize(int screenWidth, int screenHeight, int mapHeight, int mapWidth) {
+	public float getTileSize(int screenWidth, int screenHeight, int mapWidth, int mapHeight) {
 		float tx = Math.min(tilesX,  mapWidth);
 		float ty = Math.min(tilesY, mapHeight);
 		
-		if ((screenWidth * 1f / screenHeight) < (tilesY / tx))
+		if ((screenWidth * 1f / screenHeight) < (tx / tilesY))
 		{
 			return screenWidth * 1f / tx;
 		}
-		else if ((screenWidth * 1f / screenHeight) > (tilesY / tx))
+		else if ((screenWidth * 1f / screenHeight) > (tx / tilesY))
 		{
 			return screenHeight / ty;
 		}

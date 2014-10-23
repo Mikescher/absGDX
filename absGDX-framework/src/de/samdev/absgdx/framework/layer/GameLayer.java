@@ -2,9 +2,13 @@ package de.samdev.absgdx.framework.layer;
 
 import java.util.Random;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.map.TileMap;
@@ -14,7 +18,8 @@ import de.samdev.absgdx.framework.map.mapsizeresolver.ShowCompleteMapScaleResolv
 public abstract class GameLayer extends AgdxLayer {
 
 	protected TileMap map;
-	
+	protected Vector2 map_offset = new Vector2(0, 0);
+
 	private AbstractMapScaleResolver mapScaleResolver = new ShowCompleteMapScaleResolver();
 
 	public GameLayer(AgdxGame owner) {
@@ -35,17 +40,74 @@ public abstract class GameLayer extends AgdxLayer {
 			for (int x = 0; x < map.width; x++) {
 				srenderer.setColor(r.nextFloat(), r.nextFloat(), r.nextFloat(), 1);
 
-				srenderer.rect(x * tilesize, y * tilesize, tilesize, tilesize);
+				srenderer.rect((x - map_offset.x) * tilesize, (y - map_offset.y) * tilesize, tilesize, tilesize);
 			}
 		}
 
 		srenderer.end();
 	}
 
+	@Override
+	public void update() {
+		final float speed = 0.1f;
+		
+		if (Gdx.input.isKeyPressed(Keys.RIGHT)) setBoundedOffset(new Vector2(map_offset.x + speed, map_offset.y));
+		if (Gdx.input.isKeyPressed(Keys.LEFT))  setBoundedOffset(new Vector2(map_offset.x - speed, map_offset.y));
+		if (Gdx.input.isKeyPressed(Keys.UP))    setBoundedOffset(new Vector2(map_offset.x, map_offset.y + speed));
+		if (Gdx.input.isKeyPressed(Keys.DOWN))  setBoundedOffset(new Vector2(map_offset.x, map_offset.y - speed));
+	}
+
+	@Override
+	public void onResize() {
+		setBoundedOffset(map_offset);
+	}
+
+	public Rectangle getVisibleMapBox() {
+		float tilesize = mapScaleResolver.getTileSize(owner.getScreenWidth(), owner.getScreenHeight(), map.height, map.width);
+		
+		Rectangle view = new Rectangle(map_offset.x, map_offset.y, owner.getScreenWidth() / tilesize, owner.getScreenHeight() / tilesize);
+		
+		return view;
+	}
+	
+	private void limitOffset() {
+		Rectangle viewport = getVisibleMapBox();
+		
+		System.out.println(viewport.toString());
+		
+		if (viewport.x + viewport.width > map.width) {
+			map_offset.x = map.width - viewport.width;
+		}
+		
+		if (viewport.y + viewport.height > map.height) {
+			map_offset.y = map.height - viewport.height;
+		}
+		
+		viewport = getVisibleMapBox();
+		
+		if (viewport.x < 0) {
+			map_offset.x = 0;
+		}
+		
+		if (viewport.y < 0) {
+			map_offset.y = 0;
+		}
+	}
+
+	protected void setBoundedOffset(Vector2 offset) {
+		setRawOffset(offset);
+
+		limitOffset();
+	}
+
+	protected void setRawOffset(Vector2 offset) {
+		map_offset = offset;
+	}
+
 	protected void loadEmptyMap(int w, int h) {
 		map = new TileMap(this.owner, w, h);
 	}
-	
+
 	protected void setMapScaleResolver(AbstractMapScaleResolver resolver) {
 		this.mapScaleResolver = resolver;
 	}

@@ -11,7 +11,7 @@ public class DemoGameLayer extends GameLayer {
 
 		loadEmptyMap(20, 20);
 		
-		setMapScaleResolver(new SectionMapScaleResolver(map.width, map.height, 0.5f, 20f));
+		setMapScaleResolver(new SectionMapScaleResolver(12, 8, 0.5f, 20f));
 	}
 
 }

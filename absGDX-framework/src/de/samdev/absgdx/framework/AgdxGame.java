@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 import de.samdev.absgdx.framework.layer.AgdxLayer;
 
@@ -39,21 +38,36 @@ public abstract class AgdxGame implements ApplicationListener {
 
 	@Override
 	public void render () {
+		doUpdate();
+		
+		doRender();
+	}
+
+	private void doRender() {
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		batch.setProjectionMatrix(camera.combined);
 		shapeRenderer.setProjectionMatrix(camera.combined);
 		
-		if (! layers.empty())
-		{
+		if (! layers.empty()) {
 			layers.peek().render(batch, shapeRenderer);
+		}
+	}
+	
+	private void doUpdate() {
+		if (! layers.empty()) {
+			layers.peek().update();
 		}
 	}
 
 	@Override
 	public void resize(int width, int height) {
 		camera.setToOrtho(false, getScreenWidth(), getScreenHeight());
+		
+		if (! layers.empty()) {
+			layers.peek().onResize();
+		}
 	}
 
 	@Override

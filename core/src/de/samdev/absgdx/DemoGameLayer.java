@@ -10,6 +10,11 @@ public class DemoGameLayer extends GameLayer {
 		super(owner);
 
 		loadEmptyMap(20, 20);
+		for (int x = 0; x < 20; x++) {
+			for (int y = 0; y < 20; y++) {
+//				map.setTile(x, y, new SkyTile());
+			}
+		}
 		
 		setMapScaleResolver(new SectionMapScaleResolver(12, 8, 0.5f, 20f));
 	}

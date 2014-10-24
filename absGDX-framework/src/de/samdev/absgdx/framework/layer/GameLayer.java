@@ -1,12 +1,10 @@
 package de.samdev.absgdx.framework.layer;
 
-import java.util.Random;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -25,26 +23,30 @@ public abstract class GameLayer extends AgdxLayer {
 	public GameLayer(AgdxGame owner) {
 		super(owner);
 
-		map = new TileMap(this.owner, 16, 16);
+		map = new TileMap(16, 16);
 	}
 
 	@Override
 	public void render(SpriteBatch sbatch, ShapeRenderer srenderer) {
 		float tilesize = mapScaleResolver.getTileSize(owner.getScreenWidth(), owner.getScreenHeight(), map.height, map.width);
 
-		srenderer.begin(ShapeType.Filled);
-
-		Random r = new Random(0);
+		sbatch.disableBlending();
+		sbatch.begin();
 
 		for (int y = 0; y < map.height; y++) {
 			for (int x = 0; x < map.width; x++) {
-				srenderer.setColor(r.nextFloat(), r.nextFloat(), r.nextFloat(), 1);
+				//srenderer.setColor(r.nextFloat(), r.nextFloat(), r.nextFloat(), 1);
 
-				srenderer.rect((x - map_offset.x) * tilesize, (y - map_offset.y) * tilesize, tilesize, tilesize);
+				//srenderer.rect((x - map_offset.x) * tilesize, (y - map_offset.y) * tilesize, tilesize, tilesize);
+				
+				TextureRegion r = map.getTile(x, y).getTexture();
+				
+				if (r != null)
+					sbatch.draw(r, x, y, tilesize, tilesize);
 			}
 		}
 
-		srenderer.end();
+		sbatch.end();
 	}
 
 	@Override
@@ -62,6 +64,9 @@ public abstract class GameLayer extends AgdxLayer {
 		setBoundedOffset(map_offset);
 	}
 
+	/**
+	 * @return the currently visible tiles (in tile-coordinates : 1 tile = 1 unit)
+	 */
 	public Rectangle getVisibleMapBox() {
 		float tilesize = mapScaleResolver.getTileSize(owner.getScreenWidth(), owner.getScreenHeight(), map.height, map.width);
 		
@@ -70,10 +75,11 @@ public abstract class GameLayer extends AgdxLayer {
 		return view;
 	}
 	
+	/**
+	 * Fixes the offset - it gets re-adjusted in case the curret viewport has left the map
+	 */
 	private void limitOffset() {
 		Rectangle viewport = getVisibleMapBox();
-		
-		System.out.println(viewport.toString());
 		
 		if (viewport.x + viewport.width > map.width) {
 			map_offset.x = map.width - viewport.width;
@@ -94,21 +100,42 @@ public abstract class GameLayer extends AgdxLayer {
 		}
 	}
 
-	protected void setBoundedOffset(Vector2 offset) {
+	/**
+	 * Sets the offset but limits it so that it can't leave the map boundaries
+	 * 
+	 * @param offset
+	 */
+	public void setBoundedOffset(Vector2 offset) {
 		setRawOffset(offset);
 
 		limitOffset();
 	}
 
-	protected void setRawOffset(Vector2 offset) {
+	/**
+	 * Sets the offset, but unlike setBoundedOffset() it won't check the boundaries
+	 * 
+	 * @param offset
+	 */
+	public void setRawOffset(Vector2 offset) {
 		map_offset = offset;
 	}
 
-	protected void loadEmptyMap(int w, int h) {
-		map = new TileMap(this.owner, w, h);
+	/**
+	 * Loads a new map filled with EmptyTile
+	 * 
+	 * @param w width
+	 * @param h height
+	 */
+	public void loadEmptyMap(int w, int h) {
+		map = new TileMap(w, h);
 	}
 
-	protected void setMapScaleResolver(AbstractMapScaleResolver resolver) {
+	/**
+	 * Sets the mapScaleResolver - the component to determine the size of a tile
+	 * 
+	 * @param resolver
+	 */
+	public void setMapScaleResolver(AbstractMapScaleResolver resolver) {
 		this.mapScaleResolver = resolver;
 	}
 }

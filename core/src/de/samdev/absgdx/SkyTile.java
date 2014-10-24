@@ -1,12 +1,11 @@
 package de.samdev.absgdx;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import de.samdev.absgdx.framework.map.Tile;
 
 public class SkyTile extends Tile {
-	private static TextureRegion tex = new TextureRegion(new Texture("map.png"), 9*16, 9*16, 16, 16);
+	private static TextureRegion tex = Textures.tex_dirt;
 	
 	public SkyTile() {
 		super(tex);

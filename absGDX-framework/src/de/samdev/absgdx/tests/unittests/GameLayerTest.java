@@ -1,4 +1,4 @@
-package de.samdev.absgdx.tests.framework;
+package de.samdev.absgdx.tests.unittests;
 
 import org.junit.Test;
 

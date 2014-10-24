@@ -42,7 +42,7 @@ public abstract class GameLayer extends AgdxLayer {
 				TextureRegion r = map.getTile(x, y).getTexture();
 				
 				if (r != null)
-					sbatch.draw(r, x, y, tilesize, tilesize);
+					sbatch.draw(r, (x - map_offset.x) * tilesize, (y - map_offset.y) * tilesize, tilesize, tilesize);
 			}
 		}
 

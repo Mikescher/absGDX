@@ -12,7 +12,7 @@ public class DemoGameLayer extends GameLayer {
 		loadEmptyMap(20, 20);
 		for (int x = 0; x < 20; x++) {
 			for (int y = 0; y < 20; y++) {
-//				map.setTile(x, y, new SkyTile());
+				map.setTile(x, y, new SkyTile());
 			}
 		}
 		

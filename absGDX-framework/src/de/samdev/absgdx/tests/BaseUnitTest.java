@@ -27,10 +27,10 @@ public abstract class BaseUnitTest extends TestCase {
 	
 	public static void assertEquals(Rectangle expected, Rectangle actual, float epsilon) {
 		try {
-			assertEquals(expected.x, actual.y, epsilon);
-			assertEquals(expected.x, actual.y, epsilon);
-			assertEquals(expected.width, actual.height, epsilon);
-			assertEquals(expected.width, actual.height, epsilon);
+			assertEquals(expected.x, actual.x, epsilon);
+			assertEquals(expected.y, actual.y, epsilon);
+			assertEquals(expected.width, actual.width, epsilon);
+			assertEquals(expected.height, actual.height, epsilon);
 		} catch (AssertionFailedError e) {
 			throw new AssertionFailedError("expected:<" + expected + "> but was:<" + actual + ">" );
 		}

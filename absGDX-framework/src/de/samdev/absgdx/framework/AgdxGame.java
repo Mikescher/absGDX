@@ -24,6 +24,10 @@ public abstract class AgdxGame implements ApplicationListener {
 
 	private final Stack<AgdxLayer> layers = new Stack<AgdxLayer>();
 
+	// ##### Other #####
+
+	public final GameSettings settings = new GameSettings();
+	
 	@Override
 	public void create() {
 		batch = new SpriteBatch();

@@ -11,7 +11,7 @@ public class IntegerProperty extends DependentProperty{
 
 	@Override
 	public String serialize() {
-		return Float.toString(value);
+		return Integer.toString(value);
 	}
 
 	@Override
@@ -28,11 +28,11 @@ public class IntegerProperty extends DependentProperty{
 		return true;
 	}
 	
-	public void setValue(int newvalue) {
+	public void set(int newvalue) {
 		this.value = newvalue;
 	}
 	
-	public int getValue() {
+	public int get() {
 		return this.value;
 	}
 }

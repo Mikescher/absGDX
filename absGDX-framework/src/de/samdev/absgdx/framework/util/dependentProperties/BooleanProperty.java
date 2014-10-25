@@ -27,11 +27,16 @@ public class BooleanProperty extends DependentProperty {
 		return value;
 	}
 	
-	public void setValue(boolean newvalue) {
+	public void set(boolean newvalue) {
 		this.value = newvalue;
 	}
 	
-	public boolean getValue() {
+	public boolean get() {
 		return this.value;
+	}
+	
+	public boolean doSwitch() {
+		set(! get());
+		return get();
 	}
 }

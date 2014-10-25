@@ -28,11 +28,11 @@ public class FloatProperty extends DependentProperty{
 		return true;
 	}
 	
-	public void setValue(float newvalue) {
+	public void set(float newvalue) {
 		this.value = newvalue;
 	}
 	
-	public float getValue() {
+	public float get() {
 		return this.value;
 	}
 }

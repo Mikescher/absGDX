@@ -8,7 +8,6 @@ import com.badlogic.gdx.math.Vector2;
 import de.samdev.absgdx.framework.layer.GameLayer;
 import de.samdev.absgdx.framework.map.mapsizeresolver.MinimumBoundaryMapScaleResolver;
 import de.samdev.absgdx.tests.BaseUnitTest;
-import de.samdev.absgdx.tests.DummyAgdxGame;
 import de.samdev.absgdx.tests.DummyGameLayer;
 
 public class GameLayerTest extends BaseUnitTest {
@@ -45,9 +44,7 @@ public class GameLayerTest extends BaseUnitTest {
 
     @Test
     public void testSetBoundedOffset() {
-    	GameLayer layer = new GameLayer(new DummyAgdxGame(100, 100)) {
-    		// NOP
-    	};
+    	GameLayer layer = new DummyGameLayer(100, 100);
 		
 		layer.loadEmptyMap(100, 100);
 		layer.setMapScaleResolver(new MinimumBoundaryMapScaleResolver(10, 10));

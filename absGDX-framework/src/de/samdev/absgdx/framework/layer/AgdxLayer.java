@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import de.samdev.absgdx.framework.AgdxGame;
 
 public abstract class AgdxLayer {
-
 	protected AgdxGame owner;
 	
 	public AgdxLayer(AgdxGame owner) {

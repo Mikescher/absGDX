@@ -21,14 +21,14 @@ public class StringProperty extends DependentProperty {
 
 	@Override
 	public boolean getBooleanValue() {
-		return true;
+		return value != null;
 	}
 	
-	public void setValue(String newvalue) {
+	public void set(String newvalue) {
 		this.value = newvalue;
 	}
 	
-	public String getValue() {
+	public String get() {
 		return this.value;
 	}
 }

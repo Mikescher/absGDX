@@ -6,4 +6,11 @@ public class RootProperty extends MetaProperty {
 		super(name, null);
 	}
 
+	public String getTreeDebugString() {
+		StringBuilder sb = new StringBuilder();
+		
+		this.getTreeDebugString(sb, 0);
+		
+		return sb.toString();
+	}
 }

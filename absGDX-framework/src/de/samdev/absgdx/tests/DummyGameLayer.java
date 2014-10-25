@@ -8,4 +8,9 @@ public class DummyGameLayer extends GameLayer {
 		super(new DummyAgdxGame(screenwidth, screenheight));
 	}
 
+	@Override
+	public void onUpdate() {
+		// NOP
+	}
+
 }

@@ -36,7 +36,7 @@ public abstract class AgdxGame implements ApplicationListener {
 
 		camera.setToOrtho(false, getScreenWidth(), getScreenHeight());
 		camera.update();
-
+		
 		onCreate();
 	}
 

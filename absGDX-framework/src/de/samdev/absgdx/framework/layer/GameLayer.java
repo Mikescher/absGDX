@@ -2,9 +2,11 @@ package de.samdev.absgdx.framework.layer;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -14,7 +16,6 @@ import de.samdev.absgdx.framework.map.mapsizeresolver.AbstractMapScaleResolver;
 import de.samdev.absgdx.framework.map.mapsizeresolver.ShowCompleteMapScaleResolver;
 
 public abstract class GameLayer extends AgdxLayer {
-
 	protected TileMap map;
 	protected Vector2 map_offset = new Vector2(0, 0);
 
@@ -30,14 +31,16 @@ public abstract class GameLayer extends AgdxLayer {
 	public void render(SpriteBatch sbatch, ShapeRenderer srenderer) {
 		float tilesize = mapScaleResolver.getTileSize(owner.getScreenWidth(), owner.getScreenHeight(), map.height, map.width);
 
+		srenderer.begin(ShapeType.Line);
+		srenderer.setColor(Color.MAGENTA);
 		sbatch.disableBlending();
 		sbatch.begin();
 
 		for (int y = 0; y < map.height; y++) {
 			for (int x = 0; x < map.width; x++) {
-				//srenderer.setColor(r.nextFloat(), r.nextFloat(), r.nextFloat(), 1);
-
-				//srenderer.rect((x - map_offset.x) * tilesize, (y - map_offset.y) * tilesize, tilesize, tilesize);
+				if (owner.settings.debugMapGridLines.isActive()) {
+					srenderer.rect((x - map_offset.x) * tilesize, (y - map_offset.y) * tilesize, tilesize, tilesize);
+				}
 				
 				TextureRegion r = map.getTile(x, y).getTexture();
 				
@@ -47,16 +50,13 @@ public abstract class GameLayer extends AgdxLayer {
 		}
 
 		sbatch.end();
+		srenderer.end();
 	}
 
 	@Override
 	public void update() {
-		final float speed = 0.1f;
 		
-		if (Gdx.input.isKeyPressed(Keys.RIGHT)) setBoundedOffset(new Vector2(map_offset.x + speed, map_offset.y));
-		if (Gdx.input.isKeyPressed(Keys.LEFT))  setBoundedOffset(new Vector2(map_offset.x - speed, map_offset.y));
-		if (Gdx.input.isKeyPressed(Keys.UP))    setBoundedOffset(new Vector2(map_offset.x, map_offset.y + speed));
-		if (Gdx.input.isKeyPressed(Keys.DOWN))  setBoundedOffset(new Vector2(map_offset.x, map_offset.y - speed));
+		onUpdate();
 	}
 
 	@Override
@@ -138,4 +138,6 @@ public abstract class GameLayer extends AgdxLayer {
 	public void setMapScaleResolver(AbstractMapScaleResolver resolver) {
 		this.mapScaleResolver = resolver;
 	}
+	
+	public abstract void onUpdate();
 }

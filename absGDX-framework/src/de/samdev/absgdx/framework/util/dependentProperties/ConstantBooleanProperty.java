@@ -21,6 +21,10 @@ public class ConstantBooleanProperty extends DependentProperty {
 	public void deserialize(String rawvalue) {
 		// Do nothing
 	}
+	
+	public boolean get() {
+		return this.value;
+	}
 
 	@Override
 	public boolean getBooleanValue() {

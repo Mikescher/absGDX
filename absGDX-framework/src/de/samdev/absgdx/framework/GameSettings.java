@@ -5,6 +5,11 @@ import de.samdev.absgdx.framework.util.dependentProperties.ConstantBooleanProper
 import de.samdev.absgdx.framework.util.dependentProperties.RootProperty;
 
 public class GameSettings {
+	private final static boolean DEBUG_ENABLED = true; // TODO debugmode ( ON | OFF )
+	private final static boolean DEBUG_ACTIVE = true;
+	
+	//########################################################
+	
 	public RootProperty root;
 	
 	public ConstantBooleanProperty debugmode;
@@ -23,9 +28,9 @@ public class GameSettings {
 	private void init() {
 		root = new RootProperty("absGDX");
 		
-		debugmode = new ConstantBooleanProperty("debugmode", true, root); // TODO debugmode ( ON | OFF )
+		debugmode = new ConstantBooleanProperty("debugmode", DEBUG_ENABLED, root);
 		
-		debugEnabled = new BooleanProperty("debugEnabled", false, debugmode);
+		debugEnabled = new BooleanProperty("debugEnabled", DEBUG_ACTIVE, debugmode);
 		
 		debugTextInfos = new BooleanProperty("debugTextInfos", true, debugEnabled);
 		

@@ -4,22 +4,34 @@ import java.util.Stack;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import de.samdev.absgdx.framework.layer.AgdxLayer;
+import de.samdev.absgdx.framework.renderer.DebugTextRenderer;
 
 public abstract class AgdxGame implements ApplicationListener {
 
 	// ##### LibGDX Objects #####
 
 	private OrthographicCamera camera;
-	private SpriteBatch batch;
+	
+	private SpriteBatch mapRenderer;
+	private SpriteBatch entityRenderer;
+	private SpriteBatch fontRenderer;
+	
 	private ShapeRenderer shapeRenderer;
 
+	// ##### Debug #####
+	
+	private BitmapFont debugFont;		 // TODO Add API to render custom text / with custom font
+	private DebugTextRenderer debugTextRenderer;
+	
 	// ##### Layer #####
 
 	private final Stack<AgdxLayer> layers = new Stack<AgdxLayer>();
@@ -28,10 +40,18 @@ public abstract class AgdxGame implements ApplicationListener {
 
 	public final GameSettings settings = new GameSettings();
 	
+	private float debugFontSize = 1f;
+	
 	@Override
 	public void create() {
-		batch = new SpriteBatch();
+		mapRenderer = new SpriteBatch();
 		shapeRenderer = new ShapeRenderer();
+		setDebugFont(new BitmapFont());
+		fontRenderer = new SpriteBatch();
+		entityRenderer = new SpriteBatch();
+		debugTextRenderer = new DebugTextRenderer(this, debugFont, fontRenderer, shapeRenderer, 10, 10);
+		
+		
 		camera = new OrthographicCamera();
 
 		camera.setToOrtho(false, getScreenWidth(), getScreenHeight());
@@ -51,12 +71,35 @@ public abstract class AgdxGame implements ApplicationListener {
 		Gdx.gl.glClearColor(1, 0, 1, 1); // MAGENTA
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		batch.setProjectionMatrix(camera.combined);
+		mapRenderer.setProjectionMatrix(camera.combined);
+		entityRenderer.setProjectionMatrix(camera.combined);
 		shapeRenderer.setProjectionMatrix(camera.combined);
+		fontRenderer.setProjectionMatrix(camera.combined);
 
+		entityRenderer.enableBlending();
+		mapRenderer.disableBlending();
+		fontRenderer.enableBlending();
+		
 		if (!layers.empty()) {
-			layers.peek().render(batch, shapeRenderer);
+			layers.peek().render(mapRenderer, shapeRenderer);
 		}
+		
+		if (settings.debugTextInfos.isActive()) {
+			renderDebugTextOverlay();
+		}
+		
+		new Texture("consolefont.gif");
+	}
+
+	private void renderDebugTextOverlay() {
+		debugTextRenderer.begin(debugFontSize);
+		{
+			debugTextRenderer.draw("ARGH!");
+			debugTextRenderer.draw("ARGH!");
+			debugTextRenderer.draw("ARGH!");
+			debugTextRenderer.draw("ARGH!");
+		}
+		debugTextRenderer.end();
 	}
 
 	private void doUpdate() {
@@ -74,6 +117,17 @@ public abstract class AgdxGame implements ApplicationListener {
 		}
 	}
 
+	/**
+	 * Sets the default font for rendering debug output
+	 * 
+	 * @param bfont
+	 */
+	public void setDebugFont(BitmapFont bfont) {
+		this.debugFont = bfont;
+		
+		debugFont.setColor(Color.BLACK);
+	}
+	
 	@Override
 	public void pause() {
 		// TODO Auto-generated method stub
@@ -88,12 +142,13 @@ public abstract class AgdxGame implements ApplicationListener {
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-
+		mapRenderer.dispose();
+		fontRenderer.dispose();
+		shapeRenderer.dispose();
 	}
-
+	
 	/**
-	 * Load a Texture from the resouces
+	 * Load a Texture from the resources
 	 * 
 	 * @param file
 	 *            the filename
@@ -118,7 +173,7 @@ public abstract class AgdxGame implements ApplicationListener {
 	}
 
 	/**
-	 * Pushes a new Layer ontop the stack
+	 * Pushes a new Layer on top of the stack
 	 * 
 	 * @param layer 
 	 */
@@ -147,4 +202,8 @@ public abstract class AgdxGame implements ApplicationListener {
 	 * Gets called after the initialization
 	 */
 	public abstract void onCreate();
+
+	public void setDebugFontSize(float debugFontSize) {
+		this.debugFontSize = debugFontSize;
+	}
 }

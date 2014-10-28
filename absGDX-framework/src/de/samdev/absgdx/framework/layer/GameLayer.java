@@ -73,7 +73,7 @@ public abstract class GameLayer extends AgdxLayer {
 	}
 	
 	/**
-	 * Fixes the offset - it gets re-adjusted in case the curret viewport has left the map
+	 * Fixes the offset - it gets re-adjusted in case the current viewport has left the map
 	 */
 	private void limitOffset() {
 		Rectangle viewport = getVisibleMapBox();
@@ -136,16 +136,31 @@ public abstract class GameLayer extends AgdxLayer {
 		this.mapScaleResolver = resolver;
 	}
 	
+	/**
+	 * return the map offset (in tile coordinates) (offset=1 :=> 1 tile offset)
+	 * 
+	 * @return
+	 */
 	public Vector2 getMapOffset() {
 		return map_offset;
 	}
 	
+	/**
+	 * return the tile scale (= tile size)
+	 * 
+	 * @return
+	 */
 	public float getTileScale() {
 		return mapScaleResolver.getTileSize(owner.getScreenWidth(), owner.getScreenHeight(), map.height, map.width);
 	}
 	
 	public abstract void onUpdate();
 
+	/**
+	 * return the (tiled) map
+	 * 
+	 * @return
+	 */
 	public TileMap getMap() {
 		return map;
 	}

@@ -111,7 +111,7 @@ public abstract class AgdxGame implements ApplicationListener {
 		debugTextRenderer.begin(debugFontSize);
 		
 		if (settings.debugTextFPS.isActive()) {
-			debugTextRenderer.drawFormatted("FPS: %s / %f (version %s)", DebugFormatter.fmtF(freqMeter.fps, 100), freqMeter.targetFPS, Gdx.app.getVersion());
+			debugTextRenderer.drawFormatted("FPS: %s / %f (%s v%s)", DebugFormatter.fmtF(freqMeter.fps, 100), freqMeter.targetFPS, Gdx.app.getType(), Gdx.app.getVersion());
 			debugTextRenderer.draw();
 		}
 		
@@ -130,11 +130,11 @@ public abstract class AgdxGame implements ApplicationListener {
 			debugTextRenderer.drawFormatted("RenderTime: %sms (%d%%)", DebugFormatter.fmtD(freqMeter.renderTime / 1000000d, 100), (int)freqMeter.getRenderPercentage());
 			debugTextRenderer.drawFormatted("UpdateTime: %sms (%d%%)", DebugFormatter.fmtD(freqMeter.updateTime / 1000000d, 100), (int)freqMeter.getUpdatePercentage());
 			debugTextRenderer.drawFormatted("TotalTime:  %sms (%d%%)", DebugFormatter.fmtD(freqMeter.totalTime / 1000000d, 100), (int)freqMeter.getTotalPercentage());
-			debugTextRenderer.drawFormatted("GDX-DeltaTime:  %ss", DebugFormatter.fmtF(Gdx.graphics.getDeltaTime(), 1000));
+			debugTextRenderer.drawFormatted("GDX-DeltaTime:  %sms", DebugFormatter.fmtF(Gdx.graphics.getDeltaTime()*1000f, 10));
 			debugTextRenderer.draw();
 		}
 
-		if (settings.debugTextTiming.isActive()) {
+		if (settings.debugTextMemory.isActive()) {
 			debugTextRenderer.drawFormatted("Allocated Memory:  %d MB / %d MB", (Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory()) / 1048576, Runtime.getRuntime().totalMemory() / 1048576);
 			debugTextRenderer.drawFormatted("GC Count: %d (%d ms)", freqMeter.gcCount, freqMeter.gcTime);
 			debugTextRenderer.drawFormatted("GC Time per call: %sms (last %ds ago)", freqMeter.gcTimePerGC, freqMeter.gcTimeBetweenGC/1000);
@@ -144,7 +144,7 @@ public abstract class AgdxGame implements ApplicationListener {
 		if (settings.debugTextInput.isActive()) {
 			debugTextRenderer.drawFormatted("Pointer: %s (delta: %s)", DebugFormatter.fmtV2(new Vector2(Gdx.input.getX(), Gdx.input.getY()), 10), DebugFormatter.fmtV2(new Vector2(Gdx.input.getDeltaX(), Gdx.input.getDeltaY()), 10));
 			debugTextRenderer.drawFormatted("Accelerometer: %s", DebugFormatter.fmtV3(new Vector3(Gdx.input.getAccelerometerX(), Gdx.input.getAccelerometerY(), Gdx.input.getAccelerometerZ()), 100));
-			debugTextRenderer.drawFormatted("(Azimuth, Pitch, Roll, Rotation): %s", DebugFormatter.fmtV3(new Vector3(Gdx.input.getAzimuth(), Gdx.input.getPitch(), Gdx.input.getRoll()), 100));
+			debugTextRenderer.drawFormatted("(Azimuth, Pitch, Roll, Rotation): %s , %s", DebugFormatter.fmtV3(new Vector3(Gdx.input.getAzimuth(), Gdx.input.getPitch(), Gdx.input.getRoll()), 100), DebugFormatter.fmtF(Gdx.input.getRotation(), 100));
 			debugTextRenderer.drawFormatted("Touched: %s (Just Touched: %s)", Gdx.input.isTouched(), Gdx.input.justTouched());
 			debugTextRenderer.draw();
 		}

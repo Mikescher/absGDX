@@ -13,7 +13,7 @@ eclipse.project {
 dependencies {
     compile "com.badlogicgames.gdx:gdx:$gdxVersion"
 
-    compile 'junit:junit-dep:4.10'
+    compile 'junit:junit:4.11'
 
     compile 'org.apache.commons:commons-lang3:3.3.2'
 }

@@ -15,7 +15,7 @@ android {
     }
 
     packagingOptions {
-            exclude 'LICENSE.txt'
+        exclude 'LICENSE.txt'
     }
 }
 
@@ -67,7 +67,7 @@ task run(type: Exec) {
     }
 
     def adb = path + "/platform-tools/adb"
-    commandLine "$adb", 'shell', 'am', 'start', '-n', 'de.sam-dev.absgdx.android/de.sam-dev.absgdx.android.AndroidLauncher'
+    commandLine "$adb", 'shell', 'am', 'start', '-n', 'de.samdev.absgdx.android/de.samdev.absgdx.android.AndroidLauncher'
 }
 
 // sets up the Android Eclipse project, using the old Ant based build.

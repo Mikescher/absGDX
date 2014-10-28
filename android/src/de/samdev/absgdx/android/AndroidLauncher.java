@@ -12,8 +12,8 @@ public class AndroidLauncher extends AndroidApplication {
 		super.onCreate(savedInstanceState);
 		
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-	    config.useAccelerometer = false;
-	    config.useCompass = false;
+	    config.useAccelerometer = true; //TODO Set to false if not used
+	    config.useCompass = true;
 	      
 		initialize(new AGdxDemoGame(), config);
 	}

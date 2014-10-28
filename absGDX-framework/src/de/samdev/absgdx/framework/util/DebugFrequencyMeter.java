@@ -1,7 +1,6 @@
 package de.samdev.absgdx.framework.util;
 
-import java.lang.management.GarbageCollectorMXBean;
-import java.lang.management.ManagementFactory;
+import com.badlogic.gdx.Gdx;
 
 public class DebugFrequencyMeter {
 	private final static long REFRESH_INTERVAL = 1000;
@@ -37,14 +36,10 @@ public class DebugFrequencyMeter {
 	// #########################################################################
 
 	private long lastGCUpdateTime = System.currentTimeMillis();
+	private long gcAllocMem = 0;
 
-	private long gcInitCount = -1;
-	private long gcInitTime = -1;
-
-	public long gcCount;
-	public long gcTime;
+	public long gcCount = 0;
 	public long gcTimeBetweenGC;
-	public float gcTimePerGC;
 
 	// #########################################################################
 
@@ -84,21 +79,16 @@ public class DebugFrequencyMeter {
 
 		// #####################################################################
 
-		long totalGarbageCollections = 0;
-		long garbageCollectionTime = 0;
-		for (GarbageCollectorMXBean gc : ManagementFactory.getGarbageCollectorMXBeans()) {
-			totalGarbageCollections += gc.getCollectionCount();
-			garbageCollectionTime += gc.getCollectionTime();
-		}
+		long allocmemory = Gdx.app.getJavaHeap();
 		
-		if (totalGarbageCollections > gcCount) {
+		if (allocmemory < (this.gcAllocMem - 1048576)) {
 			gcTimeBetweenGC = System.currentTimeMillis() - lastGCUpdateTime;
 			lastGCUpdateTime = System.currentTimeMillis();
+			
+			gcCount++;
 		}
-		gcTimePerGC = (gcTime - gcInitTime) / (gcCount - gcInitCount * 1f);
 		
-		gcCount = totalGarbageCollections;
-		gcTime = garbageCollectionTime;
+		this.gcAllocMem = allocmemory;
 	}
 
 	public void startRender() {

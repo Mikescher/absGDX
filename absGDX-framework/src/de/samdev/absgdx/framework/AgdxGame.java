@@ -136,8 +136,8 @@ public abstract class AgdxGame implements ApplicationListener {
 
 		if (settings.debugTextMemory.isActive()) {
 			debugTextRenderer.drawFormatted("Allocated Memory:  %d MB / %d MB", (Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory()) / 1048576, Runtime.getRuntime().totalMemory() / 1048576);
-			debugTextRenderer.drawFormatted("GC Count: %d (%d ms)", freqMeter.gcCount, freqMeter.gcTime);
-			debugTextRenderer.drawFormatted("GC Time per call: %sms (last %ds ago)", freqMeter.gcTimePerGC, freqMeter.gcTimeBetweenGC/1000);
+			debugTextRenderer.drawFormatted("GC Call Count: %d ", freqMeter.gcCount);
+			debugTextRenderer.drawFormatted("Last GC Call: %ss ago", freqMeter.gcTimeBetweenGC/1000);
 			debugTextRenderer.draw();
 		}
 		

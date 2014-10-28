@@ -76,6 +76,7 @@ public class TileMapData {
 	}
 	
 	public Integer getTileSetIndex(long GID){
+		
 		long currentFirstGID;
 		for(int i = tilesets.size() - 1; i >= 0; i--){
 			currentFirstGID = tilesets.get(i).firstGID;
@@ -85,7 +86,18 @@ public class TileMapData {
 		
 	}
 	
+	public Integer getTileSetIndex(String name){
+		// get the index of a tileset by name
+		
+		for(int i = tilesets.size() -1; i >= 0; i--){
+			if(name.equals(tilesets.get(i).name)) return new Integer(i);
+		}
+		
+		return null;
+	}
+	
 	public Integer getLayerIndex(String name){
+		// get the index of a layer by name
 		for(int i = 0; i < layers.size(); i++){
 			if(layers.get(i).name.equals(name)) return new Integer(i);
 		}

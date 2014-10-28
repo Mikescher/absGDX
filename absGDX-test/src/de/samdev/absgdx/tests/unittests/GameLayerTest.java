@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.framework.layer.GameLayer;
-import de.samdev.absgdx.framework.map.mapsizeresolver.MinimumBoundaryMapScaleResolver;
+import de.samdev.absgdx.framework.map.mapscaleresolver.MinimumBoundaryMapScaleResolver;
 import de.samdev.absgdx.tests.BaseUnitTest;
 import de.samdev.absgdx.tests.DummyGameLayer;
 

@@ -7,5 +7,6 @@ install: ./gradlew desktop:assemble
 
 script: 
  - ./gradlew absGDX-framework:check
+ - ./gradlew absGDX-test:check
  - ./gradlew core:check
  - ./gradlew desktop:check

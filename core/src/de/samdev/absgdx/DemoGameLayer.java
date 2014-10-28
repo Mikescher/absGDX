@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.layer.GameLayer;
-import de.samdev.absgdx.framework.map.mapsizeresolver.SectionMapScaleResolver;
+import de.samdev.absgdx.framework.map.mapscaleresolver.SectionMapScaleResolver;
 
 public class DemoGameLayer extends GameLayer {
 

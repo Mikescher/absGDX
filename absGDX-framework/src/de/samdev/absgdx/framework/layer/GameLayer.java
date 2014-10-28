@@ -10,8 +10,8 @@ import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.map.TileMap;
-import de.samdev.absgdx.framework.map.mapsizeresolver.AbstractMapScaleResolver;
-import de.samdev.absgdx.framework.map.mapsizeresolver.ShowCompleteMapScaleResolver;
+import de.samdev.absgdx.framework.map.mapscaleresolver.AbstractMapScaleResolver;
+import de.samdev.absgdx.framework.map.mapscaleresolver.ShowCompleteMapScaleResolver;
 
 public abstract class GameLayer extends AgdxLayer {
 	protected TileMap map;
@@ -29,13 +29,15 @@ public abstract class GameLayer extends AgdxLayer {
 	public void render(SpriteBatch sbatch, ShapeRenderer srenderer) {
 		float tilesize = mapScaleResolver.getTileSize(owner.getScreenWidth(), owner.getScreenHeight(), map.height, map.width);
 
+		Rectangle visible = getVisibleMapBox();
+		
 		srenderer.begin(ShapeType.Line);
 		srenderer.setColor(Color.MAGENTA);
 		sbatch.disableBlending();
 		sbatch.begin();
 
-		for (int y = 0; y < map.height; y++) {
-			for (int x = 0; x < map.width; x++) {
+		for (int y = (int) visible.y; y < Math.min(map.height, (int)(visible.y + visible.height + 1)); y++) {
+			for (int x = (int) visible.x; x < Math.min(map.width, (int)(visible.x + visible.width + 1)); x++) {
 				if (owner.settings.debugMapGridLines.isActive()) {
 					srenderer.rect((x - map_offset.x) * tilesize, (y - map_offset.y) * tilesize, tilesize, tilesize);
 				}

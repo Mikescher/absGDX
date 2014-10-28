@@ -2,13 +2,13 @@ package de.samdev.absgdx.tests.unittests;
 
 import org.junit.Test;
 
-import de.samdev.absgdx.framework.map.mapsizeresolver.AbstractMapScaleResolver;
-import de.samdev.absgdx.framework.map.mapsizeresolver.FixedMapScaleResolver;
-import de.samdev.absgdx.framework.map.mapsizeresolver.LimitedMinimumBoundaryMapScaleResolver;
-import de.samdev.absgdx.framework.map.mapsizeresolver.MaximumBoundaryMapScaleResolver;
-import de.samdev.absgdx.framework.map.mapsizeresolver.MinimumBoundaryMapScaleResolver;
-import de.samdev.absgdx.framework.map.mapsizeresolver.SectionMapScaleResolver;
-import de.samdev.absgdx.framework.map.mapsizeresolver.ShowCompleteMapScaleResolver;
+import de.samdev.absgdx.framework.map.mapscaleresolver.AbstractMapScaleResolver;
+import de.samdev.absgdx.framework.map.mapscaleresolver.FixedMapScaleResolver;
+import de.samdev.absgdx.framework.map.mapscaleresolver.LimitedMinimumBoundaryMapScaleResolver;
+import de.samdev.absgdx.framework.map.mapscaleresolver.MaximumBoundaryMapScaleResolver;
+import de.samdev.absgdx.framework.map.mapscaleresolver.MinimumBoundaryMapScaleResolver;
+import de.samdev.absgdx.framework.map.mapscaleresolver.SectionMapScaleResolver;
+import de.samdev.absgdx.framework.map.mapscaleresolver.ShowCompleteMapScaleResolver;
 import de.samdev.absgdx.tests.BaseUnitTest;
 
 public class MapScaleResolverTest extends BaseUnitTest {

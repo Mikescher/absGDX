@@ -1,4 +1,4 @@
-package de.samdev.absgdx.framework.map.mapsizeresolver;
+package de.samdev.absgdx.framework.map.mapscaleresolver;
 
 public class SectionMapScaleResolver extends LimitedMinimumBoundaryMapScaleResolver {
 

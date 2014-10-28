@@ -111,7 +111,7 @@ public abstract class AgdxGame implements ApplicationListener {
 		debugTextRenderer.begin(debugFontSize);
 		
 		if (settings.debugTextFPS.isActive()) {
-			debugTextRenderer.drawFormatted("FPS: %s / %f (%s v%s)", DebugFormatter.fmtF(freqMeter.fps, 100), freqMeter.targetFPS, Gdx.app.getType(), Gdx.app.getVersion());
+			debugTextRenderer.drawFormatted("FPS: %s / %s (%s v%s)", DebugFormatter.fmtF(freqMeter.fps, 100), freqMeter.targetFPS, Gdx.app.getType(), Gdx.app.getVersion());
 			debugTextRenderer.draw();
 		}
 		

@@ -36,7 +36,7 @@ public class DebugFrequencyMeter {
 
 	// #########################################################################
 
-	private long lastGCUpdateTime = 0;
+	private long lastGCUpdateTime = System.currentTimeMillis();
 
 	private long gcInitCount = -1;
 	private long gcInitTime = -1;

@@ -101,8 +101,6 @@ public abstract class AgdxGame implements ApplicationListener {
 		if (settings.debugTextInfos.isActive()) {
 			renderDebugTextOverlay();
 		}
-		
-		new Texture("consolefont.gif");
 	}
 
 	private void renderDebugTextOverlay() {

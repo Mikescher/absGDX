@@ -3,10 +3,9 @@ package de.samdev.absgdx.framework.renderer;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.CharSequenceUtils;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -45,6 +44,14 @@ public class DebugTextRenderer {
 		text.clear();
 	}
 	
+	public void drawFormatted(String format, Object... args) {
+		this.draw(String.format(format, args));
+	}
+
+	public void draw() {
+		draw("");
+	}
+	
 	public void draw(String txt) {
 		text.add(txt);
 	}
@@ -53,16 +60,21 @@ public class DebugTextRenderer {
 		renderShape.begin(ShapeType.Filled);
 		renderShape.setColor(Color.WHITE);
 		for (int i = 0; i < text.size(); i++) {
+			if (text.get(i).isEmpty()) continue;
+			
 			float x = positionX;
 			float y = positionY + owner.getScreenHeight() - i * (renderFont.getLineHeight() + LINE_DISTANCE);
 			
-			renderShape.rect(x, y, renderFont.getSpaceWidth() * text.get(i).length(), -renderFont.getLineHeight());
-			System.out.println(renderFont.getSpaceWidth());
+			TextBounds b = renderFont.getBounds(text.get(i));
+			
+			renderShape.rect(x - 1, y + 2, b.width + 2, -(b.height + 5));
 		}
 		renderShape.end();
 		
 		renderBatch.begin();
 		for (int i = 0; i < text.size(); i++) {
+			if (text.get(i).isEmpty()) continue;
+			
 			float x = positionX;
 			float y = positionY + owner.getScreenHeight() - i * (renderFont.getLineHeight() + LINE_DISTANCE);
 			

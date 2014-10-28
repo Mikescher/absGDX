@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import de.samdev.absgdx.framework.layer.AgdxLayer;
 import de.samdev.absgdx.framework.renderer.DebugTextRenderer;
+import de.samdev.absgdx.framework.util.DebugFrequencyMeter;
 
 public abstract class AgdxGame implements ApplicationListener {
 
@@ -31,6 +32,7 @@ public abstract class AgdxGame implements ApplicationListener {
 	
 	private BitmapFont debugFont;		 // TODO Add API to render custom text / with custom font
 	private DebugTextRenderer debugTextRenderer;
+	private final DebugFrequencyMeter freqMeter = new DebugFrequencyMeter();
 	
 	// ##### Layer #####
 
@@ -50,8 +52,7 @@ public abstract class AgdxGame implements ApplicationListener {
 		fontRenderer = new SpriteBatch();
 		entityRenderer = new SpriteBatch();
 		debugTextRenderer = new DebugTextRenderer(this, debugFont, fontRenderer, shapeRenderer, 10, 10);
-		
-		
+	
 		camera = new OrthographicCamera();
 
 		camera.setToOrtho(false, getScreenWidth(), getScreenHeight());
@@ -62,9 +63,22 @@ public abstract class AgdxGame implements ApplicationListener {
 
 	@Override
 	public void render() {
-		doUpdate();
+		if (settings.debugEnabled.isActive()) {
+			freqMeter.startCycle();
+			
+			freqMeter.startUpdate();
+			doUpdate();
+			freqMeter.endUpdate();
 
-		doRender();
+			freqMeter.startRender();
+			doRender();
+			freqMeter.endRender();
+		} else {
+			doUpdate();
+			
+			doRender();
+		}
+		
 	}
 
 	private void doRender() {
@@ -93,12 +107,26 @@ public abstract class AgdxGame implements ApplicationListener {
 
 	private void renderDebugTextOverlay() {
 		debugTextRenderer.begin(debugFontSize);
-		{
-			debugTextRenderer.draw("ARGH!");
-			debugTextRenderer.draw("ARGH!");
-			debugTextRenderer.draw("ARGH!");
-			debugTextRenderer.draw("ARGH!");
+		
+		if (settings.debugTextFPS.isActive()) {
+			debugTextRenderer.drawFormatted("FPS: %s / %f", (int)(freqMeter.fps*100)/100f, freqMeter.targetFPS);
+			debugTextRenderer.draw();
 		}
+		
+		if (settings.debugTextTiming.isActive()) {
+			debugTextRenderer.drawFormatted("RenderTime: %sms (%d%%)", ((int)(freqMeter.renderTime / 10000))/100f, (int)freqMeter.getRenderPercentage());
+			debugTextRenderer.drawFormatted("UpdateTime: %sms (%d%%)", ((int)(freqMeter.updateTime / 10000))/100f, (int)freqMeter.getUpdatePercentage());
+			debugTextRenderer.drawFormatted("TotalTime:  %sms (%d%%)", ((int)(freqMeter.totalTime / 10000))/100f, (int)freqMeter.getTotalPercentage());
+			debugTextRenderer.draw();
+		}
+
+		if (settings.debugTextTiming.isActive()) {
+			debugTextRenderer.drawFormatted("Allocated Memory:  %d MB / %d MB", (Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory()) / 1048576, Runtime.getRuntime().totalMemory() / 1048576);
+			debugTextRenderer.drawFormatted("GC Count: %d (%d ms)", freqMeter.gcCount, freqMeter.gcTime);
+			debugTextRenderer.drawFormatted("GC Time per call: %sms (last %ds ago)", freqMeter.gcTimePerGC, freqMeter.gcTimeBetweenGC/1000);
+			debugTextRenderer.draw();
+		}
+		
 		debugTextRenderer.end();
 	}
 

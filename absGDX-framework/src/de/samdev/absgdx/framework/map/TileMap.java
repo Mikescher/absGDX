@@ -1,5 +1,7 @@
 package de.samdev.absgdx.framework.map;
 
+import com.badlogic.gdx.math.Vector2;
+
 
 public class TileMap {
 	public final int width;
@@ -41,5 +43,9 @@ public class TileMap {
 	 */
 	public Tile getTile(int x, int y) {
 		return tiles[x][y];
+	}
+
+	public Vector2 getDimensions() {
+		return new Vector2(width, height);
 	}
 }

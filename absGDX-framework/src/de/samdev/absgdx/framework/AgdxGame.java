@@ -11,9 +11,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 import de.samdev.absgdx.framework.layer.AgdxLayer;
+import de.samdev.absgdx.framework.layer.GameLayer;
 import de.samdev.absgdx.framework.renderer.DebugTextRenderer;
+import de.samdev.absgdx.framework.util.DebugFormatter;
 import de.samdev.absgdx.framework.util.DebugFrequencyMeter;
 
 public abstract class AgdxGame implements ApplicationListener {
@@ -107,14 +111,26 @@ public abstract class AgdxGame implements ApplicationListener {
 		debugTextRenderer.begin(debugFontSize);
 		
 		if (settings.debugTextFPS.isActive()) {
-			debugTextRenderer.drawFormatted("FPS: %s / %f", (int)(freqMeter.fps*100)/100f, freqMeter.targetFPS);
+			debugTextRenderer.drawFormatted("FPS: %s / %f (version %s)", DebugFormatter.fmtF(freqMeter.fps, 100), freqMeter.targetFPS, Gdx.app.getVersion());
+			debugTextRenderer.draw();
+		}
+		
+		if (settings.debugTextMap.isActive() && !layers.empty() && layers.peek() instanceof GameLayer) {
+			GameLayer glayer = (GameLayer) layers.peek();
+			
+			debugTextRenderer.drawFormatted("Map: Scale=%s   Offset=%s   Visible=%s   Size=%s", 
+					DebugFormatter.fmtF(glayer.getTileScale(), 2), 
+					DebugFormatter.fmtV2(glayer.getMapOffset(), 10), 
+					DebugFormatter.fmtRectangle(glayer.getVisibleMapBox(), 10),
+					DebugFormatter.fmtV2(glayer.getMap().getDimensions(), 1));
 			debugTextRenderer.draw();
 		}
 		
 		if (settings.debugTextTiming.isActive()) {
-			debugTextRenderer.drawFormatted("RenderTime: %sms (%d%%)", ((int)(freqMeter.renderTime / 10000))/100f, (int)freqMeter.getRenderPercentage());
-			debugTextRenderer.drawFormatted("UpdateTime: %sms (%d%%)", ((int)(freqMeter.updateTime / 10000))/100f, (int)freqMeter.getUpdatePercentage());
-			debugTextRenderer.drawFormatted("TotalTime:  %sms (%d%%)", ((int)(freqMeter.totalTime / 10000))/100f, (int)freqMeter.getTotalPercentage());
+			debugTextRenderer.drawFormatted("RenderTime: %sms (%d%%)", DebugFormatter.fmtD(freqMeter.renderTime / 1000000d, 100), (int)freqMeter.getRenderPercentage());
+			debugTextRenderer.drawFormatted("UpdateTime: %sms (%d%%)", DebugFormatter.fmtD(freqMeter.updateTime / 1000000d, 100), (int)freqMeter.getUpdatePercentage());
+			debugTextRenderer.drawFormatted("TotalTime:  %sms (%d%%)", DebugFormatter.fmtD(freqMeter.totalTime / 1000000d, 100), (int)freqMeter.getTotalPercentage());
+			debugTextRenderer.drawFormatted("GDX-DeltaTime:  %ss", DebugFormatter.fmtF(Gdx.graphics.getDeltaTime(), 1000));
 			debugTextRenderer.draw();
 		}
 
@@ -122,6 +138,14 @@ public abstract class AgdxGame implements ApplicationListener {
 			debugTextRenderer.drawFormatted("Allocated Memory:  %d MB / %d MB", (Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory()) / 1048576, Runtime.getRuntime().totalMemory() / 1048576);
 			debugTextRenderer.drawFormatted("GC Count: %d (%d ms)", freqMeter.gcCount, freqMeter.gcTime);
 			debugTextRenderer.drawFormatted("GC Time per call: %sms (last %ds ago)", freqMeter.gcTimePerGC, freqMeter.gcTimeBetweenGC/1000);
+			debugTextRenderer.draw();
+		}
+		
+		if (settings.debugTextInput.isActive()) {
+			debugTextRenderer.drawFormatted("Pointer: %s (delta: %s)", DebugFormatter.fmtV2(new Vector2(Gdx.input.getX(), Gdx.input.getY()), 10), DebugFormatter.fmtV2(new Vector2(Gdx.input.getDeltaX(), Gdx.input.getDeltaY()), 10));
+			debugTextRenderer.drawFormatted("Accelerometer: %s", DebugFormatter.fmtV3(new Vector3(Gdx.input.getAccelerometerX(), Gdx.input.getAccelerometerY(), Gdx.input.getAccelerometerZ()), 100));
+			debugTextRenderer.drawFormatted("(Azimuth, Pitch, Roll, Rotation): %s", DebugFormatter.fmtV3(new Vector3(Gdx.input.getAzimuth(), Gdx.input.getPitch(), Gdx.input.getRoll()), 100));
+			debugTextRenderer.drawFormatted("Touched: %s (Just Touched: %s)", Gdx.input.isTouched(), Gdx.input.justTouched());
 			debugTextRenderer.draw();
 		}
 		

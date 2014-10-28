@@ -17,7 +17,9 @@ public class GameSettings {
 	public BooleanProperty debugTextInfos; // TopLeft Debug Text
 	public BooleanProperty debugTextFPS;
 	public BooleanProperty debugTextTiming;
+	public BooleanProperty debugTextInput;
 	public BooleanProperty debugTextMemory;
+	public BooleanProperty debugTextMap;
 	public BooleanProperty debugVisualMap;
 	public BooleanProperty debugMapGridLines;
 	public BooleanProperty debugEntities;
@@ -40,6 +42,8 @@ public class GameSettings {
 						debugTextFPS = new BooleanProperty("debugTextFPS", true, debugTextInfos);
 						debugTextTiming = new BooleanProperty("debugTextTiming", true, debugTextInfos);
 						debugTextMemory = new BooleanProperty("debugTextMemory", true, debugTextInfos);
+						debugTextMap = new BooleanProperty("debugTextMap", true, debugTextMap);
+						debugTextInput = new BooleanProperty("debugTextInput", true, debugTextMap);
 					}
 
 					debugVisualMap = new BooleanProperty("debugVisualMap", true, debugEnabled);

@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public final class Textures {
-
 	public static Texture texmap;
 	
 	public static TextureRegion tex_dirt;

@@ -53,7 +53,6 @@ public abstract class GameLayer extends AgdxLayer {
 
 	@Override
 	public void update() {
-		
 		onUpdate();
 	}
 
@@ -137,5 +136,17 @@ public abstract class GameLayer extends AgdxLayer {
 		this.mapScaleResolver = resolver;
 	}
 	
+	public Vector2 getMapOffset() {
+		return map_offset;
+	}
+	
+	public float getTileScale() {
+		return mapScaleResolver.getTileSize(owner.getScreenWidth(), owner.getScreenHeight(), map.height, map.width);
+	}
+	
 	public abstract void onUpdate();
+
+	public TileMap getMap() {
+		return map;
+	}
 }

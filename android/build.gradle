@@ -15,7 +15,7 @@ android {
     }
 
     packagingOptions {
-        exclude 'LICENSE.txt'
+        //exclude 'LICENSE.txt'
     }
 }
 

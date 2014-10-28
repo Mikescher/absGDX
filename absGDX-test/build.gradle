@@ -7,11 +7,17 @@ sourceSets.main.java.srcDirs = [ "src/" ]
 sourceSets.test.java.srcDirs = [ "src/" ]
 
 eclipse.project {
-    name = "absGDX-framework"
+    name = "absGDX-test"
 }
 
 dependencies {
-    compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+    compile project(":absGDX-framework")
 
-    compile 'org.apache.commons:commons-lang3:3.3.2'
+    compile 'junit:junit:4.11'
+}
+
+test {
+    testLogging {
+        events 'passed'
+    }
 }

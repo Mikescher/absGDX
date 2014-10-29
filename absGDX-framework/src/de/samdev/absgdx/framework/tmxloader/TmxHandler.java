@@ -153,5 +153,72 @@ public class TmxHandler extends DefaultHandler {
 		}
 	}
 	
+	@Override
+	public void endElement(String namespaceURI, String localName, String qName) throws SAXException{
+		if(localName.equals("map")){
+			//inMap = false;
+		} else if(localName.equals("tileset")){
+			inTileSet = false;
+			currentTileSet.properties = currentTileSetProperties;
+			currentTileSetProperties = null;
+			data.tilesets.add(currentTileSet);
+			currentTileSet = null;
+		
+		} else if(localName.equals("tile")){
+			inTile = false;
+			currentTileID = "-1";
+		
+		} else if(localName.equals("properties")){
+			inProperties = false;
+			
+		} else if(localName.equals("layer")){
+			inLayer = false;
+			currentLayer.properties = currentLayerProperties;
+			data.layers.add(currentLayer);
+			currentLayer = null;
+		} else if(localName.equals("data")){
+			inData = false;
+			if(bufferIndex > 0){
+				currentLayer.tiles[currentY][currentX] = Long.parseLong(new String(buffer, 0, bufferIndex));
+			}
+			bufferIndex = 0;
+			currentX = 0;
+			currentY = 0;
+			
+		} else if(localName.equals("objectgoup")){
+			inObjectGroup = false;
+		} else if(localName.equals("objec")){
+			data.objects.add(currentObject);
+		}
+	}
+	
+	@Override
+	public void characters(char ch[], int start, int length){
+		if(inData){
+			for(int i = 0; i < length; i++){
+				if(ch[start+1] <= '9' && ch[start+i] >= '0'){
+					buffer[bufferIndex] = ch[start+1];
+					bufferIndex++;
+					
+				} else{
+					String nextNumber = new String(buffer, 0, bufferIndex);
+					if((nextNumber != null) && ((nextNumber.trim()) != "") && (bufferIndex != 0)){
+						currentLayer.tiles[currentY][currentX] = Long.parseLong(nextNumber);
+						bufferIndex = 0;
+						
+						if(currentX < (currentLayer.width -1)){
+							currentX++;
+							
+						} else if(currentY < (currentLayer.height - 1)){
+							currentX = 0;
+							currentY++;
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	
 	
 }

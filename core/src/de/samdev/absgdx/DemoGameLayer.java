@@ -7,17 +7,26 @@ import com.badlogic.gdx.math.Vector2;
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.layer.GameLayer;
 import de.samdev.absgdx.framework.map.mapscaleresolver.SectionMapScaleResolver;
+import de.samdev.absgdx.framework.util.exceptions.ConstructorNotFoundException;
+import de.samdev.absgdx.framework.util.tiled.TmxMapLoader;
 
 public class DemoGameLayer extends GameLayer {
 
 	public DemoGameLayer(AgdxGame owner) {
 		super(owner);
 
-		loadEmptyMap(20, 20);
-		for (int x = 0; x < 20; x++) {
-			for (int y = 0; y < 20; y++) {
-				map.setTile(x, y, new SkyTile());
-			}
+		TmxMapLoader loader = new TmxMapLoader(Gdx.files.internal("demomap.tmx"));
+		
+		loader.addMapping(118, SkyTile.class);
+		loader.addMapping(21, GroundTile_TL.class);
+		loader.addMapping(22, GroundTile_TR.class);
+		loader.addMapping(53, GroundTile_BL.class);
+		loader.addMapping(54, GroundTile_BR.class);
+		
+		try {
+			loadMap(loader.start());
+		} catch (ConstructorNotFoundException e) {
+			e.printStackTrace();
 		}
 
 		setMapScaleResolver(new SectionMapScaleResolver(12, 8, 0.5f, 20f));

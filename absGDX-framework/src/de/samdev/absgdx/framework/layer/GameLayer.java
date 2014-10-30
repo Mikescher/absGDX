@@ -116,7 +116,7 @@ public abstract class GameLayer extends AgdxLayer {
 	 * @param offset
 	 */
 	public void setRawOffset(Vector2 offset) {
-		map_offset = offset;
+		this.map_offset = offset;
 	}
 
 	/**
@@ -126,9 +126,19 @@ public abstract class GameLayer extends AgdxLayer {
 	 * @param h height
 	 */
 	public void loadEmptyMap(int w, int h) {
-		map = new TileMap(w, h);
+		this.map = new TileMap(w, h);
 	}
 
+	/**
+	 * Sets a new Map (and resets the map offset)
+	 * 
+	 * @param tilemap
+	 */
+	public void loadMap(TileMap tilemap) {
+		this.map = tilemap;
+		setRawOffset(new Vector2(0, 0));
+	}
+	
 	/**
 	 * Sets the mapScaleResolver - the component to determine the size of a tile
 	 * 

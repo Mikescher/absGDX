@@ -14,4 +14,8 @@ dependencies {
     compile "com.badlogicgames.gdx:gdx:$gdxVersion"
 
     compile 'org.apache.commons:commons-lang3:3.3.2'
+    compile 'commons-codec:commons-codec:1.9'
+    compile 'commons-io:commons-io:2.4'
+
+    compile 'com.io7m.xom:xom:1.2.10'
 }

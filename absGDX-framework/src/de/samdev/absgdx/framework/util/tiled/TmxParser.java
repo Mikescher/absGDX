@@ -21,18 +21,38 @@ import nu.xom.ValidityException;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 
-import de.samdev.absgdx.framework.util.exceptions.ConstructorNotFoundException;
+import de.samdev.absgdx.framework.util.exceptions.TmxMapParsingException;
 
 public abstract class TmxParser {
+	public final static String PROPERTY_LAYER_WIDTH = "[absGDX]-layer_width";
+	public final static String PROPERTY_LAYER_HEIGHT = "[absGDX]-layer_height";
+	public final static String PROPERTY_MAP_WIDTH = "[absGDX]-map_width";
+	public final static String PROPERTY_MAP_HEIGHT = "[absGDX]-map_height";
+	public final static String PROPERTY_LAYER_LEVEL = "[absGDX]-layer_level";
+	public final static String PROPERTY_TEXTURE_GID = "[absGDX]-gid";
+	public final static String PROPERTY_POSITION_X = "[absGDX]-pos-x";
+	public final static String PROPERTY_POSITION_Y = "[absGDX]-pos-y";
+	
 	private String fileContent;
 	
 	public TmxParser(String xml) {
 		super();
 		
 		this.fileContent = xml;
+
 	}
 
-	public void parse() throws ParsingException, ValidityException, IOException, DataFormatException, ConstructorNotFoundException {
+	/**
+	 * Starts parsing of the TMX file.
+	 * Each found tile is redirected to the handleTile Method
+	 * 
+	 * @throws ParsingException
+	 * @throws ValidityException
+	 * @throws IOException
+	 * @throws DataFormatException
+	 * @throws TmxMapParsingException
+	 */
+	public void parse() throws ParsingException, ValidityException, IOException, DataFormatException, TmxMapParsingException {
 		Builder xomBuilder = new Builder();
 		
 		Document doc = xomBuilder.build(this.fileContent, null);
@@ -59,11 +79,11 @@ public abstract class TmxParser {
 	private HashMap<String, String> parseProperties(Element layer, int layerPos, int layerWidth, int layerHeight, int mapWidth, int mapHeight) {
 		Element layerprop = layer.getFirstChildElement("properties");
 		HashMap<String, String> propertiesMap = new HashMap<String, String>();
-		propertiesMap.put("[absGDX]-layer_width", "" + layerWidth);
-		propertiesMap.put("[absGDX]-layer_height", "" + layerHeight);
-		propertiesMap.put("[absGDX]-map_width", "" + mapWidth);
-		propertiesMap.put("[absGDX]-map_height", "" + mapHeight);
-		propertiesMap.put("[absGDX]-layer_level", "" + layerPos);
+		propertiesMap.put(PROPERTY_LAYER_WIDTH, "" + layerWidth);
+		propertiesMap.put(PROPERTY_LAYER_HEIGHT, "" + layerHeight);
+		propertiesMap.put(PROPERTY_MAP_WIDTH, "" + mapWidth);
+		propertiesMap.put(PROPERTY_MAP_HEIGHT, "" + mapHeight);
+		propertiesMap.put(PROPERTY_LAYER_LEVEL, "" + layerPos);
 		
 		if (layerprop != null) {
 			Elements propertyList = layerprop.getChildElements("property");
@@ -74,9 +94,19 @@ public abstract class TmxParser {
 		return propertiesMap;
 	}
 
-	protected abstract void handleTile(int gid, int layer, int posX, int posY, HashMap<String, String> propertiesMap) throws ConstructorNotFoundException;
+	private void addTile(int gid, int layer, int posX, int posY, HashMap<String, String> propertiesMap) throws TmxMapParsingException {
+		HashMap<String, String> map = new HashMap<String, String>(propertiesMap);
+		
+		map.put(PROPERTY_TEXTURE_GID, "" + gid);
+		map.put(PROPERTY_POSITION_X, "" + posX);
+		map.put(PROPERTY_POSITION_Y, "" + posY);
+		
+		handleTile(gid, layer, posX, posY, map);
+	}
+	
+	protected abstract void handleTile(int gid, int layer, int posX, int posY, HashMap<String, String> propertiesMap) throws TmxMapParsingException;
 
-	private void parseData(int layerPos, Element layerdata, int layerWidth, int layerHeight, HashMap<String, String> propertiesMap) throws ParsingException, IOException, DataFormatException, ConstructorNotFoundException {
+	private void parseData(int layerPos, Element layerdata, int layerWidth, int layerHeight, HashMap<String, String> propertiesMap) throws ParsingException, IOException, DataFormatException, TmxMapParsingException {
 		String encoding = layerdata.getAttributeValue("encoding");
 		String compression = layerdata.getAttributeValue("compression");
 		
@@ -96,7 +126,7 @@ public abstract class TmxParser {
 			throw new ParsingException("Unknown Encoding+compression: " + encoding + " :: " + compression);
 	}
 	
-	private void parseDataXML(int layerPos, Element layerdata, int layerWidth, int layerHeight, HashMap<String, String> propertiesMap) throws ConstructorNotFoundException{
+	private void parseDataXML(int layerPos, Element layerdata, int layerWidth, int layerHeight, HashMap<String, String> propertiesMap) throws TmxMapParsingException{
 		Elements tileList = layerdata.getChildElements("tile");
 		
 		for (int tilePos = 0; tilePos < tileList.size(); tilePos++) {
@@ -108,11 +138,11 @@ public abstract class TmxParser {
 			
 			if (gid == 0) continue;
 			
-			handleTile(gid, layerPos, posX, posY, propertiesMap);
+			addTile(gid, layerPos, posX, posY, propertiesMap);
 		}
 	}
 	
-	private void parseDataCSV(int layerPos, Element layerdata, int layerWidth, int layerHeight, HashMap<String, String> propertiesMap) throws ConstructorNotFoundException{
+	private void parseDataCSV(int layerPos, Element layerdata, int layerWidth, int layerHeight, HashMap<String, String> propertiesMap) throws TmxMapParsingException{
 		String[] csvContent = layerdata.getValue().replaceAll("[\r\n]", "").split(",");
 		
 		for (int tilePos = 0; tilePos < csvContent.length; tilePos++) {
@@ -122,15 +152,15 @@ public abstract class TmxParser {
 			
 			if (gid == 0) continue;
 			
-			handleTile(gid, layerPos, posX, posY, propertiesMap);
+			addTile(gid, layerPos, posX, posY, propertiesMap);
 		}
 	}
 	
-	private void parseDataBase64_uncompressed(int layerPos, Element layerdata, int layerWidth, int layerHeight, HashMap<String, String> propertiesMap) throws ConstructorNotFoundException {
+	private void parseDataBase64_uncompressed(int layerPos, Element layerdata, int layerWidth, int layerHeight, HashMap<String, String> propertiesMap) throws TmxMapParsingException {
 		parseDataBase64(layerPos, Base64.decodeBase64(layerdata.getValue().trim()), layerWidth, layerHeight, propertiesMap);
 	}
 
-	private void parseDataBase64_gzip(int layerPos, Element layerdata, int layerWidth, int layerHeight, HashMap<String, String> propertiesMap) throws IOException, ConstructorNotFoundException {
+	private void parseDataBase64_gzip(int layerPos, Element layerdata, int layerWidth, int layerHeight, HashMap<String, String> propertiesMap) throws IOException, TmxMapParsingException {
 		byte[] compressed_data = Base64.decodeBase64(layerdata.getValue().trim());
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -142,7 +172,7 @@ public abstract class TmxParser {
 		parseDataBase64(layerPos, uncompressed_data, layerWidth, layerHeight, propertiesMap);
 	}
 	
-	private void parseDataBase64_zlib(int layerPos, Element layerdata, int layerWidth, int layerHeight, HashMap<String, String> propertiesMap) throws IOException, DataFormatException, ConstructorNotFoundException {
+	private void parseDataBase64_zlib(int layerPos, Element layerdata, int layerWidth, int layerHeight, HashMap<String, String> propertiesMap) throws IOException, DataFormatException, TmxMapParsingException {
 		byte[] compressed_data = Base64.decodeBase64(layerdata.getValue().trim());
 		
 		Inflater inflater = new Inflater();  
@@ -161,7 +191,7 @@ public abstract class TmxParser {
 		parseDataBase64(layerPos, uncompressed_data, layerWidth, layerHeight, propertiesMap);
 	}
 	
-	private void parseDataBase64(int layerPos, byte[] content, int layerWidth, int layerHeight, HashMap<String, String> propertiesMap) throws ConstructorNotFoundException {
+	private void parseDataBase64(int layerPos, byte[] content, int layerWidth, int layerHeight, HashMap<String, String> propertiesMap) throws TmxMapParsingException {
 		IntBuffer data = ByteBuffer.wrap(content).order(ByteOrder.LITTLE_ENDIAN).asIntBuffer();
 
 		int tilePos = 0;
@@ -173,7 +203,7 @@ public abstract class TmxParser {
 			tilePos++;
 			if (gid == 0) continue;
 	
-			handleTile(gid, layerPos, posX, posY, propertiesMap);
+			addTile(gid, layerPos, posX, posY, propertiesMap);
 		}
 	}
 }

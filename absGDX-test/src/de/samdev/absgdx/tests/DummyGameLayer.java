@@ -9,7 +9,7 @@ public class DummyGameLayer extends GameLayer {
 	}
 
 	@Override
-	public void onUpdate() {
+	public void onUpdate(float delta) {
 		// NOP
 	}
 

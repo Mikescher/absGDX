@@ -15,7 +15,7 @@ import com.badlogic.gdx.files.FileHandle;
 import de.samdev.absgdx.framework.map.EmptyTile;
 import de.samdev.absgdx.framework.map.Tile;
 import de.samdev.absgdx.framework.map.TileMap;
-import de.samdev.absgdx.framework.util.exceptions.ConstructorNotFoundException;
+import de.samdev.absgdx.framework.util.exceptions.TmxMapParsingException;
 
 public class TmxMapLoader extends TmxParser {
 
@@ -24,15 +24,39 @@ public class TmxMapLoader extends TmxParser {
 	
 	private TileMap map = null;
 	
+	/**
+	 * Creates a new Parser based on the tmx file in the Filehandle
+	 * 
+	 * @param levelfile
+	 */
 	public TmxMapLoader(FileHandle levelfile) {
 		super(levelfile.readString());
 	}
 
+	/**
+	 * Creates a new Parser based on the xml content given by parameter
+	 * 
+	 * @param xmlContent
+	 */
 	public TmxMapLoader(String xmlContent) {
 		super(xmlContent);
 	}
 	
-	public void addMapping(int gid, Class<? extends Tile> tileclass) {
+	/**
+	 * Adds a mapping between a GID and a Tile Class
+	 * 
+	 * The class must 
+	 *  - be a subclass of "Tile"
+	 *  - and have an empty constructor (0 parameters)
+	 *  - and/or have an 1-parameter constructor for the properties ( 1 parameter = Hashmap<String, String> ) 
+	 * 
+	 * if the class has an constructor with the properties-map this one is used, 
+	 * otherwise the empty constructor is used 
+	 * 
+	 * @param gid
+	 * @param tileclass
+	 */
+	public void addMapping(Integer gid, Class<? extends Tile> tileclass) { // TODO DOc
 		HashMap<String, String> dummy = new HashMap<String, String>();
 
 		Constructor<? extends Tile> constructor_empty = ConstructorUtils.getAccessibleConstructor(tileclass);
@@ -44,32 +68,49 @@ public class TmxMapLoader extends TmxParser {
 			extendedTileMapping.put(gid, constructor_single);
 	}
 	
-	public TileMap start() throws ConstructorNotFoundException {
+	/**
+	 * Adds a default mapping - this class is used when no other mapping fits
+	 * 
+	 * @param tileclass
+	 */
+	public void addDefaultMapping(Class<? extends Tile> tileclass) {
+		addMapping(null, tileclass);
+	}
+	
+	/**
+	 * Starts the parsing and returns the created map
+	 * 
+	 * Throws TmxMapParsingException if the constructor is not found or an other parsing problem occured
+	 * 
+	 * @return
+	 * @throws TmxMapParsingException
+	 */
+	public TileMap start() throws TmxMapParsingException {
 		parse();
 		
 		return this.map;
 	}
 	
 	@Override
-	public void parse() throws ConstructorNotFoundException {
+	public void parse() throws TmxMapParsingException {
 		try {
 			this.map = null;
 			
 			super.parse();
 		} catch (ParsingException e) {
-			this.map = null;
+			throw new TmxMapParsingException(e);
 		} catch (IOException e) {
-			this.map = null;
+			throw new TmxMapParsingException(e);
 		} catch (DataFormatException e) {
-			this.map = null;
+			throw new TmxMapParsingException(e);
 		}
 	}
 	
 	@Override
-	protected void handleTile(int gid, int layer, int posX, int posY, HashMap<String, String> propertiesMap) throws ConstructorNotFoundException {
+	protected void handleTile(int gid, int layer, int posX, int posY, HashMap<String, String> propertiesMap) throws TmxMapParsingException {
 		if (this.map == null) {
-			int w = Integer.parseInt(propertiesMap.get("[absGDX]-map_width"));
-			int h = Integer.parseInt(propertiesMap.get("[absGDX]-map_height"));
+			int w = Integer.parseInt(propertiesMap.get(PROPERTY_MAP_WIDTH));
+			int h = Integer.parseInt(propertiesMap.get(PROPERTY_MAP_HEIGHT));
 			
 			map = new TileMap(w, h);
 			
@@ -85,17 +126,21 @@ public class TmxMapLoader extends TmxParser {
 				map.setTile(posX, posY, extendedTileMapping.get(gid).newInstance(propertiesMap));
 			} else if (tileMapping.get(gid) != null) {
 				map.setTile(posX, posY, tileMapping.get(gid).newInstance());
+			} else if (extendedTileMapping.get(null) != null) {
+				map.setTile(posX, posY, extendedTileMapping.get(null).newInstance(propertiesMap));
+			} else if (tileMapping.get(null) != null) {
+				map.setTile(posX, posY, tileMapping.get(null).newInstance());
 			} else {
-				throw new ConstructorNotFoundException("No suitable constructor for GID:" + gid + " found");
+				throw new TmxMapParsingException("No suitable constructor for GID:" + gid + " found");
 			}
 		} catch (InstantiationException e) {
-			throw new ConstructorNotFoundException(e);
+			throw new TmxMapParsingException(e);
 		} catch (IllegalAccessException e) {
-			throw new ConstructorNotFoundException(e);
+			throw new TmxMapParsingException(e);
 		} catch (IllegalArgumentException e) {
-			throw new ConstructorNotFoundException(e);
+			throw new TmxMapParsingException(e);
 		} catch (InvocationTargetException e) {
-			throw new ConstructorNotFoundException(e);
+			throw new TmxMapParsingException(e);
 		}
 	}
 

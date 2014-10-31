@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.layer.GameLayer;
 import de.samdev.absgdx.framework.map.mapscaleresolver.SectionMapScaleResolver;
-import de.samdev.absgdx.framework.util.exceptions.ConstructorNotFoundException;
+import de.samdev.absgdx.framework.util.exceptions.TmxMapParsingException;
 import de.samdev.absgdx.framework.util.tiled.TmxMapLoader;
 
 public class DemoGameLayer extends GameLayer {
@@ -17,24 +17,26 @@ public class DemoGameLayer extends GameLayer {
 
 		TmxMapLoader loader = new TmxMapLoader(Gdx.files.internal("demomap.tmx"));
 		
-		loader.addMapping(118, SkyTile.class);
-		loader.addMapping(21, GroundTile_TL.class);
-		loader.addMapping(22, GroundTile_TR.class);
-		loader.addMapping(53, GroundTile_BL.class);
-		loader.addMapping(54, GroundTile_BR.class);
+		loader.addDefaultMapping(StandardAutoTile.class);
+//		loader.addMapping(118, SkyTile.class);
+//		loader.addMapping(21, GroundTile_TL.class);
+//		loader.addMapping(22, GroundTile_TR.class);
+//		loader.addMapping(53, GroundTile_BL.class);
+//		loader.addMapping(54, GroundTile_BR.class);
 		
 		try {
 			loadMap(loader.start());
-		} catch (ConstructorNotFoundException e) {
+		} catch (TmxMapParsingException e) {
 			e.printStackTrace();
 		}
 
-		setMapScaleResolver(new SectionMapScaleResolver(16, 9, 0.5f, 20f));
+		setMapScaleResolver(new SectionMapScaleResolver(64, 36, 0.5f, 20f));
+//		setMapScaleResolver(new ShowCompleteMapScaleResolver());
 	}
 
 	@Override
 	public void onUpdate(float delta) {
-		final float speed = 0.00625f * delta;
+		final float speed = 0.025f * delta;
 
 		if (Gdx.input.isKeyPressed(Keys.RIGHT))
 			setBoundedOffset(new Vector2(map_offset.x + speed, map_offset.y));

@@ -31,26 +31,28 @@ public abstract class GameLayer extends AgdxLayer {
 
 		Rectangle visible = getVisibleMapBox();
 		
-		srenderer.begin(ShapeType.Line);
-		srenderer.setColor(Color.MAGENTA);
 		sbatch.disableBlending();
 		sbatch.begin();
-
 		for (int y = (int) visible.y; y < Math.min(map.height, (int)(visible.y + visible.height + 1)); y++) {
 			for (int x = (int) visible.x; x < Math.min(map.width, (int)(visible.x + visible.width + 1)); x++) {
-				if (owner.settings.debugMapGridLines.isActive()) {
-					srenderer.rect((x - map_offset.x) * tilesize, (y - map_offset.y) * tilesize, tilesize, tilesize);
-				}
-				
 				TextureRegion r = map.getTile(x, y).getTexture();
 				
 				if (r != null)
 					sbatch.draw(r, (x - map_offset.x) * tilesize, (y - map_offset.y) * tilesize, tilesize, tilesize);
 			}
 		}
-
 		sbatch.end();
-		srenderer.end();
+		
+		if (owner.settings.debugMapGridLines.isActive()) {
+			srenderer.begin(ShapeType.Line);
+			srenderer.setColor(Color.MAGENTA);
+			for (int y = (int) visible.y; y < Math.min(map.height, (int)(visible.y + visible.height + 1)); y++) {
+				for (int x = (int) visible.x; x < Math.min(map.width, (int)(visible.x + visible.width + 1)); x++) {
+						srenderer.rect((x - map_offset.x) * tilesize, (y - map_offset.y) * tilesize, tilesize, tilesize);
+				}
+			}
+			srenderer.end();
+		}
 	}
 
 	@Override

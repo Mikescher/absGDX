@@ -22,4 +22,6 @@ public abstract class Tile {
 	public TextureRegion getTexture() {
 		return texture;
 	}
+	
+	public abstract void update(float delta);
 }

@@ -54,8 +54,14 @@ public abstract class GameLayer extends AgdxLayer {
 	}
 
 	@Override
-	public void update() {
-		onUpdate();
+	public void update(float delta) {
+		for (int x = 0; x < map.width; x++) {
+			for (int y = 0; y < map.height; y++) {
+				map.getTile(x, y).update(delta);
+			}
+		}
+		
+		onUpdate(delta);
 	}
 
 	@Override
@@ -166,7 +172,7 @@ public abstract class GameLayer extends AgdxLayer {
 		return mapScaleResolver.getTileSize(owner.getScreenWidth(), owner.getScreenHeight(), map.height, map.width);
 	}
 	
-	public abstract void onUpdate();
+	public abstract void onUpdate(float delta);
 
 	/**
 	 * return the (tiled) map

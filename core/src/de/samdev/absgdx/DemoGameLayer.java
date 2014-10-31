@@ -29,12 +29,12 @@ public class DemoGameLayer extends GameLayer {
 			e.printStackTrace();
 		}
 
-		setMapScaleResolver(new SectionMapScaleResolver(12, 8, 0.5f, 20f));
+		setMapScaleResolver(new SectionMapScaleResolver(16, 9, 0.5f, 20f));
 	}
 
 	@Override
-	public void onUpdate() {
-		final float speed = 0.1f;
+	public void onUpdate(float delta) {
+		final float speed = 0.00625f * delta;
 
 		if (Gdx.input.isKeyPressed(Keys.RIGHT))
 			setBoundedOffset(new Vector2(map_offset.x + speed, map_offset.y));

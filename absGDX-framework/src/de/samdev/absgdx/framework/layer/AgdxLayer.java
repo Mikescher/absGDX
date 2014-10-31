@@ -15,7 +15,7 @@ public abstract class AgdxLayer {
 	}
 
 	public abstract void render(SpriteBatch sbatch, ShapeRenderer srenderer);
-	public abstract void update();
+	public abstract void update(float delta);
 	
 	public abstract void onResize();
 }

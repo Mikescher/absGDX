@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="8" height="8" tilewidth="16" tileheight="16" backgroundcolor="#ffffff">
+ <tileset firstgid="1" name="smalltileset" tilewidth="16" tileheight="16">
+  <image source="smalltileset.png" width="64" height="64"/>
+ </tileset>
+ <layer name="Kachelebene 0" width="8" height="8">
+  <properties>
+   <property name="Layer_0_Setting_0" value="816"/>
+   <property name="Layer_0_Setting_1" value="1199"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NkYGBghGIWKGZEw+xAzIWG2ZHkYWIwAOPDzESWQ1bDQoQ8IfOJcR8+/wEA1n5WZwABAAA=
+  </data>
+ </layer>
+ <layer name="Kachelebene 1" width="8" height="8">
+  <properties>
+   <property name="Layer_1_Setting_0" value="Test"/>
+   <property name="Layer_1_Setting_1" value="Blah"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgoB5ggmJcchxQjE0NIXlC5pMLAEghNUsAAQAA
+  </data>
+ </layer>
+</map>

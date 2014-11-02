@@ -29,9 +29,12 @@ public abstract class TmxParser {
 	public final static String PROPERTY_MAP_WIDTH = "[absGDX]-map_width";
 	public final static String PROPERTY_MAP_HEIGHT = "[absGDX]-map_height";
 	public final static String PROPERTY_LAYER_LEVEL = "[absGDX]-layer_level";
+	public final static String PROPERTY_LAYER_NAME = "[absGDX]-layer_name";
 	public final static String PROPERTY_TEXTURE_GID = "[absGDX]-gid";
-	public final static String PROPERTY_POSITION_X = "[absGDX]-pos-x";
-	public final static String PROPERTY_POSITION_Y = "[absGDX]-pos-y";
+	public final static String PROPERTY_POSITION_X = "[absGDX]-pos_x";
+	public final static String PROPERTY_POSITION_Y = "[absGDX]-pos_y";
+	public final static String PROPERTY_COMPRESSION = "[absGDX]-compression";
+	public final static String PROPERTY_ENCODING = "[absGDX]-encoding";
 	
 	private String fileContent;
 	
@@ -84,6 +87,7 @@ public abstract class TmxParser {
 		propertiesMap.put(PROPERTY_MAP_WIDTH, "" + mapWidth);
 		propertiesMap.put(PROPERTY_MAP_HEIGHT, "" + mapHeight);
 		propertiesMap.put(PROPERTY_LAYER_LEVEL, "" + layerPos);
+		propertiesMap.put(PROPERTY_LAYER_NAME, "" + layer.getAttributeValue("name"));
 		
 		if (layerprop != null) {
 			Elements propertyList = layerprop.getChildElements("property");
@@ -111,6 +115,9 @@ public abstract class TmxParser {
 		String compression = layerdata.getAttributeValue("compression");
 		
 		if (encoding == null) encoding = "xml";
+		
+		propertiesMap.put(PROPERTY_ENCODING, encoding);
+		propertiesMap.put(PROPERTY_COMPRESSION, compression == null ? "none" : compression);
 		
 		if (encoding.equalsIgnoreCase("xml") && compression == null) 
 			parseDataXML(layerPos, layerdata, layerWidth, layerHeight, propertiesMap);

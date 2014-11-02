@@ -6,6 +6,9 @@ sourceCompatibility = 1.6
 sourceSets.main.java.srcDirs = [ "src/" ]
 sourceSets.test.java.srcDirs = [ "src/" ]
 
+sourceSets.main.resources.srcDirs = [ "data/" ]
+sourceSets.test.resources.srcDirs = [ "data/" ]
+
 eclipse.project {
     name = "absGDX-test"
 }

@@ -1,5 +1,8 @@
 package de.samdev.absgdx.framework.layer;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -9,16 +12,24 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.framework.AgdxGame;
+import de.samdev.absgdx.framework.entities.Entity;
 import de.samdev.absgdx.framework.map.TileMap;
 import de.samdev.absgdx.framework.map.mapscaleresolver.AbstractMapScaleResolver;
 import de.samdev.absgdx.framework.map.mapscaleresolver.ShowCompleteMapScaleResolver;
 
 public abstract class GameLayer extends AgdxLayer {
+	
+	//######## MAP ########
+	
 	protected TileMap map;
 	protected Vector2 map_offset = new Vector2(0, 0);
 
 	private AbstractMapScaleResolver mapScaleResolver = new ShowCompleteMapScaleResolver();
 
+	//######## ENTITIES ########
+	
+	protected List<Entity> entities = new LinkedList<Entity>();
+	
 	public GameLayer(AgdxGame owner) {
 		super(owner);
 

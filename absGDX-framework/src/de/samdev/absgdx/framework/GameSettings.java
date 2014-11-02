@@ -4,6 +4,10 @@ import de.samdev.absgdx.framework.util.dependentProperties.BooleanProperty;
 import de.samdev.absgdx.framework.util.dependentProperties.ConstantBooleanProperty;
 import de.samdev.absgdx.framework.util.dependentProperties.RootProperty;
 
+/**
+ * Here the configurations and settings are saved
+ *
+ */
 public class GameSettings {
 	private final static boolean DEBUG_ENABLED = true; // TODO debugmode ( ON | OFF )
 	private final static boolean DEBUG_ACTIVE = true;
@@ -13,17 +17,30 @@ public class GameSettings {
 	private RootProperty root;
 
 	private ConstantBooleanProperty debugmode;
+	/** Activates/Deactivates all debug features */
 	public BooleanProperty debugEnabled;
-	public BooleanProperty debugTextInfos; // TopLeft Debug Text
+	/** SHow Debug Text info in the top left corner */
+	public BooleanProperty debugTextInfos;
+	/** Show FPS */
 	public BooleanProperty debugTextFPS;
+	/** Show timing information */
 	public BooleanProperty debugTextTiming;
+	/** Show input information */
 	public BooleanProperty debugTextInput;
+	/** Show memory information */
 	public BooleanProperty debugTextMemory;
+	/** Show TileMap information */
 	public BooleanProperty debugTextMap;
+	/** Show visual information on top of the map */
 	public BooleanProperty debugVisualMap;
+	/** Show grid lines on top of the map */
 	public BooleanProperty debugMapGridLines;
-	public BooleanProperty debugEntities;
+	/** Show visual Information on top of the map */
+	public BooleanProperty debugVisualEntities;
 
+	/**
+	 * Creates a new instance of GameSettings
+	 */
 	public GameSettings() {
 		super();
 
@@ -51,7 +68,7 @@ public class GameSettings {
 						debugMapGridLines = new BooleanProperty("debugMapGridLines", true, debugVisualMap);
 					}
 					
-					debugEntities = new BooleanProperty("debugEntities", true, debugEnabled);
+					debugVisualEntities = new BooleanProperty("debugEntities", true, debugEnabled);
 				}
 
 			}

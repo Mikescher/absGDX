@@ -1,8 +1,18 @@
 package de.samdev.absgdx.framework.util.dependentProperties;
 
+/**
+ * A integer property
+ */
 public class IntegerProperty extends DependentProperty{
 	private int value;
 	
+	/**
+	 * Creates a new IntegerProperty
+	 * 
+	 * @param name the name of the property
+	 * @param startValue the initial value
+	 * @param dependsOn the parent-property (can be null)
+	 */
 	public IntegerProperty(String name, int startValue, DependentProperty dependsOn) {
 		super(name, dependsOn);
 		
@@ -28,10 +38,20 @@ public class IntegerProperty extends DependentProperty{
 		return true;
 	}
 	
+	/**
+	 * Sets the value
+	 * 
+	 * @param newvalue
+	 */
 	public void set(int newvalue) {
 		this.value = newvalue;
 	}
 	
+	/**
+	 * Gets the current value
+	 * 
+	 * @return
+	 */
 	public int get() {
 		return this.value;
 	}

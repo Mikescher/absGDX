@@ -2,13 +2,40 @@ package de.samdev.absgdx.framework.math.align;
 
 import com.badlogic.gdx.math.Vector2;
 
+/**
+ * Represents an Alignment (the 4 corners + the middle)
+ */
 public enum AlignCorner5 {
+	/**
+	 * TOP LEFT
+	 */
 	TOPLEFT,
+	
+	/**
+	 * TOP RIGHT
+	 */
 	TOPRIGHT,
+	
+	/**
+	 * BOTTOM RIGHT
+	 */
 	BOTTOMRIGHT,
+	
+	/**
+	 * BOTTOM LEFT
+	 */
 	BOTTOMLEFT,
+	
+	/**
+	 * CENTER
+	 */
 	CENTER;
 	
+	/**
+	 * Gets the direction as an normalized Vector
+	 * 
+	 * @return
+	 */
 	public Vector2 getDirectionVector()
 	{
 		switch (this) {

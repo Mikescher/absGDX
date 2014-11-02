@@ -20,6 +20,12 @@ import de.samdev.absgdx.framework.renderer.DebugTextRenderer;
 import de.samdev.absgdx.framework.util.DebugFormatter;
 import de.samdev.absgdx.framework.util.DebugFrequencyMeter;
 
+/**
+ * The basic class. 
+ * 
+ * Here is where the magic happens
+ *
+ */
 public abstract class AgdxGame implements ApplicationListener {
 
 	// ##### LibGDX Objects #####
@@ -44,6 +50,7 @@ public abstract class AgdxGame implements ApplicationListener {
 
 	// ##### Other #####
 
+	/** the game settings */
 	public final GameSettings settings = new GameSettings();
 	
 	private float debugFontSize = 1f;
@@ -253,6 +260,11 @@ public abstract class AgdxGame implements ApplicationListener {
 	 */
 	public abstract void onCreate();
 
+	/**
+	 * Sets the font size for the debug display
+	 * 
+	 * @param debugFontSize
+	 */
 	public void setDebugFontSize(float debugFontSize) {
 		this.debugFontSize = debugFontSize;
 	}

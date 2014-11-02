@@ -17,6 +17,10 @@ import de.samdev.absgdx.framework.map.TileMap;
 import de.samdev.absgdx.framework.map.mapscaleresolver.AbstractMapScaleResolver;
 import de.samdev.absgdx.framework.map.mapscaleresolver.ShowCompleteMapScaleResolver;
 
+/**
+ * Game layer represents a level or the whole game.
+ * It contains the TileMap and the Entities
+ */
 public abstract class GameLayer extends AgdxLayer {
 	
 	//######## MAP ########
@@ -30,6 +34,11 @@ public abstract class GameLayer extends AgdxLayer {
 	
 	protected List<Entity> entities = new LinkedList<Entity>();
 	
+	/**
+	 * Creates a new GameLayer
+	 * 
+	 * @param owner
+	 */
 	public GameLayer(AgdxGame owner) {
 		super(owner);
 
@@ -185,6 +194,11 @@ public abstract class GameLayer extends AgdxLayer {
 		return mapScaleResolver.getTileSize(owner.getScreenWidth(), owner.getScreenHeight(), map.height, map.width);
 	}
 	
+	/**
+	 * Gets after each update() called
+	 * 
+	 * @param delta the time since the last update (in ms) - can be averaged over he last few cycles
+	 */
 	public abstract void onUpdate(float delta);
 
 	/**

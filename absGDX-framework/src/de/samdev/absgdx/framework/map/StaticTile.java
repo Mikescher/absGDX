@@ -5,12 +5,24 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 /**
  * A simple Tile with no update method
+ * 
+ * Can be used as a base class for simple tiles
  */
 public abstract class StaticTile extends Tile {
+	/**
+	 * Creates a new StaticTile
+	 * 
+	 * @param tex the tile texture
+	 */
 	public StaticTile(Texture tex) {
 		super(tex);
 	}
 
+	/**
+	 * Creates a new StaticTile
+	 * 
+	 * @param tex the tile texture
+	 */
 	public StaticTile(TextureRegion tex) {
 		super(tex);
 	}

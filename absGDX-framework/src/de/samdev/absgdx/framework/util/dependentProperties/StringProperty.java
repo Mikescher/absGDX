@@ -1,8 +1,18 @@
 package de.samdev.absgdx.framework.util.dependentProperties;
 
+/**
+ * A string property
+ */
 public class StringProperty extends DependentProperty {
 	private String value;
 	
+	/**
+	 * Creates a new StringProperty
+	 * 
+	 * @param name the name of the property
+	 * @param startValue the initial value
+	 * @param dependsOn the parent-property (can be null)
+	 */
 	public StringProperty(String name, String startValue, DependentProperty dependsOn) {
 		super(name, dependsOn);
 		
@@ -24,10 +34,20 @@ public class StringProperty extends DependentProperty {
 		return value != null;
 	}
 	
+	/**
+	 * Sets the value
+	 * 
+	 * @param newvalue
+	 */
 	public void set(String newvalue) {
 		this.value = newvalue;
 	}
 	
+	/**
+	 * Gets the current value
+	 * 
+	 * @return
+	 */
 	public String get() {
 		return this.value;
 	}

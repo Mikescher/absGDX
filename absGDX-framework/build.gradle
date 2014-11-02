@@ -63,7 +63,7 @@ eclipse.jdt.file.withProperties { props ->
     props.setProperty('org.eclipse.jdt.core.compiler.problem.includeNullInfoFromAsserts', 'disabled')
     props.setProperty('org.eclipse.jdt.core.compiler.problem.incompatibleNonInheritedInterfaceMethod', 'warning')
     props.setProperty('org.eclipse.jdt.core.compiler.problem.incompleteEnumSwitch', 'warning')
-    props.setProperty('org.eclipse.jdt.core.compiler.problem.indirectStaticAccess', 'warning')
+    props.setProperty('org.eclipse.jdt.core.compiler.problem.indirectStaticAccess', 'ignore')
     props.setProperty('org.eclipse.jdt.core.compiler.problem.invalidJavadoc', 'error')
     props.setProperty('org.eclipse.jdt.core.compiler.problem.invalidJavadocTags', 'enabled')
     props.setProperty('org.eclipse.jdt.core.compiler.problem.invalidJavadocTagsDeprecatedRef', 'disabled')

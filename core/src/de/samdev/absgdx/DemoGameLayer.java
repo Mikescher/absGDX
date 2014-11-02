@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.layer.GameLayer;
-import de.samdev.absgdx.framework.map.mapscaleresolver.SectionMapScaleResolver;
+import de.samdev.absgdx.framework.map.mapscaleresolver.MaximumBoundaryMapScaleResolver;
 import de.samdev.absgdx.framework.util.exceptions.TmxMapParsingException;
 import de.samdev.absgdx.framework.util.tiled.TmxMapLoader;
 
@@ -30,8 +30,9 @@ public class DemoGameLayer extends GameLayer {
 			e.printStackTrace();
 		}
 
-		setMapScaleResolver(new SectionMapScaleResolver(64, 36, 0.5f, 20f));
+//		setMapScaleResolver(new SectionMapScaleResolver(64, 36, 0.5f, 20f));
 //		setMapScaleResolver(new ShowCompleteMapScaleResolver());
+		setMapScaleResolver(new MaximumBoundaryMapScaleResolver(3, 3));
 	}
 
 	@Override

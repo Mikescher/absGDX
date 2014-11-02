@@ -3,6 +3,12 @@ package de.samdev.absgdx.framework.map;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+/**
+ * An AnimationTile.
+ * 
+ * Can be used as base class for tiles with an simple animation
+ *
+ */
 public abstract class AnimationTile extends Tile {
 	private final TextureRegion[] animation;
 	private final int animationLength;

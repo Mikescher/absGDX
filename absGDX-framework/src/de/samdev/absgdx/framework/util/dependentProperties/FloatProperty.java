@@ -1,8 +1,18 @@
 package de.samdev.absgdx.framework.util.dependentProperties;
 
+/**
+ * A float property
+ */
 public class FloatProperty extends DependentProperty{
 	private float value;
 	
+	/**
+	 * Creates a new FloatProperty
+	 * 
+	 * @param name the name of the property
+	 * @param startValue the initial value
+	 * @param dependsOn the parent-property (can be null)
+	 */
 	public FloatProperty(String name, float startValue, DependentProperty dependsOn) {
 		super(name, dependsOn);
 		
@@ -28,10 +38,20 @@ public class FloatProperty extends DependentProperty{
 		return true;
 	}
 	
+	/**
+	 * Sets the value
+	 * 
+	 * @param newvalue
+	 */
 	public void set(float newvalue) {
 		this.value = newvalue;
 	}
 	
+	/**
+	 * Gets the current value
+	 * 
+	 * @return
+	 */
 	public float get() {
 		return this.value;
 	}

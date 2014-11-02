@@ -4,8 +4,19 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
+/**
+ * An util class for formatting values (used for debugging)
+ *
+ */
 public class DebugFormatter {
 
+	/**
+	 * Formats an Rectangle
+	 * 
+	 * @param r the rectangle
+	 * @param decimalPointsPot the amount of decimal places
+	 * @return
+	 */
 	public static String fmtRectangle(Rectangle r, int decimalPointsPot) {
 		if (r == null) return "NULL";
 		
@@ -44,6 +55,13 @@ public class DebugFormatter {
 		return b.toString();
 	}
 
+	/**
+	 * Formats an Vector2
+	 * 
+	 * @param r the Vector
+	 * @param decimalPointsPot the amount of decimal places
+	 * @return
+	 */
 	public static String fmtV2(Vector2 r, int decimalPointsPot) {
 		if (r == null) return "NULL";
 		
@@ -68,6 +86,13 @@ public class DebugFormatter {
 		return b.toString();
 	}
 
+	/**
+	 * Formats an Vector3
+	 * 
+	 * @param r the Vector
+	 * @param decimalPointsPot the amount of decimal places
+	 * @return
+	 */
 	public static String fmtV3(Vector3 r, int decimalPointsPot) {
 		if (r == null) return "NULL";
 		
@@ -99,6 +124,13 @@ public class DebugFormatter {
 		return b.toString();
 	}
 
+	/**
+	 * formats an float number
+	 * 
+	 * @param r the number
+	 * @param decimalPointsPot the amount of decimal places
+	 * @return
+	 */
 	public static String fmtF(float r, int decimalPointsPot) {
 		if (r == (long)r || decimalPointsPot == 1)
 			return "" + (long)r;
@@ -106,6 +138,13 @@ public class DebugFormatter {
 			return "" + ((int)(r * decimalPointsPot) * 1f / decimalPointsPot);
 	}
 
+	/**
+	 * formats an double number
+	 * 
+	 * @param r the number
+	 * @param decimalPointsPot the amount of decimal places
+	 * @return
+	 */
 	public static String fmtD(double r, int decimalPointsPot) {
 		if (r == (long)r || decimalPointsPot == 1)
 			return "" + (long)r;

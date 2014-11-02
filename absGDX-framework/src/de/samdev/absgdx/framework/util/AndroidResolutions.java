@@ -2,6 +2,11 @@ package de.samdev.absgdx.framework.util;
 
 import com.badlogic.gdx.math.GridPoint2;
 
+/**
+ * An util for different commonly used android aspect ratios
+ *
+ */
+@SuppressWarnings("javadoc")
 public final class AndroidResolutions {
 
 	public final static GridPoint2 RES_4_3 = new GridPoint2(320, 240); // 4:3

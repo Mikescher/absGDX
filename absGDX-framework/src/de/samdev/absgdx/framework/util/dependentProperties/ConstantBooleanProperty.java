@@ -1,11 +1,18 @@
 package de.samdev.absgdx.framework.util.dependentProperties;
 
+/**
+ * A true/false immutable property
+ */
 public class ConstantBooleanProperty extends DependentProperty {
-	public final static String REP_TRUE = "true";
-	public final static String REP_FALSE = "false";
-	
 	private final boolean value;
 	
+	/**
+	 * Creates a new ConstantBooleanProperty
+	 * 
+	 * @param name the name of the property
+	 * @param fixValue the (fix) value
+	 * @param dependsOn the parent-property (can be null)
+	 */
 	public ConstantBooleanProperty(String name, boolean fixValue, DependentProperty dependsOn) {
 		super(name, dependsOn);
 		
@@ -14,7 +21,7 @@ public class ConstantBooleanProperty extends DependentProperty {
 
 	@Override
 	public String serialize() {
-		return value ? REP_TRUE : REP_FALSE;
+		return value ? BooleanProperty.REP_TRUE : BooleanProperty.REP_FALSE;
 	}
 
 	@Override
@@ -22,6 +29,11 @@ public class ConstantBooleanProperty extends DependentProperty {
 		// Do nothing
 	}
 	
+	/**
+	 * Gets the current value
+	 * 
+	 * @return
+	 */
 	public boolean get() {
 		return this.value;
 	}

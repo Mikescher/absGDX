@@ -17,6 +17,10 @@ import de.samdev.absgdx.framework.map.Tile;
 import de.samdev.absgdx.framework.map.TileMap;
 import de.samdev.absgdx.framework.util.exceptions.TmxMapParsingException;
 
+/**
+ * An Loader for tmx files, loads a tmx and gives a TileMap
+ *
+ */
 public class TmxMapLoader extends TmxParser {
 
 	private HashMap<Integer, Constructor<? extends Tile>> tileMapping = new HashMap<Integer, Constructor<? extends Tile>>();

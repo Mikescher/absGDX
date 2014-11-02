@@ -23,21 +23,41 @@ import org.apache.commons.io.IOUtils;
 
 import de.samdev.absgdx.framework.util.exceptions.TmxMapParsingException;
 
+/**
+ * An Parser for tmx maps
+ *
+ */
 public abstract class TmxParser {
+	/** The width of the layer */
 	public final static String PROPERTY_LAYER_WIDTH = "[absGDX]-layer_width";
+	/** The height of the layer */
 	public final static String PROPERTY_LAYER_HEIGHT = "[absGDX]-layer_height";
+	/** The width of the map */
 	public final static String PROPERTY_MAP_WIDTH = "[absGDX]-map_width";
+	/** The height of the map */
 	public final static String PROPERTY_MAP_HEIGHT = "[absGDX]-map_height";
+	/** The current position of the layer (0 is the lowest layer) */
 	public final static String PROPERTY_LAYER_LEVEL = "[absGDX]-layer_level";
+	/** The name of the layer */
 	public final static String PROPERTY_LAYER_NAME = "[absGDX]-layer_name";
+	/** The GID of the used texture */
 	public final static String PROPERTY_TEXTURE_GID = "[absGDX]-gid";
+	/** The x position of the tile */
 	public final static String PROPERTY_POSITION_X = "[absGDX]-pos_x";
+	/** The y position of the tile */
 	public final static String PROPERTY_POSITION_Y = "[absGDX]-pos_y";
+	/** The used compression (none, gzip, zlib, ...)*/
 	public final static String PROPERTY_COMPRESSION = "[absGDX]-compression";
+	/** The used encoding (xml, csv, base64, ...) */
 	public final static String PROPERTY_ENCODING = "[absGDX]-encoding";
 	
 	private String fileContent;
 	
+	/**
+	 * Creates a new TmxParser with the given xml
+	 * 
+	 * @param xml
+	 */
 	public TmxParser(String xml) {
 		super();
 		

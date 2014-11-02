@@ -1,11 +1,21 @@
 package de.samdev.absgdx.framework.map.mapscaleresolver;
 
-
+/**
+ * This MapScaleResolver always shows a specific amount of tiles in X/Y direction.
+ * 
+ * Depending of the actual display size it can show more tiles - but the boundary is always on screen.
+ */
 public class MaximumBoundaryMapScaleResolver implements AbstractMapScaleResolver {
 
 	private final int tilesX;
 	private final int tilesY;
 	
+	/**
+	 * Creates a new MaximumBoundaryMapScaleResolver
+	 * 
+	 * @param visibleTilesX the boundary width
+	 * @param visibleTilesY the boundary height
+	 */
 	public MaximumBoundaryMapScaleResolver(int visibleTilesX, int visibleTilesY) {
 		super();
 		

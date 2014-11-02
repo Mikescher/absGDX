@@ -2,13 +2,29 @@ package de.samdev.absgdx.framework.map;
 
 import com.badlogic.gdx.math.Vector2;
 
-
+/**
+ * A tiled map
+ *
+ */
 public class TileMap {
+	/**
+	 * The width of the map (in tile units)
+	 */
 	public final int width;
+	
+	/**
+	 * The height of the map (in tile units)
+	 */
 	public final int height;
 
 	private final Tile[][] tiles;
 
+	/**
+	 * Creates a new TileMap
+	 * 
+	 * @param width the map width
+	 * @param height the map height
+	 */
 	public TileMap(int width, int height) {
 		super();
 
@@ -45,6 +61,11 @@ public class TileMap {
 		return tiles[x][y];
 	}
 
+	/**
+	 * Gets the map width & height as an Vector2 (creates a new Vector2)
+	 * 
+	 * @return
+	 */
 	public Vector2 getDimensions() {
 		return new Vector2(width, height);
 	}

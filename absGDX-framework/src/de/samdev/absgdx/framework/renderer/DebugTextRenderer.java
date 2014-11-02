@@ -12,6 +12,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 import de.samdev.absgdx.framework.AgdxGame;
 
+/**
+ * An class to render debug text in the top-left corner
+ */
 public class DebugTextRenderer {
 	private final static float LINE_DISTANCE = 4;
 	
@@ -25,6 +28,16 @@ public class DebugTextRenderer {
 	
 	private final List<String> text = new ArrayList<String>();
 	
+	/**
+	 * Creates a new DebugTextRenderer
+	 * 
+	 * @param owner the owner of the DebugText
+	 * @param font the used font
+	 * @param batch the BatchRenderer to use
+	 * @param shape the ShapeRenderer to use
+	 * @param x the initial x position
+	 * @param y the initial y position
+	 */
 	public DebugTextRenderer(AgdxGame owner, BitmapFont font, SpriteBatch batch, ShapeRenderer shape, float x, float y) {
 		super();
 		
@@ -38,24 +51,48 @@ public class DebugTextRenderer {
 		this.positionY = -y;
 	}
 
+	/**
+	 * Starts the rendering
+	 * 
+	 * @param fontsize the font size
+	 */
 	public void begin(float fontsize) {
 		renderFont.setScale(fontsize);
 		
 		text.clear();
 	}
 	
+	/**
+	 * Adds a formatted line
+	 * 
+	 * @param format
+	 * @param args
+	 */
 	public void drawFormatted(String format, Object... args) {
 		this.draw(String.format(format, args));
 	}
 
+	/**
+	 * Adds an empty line (= delimiter)
+	 */
 	public void draw() {
 		draw("");
 	}
 	
+	/**
+	 * Adds a single line
+	 * 
+	 * @param txt
+	 */
 	public void draw(String txt) {
 		text.add(txt);
 	}
 	
+	/**
+	 * Ends the rendering
+	 * 
+	 * Effectively here is where all the rendering is done
+	 */
 	public void end() {
 		renderShape.begin(ShapeType.Filled);
 		renderShape.setColor(Color.WHITE);

@@ -2,9 +2,15 @@ package de.samdev.absgdx.framework.util;
 
 import com.badlogic.gdx.Gdx;
 
+/**
+ * An logger for the current fps / ups etc
+ */
 public class DebugFrequencyMeter {
 	private final static long REFRESH_INTERVAL = 1000;
 
+	/**
+	 * The targeted FPS rate
+	 */
 	public final float targetFPS;
 
 	// #########################################################################
@@ -25,12 +31,16 @@ public class DebugFrequencyMeter {
 
 	// #########################################################################
 
+	/** The current FPS */
 	public float fps = 0;
 
 	// #########################################################################
 
+	/** The current time per render process */
 	public double renderTime;
+	/** The current time per update process */
 	public double updateTime;
+	/** The current time per (render + update) process */
 	public double totalTime;
 
 	// #########################################################################
@@ -38,21 +48,34 @@ public class DebugFrequencyMeter {
 	private long lastGCUpdateTime = System.currentTimeMillis();
 	private long gcAllocMem = 0;
 
+	/** The amount of GC calls */
 	public long gcCount = 0;
+	/** The time between GC calls */
 	public long gcTimeBetweenGC;
 
 	// #########################################################################
 
+	/**
+	 * Creates a new DebugFrequencyMeter
+	 * 
+	 * @param targetFPS the TargetFPS of LibGDX
+	 */
 	public DebugFrequencyMeter(int targetFPS) {
 		super();
 
 		this.targetFPS = targetFPS;
 	}
 
+	/**
+	 * Create sa new DebugFrequencyMeter with TargetFPS=60
+	 */
 	public DebugFrequencyMeter() {
 		this(60);
 	}
 
+	/**
+	 * Call this st the start of a new cycle
+	 */
 	public void startCycle() {
 		final long delta = System.currentTimeMillis() - intervalStartTime;
 
@@ -91,34 +114,61 @@ public class DebugFrequencyMeter {
 		this.gcAllocMem = allocmemory;
 	}
 
+	/**
+	 * Call this at the start of the rendering
+	 */
 	public void startRender() {
 		startRenderTime = System.nanoTime();
 	}
 
+	/**
+	 * Call this at the end of the rendering
+	 */
 	public void endRender() {
 		totalRenderTime += System.nanoTime() - startRenderTime;
 
 		renderIntervalCounter++;
 	}
 
+	/**
+	 * Call this at the start of the updating
+	 */
 	public void startUpdate() {
 		startUpdateTime = System.nanoTime();
 	}
 
+	/**
+	 * Call this at the end of the updating
+	 */
 	public void endUpdate() {
 		totalUpdateTime += System.nanoTime() - startUpdateTime;
 
 		updateIntervalCounter++;
 	}
 
+	/**
+	 * Get the percentage that the rendering takes (compared to the maximum amount of time, a cycle can take, to still reach the targetFPS)
+	 * 
+	 * @return
+	 */
 	public double getRenderPercentage() {
 		return renderTime / (10000000d / targetFPS);
 	}
 
+	/**
+	 * Get the percentage that the updating takes (compared to the maximum amount of time, a cycle can take, to still reach the targetFPS)
+	 * 
+	 * @return
+	 */
 	public double getUpdatePercentage() {
 		return updateTime / (10000000d / targetFPS);
 	}
 
+	/**
+	 * Get the percentage that the (rendering+updating) takes (compared to the maximum amount of time, a cycle can take, to still reach the targetFPS)
+	 * 
+	 * @return
+	 */
 	public double getTotalPercentage() {
 		return (renderTime + updateTime) / (10000000d / targetFPS);
 	}

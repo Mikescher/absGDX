@@ -45,10 +45,6 @@ local.properties
 .externalToolBuilders/
 *.launch
 
-## Framework Eclipse Settings 
-!absGDX-framework/.settings/
-absGDX-framework/.settings/gradle/
-
 ## NetBeans
 **/nbproject/private/
 build/

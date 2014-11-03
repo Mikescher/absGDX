@@ -12,7 +12,9 @@ import de.samdev.absgdx.framework.util.tiled.TmxMapLoader;
 
 public class DemoGameLayer extends GameLayer {
 
-	private Player playerEntity;
+	private Bucket_1 bucket_1;
+	private Bucket_2 bucket_2;
+	private Bucket_3 bucket_3;
 	
 	public DemoGameLayer(AgdxGame owner) {
 		super(owner);
@@ -30,9 +32,10 @@ public class DemoGameLayer extends GameLayer {
 		setMapScaleResolver(new SectionMapScaleResolver(64, 36, 0.5f, 20f));
 //		setMapScaleResolver(new ShowCompleteMapScaleResolver());
 //		setMapScaleResolver(new MaximumBoundaryMapScaleResolver(3, 3));
-		
-		playerEntity = new Player();
-		addEntity(playerEntity);
+
+		addEntity(bucket_1 = new Bucket_1());
+		addEntity(bucket_2 = new Bucket_2());
+		addEntity(bucket_3 = new Bucket_3(bucket_1, bucket_2));
 	}
 
 	@Override
@@ -50,5 +53,8 @@ public class DemoGameLayer extends GameLayer {
 
 		if (Gdx.input.isKeyJustPressed(Keys.D))
 			owner.settings.debugEnabled.doSwitch();
+		
+		if (Gdx.input.isTouched())
+			setBoundedOffset(map_offset.sub(Gdx.input.getDeltaX()  / getTileScale(), -Gdx.input.getDeltaY()  / getTileScale()));
 	}
 }

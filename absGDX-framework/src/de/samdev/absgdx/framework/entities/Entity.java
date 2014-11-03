@@ -22,6 +22,11 @@ public abstract class Entity {
 	private float width;
 	private float height;
 	
+	/** The (physical) acceleration */
+	public Vector2 acceleration = new Vector2();
+	/** The (physical) speed */
+	public Vector2 speed = new Vector2();
+	
 	/**
 	 * Creates a new Entity ( on position (0|0) )
 	 * 
@@ -132,6 +137,15 @@ public abstract class Entity {
 	}
 	
 	/**
+	 * Gets the middle
+	 * 
+	 * @return the middle of the bounding box
+	 */
+	public Vector2 getMiddle() {
+		return new Vector2(x + width/2, y + height/2);
+	}
+	
+	/**
 	 * Changes the position of this entity
 	 * 
 	 * @param x the x position
@@ -170,6 +184,16 @@ public abstract class Entity {
 	}
 	
 	/**
+	 * Moved the Entity by a specific delta value
+	 * 
+	 * @param dx delta X
+	 * @param dy delta Y
+	 */
+	public void movePosition(float dx, float dy) {
+		setPosition(getPositionX() + dx, getPositionY() + dy);
+	}
+	
+	/**
 	 * Gets the current texture - the return value can change every cycle, don't cache this
 	 * 
 	 * @return the texture
@@ -199,6 +223,15 @@ public abstract class Entity {
 			animationPos += (delta/frameDuration);
 			animationPos %= animationLength;
 		}
+		
+		updateMovement(delta);
+	}
+
+	private void updateMovement(float delta) {
+		speed.x += acceleration.x * delta;
+		speed.y += acceleration.y * delta;
+		
+		movePosition(this.speed.x * delta, this.speed.y * delta);
 	}
 	
 	/**

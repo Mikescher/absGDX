@@ -85,9 +85,9 @@ public abstract class GameLayer extends AgdxLayer {
 		sbatch.enableBlending();
 		sbatch.begin();
 		for (Entity entity : entities) {
-			if (visible.contains(entity.getBoundings())) {
+//			if (visible.contains(entity.getBoundings())) {
 				sbatch.draw(entity.getTexture(), entity.getPositionX(), entity.getPositionY(), entity.getWidth(), entity.getHeight());
-			}
+//			}
 		}
 		sbatch.end();
 		

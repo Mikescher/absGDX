@@ -32,11 +32,11 @@ public abstract class AgdxGame implements ApplicationListener {
 
 	private OrthographicCamera camera;
 	
-	private SpriteBatch mapRenderer;
-	private SpriteBatch entityRenderer;
-	private SpriteBatch fontRenderer;
+	private SpriteBatch layerSpriteRenderer;
+	private SpriteBatch debugSpriteRenderer;
 	
-	private ShapeRenderer shapeRenderer;
+	private ShapeRenderer layerShapeRenderer;
+	private ShapeRenderer debugShapeRenderer;
 
 	// ##### Debug #####
 	
@@ -57,12 +57,14 @@ public abstract class AgdxGame implements ApplicationListener {
 	
 	@Override
 	public void create() {
-		mapRenderer = new SpriteBatch();
-		shapeRenderer = new ShapeRenderer();
+		layerSpriteRenderer = new SpriteBatch();
+		layerShapeRenderer = new ShapeRenderer();
+		debugSpriteRenderer = new SpriteBatch();
+		debugShapeRenderer = new ShapeRenderer();
+		
 		setDebugFont(new BitmapFont());
-		fontRenderer = new SpriteBatch();
-		entityRenderer = new SpriteBatch();
-		debugTextRenderer = new DebugTextRenderer(this, debugFont, fontRenderer, shapeRenderer, 10, 10);
+		
+		debugTextRenderer = new DebugTextRenderer(this, debugFont, debugSpriteRenderer, debugShapeRenderer, 10, 10);
 	
 		camera = new OrthographicCamera();
 
@@ -96,17 +98,16 @@ public abstract class AgdxGame implements ApplicationListener {
 		Gdx.gl.glClearColor(0, 0, 0, 1); // MAGENTA
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		mapRenderer.setProjectionMatrix(camera.combined);
-		entityRenderer.setProjectionMatrix(camera.combined);
-		shapeRenderer.setProjectionMatrix(camera.combined);
-		fontRenderer.setProjectionMatrix(camera.combined);
+		layerShapeRenderer.setProjectionMatrix(camera.combined);
+		layerSpriteRenderer.setProjectionMatrix(camera.combined);
+		debugShapeRenderer.setProjectionMatrix(camera.combined);
+		debugSpriteRenderer.setProjectionMatrix(camera.combined);
 
-		entityRenderer.enableBlending();
-		mapRenderer.disableBlending();
-		fontRenderer.enableBlending();
+		layerSpriteRenderer.disableBlending();
+		debugSpriteRenderer.enableBlending();
 		
 		if (!layers.empty()) {
-			layers.peek().render(mapRenderer, shapeRenderer);
+			layers.peek().render(layerSpriteRenderer, layerShapeRenderer);
 		}
 		
 		if (settings.debugTextInfos.isActive()) {
@@ -199,9 +200,13 @@ public abstract class AgdxGame implements ApplicationListener {
 
 	@Override
 	public void dispose() {
-		mapRenderer.dispose();
-		fontRenderer.dispose();
-		shapeRenderer.dispose();
+		layerShapeRenderer.dispose();
+		layerSpriteRenderer.dispose();
+		
+		debugShapeRenderer.dispose();
+		debugSpriteRenderer.dispose();
+		
+		debugFont.dispose();
 	}
 	
 	/**

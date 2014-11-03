@@ -3,7 +3,6 @@ package de.samdev.absgdx.framework.layer;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -11,7 +10,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.entities.Entity;
@@ -78,20 +76,29 @@ public abstract class GameLayer extends AgdxLayer {
 			srenderer.setColor(Color.MAGENTA);
 			for (int y = (int) visible.y; y < Math.min(map.height, (int)(visible.y + visible.height + 1)); y++) {
 				for (int x = (int) visible.x; x < Math.min(map.width, (int)(visible.x + visible.width + 1)); x++) {
-						srenderer.rect(x, y, 1, 1);
+					srenderer.rect(x, y, 1, 1);
 				}
 			}
 			srenderer.end();
 		}
 		
-//		if (owner.settings.debugVisualEntities.isActive()) {
-//			srenderer.begin(ShapeType.Line);
-//			srenderer.setColor(Color.RED);
-//			for (Entity entity : entities) {
-//				srenderer.rect(entity.getPositionX(), entity.getPositionY(), entity.getWidth(), entity.getHeight());
-//			}
-//			srenderer.end();
-//		}
+		sbatch.enableBlending();
+		sbatch.begin();
+		for (Entity entity : entities) {
+			if (visible.contains(entity.getBoundings())) {
+				sbatch.draw(entity.getTexture(), entity.getPositionX(), entity.getPositionY(), entity.getWidth(), entity.getHeight());
+			}
+		}
+		sbatch.end();
+		
+		if (owner.settings.debugVisualEntities.isActive()) {
+			srenderer.begin(ShapeType.Line);
+			srenderer.setColor(Color.RED);
+			for (Entity entity : entities) {
+				srenderer.rect(entity.getPositionX(), entity.getPositionY(), entity.getWidth(), entity.getHeight());
+			}
+			srenderer.end();
+		}
 		
 	}
 
@@ -230,6 +237,11 @@ public abstract class GameLayer extends AgdxLayer {
 		return map;
 	}
 	
+	/**
+	 * Adds an Entity to the game
+	 * 
+	 * @param e the to add entity
+	 */
 	public void addEntity(Entity e) {
 		entities.add(e);
 	}

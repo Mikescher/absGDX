@@ -37,6 +37,8 @@ public class GameSettings {
 	public BooleanProperty debugMapGridLines;
 	/** Show visual Information on top of the map */
 	public BooleanProperty debugVisualEntities;
+	/** Show boundary boxes for Entities */
+	public BooleanProperty debugEntitiesGridLines;
 
 	/**
 	 * Creates a new instance of GameSettings
@@ -69,6 +71,9 @@ public class GameSettings {
 					}
 					
 					debugVisualEntities = new BooleanProperty("debugEntities", true, debugEnabled);
+					{
+						debugEntitiesGridLines = new BooleanProperty("debugEntitiesGridLines", true, debugVisualEntities);
+					}
 				}
 
 			}

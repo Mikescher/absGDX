@@ -6,23 +6,20 @@ import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.layer.GameLayer;
-import de.samdev.absgdx.framework.map.mapscaleresolver.MaximumBoundaryMapScaleResolver;
+import de.samdev.absgdx.framework.map.mapscaleresolver.SectionMapScaleResolver;
 import de.samdev.absgdx.framework.util.exceptions.TmxMapParsingException;
 import de.samdev.absgdx.framework.util.tiled.TmxMapLoader;
 
 public class DemoGameLayer extends GameLayer {
 
+	private Player playerEntity;
+	
 	public DemoGameLayer(AgdxGame owner) {
 		super(owner);
 
 		TmxMapLoader loader = new TmxMapLoader(Gdx.files.internal("demomap.tmx"));
 		
 		loader.addDefaultMapping(StandardAutoTile.class);
-//		loader.addMapping(118, SkyTile.class);
-//		loader.addMapping(21, GroundTile_TL.class);
-//		loader.addMapping(22, GroundTile_TR.class);
-//		loader.addMapping(53, GroundTile_BL.class);
-//		loader.addMapping(54, GroundTile_BR.class);
 		
 		try {
 			loadMap(loader.start());
@@ -30,9 +27,12 @@ public class DemoGameLayer extends GameLayer {
 			e.printStackTrace();
 		}
 
-//		setMapScaleResolver(new SectionMapScaleResolver(64, 36, 0.5f, 20f));
+		setMapScaleResolver(new SectionMapScaleResolver(64, 36, 0.5f, 20f));
 //		setMapScaleResolver(new ShowCompleteMapScaleResolver());
-		setMapScaleResolver(new MaximumBoundaryMapScaleResolver(3, 3));
+//		setMapScaleResolver(new MaximumBoundaryMapScaleResolver(3, 3));
+		
+		playerEntity = new Player();
+		addEntity(playerEntity);
 	}
 
 	@Override

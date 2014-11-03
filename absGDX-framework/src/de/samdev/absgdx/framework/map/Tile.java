@@ -36,7 +36,7 @@ public abstract class Tile {
 	/**
 	 * Gets the current texture - the return value can change every cycle, don't cache this
 	 * 
-	 * @return
+	 * @return the texture
 	 */
 	public TextureRegion getTexture() {
 		return texture;

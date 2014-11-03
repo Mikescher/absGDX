@@ -12,6 +12,10 @@ public final class Textures {
 	public static TextureRegion tex_GroundTile_TR;
 	public static TextureRegion tex_GroundTile_BL;
 	public static TextureRegion tex_GroundTile_BR;
+	
+	public static TextureRegion tex_Bucket_empty;
+	public static TextureRegion tex_Bucket_full;
+	public static TextureRegion tex_Bucket_hay;
 
 	public static void init() {
 		texmap = new Texture("map.png");
@@ -22,5 +26,9 @@ public final class Textures {
 		tex_GroundTile_TR = new TextureRegion(texmap, 1*16, 6*16, 16, 16);
 		tex_GroundTile_BL = new TextureRegion(texmap, 0*16, 7*16, 16, 16);
 		tex_GroundTile_BR = new TextureRegion(texmap, 1*16, 7*16, 16, 16);
+		
+		tex_Bucket_empty = new TextureRegion(texmap, 10*32, 24*32, 32, 32);
+		tex_Bucket_full = new TextureRegion(texmap, 11*32, 24*32, 32, 32);
+		tex_Bucket_hay = new TextureRegion(texmap, 12*32, 24*32, 32, 32);
 	}
 }

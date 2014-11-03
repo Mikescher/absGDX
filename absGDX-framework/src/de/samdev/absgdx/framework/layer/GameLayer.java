@@ -109,6 +109,10 @@ public abstract class GameLayer extends AgdxLayer {
 				map.getTile(x, y).update(delta);
 			}
 		}
+
+		for (Entity entity : entities) {
+			entity.update(delta);
+		}
 		
 		onUpdate(delta);
 	}

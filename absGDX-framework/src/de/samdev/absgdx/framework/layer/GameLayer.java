@@ -3,6 +3,7 @@ package de.samdev.absgdx.framework.layer;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.entities.Entity;
@@ -51,6 +53,14 @@ public abstract class GameLayer extends AgdxLayer {
 
 		Rectangle visible = getVisibleMapBox();
 		
+		srenderer.identity();
+		srenderer.scale(tilesize, tilesize, 1);
+		srenderer.translate(-map_offset.x, -map_offset.y, 0);
+		
+		sbatch.getTransformMatrix().idt();
+		sbatch.getTransformMatrix().scale(tilesize, tilesize, 1);
+		sbatch.getTransformMatrix().translate(-map_offset.x, -map_offset.y, 0);
+		
 		sbatch.disableBlending();
 		sbatch.begin();
 		for (int y = (int) visible.y; y < Math.min(map.height, (int)(visible.y + visible.height + 1)); y++) {
@@ -58,7 +68,7 @@ public abstract class GameLayer extends AgdxLayer {
 				TextureRegion r = map.getTile(x, y).getTexture();
 				
 				if (r != null)
-					sbatch.draw(r, (x - map_offset.x) * tilesize, (y - map_offset.y) * tilesize, tilesize, tilesize);
+					sbatch.draw(r, x, y, 1, 1);
 			}
 		}
 		sbatch.end();
@@ -68,11 +78,21 @@ public abstract class GameLayer extends AgdxLayer {
 			srenderer.setColor(Color.MAGENTA);
 			for (int y = (int) visible.y; y < Math.min(map.height, (int)(visible.y + visible.height + 1)); y++) {
 				for (int x = (int) visible.x; x < Math.min(map.width, (int)(visible.x + visible.width + 1)); x++) {
-						srenderer.rect((x - map_offset.x) * tilesize, (y - map_offset.y) * tilesize, tilesize, tilesize);
+						srenderer.rect(x, y, 1, 1);
 				}
 			}
 			srenderer.end();
 		}
+		
+//		if (owner.settings.debugVisualEntities.isActive()) {
+//			srenderer.begin(ShapeType.Line);
+//			srenderer.setColor(Color.RED);
+//			for (Entity entity : entities) {
+//				srenderer.rect(entity.getPositionX(), entity.getPositionY(), entity.getWidth(), entity.getHeight());
+//			}
+//			srenderer.end();
+//		}
+		
 	}
 
 	@Override
@@ -208,5 +228,9 @@ public abstract class GameLayer extends AgdxLayer {
 	 */
 	public TileMap getMap() {
 		return map;
+	}
+	
+	public void addEntity(Entity e) {
+		entities.add(e);
 	}
 }

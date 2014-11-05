@@ -24,8 +24,17 @@ public abstract class Entity {
 	
 	/** The (physical) acceleration */
 	public Vector2 acceleration = new Vector2();
+	
 	/** The (physical) speed */
 	public Vector2 speed = new Vector2();
+	
+	/** 
+	 *  The Z position of this entity.
+	 *  Greater z indices are on top of lower indices
+	 *  
+	 *  If two entities have the same z position, the last-added entity is rendered on top.
+	 */
+	public int zlayer = 0;
 	
 	/**
 	 * Creates a new Entity ( on position (0|0) )
@@ -240,4 +249,13 @@ public abstract class Entity {
 	 * @param delta the time since the last update (in ms) - can be averaged over he last few cycles
 	 */
 	public abstract void beforeUpdate(float delta);
+	
+	/**
+	 * Set the Z layer
+	 * 
+	 * @param z the z layer
+	 */
+	protected void setZLayer(int z) {
+		this.zlayer = z;
+	}
 }

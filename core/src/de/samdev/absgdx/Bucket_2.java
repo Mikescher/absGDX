@@ -1,14 +1,15 @@
 package de.samdev.absgdx;
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.framework.entities.Entity;
 
 public class Bucket_2 extends Entity {
 
+	public DemoGameLayer owner;
+
 	public Bucket_2() {
-		super(new TextureRegion[]{Textures.tex_Bucket_full, Textures.tex_Bucket_empty, Textures.tex_Bucket_hay}, 1000, 2, 2);
+		super(Textures.tex_Bucket_empty, 2, 2);
 		
 		setPosition(25f, 15f);
 		

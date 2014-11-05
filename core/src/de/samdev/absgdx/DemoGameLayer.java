@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.framework.AgdxGame;
+import de.samdev.absgdx.framework.entities.Entity;
 import de.samdev.absgdx.framework.layer.GameLayer;
 import de.samdev.absgdx.framework.map.mapscaleresolver.SectionMapScaleResolver;
 import de.samdev.absgdx.framework.util.exceptions.TmxMapParsingException;
@@ -36,6 +37,73 @@ public class DemoGameLayer extends GameLayer {
 		addEntity(bucket_1 = new Bucket_1());
 		addEntity(bucket_2 = new Bucket_2());
 		addEntity(bucket_3 = new Bucket_3(bucket_1, bucket_2));
+		
+		bucket_1.owner = this;
+		bucket_2.owner = this;
+		bucket_3.owner = this;
+
+		
+		
+		
+		
+		
+		Bucket_1 b;
+		
+		
+		System.out.print("[");for (Entity e : entities) System.out.print(e.zlayer +  ",    ");System.out.println("]");
+		
+		b = new Bucket_1();
+		b.zlayer = 1;
+		addEntity(b);
+		
+		
+		System.out.print("[");for (Entity e : entities) System.out.print(e.zlayer +  ",    ");System.out.println("]");
+		
+		b = new Bucket_1();
+		b.zlayer = 2;
+		addEntity(b);
+		
+		
+		System.out.print("[");for (Entity e : entities) System.out.print(e.zlayer +  ",    ");System.out.println("]");
+		
+		b = new Bucket_1();
+		b.zlayer = 3;
+		addEntity(b);
+		
+		
+		System.out.print("[");for (Entity e : entities) System.out.print(e.zlayer +  ",    ");System.out.println("]");
+		
+		b = new Bucket_1();
+		b.zlayer = 2;
+		addEntity(b);
+		
+		
+		System.out.print("[");for (Entity e : entities) System.out.print(e.zlayer +  ",    ");System.out.println("]");
+		
+		b = new Bucket_1();
+		b.zlayer = 2;
+		addEntity(b);
+		
+		
+		System.out.print("[");for (Entity e : entities) System.out.print(e.zlayer +  ",    ");System.out.println("]");
+		
+		b = new Bucket_1();
+		b.zlayer = 100;
+		addEntity(b);
+		
+		
+		System.out.print("[");for (Entity e : entities) System.out.print(e.zlayer +  ",    ");System.out.println("]");
+		
+		b = new Bucket_1();
+		b.zlayer = -11;
+		addEntity(b);
+		
+		
+		System.out.print("[");for (Entity e : entities) System.out.print(e.zlayer +  ",    ");System.out.println("]");
+		
+		b = new Bucket_1();
+		b.zlayer = 0;
+		addEntity(b);
 	}
 
 	@Override

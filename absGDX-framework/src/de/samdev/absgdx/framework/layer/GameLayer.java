@@ -1,6 +1,6 @@
 package de.samdev.absgdx.framework.layer;
 
-import java.util.LinkedList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.Color;
@@ -16,6 +16,7 @@ import de.samdev.absgdx.framework.entities.Entity;
 import de.samdev.absgdx.framework.map.TileMap;
 import de.samdev.absgdx.framework.map.mapscaleresolver.AbstractMapScaleResolver;
 import de.samdev.absgdx.framework.map.mapscaleresolver.ShowCompleteMapScaleResolver;
+import de.samdev.absgdx.framework.math.SortedLinkedEntityList;
 
 /**
  * Game layer represents a level or the whole game.
@@ -32,7 +33,7 @@ public abstract class GameLayer extends AgdxLayer {
 
 	//######## ENTITIES ########
 	
-	protected List<Entity> entities = new LinkedList<Entity>();
+	protected SortedLinkedEntityList entities = new SortedLinkedEntityList();
 	
 	/**
 	 * Creates a new GameLayer
@@ -94,9 +95,13 @@ public abstract class GameLayer extends AgdxLayer {
 		if (owner.settings.debugVisualEntities.isActive()) {
 			srenderer.begin(ShapeType.Line);
 			srenderer.setColor(Color.RED);
-			for (Entity entity : entities) {
-				srenderer.rect(entity.getPositionX(), entity.getPositionY(), entity.getWidth(), entity.getHeight());
+			
+			for( Iterator<Entity> it = entities.descendingIterator(); it.hasNext();) { // Iterate reverse (so z order is correct)
+			    Entity entity = it.next();
+			    
+			    srenderer.rect(entity.getPositionX(), entity.getPositionY(), entity.getWidth(), entity.getHeight());
 			}
+
 			srenderer.end();
 		}
 		
@@ -248,5 +253,14 @@ public abstract class GameLayer extends AgdxLayer {
 	 */
 	public void addEntity(Entity e) {
 		entities.add(e);
+	}
+	
+	/**
+	 * Gets an List of entities to iterate through (DONT CHANGE THE LIST !)
+	 * 
+	 * @return
+	 */
+	public List<Entity> iterateEntities() {
+		return entities;
 	}
 }

@@ -17,6 +17,8 @@ public final class Textures {
 	public static TextureRegion tex_Bucket_full;
 	public static TextureRegion tex_Bucket_hay;
 
+	public static TextureRegion tex_Flowers_empty;
+
 	public static void init() {
 		texmap = new Texture("map.png");
 		
@@ -30,5 +32,7 @@ public final class Textures {
 		tex_Bucket_empty = new TextureRegion(texmap, 10*32, 24*32, 32, 32);
 		tex_Bucket_full = new TextureRegion(texmap, 11*32, 24*32, 32, 32);
 		tex_Bucket_hay = new TextureRegion(texmap, 12*32, 24*32, 32, 32);
+		
+		tex_Flowers_empty = new TextureRegion(texmap, 8*32, 25*32, 32, 32);
 	}
 }

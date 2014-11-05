@@ -119,6 +119,8 @@ public abstract class GameLayer extends AgdxLayer {
 			entity.update(delta);
 		}
 		
+		entities.removeDeadEntities();
+		
 		onUpdate(delta);
 	}
 

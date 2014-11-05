@@ -28,6 +28,8 @@ public abstract class Entity {
 	/** The (physical) speed */
 	public Vector2 speed = new Vector2();
 	
+	public boolean alive = true;
+	
 	/** 
 	 *  The Z position of this entity.
 	 *  Greater z indices are on top of lower indices

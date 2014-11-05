@@ -41,7 +41,6 @@ public class SortedLinkedEntityList implements List<Entity> {
 			}
 		}
 
-//		it.previous();
 		it.add(e);
 		return true;
 	}
@@ -170,5 +169,15 @@ public class SortedLinkedEntityList implements List<Entity> {
 	 */
 	public Iterator<Entity> descendingIterator() {
 		return list.descendingIterator();
+	}
+
+	public void removeDeadEntities() {
+		ListIterator<Entity> it = list.listIterator();
+		
+		while (it.hasNext()) {
+			if (! it.next().alive) {
+				it.remove();
+			}
+		}
 	}
 }

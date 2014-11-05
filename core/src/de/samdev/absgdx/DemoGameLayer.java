@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.framework.AgdxGame;
-import de.samdev.absgdx.framework.entities.Entity;
 import de.samdev.absgdx.framework.layer.GameLayer;
 import de.samdev.absgdx.framework.map.mapscaleresolver.SectionMapScaleResolver;
 import de.samdev.absgdx.framework.util.exceptions.TmxMapParsingException;
@@ -41,71 +40,10 @@ public class DemoGameLayer extends GameLayer {
 		bucket_1.owner = this;
 		bucket_2.owner = this;
 		bucket_3.owner = this;
-
-		
-		
-		
-		
-		
-		Bucket_1 b;
-		
-		
-		System.out.print("[");for (Entity e : entities) System.out.print(e.zlayer +  ",    ");System.out.println("]");
-		
-		b = new Bucket_1();
-		b.zlayer = 1;
-		addEntity(b);
-		
-		
-		System.out.print("[");for (Entity e : entities) System.out.print(e.zlayer +  ",    ");System.out.println("]");
-		
-		b = new Bucket_1();
-		b.zlayer = 2;
-		addEntity(b);
-		
-		
-		System.out.print("[");for (Entity e : entities) System.out.print(e.zlayer +  ",    ");System.out.println("]");
-		
-		b = new Bucket_1();
-		b.zlayer = 3;
-		addEntity(b);
-		
-		
-		System.out.print("[");for (Entity e : entities) System.out.print(e.zlayer +  ",    ");System.out.println("]");
-		
-		b = new Bucket_1();
-		b.zlayer = 2;
-		addEntity(b);
-		
-		
-		System.out.print("[");for (Entity e : entities) System.out.print(e.zlayer +  ",    ");System.out.println("]");
-		
-		b = new Bucket_1();
-		b.zlayer = 2;
-		addEntity(b);
-		
-		
-		System.out.print("[");for (Entity e : entities) System.out.print(e.zlayer +  ",    ");System.out.println("]");
-		
-		b = new Bucket_1();
-		b.zlayer = 100;
-		addEntity(b);
-		
-		
-		System.out.print("[");for (Entity e : entities) System.out.print(e.zlayer +  ",    ");System.out.println("]");
-		
-		b = new Bucket_1();
-		b.zlayer = -11;
-		addEntity(b);
-		
-		
-		System.out.print("[");for (Entity e : entities) System.out.print(e.zlayer +  ",    ");System.out.println("]");
-		
-		b = new Bucket_1();
-		b.zlayer = 0;
-		addEntity(b);
 	}
 
+	long last = 0;
+	
 	@Override
 	public void onUpdate(float delta) {
 		final float speed = 0.025f * delta;
@@ -124,5 +62,10 @@ public class DemoGameLayer extends GameLayer {
 		
 		if (Gdx.input.isTouched())
 			setBoundedOffset(map_offset.sub(Gdx.input.getDeltaX()  / getTileScale(), -Gdx.input.getDeltaY()  / getTileScale()));
+		
+		if (System.currentTimeMillis() - last > 1000){
+			last = System.currentTimeMillis();
+			addEntity(new FlowerPot_1());
+		}
 	}
 }

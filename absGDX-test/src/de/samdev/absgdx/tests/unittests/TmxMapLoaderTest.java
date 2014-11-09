@@ -1,5 +1,7 @@
 package de.samdev.absgdx.tests.unittests;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 
 import de.samdev.absgdx.framework.map.TileMap;

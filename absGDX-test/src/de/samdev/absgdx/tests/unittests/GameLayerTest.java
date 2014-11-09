@@ -19,7 +19,7 @@ public class GameLayerTest extends BaseUnitTest {
 		layer.loadEmptyMap(20, 20);
 		layer.setMapScaleResolver(new MinimumBoundaryMapScaleResolver(10, 10));
 		
-		assertEquals(new Rectangle(0, 0, 10, 10), layer.getVisibleMapBox());
+		assertEqualsExt(new Rectangle(0, 0, 10, 10), layer.getVisibleMapBox());
     }
 
     @Test
@@ -29,7 +29,7 @@ public class GameLayerTest extends BaseUnitTest {
 		layer.loadEmptyMap(20, 20);
 		layer.setMapScaleResolver(new MinimumBoundaryMapScaleResolver(10, 10));
 		
-		assertEquals(new Rectangle(0, 0, 10, 5), layer.getVisibleMapBox());
+		assertEqualsExt(new Rectangle(0, 0, 10, 5), layer.getVisibleMapBox());
     }
 
     @Test
@@ -39,7 +39,7 @@ public class GameLayerTest extends BaseUnitTest {
 		layer.loadEmptyMap(20, 20);
 		layer.setMapScaleResolver(new MinimumBoundaryMapScaleResolver(10, 10));
 		
-		assertEquals(new Rectangle(0, 0, 5, 10), layer.getVisibleMapBox());
+		assertEqualsExt(new Rectangle(0, 0, 5, 10), layer.getVisibleMapBox());
     }
 
     @Test
@@ -50,25 +50,25 @@ public class GameLayerTest extends BaseUnitTest {
 		layer.setMapScaleResolver(new MinimumBoundaryMapScaleResolver(10, 10));
 	
 		layer.setBoundedOffset(new Vector2(0, 0));
-		assertEquals(new Rectangle(0, 0, 10, 10), layer.getVisibleMapBox());
+		assertEqualsExt(new Rectangle(0, 0, 10, 10), layer.getVisibleMapBox());
 	
 		layer.setBoundedOffset(new Vector2(1, 1));
-		assertEquals(new Rectangle(1, 1, 10, 10), layer.getVisibleMapBox());
+		assertEqualsExt(new Rectangle(1, 1, 10, 10), layer.getVisibleMapBox());
 	
 		layer.setBoundedOffset(new Vector2(-10, -10));
-		assertEquals(new Rectangle(0, 0, 10, 10), layer.getVisibleMapBox());
+		assertEqualsExt(new Rectangle(0, 0, 10, 10), layer.getVisibleMapBox());
 	
 		layer.setBoundedOffset(new Vector2(-10, 10));
-		assertEquals(new Rectangle(0, 10, 10, 10), layer.getVisibleMapBox());
+		assertEqualsExt(new Rectangle(0, 10, 10, 10), layer.getVisibleMapBox());
 	
 		layer.setBoundedOffset(new Vector2(10, -10));
-		assertEquals(new Rectangle(10, 0, 10, 10), layer.getVisibleMapBox());
+		assertEqualsExt(new Rectangle(10, 0, 10, 10), layer.getVisibleMapBox());
 	
 		layer.setBoundedOffset(new Vector2(90, 90));
-		assertEquals(new Rectangle(90, 90, 10, 10), layer.getVisibleMapBox());
+		assertEqualsExt(new Rectangle(90, 90, 10, 10), layer.getVisibleMapBox());
 	
 		layer.setBoundedOffset(new Vector2(100, 100));
-		assertEquals(new Rectangle(90, 90, 10, 10), layer.getVisibleMapBox());
+		assertEqualsExt(new Rectangle(90, 90, 10, 10), layer.getVisibleMapBox());
     }
 
 }

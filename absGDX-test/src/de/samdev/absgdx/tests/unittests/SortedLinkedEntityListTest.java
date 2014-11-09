@@ -1,5 +1,7 @@
 package de.samdev.absgdx.tests.unittests;
 
+import static org.junit.Assert.*;
+
 import java.util.Iterator;
 
 import org.junit.Test;
@@ -87,35 +89,27 @@ public class SortedLinkedEntityListTest extends BaseUnitTest {
 	}
 
 	@SuppressWarnings("deprecation")
-	@Test()
+	@Test(expected=Exception.class)
 	public void testInsert() {
-		try {
-			SortedLinkedEntityList elist = new SortedLinkedEntityList();
-			
-			elist.add(new DummyEntity(1));
-			elist.add(new DummyEntity(2));
-			elist.add(new DummyEntity(3));
-			
-			elist.add(1, new DummyEntity(0));
-		} catch (Exception e) {return;}
+		SortedLinkedEntityList elist = new SortedLinkedEntityList();
 		
-		fail();
+		elist.add(new DummyEntity(1));
+		elist.add(new DummyEntity(2));
+		elist.add(new DummyEntity(3));
+		
+		elist.add(1, new DummyEntity(0));
 	}
 	
 	@SuppressWarnings("deprecation")
-	@Test()
+	@Test(expected=Exception.class)
 	public void testListIteratorInsert() {
-		try {
-			SortedLinkedEntityList elist = new SortedLinkedEntityList();
-			
-			elist.add(new DummyEntity(1));
-			elist.add(new DummyEntity(2));
-			elist.add(new DummyEntity(3));
-			
-			elist.listIterator().add(new DummyEntity(0));
-		} catch (Exception e) {return;}
+		SortedLinkedEntityList elist = new SortedLinkedEntityList();
 		
-		fail();
+		elist.add(new DummyEntity(1));
+		elist.add(new DummyEntity(2));
+		elist.add(new DummyEntity(3));
+		
+		elist.listIterator().add(new DummyEntity(0));
 	}
 	
 	private String getUniqueIdent(SortedLinkedEntityList slist) {

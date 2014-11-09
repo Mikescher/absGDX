@@ -1,23 +1,24 @@
 package de.samdev.absgdx.tests;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import junit.framework.AssertionFailedError;
+
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
+public abstract class BaseUnitTest {
 
-public abstract class BaseUnitTest extends TestCase {
-
-	public static void assertEquals(Vector2 expected, Vector2 actual) {
-		assertEquals(expected, actual, 0.00001f);
+	public static void assertEqualsExt(Vector2 expected, Vector2 actual) {
+		assertEqualsExt(expected, actual, 0.00001f);
 	}
 
-	public static void assertEquals(Vector2 expected, Vector2 actual, float epsilon) {
+	public static void assertEqualsExt(Vector2 expected, Vector2 actual, float epsilon) {
 		try {
 			assertEquals(expected.x, actual.x, epsilon);
 			assertEquals(expected.y, actual.y, epsilon);
@@ -26,11 +27,11 @@ public abstract class BaseUnitTest extends TestCase {
 		}
 	}
 
-	public static void assertEquals(Rectangle expected, Rectangle actual) {
-		assertEquals(expected, actual, 0.00001f);
+	public static void assertEqualsExt(Rectangle expected, Rectangle actual) {
+		assertEqualsExt(expected, actual, 0.00001f);
 	}
 	
-	public static void assertEquals(Rectangle expected, Rectangle actual, float epsilon) {
+	public static void assertEqualsExt(Rectangle expected, Rectangle actual, float epsilon) {
 		try {
 			assertEquals(expected.x, actual.x, epsilon);
 			assertEquals(expected.y, actual.y, epsilon);

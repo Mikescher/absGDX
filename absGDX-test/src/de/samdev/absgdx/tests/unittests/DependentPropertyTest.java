@@ -1,5 +1,7 @@
 package de.samdev.absgdx.tests.unittests;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 
 import de.samdev.absgdx.framework.util.dependentProperties.BooleanProperty;
@@ -75,41 +77,41 @@ public class DependentPropertyTest extends BaseUnitTest {
 		
 		p1.set(0.0f);
 		p1.deserialize(p1.serialize());
-		assertEquals(0.0f, p1.get());
+		assertEquals(0.0f, p1.get(), 0f);
 		
 		p1.set(10.0f);
 		p1.deserialize(p1.serialize());
-		assertEquals(10.0f, p1.get());
+		assertEquals(10.0f, p1.get(), 0f);
 		
 		p1.set(-10.0f);
 		p1.deserialize(p1.serialize());
-		assertEquals(-10.0f, p1.get());
+		assertEquals(-10.0f, p1.get(), 0f);
 		
 		p1.set(0.10f);
 		p1.deserialize(p1.serialize());
-		assertEquals(0.10f, p1.get());
+		assertEquals(0.10f, p1.get(), 0f);
 		
 		p1.set(-0.10f);
 		p1.deserialize(p1.serialize());
-		assertEquals(-0.10f, p1.get());
+		assertEquals(-0.10f, p1.get(), 0f);
 		
 		p1.set(0.01f);
 		s1 = p1.serialize();
 		p1.set(100);
 		p1.deserialize(s1);
-		assertEquals(0.01f, p1.get());
+		assertEquals(0.01f, p1.get(), 0f);
 		
 		p1.set(100);
 		s1 = p1.serialize();
 		p1.set(0);
 		p1.deserialize(s1);
-		assertEquals(100.0f, p1.get());
+		assertEquals(100.0f, p1.get(), 0f);
 		
-		assertEquals(1.0f, new FloatProperty("x", 1, null).get());
+		assertEquals(1.0f, new FloatProperty("x", 1, null).get(), 0f);
 		assertEquals(true, new FloatProperty("x", 1, null).getBooleanValue());
 		assertEquals(true, new FloatProperty("x", 1, null).isActive());
 		
-		assertEquals(0.0f, new FloatProperty("x", 0, null).get());
+		assertEquals(0.0f, new FloatProperty("x", 0, null).get(), 0f);
 		assertEquals(true, new FloatProperty("x", 0, null).getBooleanValue());
 		assertEquals(true, new FloatProperty("x", 0, null).isActive());
     }

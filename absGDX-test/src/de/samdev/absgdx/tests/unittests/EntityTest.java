@@ -1,5 +1,6 @@
 package de.samdev.absgdx.tests.unittests;
 
+
 import org.junit.Test;
 
 import de.samdev.absgdx.tests.BaseUnitTest;
@@ -27,8 +28,8 @@ public class EntityTest extends BaseUnitTest {
 			if (i % 3 == 0) e3.update(66.6f * 3);
 		}
 
-    	assertEquals(e1.getPosition(), e2.getPosition(), 0.5f);
-    	assertEquals(e1.getPosition(), e3.getPosition(), 0.5f);
+    	assertEqualsExt(e1.getPosition(), e2.getPosition(), 0.5f);
+    	assertEqualsExt(e1.getPosition(), e3.getPosition(), 0.5f);
     }
 
     @Test
@@ -51,11 +52,11 @@ public class EntityTest extends BaseUnitTest {
 			if (i % 3 == 0) e3.update(66.6f * 3);
 		}
 
-    	assertEquals(e1.getPosition(), e2.getPosition(), 100f);
-    	assertEquals(e1.getPosition(), e3.getPosition(), 100f);
+    	assertEqualsExt(e1.getPosition(), e2.getPosition(), 100f);
+    	assertEqualsExt(e1.getPosition(), e3.getPosition(), 100f);
     	
-    	assertEquals(e1.speed, e2.speed, 100f);
-    	assertEquals(e1.speed, e3.speed, 100f);
+    	assertEqualsExt(e1.speed, e2.speed, 100f);
+    	assertEqualsExt(e1.speed, e3.speed, 100f);
     }
 
 }

@@ -21,7 +21,7 @@ public class AlignTest extends BaseUnitTest {
 			all.add(al.getDirectionVector());
 		}
     	
-    	assertEquals(all, new Vector2(), Float.MIN_NORMAL);
+    	assertEqualsExt(all, new Vector2(), Float.MIN_NORMAL);
     }
 
     @Test
@@ -32,7 +32,7 @@ public class AlignTest extends BaseUnitTest {
 			all.add(al.getDirectionVector());
 		}
 
-    	assertEquals(all, new Vector2(), Float.MIN_NORMAL);
+    	assertEqualsExt(all, new Vector2(), Float.MIN_NORMAL);
     }
 
     @Test
@@ -43,7 +43,7 @@ public class AlignTest extends BaseUnitTest {
 			all.add(al.getDirectionVector());
 		}
 
-    	assertEquals(all, new Vector2(), Float.MIN_NORMAL);
+    	assertEqualsExt(all, new Vector2(), Float.MIN_NORMAL);
     }
 
     @Test
@@ -54,7 +54,7 @@ public class AlignTest extends BaseUnitTest {
 			all.add(al.getDirectionVector());
 		}
 
-    	assertEquals(all, new Vector2(), Float.MIN_NORMAL);
+    	assertEqualsExt(all, new Vector2(), Float.MIN_NORMAL);
     }
 
     @Test
@@ -65,7 +65,7 @@ public class AlignTest extends BaseUnitTest {
 			all.add(al.getDirectionVector());
 		}
 
-    	assertEquals(all, new Vector2(), Float.MIN_NORMAL);
+    	assertEqualsExt(all, new Vector2(), Float.MIN_NORMAL);
     }
 
 }

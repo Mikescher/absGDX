@@ -109,11 +109,7 @@ public abstract class GameLayer extends AgdxLayer {
 
 	@Override
 	public void update(float delta) {
-		for (int x = 0; x < map.width; x++) {
-			for (int y = 0; y < map.height; y++) {
-				map.getTile(x, y).update(delta);
-			}
-		}
+		map.update(delta);
 
 		for (Entity entity : entities) {
 			entity.update(delta);

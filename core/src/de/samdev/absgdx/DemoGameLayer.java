@@ -63,7 +63,7 @@ public class DemoGameLayer extends GameLayer {
 		if (Gdx.input.isTouched())
 			setBoundedOffset(map_offset.sub(Gdx.input.getDeltaX()  / getTileScale(), -Gdx.input.getDeltaY()  / getTileScale()));
 		
-		if (System.currentTimeMillis() - last > 1000){
+		if (System.currentTimeMillis() - last > 100){
 			last = System.currentTimeMillis();
 			addEntity(new FlowerPot_1());
 		}

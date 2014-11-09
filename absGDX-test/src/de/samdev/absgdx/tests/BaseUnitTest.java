@@ -19,8 +19,8 @@ public abstract class BaseUnitTest extends TestCase {
 
 	public static void assertEquals(Vector2 expected, Vector2 actual, float epsilon) {
 		try {
-			assertEquals(expected.x, actual.y, epsilon);
-			assertEquals(expected.x, actual.y, epsilon);
+			assertEquals(expected.x, actual.x, epsilon);
+			assertEquals(expected.y, actual.y, epsilon);
 		} catch (AssertionFailedError e) {
 			throw new AssertionFailedError("expected:<" + expected.x + "|" + expected.y + "> but was:<" + actual.x + "|" + actual.y + ">" );
 		}

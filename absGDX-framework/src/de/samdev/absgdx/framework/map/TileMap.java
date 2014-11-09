@@ -69,4 +69,17 @@ public class TileMap {
 	public Vector2 getDimensions() {
 		return new Vector2(width, height);
 	}
+	
+	/**
+	 * Update the Tile
+	 * 
+	 * @param delta the time since the last update (in ms) - can be averaged over he last few cycles
+	 */
+	public void update(float delta) {
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+				getTile(x, y).update(delta);
+			}
+		}
+	}
 }

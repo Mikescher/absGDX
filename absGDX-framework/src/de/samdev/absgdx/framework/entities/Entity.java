@@ -28,6 +28,7 @@ public abstract class Entity {
 	/** The (physical) speed */
 	public Vector2 speed = new Vector2();
 	
+	/** If this is false the Entity will get removed at the end of the current update cycle */
 	public boolean alive = true;
 	
 	/** 

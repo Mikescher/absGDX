@@ -171,6 +171,9 @@ public class SortedLinkedEntityList implements List<Entity> {
 		return list.descendingIterator();
 	}
 
+	/**
+	 *  removes all Entities with alive=false in O(n) time
+	 */
 	public void removeDeadEntities() {
 		ListIterator<Entity> it = list.listIterator();
 		

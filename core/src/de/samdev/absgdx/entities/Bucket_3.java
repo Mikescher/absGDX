@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import de.samdev.absgdx.DemoGameLayer;
 import de.samdev.absgdx.Textures;
 import de.samdev.absgdx.framework.entities.Entity;
+import de.samdev.absgdx.framework.layer.GameLayer;
 
 public class Bucket_3 extends Entity {
 
@@ -19,10 +20,13 @@ public class Bucket_3 extends Entity {
 		
 		other_A = a;
 		other_B = b;
-		
-		setPosition(20.0f, 15.0f);
 	}
 
+	@Override
+	public void onLayerAdd(GameLayer layer) {
+		setPosition(20.0f, 15.0f);
+	}
+	
 	@Override
 	public void beforeUpdate(float delta) {
 		Vector2 other = other_A.getMiddle().add(other_A.getMiddle().sub(other_B.getMiddle()).scl(0.5f));
@@ -30,6 +34,7 @@ public class Bucket_3 extends Entity {
 		
 		for (Entity entity : owner.iterateEntities()) {
 			if (entity == this) continue;
+			if (!(entity instanceof Bucket_1 || entity instanceof Bucket_2)) continue;
 			
 			Vector2 dist = this.getMiddle().sub(entity.getMiddle());
 			Vector2 dist2 = this.getMiddle().sub(entity.getMiddle()).nor();

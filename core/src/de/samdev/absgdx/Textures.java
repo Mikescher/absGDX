@@ -22,6 +22,9 @@ public final class Textures {
 	public static TextureRegion tex_Bush_empty;
 	public static TextureRegion tex_Bush_full;
 
+	public static TextureRegion tex_Anchorpoint_empty;
+	public static TextureRegion tex_Anchorpoint_full;
+
 	public static TextureRegion tex_Angel;
 
 	public static void init() {
@@ -44,5 +47,8 @@ public final class Textures {
 		tex_Bush_full = new TextureRegion(texmap, 10*32, 27*32, 32, 32);
 
 		tex_Angel = new TextureRegion(texmap, 8*32, 26*32, 32, 64);
+		
+		tex_Anchorpoint_empty = new TextureRegion(texmap, 8*32, 24*32, 32, 32);
+		tex_Anchorpoint_full = new TextureRegion(texmap, 9*32, 24*32, 32, 32);
 	}
 }

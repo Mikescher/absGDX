@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import de.samdev.absgdx.DemoGameLayer;
 import de.samdev.absgdx.Textures;
 import de.samdev.absgdx.framework.entities.Entity;
+import de.samdev.absgdx.framework.layer.GameLayer;
 
 public class Bucket_1 extends Entity {
 
@@ -12,6 +13,10 @@ public class Bucket_1 extends Entity {
 	
 	public Bucket_1() {
 		super(Textures.tex_Bucket_full, 2, 2);
+	}
+
+	@Override
+	public void onLayerAdd(GameLayer layer) {
 		
 		setPosition(15f, 15f);
 		

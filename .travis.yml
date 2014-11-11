@@ -10,3 +10,11 @@ script:
  - ./gradlew absGDX-test:check
  - ./gradlew core:check
  - ./gradlew desktop:check
+
+notifications:
+  email:
+    recipients:
+      - mailport@mikescher.de
+      - benz.armin89@gmail.com
+    on_success: always
+    on_failure: always

@@ -1,9 +1,17 @@
 package de.samdev.absgdx.framework.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+
+import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometry;
+import de.samdev.absgdx.framework.entities.colliosiondetection.EntityCollisionGeometry;
+import de.samdev.absgdx.framework.entities.colliosiondetection.ReadOnlyEntityCollisionGeometryListIterator;
 
 /**
  * An Entity in the game
@@ -30,6 +38,8 @@ public abstract class Entity {
 	
 	/** If this is false the Entity will get removed at the end of the current update cycle */
 	public boolean alive = true;
+	
+	private List<EntityCollisionGeometry> collisionGeometries = new ArrayList<EntityCollisionGeometry>();
 	
 	/** 
 	 *  The Z position of this entity.
@@ -166,6 +176,10 @@ public abstract class Entity {
 	public void setPosition(float x, float y) {
 		this.x = x;
 		this.y = y;
+		
+		for (EntityCollisionGeometry collgeo : collisionGeometries) {
+			collgeo.updatePosition(x, y);
+		}
 	}
 	
 	/**
@@ -260,5 +274,17 @@ public abstract class Entity {
 	 */
 	protected void setZLayer(int z) {
 		this.zlayer = z;
+	}
+	
+	public ReadOnlyEntityCollisionGeometryListIterator listCollisionGeometries() {
+		return new ReadOnlyEntityCollisionGeometryListIterator(collisionGeometries);
+	}
+	
+	public void addCollisionGeo(float relativeX, float relativeY, CollisionGeometry geo) {
+		EntityCollisionGeometry wrapper;
+		
+		collisionGeometries.add(wrapper = new EntityCollisionGeometry(new Vector2(relativeX, relativeY), geo));
+		
+		wrapper.updatePosition(getPositionX(), getPositionY());
 	}
 }

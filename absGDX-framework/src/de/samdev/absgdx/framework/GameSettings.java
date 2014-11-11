@@ -38,8 +38,12 @@ public class GameSettings {
 	/** Show visual Information on top of the map */
 	public BooleanProperty debugVisualEntities;
 	/** Show boundary boxes for Entities */
-	public BooleanProperty debugEntitiesGridLines;
+	public BooleanProperty debugEntitiesBoundingBoxes;
+	
+	public BooleanProperty debugEntitiesCollisionGeometries;
 
+	public BooleanProperty debugTextEntities;
+	
 	/**
 	 * Creates a new instance of GameSettings
 	 */
@@ -61,8 +65,9 @@ public class GameSettings {
 						debugTextFPS = new BooleanProperty("debugTextFPS", true, debugTextInfos);
 						debugTextTiming = new BooleanProperty("debugTextTiming", true, debugTextInfos);
 						debugTextMemory = new BooleanProperty("debugTextMemory", true, debugTextInfos);
-						debugTextMap = new BooleanProperty("debugTextMap", true, debugTextMap);
-						debugTextInput = new BooleanProperty("debugTextInput", true, debugTextMap);
+						debugTextMap = new BooleanProperty("debugTextMap", true, debugTextInfos);
+						debugTextEntities = new BooleanProperty("debugTextEntities", true, debugTextInfos);
+						debugTextInput = new BooleanProperty("debugTextInput", true, debugTextInfos);
 					}
 
 					debugVisualMap = new BooleanProperty("debugVisualMap", true, debugEnabled);
@@ -72,7 +77,8 @@ public class GameSettings {
 					
 					debugVisualEntities = new BooleanProperty("debugEntities", true, debugEnabled);
 					{
-						debugEntitiesGridLines = new BooleanProperty("debugEntitiesGridLines", true, debugVisualEntities);
+						debugEntitiesBoundingBoxes = new BooleanProperty("debugEntitiesBoundingBoxes", true, debugVisualEntities);
+						debugEntitiesCollisionGeometries = new BooleanProperty("debugEntitiesCollisionGeometries", true, debugVisualEntities);
 					}
 				}
 

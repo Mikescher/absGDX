@@ -4,6 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 
+import de.samdev.absgdx.entities.Angel_1;
+import de.samdev.absgdx.entities.Bucket_1;
+import de.samdev.absgdx.entities.Bucket_2;
+import de.samdev.absgdx.entities.Bucket_3;
+import de.samdev.absgdx.entities.Bush_1;
+import de.samdev.absgdx.entities.Bush_2;
+import de.samdev.absgdx.entities.FlowerPot_1;
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.layer.GameLayer;
 import de.samdev.absgdx.framework.map.mapscaleresolver.SectionMapScaleResolver;
@@ -40,6 +47,11 @@ public class DemoGameLayer extends GameLayer {
 		bucket_1.owner = this;
 		bucket_2.owner = this;
 		bucket_3.owner = this;
+
+		addEntity(new Bush_1(33.0f, 19.0f));
+		addEntity(new Bush_2(34.0f, 19.5f));
+		
+		addEntity(new Angel_1());
 	}
 
 	long last = 0;

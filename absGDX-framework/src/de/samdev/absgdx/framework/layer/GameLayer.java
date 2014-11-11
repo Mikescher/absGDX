@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.entities.Entity;
+import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometry;
 import de.samdev.absgdx.framework.map.TileMap;
 import de.samdev.absgdx.framework.map.mapscaleresolver.AbstractMapScaleResolver;
 import de.samdev.absgdx.framework.map.mapscaleresolver.ShowCompleteMapScaleResolver;
@@ -85,7 +86,9 @@ public abstract class GameLayer extends AgdxLayer {
 		
 		sbatch.enableBlending();
 		sbatch.begin();
-		for (Entity entity : entities) {
+		for( Iterator<Entity> it = entities.descendingIterator(); it.hasNext();) { // Iterate reverse (so z order is correct)
+		    Entity entity = it.next();
+		    
 //			if (visible.contains(entity.getBoundings())) {
 				sbatch.draw(entity.getTexture(), entity.getPositionX(), entity.getPositionY(), entity.getWidth(), entity.getHeight());
 //			}
@@ -94,17 +97,27 @@ public abstract class GameLayer extends AgdxLayer {
 		
 		if (owner.settings.debugVisualEntities.isActive()) {
 			srenderer.begin(ShapeType.Line);
-			srenderer.setColor(Color.RED);
 			
-			for( Iterator<Entity> it = entities.descendingIterator(); it.hasNext();) { // Iterate reverse (so z order is correct)
+			for( Iterator<Entity> it = entities.descendingIterator(); it.hasNext();) {
 			    Entity entity = it.next();
 			    
-			    srenderer.rect(entity.getPositionX(), entity.getPositionY(), entity.getWidth(), entity.getHeight());
+			    if (owner.settings.debugEntitiesBoundingBoxes.isActive()) {
+					srenderer.setColor(Color.RED);
+			    	srenderer.rect(entity.getPositionX(), entity.getPositionY(), entity.getWidth(), entity.getHeight());			    	
+			    }
+			    
+			    if (owner.settings.debugEntitiesCollisionGeometries.isActive()) {
+			    	for( Iterator<CollisionGeometry> itc = entity.listCollisionGeometries(); itc.hasNext();) {
+			    		CollisionGeometry collGeo = itc.next();
+
+						srenderer.setColor(Color.BLUE);
+				    	srenderer.circle(collGeo.getCenterX(), collGeo.getCenterY(), collGeo.getRadius(), 16);
+			    	}
+			    }
 			}
 
 			srenderer.end();
 		}
-		
 	}
 
 	@Override
@@ -260,5 +273,14 @@ public abstract class GameLayer extends AgdxLayer {
 	 */
 	public List<Entity> iterateEntities() {
 		return entities;
+	}
+
+	/**
+	 * Gets the amount of currently registered Entities
+	 * 
+	 * @return
+	 */
+	public int getEntityCount() {
+		return entities.size();
 	}
 }

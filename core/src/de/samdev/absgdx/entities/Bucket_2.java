@@ -1,7 +1,9 @@
-package de.samdev.absgdx;
+package de.samdev.absgdx.entities;
 
 import com.badlogic.gdx.math.Vector2;
 
+import de.samdev.absgdx.DemoGameLayer;
+import de.samdev.absgdx.Textures;
 import de.samdev.absgdx.framework.entities.Entity;
 
 public class Bucket_2 extends Entity {

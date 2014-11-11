@@ -133,6 +133,14 @@ public abstract class AgdxGame implements ApplicationListener {
 					DebugFormatter.fmtV2(glayer.getMap().getDimensions(), 1));
 			debugTextRenderer.draw();
 		}
+
+		if (settings.debugTextEntities.isActive() && !layers.empty() && layers.peek() instanceof GameLayer) {
+			GameLayer glayer = (GameLayer) layers.peek();
+			
+			debugTextRenderer.drawFormatted("Entities: Count=%d", 
+					glayer.getEntityCount());
+			debugTextRenderer.draw();
+		}
 		
 		if (settings.debugTextTiming.isActive()) {
 			debugTextRenderer.drawFormatted("RenderTime: %sms (%d%%)", DebugFormatter.fmtD(freqMeter.renderTime / 1000000d, 100), (int)freqMeter.getRenderPercentage());

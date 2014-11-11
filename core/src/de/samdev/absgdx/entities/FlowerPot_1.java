@@ -1,5 +1,7 @@
-package de.samdev.absgdx;
+package de.samdev.absgdx.entities;
 
+import de.samdev.absgdx.DemoGameLayer;
+import de.samdev.absgdx.Textures;
 import de.samdev.absgdx.framework.entities.Entity;
 
 public class FlowerPot_1 extends Entity {

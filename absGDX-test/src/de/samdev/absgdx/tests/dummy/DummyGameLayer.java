@@ -1,4 +1,4 @@
-package de.samdev.absgdx.tests;
+package de.samdev.absgdx.tests.dummy;
 
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionMap;
 import de.samdev.absgdx.framework.layer.GameLayer;

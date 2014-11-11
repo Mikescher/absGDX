@@ -1,6 +1,7 @@
 package de.samdev.absgdx.tests.unittests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
@@ -8,6 +9,8 @@ import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionBox;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionCircle;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionMap;
 import de.samdev.absgdx.tests.BaseUnitTest;
+import de.samdev.absgdx.tests.dummy.DummyCollisionBox;
+import de.samdev.absgdx.tests.dummy.DummyCollisionCircle;
 
 public class CollisionMapTest extends BaseUnitTest {
 
@@ -18,7 +21,7 @@ public class CollisionMapTest extends BaseUnitTest {
 
 		boolean[][] compareOuter = new boolean[3][3];
 
-		CollisionCircle cg = new CollisionCircle(2f);
+		CollisionCircle cg = new DummyCollisionCircle(2f);
 		cg.setCenter(13.5f, 13.5f);
 
 		m.addGeometry(cg);
@@ -41,7 +44,7 @@ public class CollisionMapTest extends BaseUnitTest {
 
 		boolean[][] compareOuter = new boolean[3][3];
 
-		CollisionBox cg = new CollisionBox(2f, 4f);
+		CollisionBox cg = new DummyCollisionBox(2f, 4f);
 		cg.setCenter(43.5f, 43.5f);
 
 		m.addGeometry(cg);
@@ -64,7 +67,7 @@ public class CollisionMapTest extends BaseUnitTest {
 
 		boolean[][] compareOuter = new boolean[3][3];
 
-		CollisionBox cg = new CollisionBox(1f, 1f);
+		CollisionBox cg = new DummyCollisionBox(1f, 1f);
 		cg.setCenter(0.5f, 0.5f);
 
 		m.addGeometry(cg);
@@ -91,7 +94,7 @@ public class CollisionMapTest extends BaseUnitTest {
 
 		boolean[][] compareOuter = new boolean[3][3];
 
-		CollisionCircle cg = new CollisionCircle(2f);
+		CollisionCircle cg = new DummyCollisionCircle(2f);
 		cg.setCenter(99.5f, 50.5f);
 
 		m.addGeometry(cg);
@@ -115,7 +118,7 @@ public class CollisionMapTest extends BaseUnitTest {
 
 		boolean[][] compareOuter = new boolean[3][3];
 
-		CollisionCircle cg = new CollisionCircle(2f);
+		CollisionCircle cg = new DummyCollisionCircle(2f);
 		cg.setCenter(55.5f, 55.5f);
 
 		m.addGeometry(cg);
@@ -141,7 +144,7 @@ public class CollisionMapTest extends BaseUnitTest {
 
 		boolean[][] compareOuter = new boolean[3][3];
 
-		CollisionBox cg = new CollisionBox(2f, 4f);
+		CollisionBox cg = new DummyCollisionBox(2f, 4f);
 		cg.setCenter(0f, 0f);
 
 		m.addGeometry(cg);
@@ -167,7 +170,7 @@ public class CollisionMapTest extends BaseUnitTest {
 
 		boolean[][] compareOuter = new boolean[3][3];
 
-		CollisionBox cg = new CollisionBox(1f, 1f);
+		CollisionBox cg = new DummyCollisionBox(1f, 1f);
 		cg.setCenter(110f, 110f);
 
 		m.addGeometry(cg);
@@ -197,7 +200,7 @@ public class CollisionMapTest extends BaseUnitTest {
 
 		boolean[][] compareOuter = new boolean[3][3];
 
-		CollisionCircle cg = new CollisionCircle(2f);
+		CollisionCircle cg = new DummyCollisionCircle(2f);
 		cg.setCenter(99.5f, 50.5f);
 
 		m.addGeometry(cg);

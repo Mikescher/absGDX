@@ -1,4 +1,4 @@
-package de.samdev.absgdx.tests;
+package de.samdev.absgdx.tests.dummy;
 
 import java.util.HashMap;
 

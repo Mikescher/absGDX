@@ -9,7 +9,7 @@ import org.junit.Test;
 import de.samdev.absgdx.framework.entities.Entity;
 import de.samdev.absgdx.framework.math.SortedLinkedEntityList;
 import de.samdev.absgdx.tests.BaseUnitTest;
-import de.samdev.absgdx.tests.DummyEntity;
+import de.samdev.absgdx.tests.dummy.DummyEntity;
 
 public class SortedLinkedEntityListTest extends BaseUnitTest {
 

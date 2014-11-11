@@ -6,11 +6,11 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionCircle;
 import de.samdev.absgdx.framework.map.TileMap;
 import de.samdev.absgdx.tests.BaseUnitTest;
-import de.samdev.absgdx.tests.DummyEntity;
-import de.samdev.absgdx.tests.DummyGameLayer;
+import de.samdev.absgdx.tests.dummy.DummyCollisionCircle;
+import de.samdev.absgdx.tests.dummy.DummyEntity;
+import de.samdev.absgdx.tests.dummy.DummyGameLayer;
 
 public class EntityTest extends BaseUnitTest {
 
@@ -74,7 +74,7 @@ public class EntityTest extends BaseUnitTest {
     	assertEquals(1, l.getEntityCount());
     	
     	e.setPosition(20, 20);
-    	e.addCollisionGeo(0.5f, 0.5f, new CollisionCircle(1f));
+    	e.addCollisionGeo(0.5f, 0.5f, new DummyCollisionCircle(1f));
     	
     	boolean[][] expected = new boolean[100][100];
     	boolean[][] expectedOuter = new boolean[3][3];
@@ -102,7 +102,7 @@ public class EntityTest extends BaseUnitTest {
     	assertEquals(1, l.getEntityCount());
     	
     	e.setPosition(00, 00);
-    	e.addCollisionGeo(0.5f, 0.5f, new CollisionCircle(1f));
+    	e.addCollisionGeo(0.5f, 0.5f, new DummyCollisionCircle(1f));
     	
     	e.movePosition(20f, 20f);
     	
@@ -132,7 +132,7 @@ public class EntityTest extends BaseUnitTest {
     	assertEquals(1, l.getEntityCount());
     	
     	e.setPosition(00, 00);
-    	e.addCollisionGeo(0.5f, 0.5f, new CollisionCircle(1f));
+    	e.addCollisionGeo(0.5f, 0.5f, new DummyCollisionCircle(1f));
     	
     	e.movePosition(20f, 20f);
     	

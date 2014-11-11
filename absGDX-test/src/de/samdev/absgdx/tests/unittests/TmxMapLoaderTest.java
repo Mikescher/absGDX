@@ -7,7 +7,7 @@ import org.junit.Test;
 import de.samdev.absgdx.framework.map.TileMap;
 import de.samdev.absgdx.framework.util.tiled.TmxMapLoader;
 import de.samdev.absgdx.tests.BaseUnitTest;
-import de.samdev.absgdx.tests.DummyTile;
+import de.samdev.absgdx.tests.dummy.DummyTile;
 
 public class TmxMapLoaderTest extends BaseUnitTest {
 

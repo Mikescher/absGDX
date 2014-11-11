@@ -9,7 +9,7 @@ import de.samdev.absgdx.framework.layer.GameLayer;
 import de.samdev.absgdx.framework.map.TileMap;
 import de.samdev.absgdx.framework.map.mapscaleresolver.MinimumBoundaryMapScaleResolver;
 import de.samdev.absgdx.tests.BaseUnitTest;
-import de.samdev.absgdx.tests.DummyGameLayer;
+import de.samdev.absgdx.tests.dummy.DummyGameLayer;
 
 public class GameLayerTest extends BaseUnitTest {
 

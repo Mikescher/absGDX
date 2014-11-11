@@ -2,7 +2,6 @@ package de.samdev.absgdx.framework.entities;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -10,8 +9,10 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometry;
+import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionMap;
 import de.samdev.absgdx.framework.entities.colliosiondetection.EntityCollisionGeometry;
 import de.samdev.absgdx.framework.entities.colliosiondetection.ReadOnlyEntityCollisionGeometryListIterator;
+import de.samdev.absgdx.framework.layer.GameLayer;
 
 /**
  * An Entity in the game
@@ -39,7 +40,7 @@ public abstract class Entity {
 	/** If this is false the Entity will get removed at the end of the current update cycle */
 	public boolean alive = true;
 	
-	private List<EntityCollisionGeometry> collisionGeometries = new ArrayList<EntityCollisionGeometry>();
+	public final List<EntityCollisionGeometry> collisionGeometries = new ArrayList<EntityCollisionGeometry>();
 	
 	/** 
 	 *  The Z position of this entity.
@@ -48,6 +49,8 @@ public abstract class Entity {
 	 *  If two entities have the same z position, the last-added entity is rendered on top.
 	 */
 	public int zlayer = 0;
+	
+	public CollisionMap collisionOwner = null;
 	
 	/**
 	 * Creates a new Entity ( on position (0|0) )
@@ -174,11 +177,22 @@ public abstract class Entity {
 	 * @param y the y position
 	 */
 	public void setPosition(float x, float y) {
+		if (this.x == x && this.y == y) return; // Performance
+		
 		this.x = x;
 		this.y = y;
-		
-		for (EntityCollisionGeometry collgeo : collisionGeometries) {
-			collgeo.updatePosition(x, y);
+
+		if (collisionOwner != null) { // otherwise you couldn't set the position in the constructor
+			for (EntityCollisionGeometry collgeo : collisionGeometries) {
+				float prevX = collgeo.geometry.getCenterX();
+				float prevY = collgeo.geometry.getCenterY();
+				
+				collgeo.updatePosition(x, y);
+				
+				boolean succ = collisionOwner.moveGeometry(prevX, prevY, collgeo.geometry);
+				
+				if (! succ) throw new RuntimeException("0"); //TODO REMOVE ME
+			}
 		}
 	}
 	
@@ -280,11 +294,25 @@ public abstract class Entity {
 		return new ReadOnlyEntityCollisionGeometryListIterator(collisionGeometries);
 	}
 	
-	public void addCollisionGeo(float relativeX, float relativeY, CollisionGeometry geo) {
+	public EntityCollisionGeometry addCollisionGeo(float relativeX, float relativeY, CollisionGeometry geo) {
 		EntityCollisionGeometry wrapper;
 		
 		collisionGeometries.add(wrapper = new EntityCollisionGeometry(new Vector2(relativeX, relativeY), geo));
 		
 		wrapper.updatePosition(getPositionX(), getPositionY());
+		
+		collisionOwner.addGeometry(geo);
+		
+		return wrapper;
+	}
+	
+	public abstract void onLayerAdd(GameLayer layer);
+	
+	public void removeAllCollisionGeos() {
+		collisionGeometries.clear();
+	}
+	
+	public void removeCollisionGeo(EntityCollisionGeometry ecg) {
+		collisionGeometries.remove(ecg);
 	}
 }

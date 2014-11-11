@@ -82,4 +82,15 @@ public class TileMap {
 			}
 		}
 	}
+	
+	/**
+	 * Loads a new map filled with EmptyTile
+	 * 
+	 * @param w width
+	 * @param h height
+	 * @return 
+	 */
+	public static TileMap createEmptyMap(int w, int h) {
+		return new TileMap(w, h);
+	}
 }

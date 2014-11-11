@@ -3,6 +3,7 @@ package de.samdev.absgdx.tests;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import de.samdev.absgdx.framework.entities.Entity;
+import de.samdev.absgdx.framework.layer.GameLayer;
 
 public class DummyEntity extends Entity {
 	public static int uidctr = 1;
@@ -21,7 +22,11 @@ public class DummyEntity extends Entity {
 	
 	@Override
 	public void beforeUpdate(float delta) {
-		// --
+		// NOP
 	}
 
+	@Override
+	public void onLayerAdd(GameLayer layer) {
+		// NOP
+	}
 }

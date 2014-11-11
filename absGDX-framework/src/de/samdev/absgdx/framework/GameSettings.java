@@ -1,7 +1,11 @@
 package de.samdev.absgdx.framework;
 
+import com.badlogic.gdx.graphics.Color;
+
 import de.samdev.absgdx.framework.util.dependentProperties.BooleanProperty;
+import de.samdev.absgdx.framework.util.dependentProperties.ColorProperty;
 import de.samdev.absgdx.framework.util.dependentProperties.ConstantBooleanProperty;
+import de.samdev.absgdx.framework.util.dependentProperties.IntegerProperty;
 import de.samdev.absgdx.framework.util.dependentProperties.RootProperty;
 
 /**
@@ -44,6 +48,14 @@ public class GameSettings {
 
 	public BooleanProperty debugTextEntities;
 	
+	public IntegerProperty debugTextSize;
+	
+	public ColorProperty debugMapGridLinesColor;
+	
+	public ColorProperty debugEntitiesBoundingBoxesColor;
+	
+	public ColorProperty debugEntitiesCollisionGeometriesColor;
+	
 	/**
 	 * Creates a new instance of GameSettings
 	 */
@@ -62,6 +74,8 @@ public class GameSettings {
 				{
 					debugTextInfos = new BooleanProperty("debugTextInfos", true, debugEnabled);
 					{
+						debugTextSize = new IntegerProperty("debugTextSize", 1, debugTextInfos);
+						
 						debugTextFPS = new BooleanProperty("debugTextFPS", true, debugTextInfos);
 						debugTextTiming = new BooleanProperty("debugTextTiming", true, debugTextInfos);
 						debugTextMemory = new BooleanProperty("debugTextMemory", true, debugTextInfos);
@@ -73,12 +87,22 @@ public class GameSettings {
 					debugVisualMap = new BooleanProperty("debugVisualMap", true, debugEnabled);
 					{
 						debugMapGridLines = new BooleanProperty("debugMapGridLines", true, debugVisualMap);
+						{
+							debugMapGridLinesColor = new ColorProperty("debugMapGridLinesColor", Color.MAGENTA, debugMapGridLines);
+						}
 					}
 					
 					debugVisualEntities = new BooleanProperty("debugEntities", true, debugEnabled);
 					{
 						debugEntitiesBoundingBoxes = new BooleanProperty("debugEntitiesBoundingBoxes", true, debugVisualEntities);
+						{
+							debugEntitiesBoundingBoxesColor = new ColorProperty("debugEntitiesBoundingBoxesColor", Color.RED, debugEntitiesBoundingBoxes);
+						}
+						
 						debugEntitiesCollisionGeometries = new BooleanProperty("debugEntitiesCollisionGeometries", true, debugVisualEntities);
+						{
+							debugEntitiesCollisionGeometriesColor = new ColorProperty("debugEntitiesCollisionGeometriesColor", Color.BLUE, debugEntitiesCollisionGeometries);
+						}
 					}
 				}
 

@@ -53,8 +53,6 @@ public abstract class AgdxGame implements ApplicationListener {
 	/** the game settings */
 	public final GameSettings settings = new GameSettings();
 	
-	private float debugFontSize = 1f;
-	
 	@Override
 	public void create() {
 		layerSpriteRenderer = new SpriteBatch();
@@ -116,7 +114,7 @@ public abstract class AgdxGame implements ApplicationListener {
 	}
 
 	private void renderDebugTextOverlay() {
-		debugTextRenderer.begin(debugFontSize);
+		debugTextRenderer.begin(settings.debugTextSize.get());
 		
 		if (settings.debugTextFPS.isActive()) {
 			debugTextRenderer.drawFormatted("FPS: %s / %s (%s v%s)", DebugFormatter.fmtF(freqMeter.fps, 100), freqMeter.targetFPS, Gdx.app.getType(), Gdx.app.getVersion());
@@ -220,8 +218,7 @@ public abstract class AgdxGame implements ApplicationListener {
 	/**
 	 * Load a Texture from the resources
 	 * 
-	 * @param file
-	 *            the filename
+	 * @param file the filename
 	 * @return the texture
 	 */
 	public Texture loadTexture(String file) {
@@ -272,13 +269,4 @@ public abstract class AgdxGame implements ApplicationListener {
 	 * Gets called after the initialization
 	 */
 	public abstract void onCreate();
-
-	/**
-	 * Sets the font size for the debug display
-	 * 
-	 * @param debugFontSize
-	 */
-	public void setDebugFontSize(float debugFontSize) {
-		this.debugFontSize = debugFontSize;
-	}
 }

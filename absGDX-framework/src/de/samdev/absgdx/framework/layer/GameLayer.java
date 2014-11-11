@@ -3,7 +3,6 @@ package de.samdev.absgdx.framework.layer;
 import java.util.Iterator;
 import java.util.List;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -13,7 +12,10 @@ import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.entities.Entity;
+import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionBox;
+import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionCircle;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometry;
+import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionMap;
 import de.samdev.absgdx.framework.map.TileMap;
 import de.samdev.absgdx.framework.map.mapscaleresolver.AbstractMapScaleResolver;
 import de.samdev.absgdx.framework.map.mapscaleresolver.ShowCompleteMapScaleResolver;
@@ -27,24 +29,27 @@ public abstract class GameLayer extends AgdxLayer {
 	
 	//######## MAP ########
 	
-	protected TileMap map;
+	protected final TileMap map;
 	protected Vector2 map_offset = new Vector2(0, 0);
 
 	private AbstractMapScaleResolver mapScaleResolver = new ShowCompleteMapScaleResolver();
 
 	//######## ENTITIES ########
 	
-	protected SortedLinkedEntityList entities = new SortedLinkedEntityList();
+	protected final SortedLinkedEntityList entities = new SortedLinkedEntityList();
+	protected final CollisionMap collisionMap;
 	
 	/**
 	 * Creates a new GameLayer
 	 * 
 	 * @param owner
+	 * @param map 
 	 */
-	public GameLayer(AgdxGame owner) {
+	public GameLayer(AgdxGame owner, TileMap map) {
 		super(owner);
 
-		map = new TileMap(16, 16);
+		this.map = map;
+		this.collisionMap = new CollisionMap(map.width, map.height);
 	}
 
 	@Override
@@ -75,7 +80,7 @@ public abstract class GameLayer extends AgdxLayer {
 		
 		if (owner.settings.debugMapGridLines.isActive()) {
 			srenderer.begin(ShapeType.Line);
-			srenderer.setColor(Color.MAGENTA);
+			srenderer.setColor(owner.settings.debugMapGridLinesColor.get());
 			for (int y = (int) visible.y; y < Math.min(map.height, (int)(visible.y + visible.height + 1)); y++) {
 				for (int x = (int) visible.x; x < Math.min(map.width, (int)(visible.x + visible.width + 1)); x++) {
 					srenderer.rect(x, y, 1, 1);
@@ -102,7 +107,7 @@ public abstract class GameLayer extends AgdxLayer {
 			    Entity entity = it.next();
 			    
 			    if (owner.settings.debugEntitiesBoundingBoxes.isActive()) {
-					srenderer.setColor(Color.RED);
+					srenderer.setColor(owner.settings.debugEntitiesBoundingBoxesColor.get());
 			    	srenderer.rect(entity.getPositionX(), entity.getPositionY(), entity.getWidth(), entity.getHeight());			    	
 			    }
 			    
@@ -110,8 +115,14 @@ public abstract class GameLayer extends AgdxLayer {
 			    	for( Iterator<CollisionGeometry> itc = entity.listCollisionGeometries(); itc.hasNext();) {
 			    		CollisionGeometry collGeo = itc.next();
 
-						srenderer.setColor(Color.BLUE);
-				    	srenderer.circle(collGeo.getCenterX(), collGeo.getCenterY(), collGeo.getRadius(), 16);
+						srenderer.setColor(owner.settings.debugEntitiesCollisionGeometriesColor.get());
+						if (collGeo instanceof CollisionCircle) {
+							srenderer.circle(collGeo.getCenterX(), collGeo.getCenterY(), collGeo.getRadius(), 16);
+						} else if (collGeo instanceof CollisionBox) {
+							CollisionBox collBox = (CollisionBox) collGeo;
+							srenderer.rect(collBox.getX(), collBox.getY(), collBox.width, collBox.height);
+							srenderer.circle(collGeo.getCenterX(), collGeo.getCenterY(), collGeo.getRadius(), 16);
+						}
 			    	}
 			    }
 			}
@@ -127,7 +138,6 @@ public abstract class GameLayer extends AgdxLayer {
 		for (Entity entity : entities) {
 			entity.update(delta);
 		}
-		
 		entities.removeDeadEntities();
 		
 		onUpdate(delta);
@@ -193,26 +203,6 @@ public abstract class GameLayer extends AgdxLayer {
 	public void setRawOffset(Vector2 offset) {
 		this.map_offset = offset;
 	}
-
-	/**
-	 * Loads a new map filled with EmptyTile
-	 * 
-	 * @param w width
-	 * @param h height
-	 */
-	public void loadEmptyMap(int w, int h) {
-		this.map = new TileMap(w, h);
-	}
-
-	/**
-	 * Sets a new Map (and resets the map offset)
-	 * 
-	 * @param tilemap
-	 */
-	public void loadMap(TileMap tilemap) {
-		this.map = tilemap;
-		setRawOffset(new Vector2(0, 0));
-	}
 	
 	/**
 	 * Sets the mapScaleResolver - the component to determine the size of a tile
@@ -264,6 +254,10 @@ public abstract class GameLayer extends AgdxLayer {
 	 */
 	public void addEntity(Entity e) {
 		entities.add(e);
+		
+		e.collisionOwner = collisionMap;
+		
+		e.onLayerAdd(this);
 	}
 	
 	/**

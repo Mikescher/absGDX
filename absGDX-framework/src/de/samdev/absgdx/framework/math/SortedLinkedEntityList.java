@@ -6,7 +6,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
+import javax.management.RuntimeErrorException;
+
 import de.samdev.absgdx.framework.entities.Entity;
+import de.samdev.absgdx.framework.layer.GameLayer;
 
 /**
  * This is an Implementation of an (always) sorted LinkedList
@@ -178,8 +181,13 @@ public class SortedLinkedEntityList implements List<Entity> {
 		ListIterator<Entity> it = list.listIterator();
 		
 		while (it.hasNext()) {
-			if (! it.next().alive) {
+			Entity e = it.next();
+			if (! e.alive) {
 				it.remove();
+				
+				boolean succ = e.collisionOwner.removeGeometries(e.listCollisionGeometries());
+				
+				if (! succ) throw new RuntimeException("0"); //TODO REMOVE ME
 			}
 		}
 	}

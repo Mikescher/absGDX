@@ -43,17 +43,17 @@ public class GameSettings {
 	public BooleanProperty debugVisualEntities;
 	/** Show boundary boxes for Entities */
 	public BooleanProperty debugEntitiesBoundingBoxes;
-	
+	/** Show the collision Geometries */
 	public BooleanProperty debugEntitiesCollisionGeometries;
-
+	/** Show textual information about the entities */
 	public BooleanProperty debugTextEntities;
-	
+	/** The size of the debug text  */
 	public IntegerProperty debugTextSize;
-	
+	/** The color of the MapGridLines */
 	public ColorProperty debugMapGridLinesColor;
-	
+	/** The color of the bounding boxes */
 	public ColorProperty debugEntitiesBoundingBoxesColor;
-	
+	/** The color of the CollisionGeometries */
 	public ColorProperty debugEntitiesCollisionGeometriesColor;
 	
 	/**

@@ -1,11 +1,19 @@
 package de.samdev.absgdx.framework.entities.colliosiondetection;
 
-import com.badlogic.gdx.math.Vector2;
-
+/**
+ * A Collision Geometry in the shape of a circle
+ *
+ */
 public class CollisionCircle extends CollisionGeometry {
 
+	/** the radius of the circle */
 	public final float radius;
 	
+	/**
+	 * Creates a new CollisionCircle
+	 * 
+	 * @param radius the radius of the circle
+	 */
 	public CollisionCircle(float radius) {
 		super();
 		

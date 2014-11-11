@@ -3,10 +3,20 @@ package de.samdev.absgdx.framework.entities.colliosiondetection;
 import java.util.List;
 import java.util.ListIterator;
 
+/**
+ * This is an CollisionGeometry ListIterator
+ * 
+ * Beware that its read-only :: add / remove operation do not work
+ */
 public class ReadOnlyEntityCollisionGeometryListIterator implements ListIterator<CollisionGeometry>{
 
 	private ListIterator<EntityCollisionGeometry> iterator;
 	
+	/**
+	 * Creates a new ReadOnlyEntityCollisionGeometryListIterator based on a EntityCollisionGeometry-List
+	 * 
+	 * @param g the List this iterates iterates through
+	 */
 	public ReadOnlyEntityCollisionGeometryListIterator(List<EntityCollisionGeometry> g) {
 		super();
 		

@@ -6,10 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-import javax.management.RuntimeErrorException;
-
 import de.samdev.absgdx.framework.entities.Entity;
-import de.samdev.absgdx.framework.layer.GameLayer;
 
 /**
  * This is an Implementation of an (always) sorted LinkedList

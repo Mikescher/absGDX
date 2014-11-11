@@ -18,6 +18,10 @@ import de.samdev.absgdx.framework.layer.GameLayer;
  * An Entity in the game
  *
  */
+/**
+ * @author Mike
+ *
+ */
 public abstract class Entity {
 	private final TextureRegion[] animation;
 	private final int animationLength;
@@ -40,6 +44,13 @@ public abstract class Entity {
 	/** If this is false the Entity will get removed at the end of the current update cycle */
 	public boolean alive = true;
 	
+	/** 
+	 * Here are the collisionBoxes of this Entity stores
+	 * 
+	 * **DO NOT ALTER**
+	 * 
+	 * Use the methods addCollisionGeo() / removeCollisionGeo() / listCollisionGeometries
+	 */
 	public final List<EntityCollisionGeometry> collisionGeometries = new ArrayList<EntityCollisionGeometry>();
 	
 	/** 
@@ -50,6 +61,7 @@ public abstract class Entity {
 	 */
 	public int zlayer = 0;
 	
+	/** The collision map - is set by the GameLayer when this Entity is added to it*/
 	public CollisionMap collisionOwner = null;
 	
 	/**
@@ -280,6 +292,14 @@ public abstract class Entity {
 	 * @param delta the time since the last update (in ms) - can be averaged over he last few cycles
 	 */
 	public abstract void beforeUpdate(float delta);
+
+	
+	/**
+	 * This method is called when the Entity is added to a GameLayer
+	 * 
+	 * @param layer the owner
+	 */
+	public abstract void onLayerAdd(GameLayer layer);
 	
 	/**
 	 * Set the Z layer
@@ -290,10 +310,24 @@ public abstract class Entity {
 		this.zlayer = z;
 	}
 	
+	/**
+	 * An ListIterator to iterate through all Geometries
+	 * The returned Iterator is read only (!)
+	 * 
+	 * @return an ListIterator for CollisionGeometriess
+	 */
 	public ReadOnlyEntityCollisionGeometryListIterator listCollisionGeometries() {
 		return new ReadOnlyEntityCollisionGeometryListIterator(collisionGeometries);
 	}
 	
+	/**
+	 * Adds a new CollisionGeometry to this entity
+	 * 
+	 * @param relativeX the x position of the Geometry relative to this Entity
+	 * @param relativeY the y position of the Geometry relative to this Entity
+	 * @param geo the geometry
+	 * @return A wrapper object - needed to remove the geometry again
+	 */
 	public EntityCollisionGeometry addCollisionGeo(float relativeX, float relativeY, CollisionGeometry geo) {
 		EntityCollisionGeometry wrapper;
 		
@@ -306,13 +340,31 @@ public abstract class Entity {
 		return wrapper;
 	}
 	
-	public abstract void onLayerAdd(GameLayer layer);
-	
-	public void removeAllCollisionGeos() {
+	/**
+	 * Remove all Collision Geometries associated with this Entity
+	 * 
+	 * @return true if successful
+	 */
+	public boolean removeAllCollisionGeos() {
+		boolean success = collisionOwner.removeGeometries(listCollisionGeometries());
+		
 		collisionGeometries.clear();
+		
+		return success;
 	}
 	
-	public void removeCollisionGeo(EntityCollisionGeometry ecg) {
-		collisionGeometries.remove(ecg);
+	/**
+	 * Remove a specific with this Entity associated Geometry
+	 * You get the EntityCollisionGeometry Object when adding the Geometry
+	 * 
+	 * @param ecg the to remove geometry
+	 * @return true is successful
+	 */
+	public boolean removeCollisionGeo(EntityCollisionGeometry ecg) {
+		if (collisionGeometries.remove(ecg)) {
+			return collisionOwner.removeGeometry(ecg.geometry);
+		} else {
+			return false;
+		}
 	}
 }

@@ -2,16 +2,14 @@ package de.samdev.absgdx;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.math.Vector2;
 
+import de.samdev.absgdx.entities.Anchorpoint_1;
 import de.samdev.absgdx.entities.Angel_1;
 import de.samdev.absgdx.entities.Bucket_1;
 import de.samdev.absgdx.entities.Bucket_2;
 import de.samdev.absgdx.entities.Bucket_3;
 import de.samdev.absgdx.entities.Bush_1;
 import de.samdev.absgdx.entities.Bush_2;
-import de.samdev.absgdx.entities.FlowerPot_1;
-import de.samdev.absgdx.entities.Anchorpoint_1;
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.layer.GameLayer;
 import de.samdev.absgdx.framework.map.TileMap;

@@ -3,15 +3,29 @@ package de.samdev.absgdx.framework.entities.colliosiondetection;
 import java.util.ListIterator;
 
 
+/**
+ * A CollisionMap holds all CollisionGeometries and orders them in a grid structure
+ *
+ */
 public class CollisionMap {
 
+	/** the grid width */
 	public final int width;
+	/** the grid height */
 	public final int height;
 	
+	/** the grid where the geometries are stored*/
 	public final CollisionMapTile[][] map;
 
+	/** if an geometry doesn't fit in the grid it is stored here*/
 	public final CollisionMapTile[][] outerBorder = new CollisionMapTile[3][3];
 	
+	/**
+	 * Creates a new CollisionMap
+	 * 
+	 * @param width the grid width
+	 * @param height the grid height
+	 */
 	public CollisionMap(int width, int height) {
 		super();
 		
@@ -34,6 +48,12 @@ public class CollisionMap {
 		}
 	}
 	
+	/**
+	 * Removes all Geometries that are included in a list
+	 * 
+	 * @param gList the geometries to remove
+	 * @return true if successful
+	 */
 	public boolean removeGeometries(ListIterator<CollisionGeometry> gList) {
 		boolean success = true;
 		
@@ -46,6 +66,12 @@ public class CollisionMap {
 		return success;
 	}
 	
+	/**
+	 * Removes a geometry from the map
+	 * 
+	 * @param g the geometry
+	 * @return true of successful
+	 */
 	public boolean removeGeometry(CollisionGeometry g) {
 		return removeGeometry(g, g.center.x, g.center.y);
 	}
@@ -103,12 +129,22 @@ public class CollisionMap {
 		return success;
 	}
 	
+	/**
+	 * Adds all Geometries that are included in a list
+	 * 
+	 * @param gList the geometries to add
+	 */
 	public void addGeometries(ListIterator<CollisionGeometry> gList) {
 		while(gList.hasNext()) {
 			addGeometry(gList.next());
 		}
 	}
 	
+	/**
+	 * Adds a geometry to the map
+	 * 
+	 * @param g the geometry
+	 */
 	public void addGeometry(CollisionGeometry g) {
 		int rad = (int) Math.ceil(g.getRadius());
 		int px = (int) g.center.x;
@@ -155,6 +191,14 @@ public class CollisionMap {
 		}
 	}
 	
+	/**
+	 * Call this after you have moved a Geometry to update its representation
+	 * 
+	 * @param prevCenterX the X position before the movement
+	 * @param prevCenterY the Y position before the movement
+	 * @param geo the geometry (already moved)
+	 * @return true if successful
+	 */
 	public boolean moveGeometry(float prevCenterX, float prevCenterY, CollisionGeometry geo) {
 		if ((int)prevCenterX == (int)geo.getCenterX() && (int)prevCenterY == (int)geo.getCenterY())
 			return true; // everything is ok

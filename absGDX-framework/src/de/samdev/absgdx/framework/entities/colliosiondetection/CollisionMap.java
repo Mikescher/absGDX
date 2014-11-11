@@ -1,6 +1,12 @@
 package de.samdev.absgdx.framework.entities.colliosiondetection;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.ListIterator;
+import java.util.Set;
+
+import de.samdev.absgdx.framework.math.ShapeMath;
 
 
 /**
@@ -85,43 +91,7 @@ public class CollisionMap {
 		
 		for (int x = -rad; x <= rad; x++) {
 			for (int y = -rad; y <= rad; y++) {
-				boolean singlesuccess;
-				
-				if (centerX+x >= width) {
-					if (centerY+y >= height) {
-						singlesuccess = outerBorder[2][2].geometries.remove(g);
-					} else if (centerY+y < 0) {
-						singlesuccess = outerBorder[2][0].geometries.remove(g);
-					} else {
-						singlesuccess = outerBorder[2][1].geometries.remove(g);
-					}
-				} else if (centerX+x < 0) {
-					if (centerY+y >= height) {
-						singlesuccess = outerBorder[0][2].geometries.remove(g);
-					} else if (centerY+y < 0) {
-						singlesuccess = outerBorder[0][0].geometries.remove(g);
-					} else {
-						singlesuccess = outerBorder[0][1].geometries.remove(g);
-					}
-				} else if (centerY+y >= height) {
-					if (centerX+x >= width) {
-						singlesuccess = outerBorder[2][2].geometries.remove(g);
-					} else if (centerX+x < 0) {
-						singlesuccess = outerBorder[0][2].geometries.remove(g);
-					} else {
-						singlesuccess = outerBorder[1][2].geometries.remove(g);
-					}
-				} else if (centerY+y < 0) {
-					if (centerX+x >= width) {
-						singlesuccess = outerBorder[2][0].geometries.remove(g);
-					} else if (centerX+x < 0) {
-						singlesuccess = outerBorder[0][0].geometries.remove(g);
-					} else {
-						singlesuccess = outerBorder[1][0].geometries.remove(g);
-					}
-				} else {
-					singlesuccess = map[centerX+x][centerY+y].geometries.remove(g);					
-				}
+				boolean singlesuccess = getCollisionTile(centerX + x, centerY + y).geometries.remove(g);
 				
 				success &= singlesuccess;
 			}
@@ -152,41 +122,7 @@ public class CollisionMap {
 		
 		for (int x = -rad; x <= rad; x++) {
 			for (int y = -rad; y <= rad; y++) {
-				if (px+x >= width) {
-					if (py+y >= height) {
-						outerBorder[2][2].geometries.add(g);
-					} else if (py+y < 0) {
-						outerBorder[2][0].geometries.add(g);
-					} else {
-						outerBorder[2][1].geometries.add(g);
-					}
-				} else if (px+x < 0) {
-					if (py+y >= height) {
-						outerBorder[0][2].geometries.add(g);
-					} else if (py+y < 0) {
-						outerBorder[0][0].geometries.add(g);
-					} else {
-						outerBorder[0][1].geometries.add(g);
-					}
-				} else if (py+y >= height) {
-					if (px+x >= width) {
-						outerBorder[2][2].geometries.add(g);
-					} else if (px+x < 0) {
-						outerBorder[0][2].geometries.add(g);
-					} else {
-						outerBorder[1][2].geometries.add(g);
-					}
-				} else if (py+y < 0) {
-					if (px+x >= width) {
-						outerBorder[2][0].geometries.add(g);
-					} else if (px+x < 0) {
-						outerBorder[0][0].geometries.add(g);
-					} else {
-						outerBorder[1][0].geometries.add(g);
-					}
-				} else {
-					map[px+x][py+y].geometries.add(g);					
-				}
+				getCollisionTile(px+x, py+y).geometries.add(g);
 			}
 		}
 	}
@@ -207,5 +143,95 @@ public class CollisionMap {
 		addGeometry(geo);
 		
 		return success;
+	}
+
+	public CollisionGeometry getFirstCollider(CollisionGeometry g) {
+		int rad = (int) Math.ceil(g.getRadius());
+		int px = (int) g.center.x;
+		int py = (int) g.center.y;
+		
+		for (int x = -rad; x <= rad; x++) {
+			for (int y = -rad; y <= rad; y++) {
+				for (CollisionGeometry other : getCollisionTile(px+x, py+y).geometries) {
+					if (other == g) continue;
+					
+					float dx = g.getCenterX() - other.getCenterX();
+					float dy = g.getCenterY() - other.getCenterY();
+					
+					float dr = g.getRadius() + other.getRadius();
+					
+					if (dx*dx + dy*dy < dr*dr) {
+						return other;
+					}
+				}
+			}
+		}
+		
+		return null;
+	}
+	
+	public Set<CollisionGeometry> getColliders(CollisionGeometry g) {
+		int rad = (int) Math.ceil(g.getRadius());
+		int px = (int) g.center.x;
+		int py = (int) g.center.y;
+		
+		Set<CollisionGeometry> result = new HashSet<CollisionGeometry>(); //TODO How does this performance wise ?
+		
+		for (int x = -rad; x <= rad; x++) {
+			for (int y = -rad; y <= rad; y++) {
+				for (CollisionGeometry other : getCollisionTile(px+x, py+y).geometries) {
+					if (other == g) continue;
+					
+					float dx = g.getCenterX() - other.getCenterX();
+					float dy = g.getCenterY() - other.getCenterY();
+					
+					float dr = g.getRadius() + other.getRadius();
+					
+					if (dx*dx + dy*dy < dr*dr && ShapeMath.doGeometriesIntersect(g, other)) {
+						result.add(other);
+					}
+				}
+			}
+		}
+		
+		return result;
+	}
+	
+	private CollisionMapTile getCollisionTile(int x, int y) {
+		if (x >= width) {
+			if (y >= height) {
+				return outerBorder[2][2];
+			} else if (y < 0) {
+				return outerBorder[2][0];
+			} else {
+				return outerBorder[2][1];
+			}
+		} else if (x < 0) {
+			if (y >= height) {
+				return outerBorder[0][2];
+			} else if (y < 0) {
+				return outerBorder[0][0];
+			} else {
+				return outerBorder[0][1];
+			}
+		} else if (y >= height) {
+			if (x >= width) {
+				return outerBorder[2][2];
+			} else if (x < 0) {
+				return outerBorder[0][2];
+			} else {
+				return outerBorder[1][2];
+			}
+		} else if (y < 0) {
+			if (x >= width) {
+				return outerBorder[2][0];
+			} else if (x < 0) {
+				return outerBorder[0][0];
+			} else {
+				return outerBorder[1][0];
+			}
+		} else {
+			return map[x][y];					
+		}
 	}
 }

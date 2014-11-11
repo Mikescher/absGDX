@@ -2,14 +2,13 @@ package de.samdev.absgdx;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.entities.Anchorpoint_1;
 import de.samdev.absgdx.entities.Angel_1;
 import de.samdev.absgdx.entities.Bucket_1;
 import de.samdev.absgdx.entities.Bucket_2;
 import de.samdev.absgdx.entities.Bucket_3;
-import de.samdev.absgdx.entities.Bush_1;
-import de.samdev.absgdx.entities.Bush_2;
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.layer.GameLayer;
 import de.samdev.absgdx.framework.map.TileMap;
@@ -30,16 +29,16 @@ public class DemoGameLayer extends GameLayer {
 //		setMapScaleResolver(new ShowCompleteMapScaleResolver());
 //		setMapScaleResolver(new MaximumBoundaryMapScaleResolver(3, 3));
 
-		addEntity(bucket_1 = new Bucket_1());
-		addEntity(bucket_2 = new Bucket_2());
-		addEntity(bucket_3 = new Bucket_3(bucket_1, bucket_2));
-		
-		bucket_1.owner = this;
-		bucket_2.owner = this;
-		bucket_3.owner = this;
-
-		addEntity(new Bush_1(33.0f, 19.0f));
-		addEntity(new Bush_2(34.0f, 19.5f));
+//		addEntity(bucket_1 = new Bucket_1());
+//		addEntity(bucket_2 = new Bucket_2());
+//		addEntity(bucket_3 = new Bucket_3(bucket_1, bucket_2));
+//		
+//		bucket_1.owner = this;
+//		bucket_2.owner = this;
+//		bucket_3.owner = this;
+//
+//		addEntity(new Bush_1(33.0f, 19.0f));
+//		addEntity(new Bush_2(34.0f, 19.5f));
 		
 		addEntity(new Angel_1());
 		
@@ -63,22 +62,22 @@ public class DemoGameLayer extends GameLayer {
 	
 	@Override
 	public void onUpdate(float delta) {
-//		final float speed = 0.025f * delta;
-//
-//		if (Gdx.input.isKeyPressed(Keys.RIGHT))
-//			setBoundedOffset(new Vector2(map_offset.x + speed, map_offset.y));
-//		if (Gdx.input.isKeyPressed(Keys.LEFT))
-//			setBoundedOffset(new Vector2(map_offset.x - speed, map_offset.y));
-//		if (Gdx.input.isKeyPressed(Keys.UP))
-//			setBoundedOffset(new Vector2(map_offset.x, map_offset.y + speed));
-//		if (Gdx.input.isKeyPressed(Keys.DOWN))
-//			setBoundedOffset(new Vector2(map_offset.x, map_offset.y - speed));
-//
-//		if (Gdx.input.isKeyJustPressed(Keys.F1))
-//			owner.settings.debugEnabled.doSwitch();
-//		
-//		if (Gdx.input.isTouched())
-//			setBoundedOffset(map_offset.sub(Gdx.input.getDeltaX()  / getTileScale(), -Gdx.input.getDeltaY()  / getTileScale()));
+		if (Gdx.input.isKeyJustPressed(Keys.F1))
+			owner.settings.debugEnabled.doSwitch();
+
+		final float speed = 0.025f * delta;
+
+		if (Gdx.input.isKeyPressed(Keys.RIGHT))
+			setBoundedOffset(new Vector2(map_offset.x + speed, map_offset.y));
+		if (Gdx.input.isKeyPressed(Keys.LEFT))
+			setBoundedOffset(new Vector2(map_offset.x - speed, map_offset.y));
+		if (Gdx.input.isKeyPressed(Keys.UP))
+			setBoundedOffset(new Vector2(map_offset.x, map_offset.y + speed));
+		if (Gdx.input.isKeyPressed(Keys.DOWN))
+			setBoundedOffset(new Vector2(map_offset.x, map_offset.y - speed));
+		
+		if (Gdx.input.isTouched())
+			setBoundedOffset(map_offset.sub(Gdx.input.getDeltaX()  / getTileScale(), -Gdx.input.getDeltaY()  / getTileScale()));
 //		
 //		if (System.currentTimeMillis() - last > 100){
 //			last = System.currentTimeMillis();

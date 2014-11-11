@@ -81,9 +81,17 @@ public abstract class GameLayer extends AgdxLayer {
 		if (owner.settings.debugMapGridLines.isActive()) {
 			srenderer.begin(ShapeType.Line);
 			srenderer.setColor(owner.settings.debugMapGridLinesColor.get());
+			
 			for (int y = (int) visible.y; y < Math.min(map.height, (int)(visible.y + visible.height + 1)); y++) {
 				for (int x = (int) visible.x; x < Math.min(map.width, (int)(visible.x + visible.width + 1)); x++) {
 					srenderer.rect(x, y, 1, 1);
+					
+					if (owner.settings.debugCollisionMapMarkers.isActive()) {
+						if (! collisionMap.map[x][y].geometries.isEmpty()) {
+							srenderer.line(x, y, x+1, y+1);
+							srenderer.line(x+1, y, x, y+1);
+						}
+					}
 				}
 			}
 			srenderer.end();
@@ -121,7 +129,6 @@ public abstract class GameLayer extends AgdxLayer {
 						} else if (collGeo instanceof CollisionBox) {
 							CollisionBox collBox = (CollisionBox) collGeo;
 							srenderer.rect(collBox.getX(), collBox.getY(), collBox.width, collBox.height);
-							srenderer.circle(collGeo.getCenterX(), collGeo.getCenterY(), collGeo.getRadius(), 16);
 						}
 			    	}
 			    }

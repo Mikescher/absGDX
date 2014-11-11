@@ -3,6 +3,8 @@ package de.samdev.absgdx.tests.dummy;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import de.samdev.absgdx.framework.entities.Entity;
+import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometry;
+import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
 import de.samdev.absgdx.framework.layer.GameLayer;
 
 public class DummyEntity extends Entity {
@@ -27,6 +29,16 @@ public class DummyEntity extends Entity {
 
 	@Override
 	public void onLayerAdd(GameLayer layer) {
+		// NOP
+	}
+
+	@Override
+	public void onActiveCollide(CollisionGeometryOwner passiveCollider, CollisionGeometry myGeo, CollisionGeometry otherGeo) {
+		// NOP
+	}
+
+	@Override
+	public void onPassiveCollide(CollisionGeometryOwner activeCollider, CollisionGeometry myGeo, CollisionGeometry otherGeo) {
 		// NOP
 	}
 }

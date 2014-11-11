@@ -1,7 +1,9 @@
 package de.samdev.absgdx.framework.entities;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -9,20 +11,19 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometry;
+import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
+import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionListener;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionMap;
 import de.samdev.absgdx.framework.entities.colliosiondetection.EntityCollisionGeometry;
 import de.samdev.absgdx.framework.entities.colliosiondetection.ReadOnlyEntityCollisionGeometryListIterator;
 import de.samdev.absgdx.framework.layer.GameLayer;
+import de.samdev.absgdx.framework.math.ShapeMath;
 
 /**
  * An Entity in the game
  *
  */
-/**
- * @author Mike
- *
- */
-public abstract class Entity {
+public abstract class Entity implements CollisionListener, CollisionGeometryOwner {
 	private final TextureRegion[] animation;
 	private final int animationLength;
 	private final float frameDuration;
@@ -205,6 +206,25 @@ public abstract class Entity {
 				
 				if (! succ) throw new RuntimeException("0"); //TODO REMOVE ME
 			}
+			
+			checkCollisions();
+		}
+	}
+	
+	private void checkCollisions() {
+		Set<CollisionGeometryOwner> usedPassives = new HashSet<CollisionGeometryOwner>();
+		usedPassives.add(this);
+		
+		for (EntityCollisionGeometry mygeometry : collisionGeometries) {
+			for (CollisionGeometry othergeometry : collisionOwner.getColliders(mygeometry.geometry)) {
+				if (usedPassives.add(othergeometry.owner)) {
+					for (CollisionListener listener : othergeometry.listener) {
+						listener.onPassiveCollide(this, othergeometry, mygeometry.geometry);
+					}
+					
+					this.onActiveCollide(othergeometry.owner, mygeometry.geometry, othergeometry);
+				}
+			}
 		}
 	}
 	
@@ -238,11 +258,120 @@ public abstract class Entity {
 	/**
 	 * Moved the Entity by a specific delta value
 	 * 
+	 * This method respects collisions and does not move Entities into each other
+	 * 
 	 * @param dx delta X
 	 * @param dy delta Y
+	 * 
+	 * @return true if a collision has happened
 	 */
-	public void movePosition(float dx, float dy) {
-		setPosition(getPositionX() + dx, getPositionY() + dy);
+	public boolean movePosition(float dx, float dy) {
+		return movePositionX(dx) | movePositionY(dy);
+	}
+	
+	private boolean movePositionX(float dx) {
+		if (dx == 0) return false;
+
+		float signum = Math.signum(dx);
+		
+		CollisionGeometry passiveCollider = null;
+		CollisionGeometry activeCollider = null;
+		
+		for (EntityCollisionGeometry mygeometry : collisionGeometries) {
+			mygeometry.updatePosition(getPositionX() + dx, getPositionY());			
+			Set<CollisionGeometry> colliders = collisionOwner.getColliders(mygeometry.geometry);
+			mygeometry.updatePosition(getPositionX(), getPositionY());
+			
+			for (CollisionGeometry othergeometry : colliders) {
+				if (othergeometry.owner == this) continue;
+				
+				float new_dx = othergeometry.getCenterX() - ShapeMath.getXTouchDistance(mygeometry.geometry, othergeometry) - mygeometry.geometry.getCenterX();
+				if (Math.abs(new_dx) < Math.abs(dx))
+					dx = new_dx;
+				
+				passiveCollider = othergeometry;
+				activeCollider = mygeometry.geometry;
+			}
+		}
+		
+		if (Math.signum(dx) != signum) dx = 0f;
+		
+		this.x += dx;
+		for (EntityCollisionGeometry geometry : collisionGeometries) {
+			float prevX = geometry.geometry.getCenterX();
+			float prevY = geometry.geometry.getCenterY();
+			
+			geometry.updatePosition(this.x, this.y);
+			
+			boolean succ = collisionOwner.moveGeometry(prevX, prevY, geometry.geometry);
+			
+			if (! succ) throw new RuntimeException("0"); //TODO REMOVE ME
+		}
+		
+		if (passiveCollider != null) {
+			for (CollisionListener listener : passiveCollider.listener) {
+				listener.onPassiveMovementCollide(this, passiveCollider, activeCollider);
+			}
+			for (CollisionListener listener : activeCollider.listener) {
+				listener.onActiveMovementCollide(passiveCollider.owner, activeCollider, passiveCollider);
+			}
+
+			return true;
+		}
+		
+		return false;
+	}
+	
+	private boolean movePositionY(float dy) {
+		if (dy == 0) return false;
+		
+		float signum = Math.signum(dy);
+		
+		CollisionGeometry passiveCollider = null;
+		CollisionGeometry activeCollider = null;
+		
+		for (EntityCollisionGeometry mygeometry : collisionGeometries) {
+			mygeometry.updatePosition(getPositionX(), getPositionY() + dy);			
+			Set<CollisionGeometry> colliders = collisionOwner.getColliders(mygeometry.geometry);
+			mygeometry.updatePosition(getPositionX(), getPositionY());
+			
+			for (CollisionGeometry othergeometry : colliders) {
+				if (othergeometry.owner == this) continue;
+				
+				float new_dy = othergeometry.getCenterY() - ShapeMath.getYTouchDistance(mygeometry.geometry, othergeometry) - mygeometry.geometry.getCenterY();
+				if (Math.abs(new_dy) < Math.abs(dy))
+					dy = new_dy;
+				passiveCollider = othergeometry;
+				activeCollider = mygeometry.geometry;
+			}
+		}
+		
+		if (Math.signum(dy) != signum) dy = 0f;
+		
+		this.y += dy;
+		for (EntityCollisionGeometry geometry : collisionGeometries) {
+			float prevX = geometry.geometry.getCenterX();
+			float prevY = geometry.geometry.getCenterY();
+			
+			geometry.updatePosition(this.x, this.y);
+			
+			boolean succ = collisionOwner.moveGeometry(prevX, prevY, geometry.geometry);
+			
+			if (! succ) throw new RuntimeException("0"); //TODO REMOVE ME
+		}
+		
+		if (passiveCollider != null) {
+			for (CollisionListener listener : passiveCollider.listener) {
+				listener.onPassiveMovementCollide(this, passiveCollider, activeCollider);
+			}
+			for (CollisionListener listener : activeCollider.listener) {
+				listener.onActiveMovementCollide(passiveCollider.owner, activeCollider, passiveCollider);
+			}
+
+			return true;
+		}
+		
+		return false;
 	}
 	
 	/**
@@ -284,6 +413,7 @@ public abstract class Entity {
 		speed.y += acceleration.y * delta;
 		
 		movePosition(this.speed.x * delta, this.speed.y * delta);
+		checkCollisions(); //TODO REM ME 4 REAL
 	}
 	
 	/**
@@ -329,12 +459,12 @@ public abstract class Entity {
 	 * @return A wrapper object - needed to remove the geometry again
 	 */
 	public EntityCollisionGeometry addCollisionGeo(float relativeX, float relativeY, CollisionGeometry geo) {
-		EntityCollisionGeometry wrapper;
+		geo.listener.add(this);
 		
+		EntityCollisionGeometry wrapper;
 		collisionGeometries.add(wrapper = new EntityCollisionGeometry(new Vector2(relativeX, relativeY), geo));
 		
 		wrapper.updatePosition(getPositionX(), getPositionY());
-		
 		collisionOwner.addGeometry(geo);
 		
 		return wrapper;

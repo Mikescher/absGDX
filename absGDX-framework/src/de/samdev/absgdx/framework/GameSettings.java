@@ -55,6 +55,8 @@ public class GameSettings {
 	public ColorProperty debugEntitiesBoundingBoxesColor;
 	/** The color of the CollisionGeometries */
 	public ColorProperty debugEntitiesCollisionGeometriesColor;
+	/** Mark Tiles where CollisionGeometries are registered */
+	public BooleanProperty debugCollisionMapMarkers;
 	
 	/**
 	 * Creates a new instance of GameSettings
@@ -88,6 +90,7 @@ public class GameSettings {
 					{
 						debugMapGridLines = new BooleanProperty("debugMapGridLines", true, debugVisualMap);
 						{
+							debugCollisionMapMarkers = new BooleanProperty("debugCollisionMapMarkers", true, debugMapGridLines);
 							debugMapGridLinesColor = new ColorProperty("debugMapGridLinesColor", Color.MAGENTA, debugMapGridLines);
 						}
 					}

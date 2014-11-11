@@ -1,5 +1,7 @@
 package de.samdev.absgdx.framework.entities.colliosiondetection;
 
+import de.samdev.absgdx.framework.entities.Entity;
+
 /**
  * A Collision Geometry in the shape of a circle
  *
@@ -12,10 +14,11 @@ public class CollisionCircle extends CollisionGeometry {
 	/**
 	 * Creates a new CollisionCircle
 	 * 
+	 * @param owner the Entity that owns this geometry
 	 * @param radius the radius of the circle
 	 */
-	public CollisionCircle(float radius) {
-		super();
+	public CollisionCircle(CollisionGeometryOwner owner, float radius) {
+		super(owner);
 		
 		this.radius = radius;
 	}

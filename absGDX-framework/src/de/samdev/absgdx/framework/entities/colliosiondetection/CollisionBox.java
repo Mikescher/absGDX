@@ -1,5 +1,7 @@
 package de.samdev.absgdx.framework.entities.colliosiondetection;
 
+import de.samdev.absgdx.framework.entities.Entity;
+
 /**
  * A collision geometry in the shape of a rectangle
  *
@@ -17,11 +19,12 @@ public class CollisionBox extends CollisionGeometry {
 	/**
 	 * Creates a new CollisionBox 
 	 * 
+	 * @param owner the Entity that owns this geometry
 	 * @param width the box width
 	 * @param height the box height
 	 */
-	public CollisionBox(float width, float height) {
-		super();
+	public CollisionBox(CollisionGeometryOwner owner, float width, float height) {
+		super(owner);
 		
 		this.width = width;
 		this.height = height;
@@ -42,6 +45,15 @@ public class CollisionBox extends CollisionGeometry {
 	public float getX() {
 		return center.x - width/2;
 	}
+	
+	/**
+	 * The TopRight X position
+	 * 
+	 * @return
+	 */
+	public float getRightX() {
+		return center.x + width/2;
+	}
 
 	/**
 	 * The BottomLeft Y Position
@@ -50,5 +62,14 @@ public class CollisionBox extends CollisionGeometry {
 	 */
 	public float getY() {
 		return center.y - height/2;
+	}
+	
+	/**
+	 * The TopRight Y Position
+	 * 
+	 * @return
+	 */
+	public float getTopY() {
+		return center.y + height/2;
 	}
 }

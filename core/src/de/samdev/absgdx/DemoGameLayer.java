@@ -9,6 +9,9 @@ import de.samdev.absgdx.entities.Angel_1;
 import de.samdev.absgdx.entities.Bucket_1;
 import de.samdev.absgdx.entities.Bucket_2;
 import de.samdev.absgdx.entities.Bucket_3;
+import de.samdev.absgdx.entities.Bush_1;
+import de.samdev.absgdx.entities.Bush_2;
+import de.samdev.absgdx.entities.FlowerPot_1;
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.layer.GameLayer;
 import de.samdev.absgdx.framework.map.TileMap;
@@ -78,7 +81,7 @@ public class DemoGameLayer extends GameLayer {
 		
 		if (Gdx.input.isTouched())
 			setBoundedOffset(map_offset.sub(Gdx.input.getDeltaX()  / getTileScale(), -Gdx.input.getDeltaY()  / getTileScale()));
-//		
+		
 //		if (System.currentTimeMillis() - last > 100){
 //			last = System.currentTimeMillis();
 //			addEntity(new FlowerPot_1());

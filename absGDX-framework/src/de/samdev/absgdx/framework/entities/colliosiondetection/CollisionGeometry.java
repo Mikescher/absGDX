@@ -5,8 +5,6 @@ import java.util.List;
 
 import com.badlogic.gdx.math.Vector2;
 
-import de.samdev.absgdx.framework.entities.Entity;
-
 /**
  * A Collision Shape used in the CollisionMap.
  * 

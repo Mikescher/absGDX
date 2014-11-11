@@ -6,12 +6,6 @@ import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.entities.Anchorpoint_1;
 import de.samdev.absgdx.entities.Angel_1;
-import de.samdev.absgdx.entities.Bucket_1;
-import de.samdev.absgdx.entities.Bucket_2;
-import de.samdev.absgdx.entities.Bucket_3;
-import de.samdev.absgdx.entities.Bush_1;
-import de.samdev.absgdx.entities.Bush_2;
-import de.samdev.absgdx.entities.FlowerPot_1;
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.layer.GameLayer;
 import de.samdev.absgdx.framework.map.TileMap;
@@ -21,9 +15,9 @@ import de.samdev.absgdx.framework.util.tiled.TmxMapLoader;
 
 public class DemoGameLayer extends GameLayer {
 
-	private Bucket_1 bucket_1;
-	private Bucket_2 bucket_2;
-	private Bucket_3 bucket_3;
+//	private Bucket_1 bucket_1;
+//	private Bucket_2 bucket_2;
+//	private Bucket_3 bucket_3;
 	
 	public DemoGameLayer(AgdxGame owner) {
 		super(owner, loadMap());

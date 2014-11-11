@@ -1,8 +1,6 @@
 package de.samdev.absgdx.framework.entities.colliosiondetection;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
 
@@ -145,6 +143,12 @@ public class CollisionMap {
 		return success;
 	}
 
+	/**
+	 * Returns the first other geometry found that collides with this one
+	 * 
+	 * @param g the geometry to test
+	 * @return the first colliding geometry or null
+	 */
 	public CollisionGeometry getFirstCollider(CollisionGeometry g) {
 		int rad = (int) Math.ceil(g.getRadius());
 		int px = (int) g.center.x;
@@ -170,6 +174,12 @@ public class CollisionMap {
 		return null;
 	}
 	
+	/**
+	 * Returns all geometries that collide with this one
+	 * 
+	 * @param g the geometry to test
+	 * @return a Set of all colliding geometries
+	 */
 	public Set<CollisionGeometry> getColliders(CollisionGeometry g) {
 		int rad = (int) Math.ceil(g.getRadius());
 		int px = (int) g.center.x;

@@ -1,6 +1,5 @@
 package de.samdev.absgdx.framework.entities.colliosiondetection;
 
-import de.samdev.absgdx.framework.entities.Entity;
 
 /**
  * A collision geometry in the shape of a rectangle
@@ -13,7 +12,7 @@ public class CollisionBox extends CollisionGeometry {
 	/** the height of the circle */
 	public final float height;
 	
-	/** the outer radius of the circle = sqrt(width² + height²)*/
+	/** the outer radius of the circle = sqrt(width*width + height*height)*/
 	public final float outerRadius;
 	
 	/**

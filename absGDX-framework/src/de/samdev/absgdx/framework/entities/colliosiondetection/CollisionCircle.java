@@ -1,6 +1,5 @@
 package de.samdev.absgdx.framework.entities.colliosiondetection;
 
-import de.samdev.absgdx.framework.entities.Entity;
 
 /**
  * A Collision Geometry in the shape of a circle

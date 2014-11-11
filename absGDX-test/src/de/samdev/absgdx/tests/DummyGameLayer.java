@@ -1,5 +1,6 @@
 package de.samdev.absgdx.tests;
 
+import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionMap;
 import de.samdev.absgdx.framework.layer.GameLayer;
 import de.samdev.absgdx.framework.map.TileMap;
 
@@ -18,4 +19,7 @@ public class DummyGameLayer extends GameLayer {
 		// NOP
 	}
 
+	public CollisionMap collisionMap() {
+		return collisionMap;
+	}
 }

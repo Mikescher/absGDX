@@ -77,7 +77,7 @@ public class CollisionMap {
 	}
 
 	private boolean removeGeometry(CollisionGeometry g, float px, float py) {
-		int rad = (int) Math.floor(g.getRadius());
+		int rad = (int) Math.ceil(g.getRadius());
 		int centerX = (int) px;
 		int centerY = (int) py;
 		

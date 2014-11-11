@@ -4,7 +4,10 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import com.badlogic.gdx.graphics.Color;
+
 import de.samdev.absgdx.framework.util.dependentProperties.BooleanProperty;
+import de.samdev.absgdx.framework.util.dependentProperties.ColorProperty;
 import de.samdev.absgdx.framework.util.dependentProperties.ConstantBooleanProperty;
 import de.samdev.absgdx.framework.util.dependentProperties.FloatProperty;
 import de.samdev.absgdx.framework.util.dependentProperties.IntegerProperty;
@@ -235,5 +238,55 @@ public class DependentPropertyTest extends BaseUnitTest {
 		assertEquals(false, new ConstantBooleanProperty("x", false, null).get());
 		assertEquals(false, new ConstantBooleanProperty("x", false, null).getBooleanValue());
 		assertEquals(false, new ConstantBooleanProperty("x", false, null).isActive());
+    }
+    
+    @Test
+    public void testColorProperty() {
+    	ColorProperty p1 = new ColorProperty("a", Color.BLACK, null);
+		String s1;
+		
+		p1.set(Color.RED);
+		p1.deserialize(p1.serialize());
+		assertEquals(Color.RED, p1.get());
+		
+		p1.set(new Color(0.6f, 0.7f, 0.8f, 0.9f));
+		p1.deserialize(p1.serialize());
+		assertEquals(0.6, p1.get().r, 1/255f);
+		assertEquals(0.7, p1.get().g, 1/255f);
+		assertEquals(0.8, p1.get().b, 1/255f);
+		assertEquals(0.9, p1.get().a, 1/255f);
+		
+		p1.set(null);
+		p1.deserialize(p1.serialize());
+		assertEquals(null, p1.get());
+		
+		p1.set(Color.NAVY);
+		p1.deserialize(p1.serialize());
+		assertEquals(Color.NAVY, p1.get());
+		
+		p1.set(Color.GRAY);
+		s1 = p1.serialize();
+		p1.set(null);
+		p1.deserialize(s1);
+		assertEquals(Color.GRAY, p1.get());
+		
+		p1.set(null);
+		s1 = p1.serialize();
+		p1.set(Color.WHITE);
+		p1.deserialize(s1);
+		assertEquals(null, p1.get());
+		
+		assertEquals(Color.WHITE,    new ColorProperty("x", Color.WHITE, null).get());
+		assertEquals(true,  new ColorProperty("x", Color.WHITE, null).getBooleanValue());
+		assertEquals(true,  new ColorProperty("x", Color.WHITE, null).isActive());
+		
+		
+		assertEquals(null,  new ColorProperty("x", null, null).get());
+		assertEquals(false, new ColorProperty("x", null, null).getBooleanValue());
+		assertEquals(false, new ColorProperty("x", null, null).isActive());
+		
+		assertEquals(Color.BLACK,   new ColorProperty("x", Color.BLACK, null).get());
+		assertEquals(true,  new ColorProperty("x", Color.BLACK, null).getBooleanValue());
+		assertEquals(true,  new ColorProperty("x", Color.BLACK, null).isActive());
     }
 }

@@ -41,4 +41,14 @@ public class DummyEntity extends Entity {
 	public void onPassiveCollide(CollisionGeometryOwner activeCollider, CollisionGeometry myGeo, CollisionGeometry otherGeo) {
 		// NOP
 	}
+
+	@Override
+	public void onActiveMovementCollide(CollisionGeometryOwner passiveCollider, CollisionGeometry myGeo, CollisionGeometry otherGeo) {
+		// NOP
+	}
+
+	@Override
+	public void onPassiveMovementCollide(CollisionGeometryOwner activeCollider, CollisionGeometry myGeo, CollisionGeometry otherGeo) {
+		// NOP
+	}
 }

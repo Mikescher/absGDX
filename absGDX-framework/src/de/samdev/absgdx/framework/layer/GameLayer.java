@@ -20,6 +20,7 @@ import de.samdev.absgdx.framework.map.TileMap;
 import de.samdev.absgdx.framework.map.mapscaleresolver.AbstractMapScaleResolver;
 import de.samdev.absgdx.framework.map.mapscaleresolver.ShowCompleteMapScaleResolver;
 import de.samdev.absgdx.framework.math.SortedLinkedEntityList;
+import de.samdev.absgdx.framework.util.ShapeRendererUtil;
 
 /**
  * Game layer represents a level or the whole game.
@@ -66,6 +67,14 @@ public abstract class GameLayer extends AgdxLayer {
 		sbatch.getTransformMatrix().scale(tilesize, tilesize, 1);
 		sbatch.getTransformMatrix().translate(-map_offset.x, -map_offset.y, 0);
 		
+		//#####################################################################
+		
+		renderMap(sbatch, srenderer, visible);
+		
+		renderEntities(sbatch, srenderer);
+	}
+
+	private void renderMap(SpriteBatch sbatch, ShapeRenderer srenderer, Rectangle visible) {
 		sbatch.disableBlending();
 		sbatch.begin();
 		for (int y = (int) visible.y; y < Math.min(map.height, (int)(visible.y + visible.height + 1)); y++) {
@@ -78,6 +87,29 @@ public abstract class GameLayer extends AgdxLayer {
 		}
 		sbatch.end();
 		
+		if (owner.settings.debugVisualMap.isActive()) {
+			renderMap_debug(srenderer, visible);
+		}
+	}
+
+	private void renderEntities(SpriteBatch sbatch, ShapeRenderer srenderer) {
+		sbatch.enableBlending();
+		sbatch.begin();
+		for( Iterator<Entity> it = entities.descendingIterator(); it.hasNext();) { // Iterate reverse (so z order is correct)
+		    Entity entity = it.next();
+		    //TODO only draw visible entities
+//			if (visible.contains(entity.getBoundings())) {
+				sbatch.draw(entity.getTexture(), entity.getPositionX(), entity.getPositionY(), entity.getWidth(), entity.getHeight());
+//			}
+		}
+		sbatch.end();
+		
+		if (owner.settings.debugVisualEntities.isActive()) {
+			renderEntities_debug(srenderer);
+		}
+	}
+
+	private void renderMap_debug(ShapeRenderer srenderer, Rectangle visible) {
 		if (owner.settings.debugMapGridLines.isActive()) {
 			srenderer.begin(ShapeType.Line);
 			srenderer.setColor(owner.settings.debugMapGridLinesColor.get());
@@ -106,46 +138,47 @@ public abstract class GameLayer extends AgdxLayer {
 			}
 			srenderer.end();
 		}
+	}
+
+	private void renderEntities_debug(ShapeRenderer srenderer) {
+		srenderer.setAutoShapeType(true);
+		srenderer.begin(ShapeType.Line);
 		
-		sbatch.enableBlending();
-		sbatch.begin();
-		for( Iterator<Entity> it = entities.descendingIterator(); it.hasNext();) { // Iterate reverse (so z order is correct)
+		for( Iterator<Entity> it = entities.descendingIterator(); it.hasNext();) {
 		    Entity entity = it.next();
-		    //TODO only draw visible entities
-//			if (visible.contains(entity.getBoundings())) {
-				sbatch.draw(entity.getTexture(), entity.getPositionX(), entity.getPositionY(), entity.getWidth(), entity.getHeight());
-//			}
-		}
-		sbatch.end();
-		
-		if (owner.settings.debugVisualEntities.isActive()) { //TODO add vector arrows ??
-			srenderer.begin(ShapeType.Line);
-			
-			for( Iterator<Entity> it = entities.descendingIterator(); it.hasNext();) {
-			    Entity entity = it.next();
-			    
-			    if (owner.settings.debugEntitiesBoundingBoxes.isActive()) {
-					srenderer.setColor(owner.settings.debugEntitiesBoundingBoxesColor.get());
-			    	srenderer.rect(entity.getPositionX(), entity.getPositionY(), entity.getWidth(), entity.getHeight());			    	
-			    }
-			    
-			    if (owner.settings.debugEntitiesCollisionGeometries.isActive()) {
-			    	for( Iterator<CollisionGeometry> itc = entity.listCollisionGeometries(); itc.hasNext();) {
-			    		CollisionGeometry collGeo = itc.next();
+		    
+		    if (owner.settings.debugEntitiesBoundingBoxes.isActive()) {
+				srenderer.setColor(owner.settings.debugEntitiesBoundingBoxesColor.get());
+		    	srenderer.rect(entity.getPositionX(), entity.getPositionY(), entity.getWidth(), entity.getHeight());			    	
+		    }
+		    
+		    if (owner.settings.debugEntitiesCollisionGeometries.isActive()) {
+		    	for( Iterator<CollisionGeometry> itc = entity.listCollisionGeometries(); itc.hasNext();) {
+		    		CollisionGeometry collGeo = itc.next();
 
-						srenderer.setColor(owner.settings.debugEntitiesCollisionGeometriesColor.get());
-						if (collGeo instanceof CollisionCircle) {
-							srenderer.circle(collGeo.getCenterX(), collGeo.getCenterY(), collGeo.getRadius(), 16);
-						} else if (collGeo instanceof CollisionBox) {
-							CollisionBox collBox = (CollisionBox) collGeo;
-							srenderer.rect(collBox.getX(), collBox.getY(), collBox.width, collBox.height);
-						}
-			    	}
-			    }
-			}
-
-			srenderer.end();
+					srenderer.setColor(owner.settings.debugEntitiesCollisionGeometriesColor.get());
+					if (collGeo instanceof CollisionCircle) {
+						srenderer.circle(collGeo.getCenterX(), collGeo.getCenterY(), collGeo.getRadius(), 16);
+					} else if (collGeo instanceof CollisionBox) {
+						CollisionBox collBox = (CollisionBox) collGeo;
+						srenderer.rect(collBox.getX(), collBox.getY(), collBox.width, collBox.height);
+					}
+		    	}
+		    }
+		    
+		    if (owner.settings.debugEntitiesPhysicVectors.isActive()) {
+		    	float cx = entity.getCenterX();
+		    	float cy = entity.getCenterY();
+		    	
+		    	srenderer.setColor(owner.settings.debugEntitiesPhysicSpeedVectorColor.get());
+		    	ShapeRendererUtil.arrowLine(srenderer, cx, cy, cx + entity.speed.x * 200, cy + entity.speed.y * 200, 0.3f);
+		    	
+		    	srenderer.setColor(owner.settings.debugEntitiesPhysicAccelerationVectorColor.get());
+		    	ShapeRendererUtil.arrowLine(srenderer, cx, cy, cx + entity.acceleration.x * 400*400, cy + entity.acceleration.y * 400*400, 0.3f);
+		    }
 		}
+
+		srenderer.end();
 	}
 
 	@Override

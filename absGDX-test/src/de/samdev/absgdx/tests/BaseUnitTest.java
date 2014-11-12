@@ -67,4 +67,6 @@ public abstract class BaseUnitTest {
 		}
 		return content.toString();
 	}
+	
+	//TODO UnitTests for: expMapScale
 }

@@ -32,6 +32,15 @@ public class CollisionMap {
 	
 	private int geometryCount = 0;
 	
+	/**
+	 * Creates a new CollisionMap with an scale of 1 (expScale = 0)
+	 * 
+	 * @param mapwidth the grid width
+	 * @param mapheight the grid height
+	 */
+	public CollisionMap(int mapwidth, int mapheight) {
+		this(mapwidth, mapheight, 0);
+	}
 	
 	/**
 	 * Creates a new CollisionMap

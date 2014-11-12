@@ -174,6 +174,25 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	public float getPositionY() {
 		return y;
 	}
+
+	/**
+	 * Get the center X position
+	 * 
+	 * @return
+	 */
+	public float getCenterX() {
+		return x + width/2;
+	}
+
+
+	/**
+	 * Get the center Y position
+	 * 
+	 * @return
+	 */
+	public float getCenterY() {
+		return y + height/2;
+	}
 	
 	/**
 	 * Get the position as an Vector (must create a new Vector instance)

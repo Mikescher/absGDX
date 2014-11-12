@@ -59,6 +59,12 @@ public class GameSettings {
 	public BooleanProperty debugCollisionMapMarkers;
 	/** Show informations about the collisionGeometries and the collisionMap  */
 	public BooleanProperty debugTextCollisionGeometries;
+	/** Show they physical vectors of Entities (speed / acceleration)  */
+	public BooleanProperty debugEntitiesPhysicVectors;
+	/** The color of the speed vector of an entity  */
+	public ColorProperty debugEntitiesPhysicSpeedVectorColor;
+	/** The color of the acceleration vector of an entity  */
+	public ColorProperty debugEntitiesPhysicAccelerationVectorColor;
 	
 	/**
 	 * Creates a new instance of GameSettings
@@ -109,6 +115,12 @@ public class GameSettings {
 						{
 							debugEntitiesCollisionGeometriesColor = new ColorProperty("debugEntitiesCollisionGeometriesColor", Color.BLUE, debugEntitiesCollisionGeometries);
 						}
+						
+						debugEntitiesPhysicVectors = new BooleanProperty("debugEntitiesPhysicVectors", true, debugVisualEntities);
+						{
+							debugEntitiesPhysicSpeedVectorColor = new ColorProperty("debugEntitiesPhysicSpeedVectorColor", Color.RED, debugEntitiesPhysicVectors);
+							debugEntitiesPhysicAccelerationVectorColor = new ColorProperty("debugEntitiesPhysicAccelerationVectorColor", Color.BLUE, debugEntitiesPhysicVectors);
+						}
 					}
 				}
 
@@ -116,7 +128,7 @@ public class GameSettings {
 		}
 		// ###########################
 
-		// System.out.println(root.getTreeDebugString());
+//		System.out.println(root.getTreeDebugString());
 	}
 
 }

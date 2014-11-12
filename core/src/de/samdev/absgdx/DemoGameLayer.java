@@ -69,6 +69,7 @@ public class DemoGameLayer extends GameLayer {
 		if (Gdx.input.isKeyJustPressed(Keys.F2)) owner.settings.debugVisualEntities.doSwitch();
 		if (Gdx.input.isKeyJustPressed(Keys.F3)) owner.settings.debugVisualMap.doSwitch();
 		if (Gdx.input.isKeyJustPressed(Keys.F4)) owner.settings.debugTextInfos.doSwitch();
+		if (Gdx.input.isKeyJustPressed(Keys.F5)) owner.settings.debugEntitiesPhysicVectors.doSwitch();
 
 		final float speed = 0.025f * delta;
 

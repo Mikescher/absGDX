@@ -3,8 +3,8 @@ package de.samdev.absgdx.tests.dummy;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import de.samdev.absgdx.framework.entities.Entity;
-import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometry;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
 import de.samdev.absgdx.framework.layer.GameLayer;
 
 public class DummyEntity extends Entity {

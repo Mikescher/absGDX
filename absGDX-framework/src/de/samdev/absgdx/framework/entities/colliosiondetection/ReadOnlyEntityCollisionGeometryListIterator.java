@@ -3,6 +3,9 @@ package de.samdev.absgdx.framework.entities.colliosiondetection;
 import java.util.List;
 import java.util.ListIterator;
 
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.EntityCollisionGeometry;
+
 /**
  * This is an CollisionGeometry ListIterator
  * 
@@ -21,6 +24,17 @@ public class ReadOnlyEntityCollisionGeometryListIterator implements ListIterator
 		super();
 		
 		iterator = g.listIterator();
+	}
+	
+	/**
+	 * Creates a new ReadOnlyEntityCollisionGeometryListIterator based on a EntityCollisionGeometry-ListIterator
+	 * 
+	 * @param it the List iterator this wraps around
+	 */
+	public ReadOnlyEntityCollisionGeometryListIterator(ListIterator<EntityCollisionGeometry> it) {
+		super();
+		
+		iterator = it;
 	}
 
 	@Override

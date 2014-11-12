@@ -1,8 +1,8 @@
 package de.samdev.absgdx.framework.math;
 
-import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionBox;
-import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionCircle;
-import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometry;
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionBox;
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionCircle;
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
 
 /**
  * This class contains mathematical methods for 2D Geometry

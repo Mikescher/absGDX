@@ -1,6 +1,6 @@
 package de.samdev.absgdx.tests.dummy;
 
-import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionCircle;
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionCircle;
 
 public class DummyCollisionCircle extends CollisionCircle {
 

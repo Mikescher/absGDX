@@ -7,8 +7,8 @@ import org.junit.Test;
 
 import com.badlogic.gdx.math.Vector2;
 
-import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionBox;
-import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionCircle;
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionBox;
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionCircle;
 import de.samdev.absgdx.framework.map.TileMap;
 import de.samdev.absgdx.tests.BaseUnitTest;
 import de.samdev.absgdx.tests.dummy.DummyCollisionCircle;

@@ -3,8 +3,8 @@ package de.samdev.absgdx.entities;
 import de.samdev.absgdx.DemoGameLayer;
 import de.samdev.absgdx.Textures;
 import de.samdev.absgdx.framework.entities.Entity;
-import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometry;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
 import de.samdev.absgdx.framework.layer.GameLayer;
 
 public class Bush_1 extends Entity {

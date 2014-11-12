@@ -12,10 +12,10 @@ import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.entities.Entity;
-import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionBox;
-import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionCircle;
-import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometry;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionMap;
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionBox;
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionCircle;
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
 import de.samdev.absgdx.framework.map.TileMap;
 import de.samdev.absgdx.framework.map.mapscaleresolver.AbstractMapScaleResolver;
 import de.samdev.absgdx.framework.map.mapscaleresolver.ShowCompleteMapScaleResolver;
@@ -283,5 +283,14 @@ public abstract class GameLayer extends AgdxLayer {
 	 */
 	public int getEntityCount() {
 		return entities.size();
+	}
+	
+	/**
+	 * Get the collisionMap
+	 * 
+	 * @return
+	 */
+	public CollisionMap getCollisionMap() {
+		return collisionMap;
 	}
 }

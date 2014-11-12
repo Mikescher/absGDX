@@ -5,9 +5,9 @@ import com.badlogic.gdx.math.Vector2;
 import de.samdev.absgdx.DemoGameLayer;
 import de.samdev.absgdx.Textures;
 import de.samdev.absgdx.framework.entities.Entity;
-import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionCircle;
-import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometry;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionCircle;
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
 import de.samdev.absgdx.framework.layer.GameLayer;
 
 public class Bucket_2 extends Entity {

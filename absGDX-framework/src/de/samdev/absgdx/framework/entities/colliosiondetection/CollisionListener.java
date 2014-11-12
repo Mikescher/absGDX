@@ -1,5 +1,7 @@
 package de.samdev.absgdx.framework.entities.colliosiondetection;
 
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
+
 
 /**
  * Listens to CollisionEvents in for specific CollisionGeometries

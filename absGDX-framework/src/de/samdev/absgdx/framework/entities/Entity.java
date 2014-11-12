@@ -10,12 +10,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometry;
+import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryListWrapper;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionListener;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionMap;
-import de.samdev.absgdx.framework.entities.colliosiondetection.EntityCollisionGeometry;
 import de.samdev.absgdx.framework.entities.colliosiondetection.ReadOnlyEntityCollisionGeometryListIterator;
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.EntityCollisionGeometry;
 import de.samdev.absgdx.framework.layer.GameLayer;
 import de.samdev.absgdx.framework.math.ShapeMath;
 
@@ -54,6 +55,9 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	 */
 	public final List<EntityCollisionGeometry> collisionGeometries = new ArrayList<EntityCollisionGeometry>();
 	
+	/** This is not an "real" list - its only a convenient wrapper around collisionGeometries. (do NOT try to alter this list)*/
+	public final CollisionGeometryListWrapper collisionGeometriesWrapper;
+	
 	/** 
 	 *  The Z position of this entity.
 	 *  Greater z indices are on top of lower indices
@@ -62,7 +66,7 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	 */
 	public int zlayer = 0;
 	
-	/** The collision map - is set by the GameLayer when this Entity is added to it*/
+	/** The collision map - is set by the GameLayer when this Entity is added to it */
 	public CollisionMap collisionOwner = null;
 	
 	/**
@@ -81,6 +85,8 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 		this.animation = new TextureRegion[]{new TextureRegion(texture)};
 		this.animationLength = 1;
 		this.frameDuration = 0;
+		
+		this.collisionGeometriesWrapper = new CollisionGeometryListWrapper(collisionGeometries);
 	}
 	
 	/**
@@ -99,6 +105,8 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 		this.animation = new TextureRegion[]{textures};
 		this.animationLength = 1;
 		this.frameDuration = 0;
+		
+		this.collisionGeometriesWrapper = new CollisionGeometryListWrapper(collisionGeometries);
 	}
 
 	/**
@@ -118,6 +126,8 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 		this.animation = textures;
 		this.animationLength = textures.length;
 		this.frameDuration = animationDuration / animationLength;
+		
+		this.collisionGeometriesWrapper = new CollisionGeometryListWrapper(collisionGeometries);
 	}
 	
 	/**
@@ -412,8 +422,13 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 		speed.x += acceleration.x * delta;
 		speed.y += acceleration.y * delta;
 		
-		movePosition(this.speed.x * delta, this.speed.y * delta);
-		checkCollisions(); //TODO REM ME 4 REAL
+		if (movePosition(this.speed.x * delta, this.speed.y * delta)) {
+			// Collision appeared
+			
+			speed.setZero();
+			acceleration.setZero();
+		}
+		
 	}
 	
 	/**
@@ -496,5 +511,32 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 		} else {
 			return false;
 		}
+	}
+	
+	/**
+	 * Returns if the entity is colliding with any other
+	 * 
+	 * @return true if there is an collision
+	 */
+	public boolean isColliding() {
+		return collisionOwner.isColliding(collisionGeometriesWrapper);
+	}
+	
+	/**
+	 * Returns all geometries that collide with this one
+	 * 
+	 * @return a Set of all colliding geometries
+	 */
+	public Set<CollisionGeometry> getColliders() {
+		return collisionOwner.getColliders(collisionGeometriesWrapper);
+	}
+	
+	/**
+	 * Returns the first other geometry found that collides with this one
+	 * 
+	 * @return the first colliding geometry or null
+	 */
+	public CollisionGeometry getFirstCollider() {
+		return collisionOwner.getFirstCollider(collisionGeometriesWrapper);
 	}
 }

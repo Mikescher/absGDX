@@ -5,9 +5,9 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionBox;
-import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionCircle;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionMap;
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionBox;
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionCircle;
 import de.samdev.absgdx.tests.BaseUnitTest;
 import de.samdev.absgdx.tests.dummy.DummyCollisionBox;
 import de.samdev.absgdx.tests.dummy.DummyCollisionCircle;

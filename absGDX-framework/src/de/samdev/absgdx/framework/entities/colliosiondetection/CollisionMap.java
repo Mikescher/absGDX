@@ -1,9 +1,11 @@
 package de.samdev.absgdx.framework.entities.colliosiondetection;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
 
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
 import de.samdev.absgdx.framework.math.ShapeMath;
 
 
@@ -23,6 +25,8 @@ public class CollisionMap {
 
 	/** if an geometry doesn't fit in the grid it is stored here*/
 	public final CollisionMapTile[][] outerBorder = new CollisionMapTile[3][3];
+	
+	private int geometryCount = 0;
 	
 	/**
 	 * Creates a new CollisionMap
@@ -77,7 +81,7 @@ public class CollisionMap {
 	 * @return true of successful
 	 */
 	public boolean removeGeometry(CollisionGeometry g) {
-		return removeGeometry(g, g.center.x, g.center.y);
+		return removeGeometry(g, g.getCenterX(), g.getCenterY());
 	}
 
 	private boolean removeGeometry(CollisionGeometry g, float px, float py) {
@@ -94,6 +98,9 @@ public class CollisionMap {
 				success &= singlesuccess;
 			}
 		}
+		
+		if (success) geometryCount--;
+		
 		return success;
 	}
 	
@@ -115,14 +122,16 @@ public class CollisionMap {
 	 */
 	public void addGeometry(CollisionGeometry g) {
 		int rad = (int) Math.ceil(g.getRadius());
-		int px = (int) g.center.x;
-		int py = (int) g.center.y;
+		int px = (int) g.getCenterX();
+		int py = (int) g.getCenterY();
 		
 		for (int x = -rad; x <= rad; x++) {
 			for (int y = -rad; y <= rad; y++) {
 				getCollisionTile(px+x, py+y).geometries.add(g);
 			}
 		}
+		
+		geometryCount++;
 	}
 	
 	/**
@@ -144,6 +153,41 @@ public class CollisionMap {
 	}
 
 	/**
+	 * Returns if any geometry in the list is colliding with an other geometry
+	 * 
+	 * @param g the geometry-list to test
+	 * @return true if there is an collision
+	 */
+	public boolean isColliding(List<CollisionGeometry> g) {
+		return getFirstCollider(g) != null;
+	}
+
+	/**
+	 * Returns if the geometry is colliding with an other geometry
+	 * 
+	 * @param g the geometry-list to test
+	 * @return true if there is an collision
+	 */
+	public boolean isColliding(CollisionGeometry g) {
+		return getFirstCollider(g) != null;
+	}
+	
+	/**
+	 * Returns the first other geometry found that collides with one of the list
+	 * 
+	 * @param g the geometry-list to test
+	 * @return the first colliding geometry or null
+	 */
+	public CollisionGeometry getFirstCollider(List<CollisionGeometry> g) {
+		for (CollisionGeometry geo : g) {
+			CollisionGeometry result = getFirstCollider(geo);
+			if (result != null)
+				return result;
+		}
+		return null;
+	}
+	
+	/**
 	 * Returns the first other geometry found that collides with this one
 	 * 
 	 * @param g the geometry to test
@@ -151,8 +195,8 @@ public class CollisionMap {
 	 */
 	public CollisionGeometry getFirstCollider(CollisionGeometry g) {
 		int rad = (int) Math.ceil(g.getRadius());
-		int px = (int) g.center.x;
-		int py = (int) g.center.y;
+		int px = (int) g.getCenterX();
+		int py = (int) g.getCenterY();
 		
 		for (int x = -rad; x <= rad; x++) {
 			for (int y = -rad; y <= rad; y++) {
@@ -175,6 +219,22 @@ public class CollisionMap {
 	}
 	
 	/**
+	 * Returns all geometries that collide with the ones in the list
+	 * 
+	 * @param g the geometry-list to test
+	 * @return a Set of all colliding geometries
+	 */
+	public Set<CollisionGeometry> getColliders(List<CollisionGeometry> g) {
+		Set<CollisionGeometry> result = new HashSet<CollisionGeometry>();
+		
+		for (CollisionGeometry geo : result) {
+			result.addAll(getColliders(geo));
+		}
+		
+		return result;
+	}
+	
+	/**
 	 * Returns all geometries that collide with this one
 	 * 
 	 * @param g the geometry to test
@@ -182,10 +242,10 @@ public class CollisionMap {
 	 */
 	public Set<CollisionGeometry> getColliders(CollisionGeometry g) {
 		int rad = (int) Math.ceil(g.getRadius());
-		int px = (int) g.center.x;
-		int py = (int) g.center.y;
+		int px = (int) g.getCenterX();
+		int py = (int) g.getCenterY();
 		
-		Set<CollisionGeometry> result = new HashSet<CollisionGeometry>(); //TODO How does this performance wise ?
+		Set<CollisionGeometry> result = new HashSet<CollisionGeometry>();
 		
 		for (int x = -rad; x <= rad; x++) {
 			for (int y = -rad; y <= rad; y++) {
@@ -243,5 +303,14 @@ public class CollisionMap {
 		} else {
 			return map[x][y];					
 		}
+	}
+	
+	/**
+	 * Get the amount of registered CollisionGeometries
+	 * 
+	 * @return
+	 */
+	public int getGeometryCount() {
+		return geometryCount;
 	}
 }

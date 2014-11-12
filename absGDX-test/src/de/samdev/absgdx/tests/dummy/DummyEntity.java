@@ -76,4 +76,9 @@ public class DummyEntity extends Entity {
 				(int)Math.signum(dummy_ctr_onActiveMovementCollide) + "-" + 
 				(int)Math.signum(dummy_ctr_onPassiveMovementCollide);
 	}
+
+	@Override
+	public boolean canCollideWith(CollisionGeometryOwner other) {
+		return true;
+	}
 }

@@ -65,8 +65,10 @@ public class DemoGameLayer extends GameLayer {
 	
 	@Override
 	public void onUpdate(float delta) {
-		if (Gdx.input.isKeyJustPressed(Keys.F1))
-			owner.settings.debugEnabled.doSwitch();
+		if (Gdx.input.isKeyJustPressed(Keys.F1)) owner.settings.debugEnabled.doSwitch();
+		if (Gdx.input.isKeyJustPressed(Keys.F2)) owner.settings.debugVisualEntities.doSwitch();
+		if (Gdx.input.isKeyJustPressed(Keys.F3)) owner.settings.debugVisualMap.doSwitch();
+		if (Gdx.input.isKeyJustPressed(Keys.F4)) owner.settings.debugTextInfos.doSwitch();
 
 		final float speed = 0.025f * delta;
 
@@ -82,7 +84,7 @@ public class DemoGameLayer extends GameLayer {
 		if (Gdx.input.isTouched())
 			setBoundedOffset(map_offset.sub(Gdx.input.getDeltaX()  / getTileScale(), -Gdx.input.getDeltaY()  / getTileScale()));
 		
-		if (System.currentTimeMillis() - last > 100){
+		if (System.currentTimeMillis() - last > 33){
 			last = System.currentTimeMillis();
 			addEntity(new FlowerPot_1());
 		}

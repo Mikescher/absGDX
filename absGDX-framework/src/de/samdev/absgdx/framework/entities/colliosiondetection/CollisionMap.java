@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
 
+import com.badlogic.gdx.math.Vector2;
+
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
 import de.samdev.absgdx.framework.math.ShapeMath;
 
@@ -19,26 +21,46 @@ public class CollisionMap {
 	public final int width;
 	/** the grid height */
 	public final int height;
+	/** the scaling mapTiles -> collisionTiles. This value is exponential (2^n)*/
+	public final int expTileScale;
 	
 	/** the grid where the geometries are stored*/
-	public final CollisionMapTile[][] map;
+	public final CollisionMapTile[][] map; //TODO What about different tile sizes ?
 
 	/** if an geometry doesn't fit in the grid it is stored here*/
 	public final CollisionMapTile[][] outerBorder = new CollisionMapTile[3][3];
 	
 	private int geometryCount = 0;
 	
+	
 	/**
 	 * Creates a new CollisionMap
 	 * 
-	 * @param width the grid width
-	 * @param height the grid height
+	 * The expScale is exponential. This means:
+	 * 0 : MapTiles == CollisionTiles
+	 * 1 : CollisionTiles are 2 times bigger
+	 * 2 : CollisionTiles are 4 times bigger
+	 * -1: CollisionTiles are 2 times smaller
+	 * etc
+	 * 
+	 * @param mapwidth the grid width
+	 * @param mapheight the grid height
+	 * @param expScale the ratio collisionMapTileSize / mapTileSize in the form [2^n]
 	 */
-	public CollisionMap(int width, int height) {
+	public CollisionMap(int mapwidth, int mapheight, int expScale) {
 		super();
 		
-		this.width = width;
-		this.height = height;
+		this.expTileScale = expScale;
+		if (expScale < 0) {
+			this.width =  (int) Math.ceil(mapwidth  * 1d * (2 << -(expScale + 1)));
+			this.height = (int) Math.ceil(mapheight * 1d * (2 << -(expScale + 1)));			
+		} else if (expScale == 0) {
+			this.width = mapwidth;
+			this.height = mapheight;			
+		} else {
+			this.width =  (int) Math.ceil(mapwidth  * 1d  / (2 << (expScale - 1)));
+			this.height = (int) Math.ceil(mapheight * 1d  / (2 << (expScale - 1)));
+		}
 		
 		this.map = new CollisionMapTile[width][height];
 		
@@ -85,9 +107,9 @@ public class CollisionMap {
 	}
 
 	private boolean removeGeometry(CollisionGeometry g, float px, float py) {
-		int rad = (int) Math.ceil(g.getRadius());
-		int centerX = (int) px;
-		int centerY = (int) py;
+		int rad = getTileRadius(g.getRadius());
+		int centerX = getTileX(px);
+		int centerY = getTileY(py);
 		
 		boolean success = true;
 		
@@ -121,9 +143,9 @@ public class CollisionMap {
 	 * @param g the geometry
 	 */
 	public void addGeometry(CollisionGeometry g) {
-		int rad = (int) Math.ceil(g.getRadius());
-		int px = (int) g.getCenterX();
-		int py = (int) g.getCenterY();
+		int rad = getTileRadius(g.getRadius());
+		int px = getTileX(g.getCenterX());
+		int py = getTileY(g.getCenterY());
 		
 		for (int x = -rad; x <= rad; x++) {
 			for (int y = -rad; y <= rad; y++) {
@@ -143,7 +165,7 @@ public class CollisionMap {
 	 * @return true if successful
 	 */
 	public boolean moveGeometry(float prevCenterX, float prevCenterY, CollisionGeometry geo) {
-		if ((int)prevCenterX == (int)geo.getCenterX() && (int)prevCenterY == (int)geo.getCenterY())
+		if (getTileX(prevCenterX) == getTileX(geo.getCenterX()) && getTileY(prevCenterY) == getTileY(geo.getCenterY()))
 			return true; // everything is ok
 		
 		boolean success = removeGeometry(geo, prevCenterX, prevCenterY);
@@ -194,21 +216,22 @@ public class CollisionMap {
 	 * @return the first colliding geometry or null
 	 */
 	public CollisionGeometry getFirstCollider(CollisionGeometry g) {
-		int rad = (int) Math.ceil(g.getRadius());
-		int px = (int) g.getCenterX();
-		int py = (int) g.getCenterY();
+		int rad = getTileRadius(g.getRadius());
+		int px = getTileX(g.getCenterX());
+		int py = getTileY(g.getCenterY());
 		
 		for (int x = -rad; x <= rad; x++) {
 			for (int y = -rad; y <= rad; y++) {
 				for (CollisionGeometry other : getCollisionTile(px+x, py+y).geometries) {
 					if (other == g) continue;
+					if (other.owner == g.owner) continue;
 					
 					float dx = g.getCenterX() - other.getCenterX();
 					float dy = g.getCenterY() - other.getCenterY();
 					
 					float dr = g.getRadius() + other.getRadius();
 					
-					if (dx*dx + dy*dy < dr*dr && ShapeMath.doGeometriesIntersect(g, other)) { // Shortcut Evaluation - yay
+					if (dx*dx + dy*dy < dr*dr && canCollide(g, other) && ShapeMath.doGeometriesIntersect(g, other)) { // Shortcut Evaluation - yay
 						return other;
 					}
 				}
@@ -241,9 +264,9 @@ public class CollisionMap {
 	 * @return a Set of all colliding geometries
 	 */
 	public Set<CollisionGeometry> getColliders(CollisionGeometry g) {
-		int rad = (int) Math.ceil(g.getRadius());
-		int px = (int) g.getCenterX();
-		int py = (int) g.getCenterY();
+		int rad = getTileRadius(g.getRadius());
+		int px = getTileX(g.getCenterX());
+		int py = getTileY(g.getCenterY());
 		
 		Set<CollisionGeometry> result = new HashSet<CollisionGeometry>();
 		
@@ -251,13 +274,14 @@ public class CollisionMap {
 			for (int y = -rad; y <= rad; y++) {
 				for (CollisionGeometry other : getCollisionTile(px+x, py+y).geometries) {
 					if (other == g) continue;
+					if (other.owner == g.owner) continue;
 					
 					float dx = g.getCenterX() - other.getCenterX();
 					float dy = g.getCenterY() - other.getCenterY();
 					
 					float dr = g.getRadius() + other.getRadius();
 					
-					if (dx*dx + dy*dy < dr*dr && ShapeMath.doGeometriesIntersect(g, other)) { // Shortcut Evaluation - yay
+					if (dx*dx + dy*dy < dr*dr && canCollide(g, other) && ShapeMath.doGeometriesIntersect(g, other)) { // Shortcut Evaluation - yay
 						result.add(other);
 					}
 				}
@@ -265,6 +289,36 @@ public class CollisionMap {
 		}
 		
 		return result;
+	}
+	
+	private int getTileRadius(float radius) {
+		if (expTileScale < 0) {
+			return (int) Math.ceil(radius * 1d * (2 << -(expTileScale + 1)));	
+		} else if (expTileScale == 0) {
+			return (int) Math.ceil(radius);
+		} else {
+			return (int) Math.ceil(radius * 1d  / (2 << (expTileScale - 1)));
+		}
+	}
+	
+	private int getTileX(float x) {
+		if (expTileScale < 0) {
+			return (int) (x * 1d * (2 << -(expTileScale + 1)));		
+		} else if (expTileScale == 0) {
+			return (int) x;
+		} else {
+			return (int) (x * 1d  / (2 << (expTileScale - 1)));
+		}
+	}
+	
+	private int getTileY(float y) {
+		if (expTileScale < 0) {
+			return (int) (y * 1d * (2 << -(expTileScale + 1)));		
+		} else if (expTileScale == 0) {
+			return (int) y;
+		} else {
+			return (int) (y * 1d  / (2 << (expTileScale - 1)));
+		}
 	}
 	
 	private CollisionMapTile getCollisionTile(int x, int y) {
@@ -312,5 +366,29 @@ public class CollisionMap {
 	 */
 	public int getGeometryCount() {
 		return geometryCount;
+	}
+	
+	private boolean canCollide(CollisionGeometry a, CollisionGeometry b) {
+		if (a.owner == null || b.owner == null) return true;
+		
+		return a.owner.canCollideWith(b.owner) || b.owner.canCollideWith(a.owner);
+	}
+
+	/**
+	 * Gets the current scaling in the representation x:y (e.g. 1:4)
+	 * 
+	 * @return
+	 */
+	public String getScaleString() {
+		return (expTileScale < 0) ? ((int)Math.pow(2, -expTileScale) + ":1") : ("1:" + (int)Math.pow(2, expTileScale));
+	}
+
+	/**
+	 * Get the map dimensions (width x height)
+	 * 
+	 * @return
+	 */
+	public Vector2 getDimensions() {
+		return new Vector2(width, height);
 	}
 }

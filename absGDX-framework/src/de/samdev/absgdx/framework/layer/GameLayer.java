@@ -49,7 +49,7 @@ public abstract class GameLayer extends AgdxLayer {
 		super(owner);
 
 		this.map = map;
-		this.collisionMap = new CollisionMap(map.width, map.height);
+		this.collisionMap = new CollisionMap(map.width, map.height, 0); //TODO Make scale changeable
 	}
 
 	@Override
@@ -85,12 +85,22 @@ public abstract class GameLayer extends AgdxLayer {
 			for (int y = (int) visible.y; y < Math.min(map.height, (int)(visible.y + visible.height + 1)); y++) {
 				for (int x = (int) visible.x; x < Math.min(map.width, (int)(visible.x + visible.width + 1)); x++) {
 					srenderer.rect(x, y, 1, 1);
-					
-					if (owner.settings.debugCollisionMapMarkers.isActive()) {
-						if (! collisionMap.map[x][y].geometries.isEmpty()) {
-							srenderer.line(x, y, x+1, y+1);
-							srenderer.line(x+1, y, x, y+1);
-						}
+				}
+			}
+			srenderer.end();
+		}
+		
+		if (owner.settings.debugCollisionMapMarkers.isActive()) {
+			srenderer.begin(ShapeType.Line);
+			srenderer.setColor(owner.settings.debugMapGridLinesColor.get());
+			
+			double scale = Math.pow(2, -collisionMap.expTileScale);
+			
+			for (int y = (int) visible.y; y < Math.min(map.height, (int)(visible.y + visible.height + 1)); y++) {
+				for (int x = (int) visible.x; x < Math.min(map.width, (int)(visible.x + visible.width + 1)); x++) {
+					if (! collisionMap.map[(int) (x * scale)][(int) (y * scale)].geometries.isEmpty()) {
+						srenderer.line(x, y, x+1, y+1);
+						srenderer.line(x+1, y, x, y+1);
 					}
 				}
 			}
@@ -101,14 +111,14 @@ public abstract class GameLayer extends AgdxLayer {
 		sbatch.begin();
 		for( Iterator<Entity> it = entities.descendingIterator(); it.hasNext();) { // Iterate reverse (so z order is correct)
 		    Entity entity = it.next();
-		    
+		    //TODO only draw visible entities
 //			if (visible.contains(entity.getBoundings())) {
 				sbatch.draw(entity.getTexture(), entity.getPositionX(), entity.getPositionY(), entity.getWidth(), entity.getHeight());
 //			}
 		}
 		sbatch.end();
 		
-		if (owner.settings.debugVisualEntities.isActive()) {
+		if (owner.settings.debugVisualEntities.isActive()) { //TODO add vector arrows ??
 			srenderer.begin(ShapeType.Line);
 			
 			for( Iterator<Entity> it = entities.descendingIterator(); it.hasNext();) {

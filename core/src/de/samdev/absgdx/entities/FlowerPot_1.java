@@ -12,7 +12,7 @@ public class FlowerPot_1 extends Entity {
 
 	public DemoGameLayer owner;
 	
-	public int tick = 0;
+	public float tick = 0;
 	
 	public int dead = 60*10 + (int)(16*60 * Math.random());
 	
@@ -31,7 +31,7 @@ public class FlowerPot_1 extends Entity {
 	
 	@Override
 	public void beforeUpdate(float delta) {
-		tick++;
+		tick += delta / 16.666f;
 		
 		if (getPositionY() < 5) {
 			acceleration.y =  0.00003f;
@@ -41,7 +41,7 @@ public class FlowerPot_1 extends Entity {
 		
 		speed.x = 0.0025f;
 		
-		speed.clamp(0.0f, 0.01f);
+		speed.clamp(0.0f, 0.015f);
 		
 		if (tick > dead)
 			this.alive = false;
@@ -65,5 +65,10 @@ public class FlowerPot_1 extends Entity {
 	@Override
 	public void onPassiveMovementCollide(CollisionGeometryOwner activeCollider, CollisionGeometry myGeo, CollisionGeometry otherGeo) {
 //		System.out.println("[MOVE COLL PASSIV] " + this.getClass().getSimpleName() + " -> " + activeCollider.getClass().getSimpleName() + "(" + Integer.toHexString(myGeo.hashCode()) + " | " + Integer.toHexString(otherGeo.hashCode()) + ")");
+	}
+
+	@Override
+	public boolean canCollideWith(CollisionGeometryOwner other) {
+		return other.getClass() != FlowerPot_1.class;
 	}
 }

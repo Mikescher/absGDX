@@ -57,6 +57,8 @@ public class GameSettings {
 	public ColorProperty debugEntitiesCollisionGeometriesColor;
 	/** Mark Tiles where CollisionGeometries are registered */
 	public BooleanProperty debugCollisionMapMarkers;
+	/** Show informations about the collisionGeometries and the collisionMap  */
+	public BooleanProperty debugTextCollisionGeometries;
 	
 	/**
 	 * Creates a new instance of GameSettings
@@ -83,6 +85,7 @@ public class GameSettings {
 						debugTextMemory = new BooleanProperty("debugTextMemory", true, debugTextInfos);
 						debugTextMap = new BooleanProperty("debugTextMap", true, debugTextInfos);
 						debugTextEntities = new BooleanProperty("debugTextEntities", true, debugTextInfos);
+						debugTextCollisionGeometries = new BooleanProperty("debugTextCollisionGeometries", true, debugTextInfos);
 						debugTextInput = new BooleanProperty("debugTextInput", true, debugTextInfos);
 					}
 

@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
+import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionMap;
 import de.samdev.absgdx.framework.layer.AgdxLayer;
 import de.samdev.absgdx.framework.layer.GameLayer;
 import de.samdev.absgdx.framework.renderer.DebugTextRenderer;
@@ -135,9 +136,17 @@ public abstract class AgdxGame implements ApplicationListener {
 		if (settings.debugTextEntities.isActive() && !layers.empty() && layers.peek() instanceof GameLayer) {
 			GameLayer glayer = (GameLayer) layers.peek();
 			
-			debugTextRenderer.drawFormatted("Entities: Count=%d   CollGeos:%d", 
+			debugTextRenderer.drawFormatted("Entities: Count=%d", 
 					glayer.getEntityCount(),
 					glayer.getCollisionMap().getGeometryCount());
+			debugTextRenderer.draw();
+		}
+		
+		if (settings.debugTextCollisionGeometries.isActive() && !layers.empty() && layers.peek() instanceof GameLayer) {
+			CollisionMap cmap = ((GameLayer) layers.peek()).getCollisionMap();
+			
+			debugTextRenderer.drawFormatted("CollisionGeos: Count=%d",  cmap.getGeometryCount());
+			debugTextRenderer.drawFormatted("CollisionMap: Scale=%s   Size=%s", cmap.getScaleString(), DebugFormatter.fmtV2(cmap.getDimensions(), 1));
 			debugTextRenderer.draw();
 		}
 		

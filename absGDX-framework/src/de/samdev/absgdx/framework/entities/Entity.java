@@ -222,7 +222,9 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	}
 	
 	private void checkCollisions() {
+		// Remember already collided COwners - so you don't call onPassiveCollide two times on the same object
 		Set<CollisionGeometryOwner> usedPassives = new HashSet<CollisionGeometryOwner>();
+		
 		usedPassives.add(this); // Don't collide with geometries that I own myself
 		
 		for (EntityCollisionGeometry mygeometry : collisionGeometries) {

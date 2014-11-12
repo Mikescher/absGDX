@@ -51,4 +51,9 @@ public class Bush_1 extends Entity {
 	public void onPassiveMovementCollide(CollisionGeometryOwner activeCollider, CollisionGeometry myGeo, CollisionGeometry otherGeo) {
 		System.out.println("[MOVE COLL PASSIV] " + this.getClass().getSimpleName() + " -> " + activeCollider.getClass().getSimpleName() + "(" + Integer.toHexString(myGeo.hashCode()) + " | " + Integer.toHexString(otherGeo.hashCode()) + ")");
 	}
+
+	@Override
+	public boolean canCollideWith(CollisionGeometryOwner other) {
+		return true;
+	}
 }

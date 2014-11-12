@@ -11,6 +11,13 @@ public class DummyEntity extends Entity {
 	public static int uidctr = 1;
 	
 	public int UID = uidctr++;
+
+	public int dummy_ctr_beforeUpdate = 0;
+	public int dummy_ctr_onLayerAdd = 0;
+	public int dummy_ctr_onActiveCollide = 0;
+	public int dummy_ctr_onPassiveCollide = 0;
+	public int dummy_ctr_onActiveMovementCollide = 0;
+	public int dummy_ctr_onPassiveMovementCollide = 0;
 	
 	public DummyEntity() {
 		super((TextureRegion)null, 1, 1);
@@ -24,31 +31,49 @@ public class DummyEntity extends Entity {
 	
 	@Override
 	public void beforeUpdate(float delta) {
-		// NOP
+		dummy_ctr_beforeUpdate++;
 	}
 
 	@Override
 	public void onLayerAdd(GameLayer layer) {
-		// NOP
+		dummy_ctr_onLayerAdd++;
 	}
 
 	@Override
 	public void onActiveCollide(CollisionGeometryOwner passiveCollider, CollisionGeometry myGeo, CollisionGeometry otherGeo) {
-		// NOP
+		dummy_ctr_onActiveCollide++;
 	}
 
 	@Override
 	public void onPassiveCollide(CollisionGeometryOwner activeCollider, CollisionGeometry myGeo, CollisionGeometry otherGeo) {
-		// NOP
+		dummy_ctr_onPassiveCollide++;
 	}
 
 	@Override
 	public void onActiveMovementCollide(CollisionGeometryOwner passiveCollider, CollisionGeometry myGeo, CollisionGeometry otherGeo) {
-		// NOP
+		dummy_ctr_onActiveMovementCollide++;
 	}
 
 	@Override
 	public void onPassiveMovementCollide(CollisionGeometryOwner activeCollider, CollisionGeometry myGeo, CollisionGeometry otherGeo) {
-		// NOP
+		dummy_ctr_onPassiveMovementCollide++;
+	}
+	
+	public String dummyCtrSummary() {
+		return 	dummy_ctr_beforeUpdate + "-" + 
+				dummy_ctr_onLayerAdd + "-" + 
+				dummy_ctr_onActiveCollide + "-" + 
+				dummy_ctr_onPassiveCollide + "-" + 
+				dummy_ctr_onActiveMovementCollide + "-" + 
+				dummy_ctr_onPassiveMovementCollide;
+	}
+	
+	public String dummyCtrSignSummary() {
+		return 	(int)Math.signum(dummy_ctr_beforeUpdate) + "-" + 
+				(int)Math.signum(dummy_ctr_onLayerAdd) + "-" + 
+				(int)Math.signum(dummy_ctr_onActiveCollide) + "-" + 
+				(int)Math.signum(dummy_ctr_onPassiveCollide) + "-" + 
+				(int)Math.signum(dummy_ctr_onActiveMovementCollide) + "-" + 
+				(int)Math.signum(dummy_ctr_onPassiveMovementCollide);
 	}
 }

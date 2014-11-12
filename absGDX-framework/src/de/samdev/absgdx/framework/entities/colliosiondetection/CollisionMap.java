@@ -164,7 +164,7 @@ public class CollisionMap {
 					
 					float dr = g.getRadius() + other.getRadius();
 					
-					if (dx*dx + dy*dy < dr*dr) {
+					if (dx*dx + dy*dy < dr*dr && ShapeMath.doGeometriesIntersect(g, other)) { // Shortcut Evaluation - yay
 						return other;
 					}
 				}
@@ -197,7 +197,7 @@ public class CollisionMap {
 					
 					float dr = g.getRadius() + other.getRadius();
 					
-					if (dx*dx + dy*dy < dr*dr && ShapeMath.doGeometriesIntersect(g, other)) {
+					if (dx*dx + dy*dy < dr*dr && ShapeMath.doGeometriesIntersect(g, other)) { // Shortcut Evaluation - yay
 						result.add(other);
 					}
 				}

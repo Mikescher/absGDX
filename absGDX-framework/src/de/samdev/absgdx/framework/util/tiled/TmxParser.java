@@ -126,10 +126,8 @@ public abstract class TmxParser {
 	protected abstract void handleTile(int gid, int layer, int posX, int posY, HashMap<String, String> propertiesMap) throws TmxMapParsingException;
 
 	private void parseData(int layerPos, Element layerdata, int layerWidth, int layerHeight, HashMap<String, String> propertiesMap) throws IOException, DataFormatException, TmxMapParsingException, GdxRuntimeException {
-		String encoding = layerdata.getAttribute("encoding");
-		String compression = layerdata.getAttribute("compression");
-		
-		if (encoding == null) encoding = "xml";
+		String encoding = layerdata.getAttribute("encoding", "xml");
+		String compression = layerdata.getAttribute("compression", null);
 		
 		propertiesMap.put(PROPERTY_ENCODING, encoding);
 		propertiesMap.put(PROPERTY_COMPRESSION, compression == null ? "none" : compression);

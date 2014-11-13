@@ -61,14 +61,14 @@ public class CollisionMap {
 		
 		this.expTileScale = expScale;
 		if (expScale < 0) {
-			this.width =  (int) Math.ceil(mapwidth  * 1d * (2 << -(expScale + 1)));
-			this.height = (int) Math.ceil(mapheight * 1d * (2 << -(expScale + 1)));			
+			this.width =  (int) Math.ceil(mapwidth  * 1d * (1 << -expScale));
+			this.height = (int) Math.ceil(mapheight * 1d * (1 << -expScale));			
 		} else if (expScale == 0) {
 			this.width = mapwidth;
 			this.height = mapheight;			
 		} else {
-			this.width =  (int) Math.ceil(mapwidth  * 1d  / (2 << (expScale - 1)));
-			this.height = (int) Math.ceil(mapheight * 1d  / (2 << (expScale - 1)));
+			this.width =  (int) Math.ceil(mapwidth  * 1d  / (1 << expScale));
+			this.height = (int) Math.ceil(mapheight * 1d  / (1 << expScale));
 		}
 		
 		this.map = new CollisionMapTile[width][height];

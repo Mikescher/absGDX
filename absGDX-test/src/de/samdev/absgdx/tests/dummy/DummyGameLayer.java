@@ -13,6 +13,10 @@ public class DummyGameLayer extends GameLayer {
 	public DummyGameLayer(int screenwidth, int screenheight, TileMap m) {
 		super(new DummyAgdxGame(screenwidth, screenheight), m);
 	}
+
+	public DummyGameLayer(int screenwidth, int screenheight, TileMap m, int expScale) {
+		super(new DummyAgdxGame(screenwidth, screenheight), m, expScale);
+	}
 	
 	@Override
 	public void onUpdate(float delta) {

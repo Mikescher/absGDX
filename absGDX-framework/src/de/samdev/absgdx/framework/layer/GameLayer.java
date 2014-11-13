@@ -50,9 +50,30 @@ public abstract class GameLayer extends AgdxLayer {
 		super(owner);
 
 		this.map = map;
-		this.collisionMap = new CollisionMap(map.width, map.height, 0); //TODO Make scale changeable
+		this.collisionMap = new CollisionMap(map.width, map.height); //TODO Make scale changeable
 	}
 
+	/**
+	 * Creates a new GameLayer
+	 * 
+	 * The expScale is exponential. This means:
+	 * 0  : MapTiles == CollisionTiles
+	 * 1  : CollisionTiles are 2 times bigger
+	 * 2  : CollisionTiles are 4 times bigger
+	 * -1 : CollisionTiles are 2 times smaller
+	 * etc
+	 * 
+	 * @param owner
+	 * @param map 
+	 * @param expCollisionTileScale the ratio collisionMapTileSize / mapTileSize in the form [2^n] 
+	 */
+	public GameLayer(AgdxGame owner, TileMap map, int expCollisionTileScale) {
+		super(owner);
+
+		this.map = map;
+		this.collisionMap = new CollisionMap(map.width, map.height, expCollisionTileScale); //TODO Make scale changeable
+	}
+	
 	@Override
 	public void render(SpriteBatch sbatch, ShapeRenderer srenderer) {
 		float tilesize = mapScaleResolver.getTileSize(owner.getScreenWidth(), owner.getScreenHeight(), map.height, map.width);

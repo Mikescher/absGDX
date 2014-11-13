@@ -11,15 +11,13 @@ import java.util.zip.DataFormatException;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.Inflater;
 
-import nu.xom.Builder;
-import nu.xom.Document;
-import nu.xom.Element;
-import nu.xom.Elements;
-import nu.xom.ParsingException;
-import nu.xom.ValidityException;
-
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
+
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.badlogic.gdx.utils.XmlReader;
+import com.badlogic.gdx.utils.XmlReader.Element;
 
 import de.samdev.absgdx.framework.util.exceptions.TmxMapParsingException;
 
@@ -69,50 +67,47 @@ public abstract class TmxParser {
 	 * Starts parsing of the TMX file.
 	 * Each found tile is redirected to the handleTile Method
 	 * 
-	 * @throws ParsingException
-	 * @throws ValidityException
 	 * @throws IOException
 	 * @throws DataFormatException
 	 * @throws TmxMapParsingException
+	 * @throws GdxRuntimeException 
 	 */
-	public void parse() throws ParsingException, ValidityException, IOException, DataFormatException, TmxMapParsingException {
-		Builder xomBuilder = new Builder();
+	public void parse() throws IOException, DataFormatException, TmxMapParsingException, GdxRuntimeException {
+		XmlReader xomBuilder = new XmlReader();
 		
-		Document doc = xomBuilder.build(this.fileContent, null);
+		Element mapElement = xomBuilder.parse(this.fileContent);
 		
-		Element mapElement = doc.getRootElement();
+		int mapWidth = mapElement.getIntAttribute("width");
+		int mapHeight = mapElement.getIntAttribute("height");
 		
-		int mapWidth = Integer.parseInt(mapElement.getAttributeValue("width"));
-		int mapHeight = Integer.parseInt(mapElement.getAttributeValue("height"));
-		
-		Elements layerList = mapElement.getChildElements("layer");
-		for (int layerPos = 0; layerPos < layerList.size(); layerPos++) {
+		Array<Element> layerList = mapElement.getChildrenByName("layer");
+		for (int layerPos = 0; layerPos < layerList.size; layerPos++) {
 			Element layer = layerList.get(layerPos);
 			
-			int layerWidth = Integer.parseInt(layer.getAttributeValue("width"));
-			int layerHeight = Integer.parseInt(layer.getAttributeValue("height"));
+			int layerWidth = Integer.parseInt(layer.getAttribute("width"));
+			int layerHeight = Integer.parseInt(layer.getAttribute("height"));
 			
 			HashMap<String, String> propertiesMap = parseProperties(layer, layerPos, layerWidth, layerHeight, mapWidth, mapHeight);
 
-			Element layerdata = layer.getFirstChildElement("data");
+			Element layerdata = layer.getChildByName("data");
 			parseData(layerPos, layerdata, layerWidth, layerHeight, propertiesMap);
 		}
 	}
 
 	private HashMap<String, String> parseProperties(Element layer, int layerPos, int layerWidth, int layerHeight, int mapWidth, int mapHeight) {
-		Element layerprop = layer.getFirstChildElement("properties");
+		Element layerprop = layer.getChildByName("properties");
 		HashMap<String, String> propertiesMap = new HashMap<String, String>();
 		propertiesMap.put(PROPERTY_LAYER_WIDTH, "" + layerWidth);
 		propertiesMap.put(PROPERTY_LAYER_HEIGHT, "" + layerHeight);
 		propertiesMap.put(PROPERTY_MAP_WIDTH, "" + mapWidth);
 		propertiesMap.put(PROPERTY_MAP_HEIGHT, "" + mapHeight);
 		propertiesMap.put(PROPERTY_LAYER_LEVEL, "" + layerPos);
-		propertiesMap.put(PROPERTY_LAYER_NAME, "" + layer.getAttributeValue("name"));
+		propertiesMap.put(PROPERTY_LAYER_NAME, "" + layer.getAttribute("name"));
 		
 		if (layerprop != null) {
-			Elements propertyList = layerprop.getChildElements("property");
-			for (int i = 0; i < propertyList.size(); i++) {
-				propertiesMap.put(propertyList.get(i).getAttributeValue("name"), propertyList.get(i).getAttributeValue("value"));
+			Array<Element> propertyList = layerprop.getChildrenByName("property");
+			for (int i = 0; i < propertyList.size; i++) {
+				propertiesMap.put(propertyList.get(i).getAttribute("name"), propertyList.get(i).getAttribute("value"));
 			}
 		}
 		return propertiesMap;
@@ -130,9 +125,9 @@ public abstract class TmxParser {
 	
 	protected abstract void handleTile(int gid, int layer, int posX, int posY, HashMap<String, String> propertiesMap) throws TmxMapParsingException;
 
-	private void parseData(int layerPos, Element layerdata, int layerWidth, int layerHeight, HashMap<String, String> propertiesMap) throws ParsingException, IOException, DataFormatException, TmxMapParsingException {
-		String encoding = layerdata.getAttributeValue("encoding");
-		String compression = layerdata.getAttributeValue("compression");
+	private void parseData(int layerPos, Element layerdata, int layerWidth, int layerHeight, HashMap<String, String> propertiesMap) throws IOException, DataFormatException, TmxMapParsingException, GdxRuntimeException {
+		String encoding = layerdata.getAttribute("encoding");
+		String compression = layerdata.getAttribute("compression");
 		
 		if (encoding == null) encoding = "xml";
 		
@@ -150,18 +145,18 @@ public abstract class TmxParser {
 		else if (encoding.equalsIgnoreCase("base64") && compression.equals("zlib")) 
 			parseDataBase64_zlib(layerPos, layerdata, layerWidth, layerHeight, propertiesMap);
 		else 
-			throw new ParsingException("Unknown Encoding+compression: " + encoding + " :: " + compression);
+			throw new TmxMapParsingException("Unknown Encoding+compression: " + encoding + " :: " + compression);
 	}
 	
-	private void parseDataXML(int layerPos, Element layerdata, int layerWidth, int layerHeight, HashMap<String, String> propertiesMap) throws TmxMapParsingException{
-		Elements tileList = layerdata.getChildElements("tile");
+	private void parseDataXML(int layerPos, Element layerdata, int layerWidth, int layerHeight, HashMap<String, String> propertiesMap) throws TmxMapParsingException, GdxRuntimeException {
+		Array<Element> tileList = layerdata.getChildrenByName("tile");
 		
-		for (int tilePos = 0; tilePos < tileList.size(); tilePos++) {
+		for (int tilePos = 0; tilePos < tileList.size; tilePos++) {
 			Element tile = tileList.get(tilePos);
 			
 			int posX = tilePos % layerWidth;
 			int posY = layerHeight - (1 + tilePos / layerWidth);
-			int gid = Integer.parseInt(tile.getAttributeValue("gid"));
+			int gid = tile.getIntAttribute("gid");
 			
 			if (gid == 0) continue;
 			
@@ -169,8 +164,8 @@ public abstract class TmxParser {
 		}
 	}
 	
-	private void parseDataCSV(int layerPos, Element layerdata, int layerWidth, int layerHeight, HashMap<String, String> propertiesMap) throws TmxMapParsingException{
-		String[] csvContent = layerdata.getValue().replaceAll("[\r\n]", "").split(",");
+	private void parseDataCSV(int layerPos, Element layerdata, int layerWidth, int layerHeight, HashMap<String, String> propertiesMap) throws TmxMapParsingException {
+		String[] csvContent = layerdata.getText().replaceAll("[\r\n]", "").split(",");
 		
 		for (int tilePos = 0; tilePos < csvContent.length; tilePos++) {
 			int posX = tilePos % layerWidth;
@@ -184,11 +179,11 @@ public abstract class TmxParser {
 	}
 	
 	private void parseDataBase64_uncompressed(int layerPos, Element layerdata, int layerWidth, int layerHeight, HashMap<String, String> propertiesMap) throws TmxMapParsingException {
-		parseDataBase64(layerPos, Base64.decodeBase64(layerdata.getValue().trim()), layerWidth, layerHeight, propertiesMap);
+		parseDataBase64(layerPos, Base64.decodeBase64(layerdata.getText().trim()), layerWidth, layerHeight, propertiesMap);
 	}
 
 	private void parseDataBase64_gzip(int layerPos, Element layerdata, int layerWidth, int layerHeight, HashMap<String, String> propertiesMap) throws IOException, TmxMapParsingException {
-		byte[] compressed_data = Base64.decodeBase64(layerdata.getValue().trim());
+		byte[] compressed_data = Base64.decodeBase64(layerdata.getText().trim());
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		IOUtils.copy(new GZIPInputStream(new ByteArrayInputStream(compressed_data)), out);
@@ -200,7 +195,7 @@ public abstract class TmxParser {
 	}
 	
 	private void parseDataBase64_zlib(int layerPos, Element layerdata, int layerWidth, int layerHeight, HashMap<String, String> propertiesMap) throws IOException, DataFormatException, TmxMapParsingException {
-		byte[] compressed_data = Base64.decodeBase64(layerdata.getValue().trim());
+		byte[] compressed_data = Base64.decodeBase64(layerdata.getText().trim());
 		
 		Inflater inflater = new Inflater();  
 		inflater.setInput(compressed_data); 

@@ -8,9 +8,8 @@ import java.util.zip.DataFormatException;
 
 import org.apache.commons.lang3.reflect.ConstructorUtils;
 
-import nu.xom.ParsingException;
-
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import de.samdev.absgdx.framework.map.EmptyTile;
 import de.samdev.absgdx.framework.map.Tile;
@@ -60,7 +59,7 @@ public class TmxMapLoader extends TmxParser {
 	 * @param gid
 	 * @param tileclass
 	 */
-	public void addMapping(Integer gid, Class<? extends Tile> tileclass) { // TODO DOc
+	public void addMapping(Integer gid, Class<? extends Tile> tileclass) {
 		HashMap<String, String> dummy = new HashMap<String, String>();
 
 		Constructor<? extends Tile> constructor_empty = ConstructorUtils.getAccessibleConstructor(tileclass);
@@ -101,11 +100,11 @@ public class TmxMapLoader extends TmxParser {
 			this.map = null;
 			
 			super.parse();
-		} catch (ParsingException e) {
-			throw new TmxMapParsingException(e);
 		} catch (IOException e) {
 			throw new TmxMapParsingException(e);
 		} catch (DataFormatException e) {
+			throw new TmxMapParsingException(e);
+		} catch (GdxRuntimeException e) {
 			throw new TmxMapParsingException(e);
 		}
 	}

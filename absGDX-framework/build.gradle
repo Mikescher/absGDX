@@ -17,7 +17,7 @@ dependencies {
     compile 'commons-codec:commons-codec:1.9'
     compile 'commons-io:commons-io:2.4'
 
-    compile 'com.io7m.xom:xom:1.2.10'
+    //compile 'com.io7m.xom:xom:1.2.10'
 }
 
 eclipse.jdt.file.withProperties { props ->

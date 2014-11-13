@@ -179,11 +179,11 @@ public abstract class TmxParser {
 	}
 	
 	private void parseDataBase64_uncompressed(int layerPos, Element layerdata, int layerWidth, int layerHeight, HashMap<String, String> propertiesMap) throws TmxMapParsingException {
-		parseDataBase64(layerPos, Base64.decodeBase64(layerdata.getText().trim()), layerWidth, layerHeight, propertiesMap);
+		parseDataBase64(layerPos, Base64.decodeBase64(layerdata.getText().trim().getBytes()), layerWidth, layerHeight, propertiesMap);
 	}
 
 	private void parseDataBase64_gzip(int layerPos, Element layerdata, int layerWidth, int layerHeight, HashMap<String, String> propertiesMap) throws IOException, TmxMapParsingException {
-		byte[] compressed_data = Base64.decodeBase64(layerdata.getText().trim());
+		byte[] compressed_data = Base64.decodeBase64(layerdata.getText().trim().getBytes());
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		IOUtils.copy(new GZIPInputStream(new ByteArrayInputStream(compressed_data)), out);
@@ -195,7 +195,7 @@ public abstract class TmxParser {
 	}
 	
 	private void parseDataBase64_zlib(int layerPos, Element layerdata, int layerWidth, int layerHeight, HashMap<String, String> propertiesMap) throws IOException, DataFormatException, TmxMapParsingException {
-		byte[] compressed_data = Base64.decodeBase64(layerdata.getText().trim());
+		byte[] compressed_data = Base64.decodeBase64(layerdata.getText().trim().getBytes());
 		
 		Inflater inflater = new Inflater();  
 		inflater.setInput(compressed_data); 

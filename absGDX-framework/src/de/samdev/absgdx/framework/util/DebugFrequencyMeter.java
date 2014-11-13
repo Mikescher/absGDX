@@ -74,7 +74,7 @@ public class DebugFrequencyMeter {
 	}
 
 	/**
-	 * Call this st the start of a new cycle
+	 * Call this at the start of a new cycle
 	 */
 	public void startCycle() {
 		final long delta = System.currentTimeMillis() - intervalStartTime;
@@ -104,7 +104,7 @@ public class DebugFrequencyMeter {
 
 		long allocmemory = Gdx.app.getJavaHeap();
 		
-		if (allocmemory < (this.gcAllocMem - 1048576)) {
+		if (allocmemory < (this.gcAllocMem - 2048)) {
 			gcTimeBetweenGC = System.currentTimeMillis() - lastGCUpdateTime;
 			lastGCUpdateTime = System.currentTimeMillis();
 			

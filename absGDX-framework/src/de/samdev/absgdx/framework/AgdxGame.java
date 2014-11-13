@@ -178,7 +178,9 @@ public abstract class AgdxGame implements ApplicationListener {
 
 	private void doUpdate() {
 		if (!layers.empty()) {
-			layers.peek().update(Gdx.graphics.getDeltaTime() * 1000f);
+			float delta = Gdx.graphics.getDeltaTime() * 1000f;
+			delta = Math.min(delta, 100); // TODO What do when delta > 100 (Warning / abort / nothing  ???)
+			layers.peek().update(delta);
 		}
 	}
 

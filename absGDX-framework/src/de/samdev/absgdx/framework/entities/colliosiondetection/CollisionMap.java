@@ -25,7 +25,7 @@ public class CollisionMap {
 	public final int expTileScale;
 	
 	/** the grid where the geometries are stored*/
-	public final CollisionMapTile[][] map; //TODO What about different tile sizes ?
+	public final CollisionMapTile[][] map;
 
 	/** if an geometry doesn't fit in the grid it is stored here*/
 	public final CollisionMapTile[][] outerBorder = new CollisionMapTile[3][3];

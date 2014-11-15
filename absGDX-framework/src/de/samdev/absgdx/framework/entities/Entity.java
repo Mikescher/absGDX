@@ -411,7 +411,7 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	 * @return the texture
 	 */
 	public TextureRegion getTexture() {
-		return animation[(int)animationPos];
+		return animation[(int)animationPos]; //TODO Some kind of possibility to add custom rendering or at least multiple textures (layers with transparency ?) - otherwise this will become the next absCanv
 	}
 
 	/**

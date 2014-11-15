@@ -136,9 +136,9 @@ public abstract class AgdxGame implements ApplicationListener {
 		if (settings.debugTextEntities.isActive() && !layers.empty() && layers.peek() instanceof GameLayer) {
 			GameLayer glayer = (GameLayer) layers.peek();
 			
-			debugTextRenderer.drawFormatted("Entities: Count=%d", 
-					glayer.getEntityCount(),
-					glayer.getCollisionMap().getGeometryCount());
+			debugTextRenderer.drawFormatted("Entities: Rendered/Count=%d/%d", 
+					glayer.getRenderingEntitiesCount(),
+					glayer.getEntityCount());
 			debugTextRenderer.draw();
 		}
 		

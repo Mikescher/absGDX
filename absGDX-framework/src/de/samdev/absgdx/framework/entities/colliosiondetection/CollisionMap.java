@@ -302,31 +302,31 @@ public class CollisionMap {
 	
 	private int getTileRadius(float radius) {
 		if (expTileScale < 0) {
-			return (int) Math.ceil(radius * 1d * (2 << -(expTileScale + 1)));	
+			return (int) Math.ceil(radius * 1d * (1 << -expTileScale));	
 		} else if (expTileScale == 0) {
 			return (int) Math.ceil(radius);
 		} else {
-			return (int) Math.ceil(radius * 1d  / (2 << (expTileScale - 1)));
+			return (int) Math.ceil(radius * 1d  / (1 << expTileScale));
 		}
 	}
 	
 	private int getTileX(float x) {
 		if (expTileScale < 0) {
-			return (int) (x * 1d * (2 << -(expTileScale + 1)));		
+			return (int) (x * 1d * (1 << -expTileScale));		
 		} else if (expTileScale == 0) {
 			return (int) x;
 		} else {
-			return (int) (x * 1d  / (2 << (expTileScale - 1)));
+			return (int) (x * 1d  / (1 << expTileScale));
 		}
 	}
 	
 	private int getTileY(float y) {
 		if (expTileScale < 0) {
-			return (int) (y * 1d * (2 << -(expTileScale + 1)));		
+			return (int) (y * 1d * (1 << -expTileScale));		
 		} else if (expTileScale == 0) {
 			return (int) y;
 		} else {
-			return (int) (y * 1d  / (2 << (expTileScale - 1)));
+			return (int) (y * 1d  / (1 << expTileScale));
 		}
 	}
 	

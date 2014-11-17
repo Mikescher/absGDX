@@ -67,7 +67,7 @@ public class Anchorpoint_1 extends Entity {
 	}
 
 	@Override
-	public boolean canMoveCollide(CollisionGeometryOwner other) {
+	public boolean canMoveCollideWith(CollisionGeometryOwner other) {
 		return other.getClass() != Bucket_1.class && other.getClass() != Bucket_2.class && other.getClass() != Bucket_3.class;
 	}
 }

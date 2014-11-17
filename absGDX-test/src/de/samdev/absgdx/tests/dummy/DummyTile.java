@@ -11,6 +11,9 @@ public class DummyTile extends Tile {
 
 	public HashMap<String, String> properties = null;
 	
+	public boolean canHardCollide = false;
+	public boolean canCollide = true;
+	
 	public DummyTile() {
 		super((TextureRegion)null);
 	}
@@ -27,8 +30,13 @@ public class DummyTile extends Tile {
 	}
 
 	@Override
-	public boolean canMoveCollide(CollisionGeometryOwner other) {
-		return false;
+	public boolean canMoveCollideWith(CollisionGeometryOwner other) {
+		return canHardCollide;
+	}
+
+	@Override
+	public boolean canCollideWith(CollisionGeometryOwner other) {
+		return canCollide;
 	}
 
 }

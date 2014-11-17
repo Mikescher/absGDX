@@ -35,7 +35,7 @@ public abstract class StaticTile extends Tile {
 	}
 
 	@Override
-	public boolean canMoveCollide(CollisionGeometryOwner other) {
+	public boolean canMoveCollideWith(CollisionGeometryOwner other) {
 		return false;
 	}
 }

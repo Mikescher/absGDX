@@ -6,8 +6,9 @@ import de.samdev.absgdx.framework.entities.Entity;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
 import de.samdev.absgdx.framework.layer.GameLayer;
+import de.samdev.absgdx.framework.map.Tile;
 
-public class DummyEntity extends Entity {
+public class DummyNoTileCollisionEntity extends Entity {
 	public static int uidctr = 1;
 	
 	public int UID = uidctr++;
@@ -22,11 +23,11 @@ public class DummyEntity extends Entity {
 	public boolean canCollide = true;
 	public boolean canMoveCollide = true;
 	
-	public DummyEntity() {
+	public DummyNoTileCollisionEntity() {
 		super((TextureRegion)null, 1, 1);
 	}
 
-	public DummyEntity(int zl) {
+	public DummyNoTileCollisionEntity(int zl) {
 		super((TextureRegion)null, 1, 1);
 		
 		setZLayer(zl);
@@ -82,7 +83,7 @@ public class DummyEntity extends Entity {
 
 	@Override
 	public boolean canCollideWith(CollisionGeometryOwner other) {
-		return canCollide;
+		return canCollide && ! (other instanceof Tile);
 	}
 
 	@Override

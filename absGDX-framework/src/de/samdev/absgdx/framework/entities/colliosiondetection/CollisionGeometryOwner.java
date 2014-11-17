@@ -37,5 +37,5 @@ public interface CollisionGeometryOwner {
 	 * @param other the tile to collide
 	 * @return true if they can collide
 	 */
-	public boolean canMoveCollide(CollisionGeometryOwner other);
+	public boolean canMoveCollideWith(CollisionGeometryOwner other);
 }

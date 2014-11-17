@@ -14,10 +14,10 @@ import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionBox;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionCircle;
-import de.samdev.absgdx.framework.map.TileMap;
 import de.samdev.absgdx.tests.BaseUnitTest;
-import de.samdev.absgdx.tests.dummy.DummyEntity;
 import de.samdev.absgdx.tests.dummy.DummyGameLayer;
+import de.samdev.absgdx.tests.dummy.DummyNoCollisionTileMap;
+import de.samdev.absgdx.tests.dummy.DummyNoTileCollisionEntity;
 
 @RunWith(Parameterized.class)
 public class CollisionTest extends BaseUnitTest {
@@ -55,13 +55,13 @@ public class CollisionTest extends BaseUnitTest {
 	
     @Test
     public void testCircleCircleCollisionMovement_1D() {
-    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, TileMap.createEmptyMap(this.mapWidth, this.mapHeight), this.expMapScale);
+    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, new DummyNoCollisionTileMap(this.mapWidth, this.mapHeight), this.expMapScale);
     	
-    	DummyEntity e1 = new DummyEntity();
+    	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
     	e1.addCollisionGeo(0.5f, 0.5f, new CollisionCircle(e1, 1f));
     	
-    	DummyEntity e2 = new DummyEntity();
+    	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
     	e2.addCollisionGeo(0.5f, 0.5f, new CollisionCircle(e2, 1f));
     	
@@ -85,13 +85,13 @@ public class CollisionTest extends BaseUnitTest {
     
     @Test
     public void testCircleCircleCollisionMovement_2D() {
-    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, TileMap.createEmptyMap(this.mapWidth, this.mapHeight), this.expMapScale);
+    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, new DummyNoCollisionTileMap(this.mapWidth, this.mapHeight), this.expMapScale);
     	
-    	DummyEntity e1 = new DummyEntity();
+    	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
     	e1.addCollisionGeo(0.5f, 0.5f, new CollisionCircle(e1, 1f));
     	
-    	DummyEntity e2 = new DummyEntity();
+    	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
     	e2.addCollisionGeo(0.5f, 0.5f, new CollisionCircle(e2, 1f));
     	
@@ -115,13 +115,13 @@ public class CollisionTest extends BaseUnitTest {
 
     @Test
     public void testCircleCircleCollision() {
-    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, TileMap.createEmptyMap(this.mapWidth, this.mapHeight), this.expMapScale);
+    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, new DummyNoCollisionTileMap(this.mapWidth, this.mapHeight), this.expMapScale);
     	
-    	DummyEntity e1 = new DummyEntity();
+    	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
     	e1.addCollisionGeo(0.5f, 0.5f, new CollisionCircle(e1, 1f));
     	
-    	DummyEntity e2 = new DummyEntity();
+    	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
     	e2.addCollisionGeo(0.5f, 0.5f, new CollisionCircle(e2, 1f));
     	
@@ -143,13 +143,13 @@ public class CollisionTest extends BaseUnitTest {
     
     @Test
     public void testCircleCircleNoCollision() {
-    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, TileMap.createEmptyMap(this.mapWidth, this.mapHeight), this.expMapScale);
+    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, new DummyNoCollisionTileMap(this.mapWidth, this.mapHeight), this.expMapScale);
     	
-    	DummyEntity e1 = new DummyEntity();
+    	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
     	e1.addCollisionGeo(0.5f, 0.5f, new CollisionCircle(e1, 1f));
     	
-    	DummyEntity e2 = new DummyEntity();
+    	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
     	e2.addCollisionGeo(0.5f, 0.5f, new CollisionCircle(e2, 1f));
     	
@@ -171,13 +171,13 @@ public class CollisionTest extends BaseUnitTest {
 
     @Test
     public void testBoxBoxCollisionMovement_1D() {
-    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, TileMap.createEmptyMap(this.mapWidth, this.mapHeight), this.expMapScale);
+    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, new DummyNoCollisionTileMap(this.mapWidth, this.mapHeight), this.expMapScale);
     	
-    	DummyEntity e1 = new DummyEntity();
+    	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
     	e1.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e1, 1f, 1f));
     	
-    	DummyEntity e2 = new DummyEntity();
+    	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
     	e2.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e2, 1f, 1f));
     	
@@ -201,13 +201,13 @@ public class CollisionTest extends BaseUnitTest {
     
     @Test
     public void testBoxBoxCollisionMovement_2D() {
-    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, TileMap.createEmptyMap(this.mapWidth, this.mapHeight), this.expMapScale);
+    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, new DummyNoCollisionTileMap(this.mapWidth, this.mapHeight), this.expMapScale);
     	
-    	DummyEntity e1 = new DummyEntity();
+    	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
     	e1.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e1, 1f, 1f));
     	
-    	DummyEntity e2 = new DummyEntity();
+    	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
     	e2.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e2, 1f, 1f));
     	
@@ -231,13 +231,13 @@ public class CollisionTest extends BaseUnitTest {
 
     @Test
     public void testBoxBoxCollision_T() {
-    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, TileMap.createEmptyMap(this.mapWidth, this.mapHeight), this.expMapScale);
+    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, new DummyNoCollisionTileMap(this.mapWidth, this.mapHeight), this.expMapScale);
     	
-    	DummyEntity e1 = new DummyEntity();
+    	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
     	e1.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e1, 1f, 1f));
     	
-    	DummyEntity e2 = new DummyEntity();
+    	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
     	e2.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e2, 1f, 1f));
     	
@@ -259,13 +259,13 @@ public class CollisionTest extends BaseUnitTest {
 
     @Test
     public void testBoxBoxCollision_TR() {
-    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, TileMap.createEmptyMap(this.mapWidth, this.mapHeight), this.expMapScale);
+    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, new DummyNoCollisionTileMap(this.mapWidth, this.mapHeight), this.expMapScale);
     	
-    	DummyEntity e1 = new DummyEntity();
+    	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
     	e1.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e1, 1f, 1f));
     	
-    	DummyEntity e2 = new DummyEntity();
+    	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
     	e2.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e2, 1f, 1f));
     	
@@ -287,13 +287,13 @@ public class CollisionTest extends BaseUnitTest {
 
     @Test
     public void testBoxBoxCollision_R() {
-    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, TileMap.createEmptyMap(this.mapWidth, this.mapHeight), this.expMapScale);
+    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, new DummyNoCollisionTileMap(this.mapWidth, this.mapHeight), this.expMapScale);
     	
-    	DummyEntity e1 = new DummyEntity();
+    	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
     	e1.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e1, 1f, 1f));
     	
-    	DummyEntity e2 = new DummyEntity();
+    	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
     	e2.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e2, 1f, 1f));
     	
@@ -315,13 +315,13 @@ public class CollisionTest extends BaseUnitTest {
 
     @Test
     public void testBoxBoxCollision_BR() {
-    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, TileMap.createEmptyMap(this.mapWidth, this.mapHeight), this.expMapScale);
+    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, new DummyNoCollisionTileMap(this.mapWidth, this.mapHeight), this.expMapScale);
     	
-    	DummyEntity e1 = new DummyEntity();
+    	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
     	e1.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e1, 1f, 1f));
     	
-    	DummyEntity e2 = new DummyEntity();
+    	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
     	e2.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e2, 1f, 1f));
     	
@@ -343,13 +343,13 @@ public class CollisionTest extends BaseUnitTest {
 
     @Test
     public void testBoxBoxCollision_B() {
-    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, TileMap.createEmptyMap(this.mapWidth, this.mapHeight), this.expMapScale);
+    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, new DummyNoCollisionTileMap(this.mapWidth, this.mapHeight), this.expMapScale);
     	
-    	DummyEntity e1 = new DummyEntity();
+    	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
     	e1.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e1, 1f, 1f));
     	
-    	DummyEntity e2 = new DummyEntity();
+    	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
     	e2.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e2, 1f, 1f));
     	
@@ -371,13 +371,13 @@ public class CollisionTest extends BaseUnitTest {
 
     @Test
     public void testBoxBoxCollision_BL() {
-    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, TileMap.createEmptyMap(this.mapWidth, this.mapHeight), this.expMapScale);
+    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, new DummyNoCollisionTileMap(this.mapWidth, this.mapHeight), this.expMapScale);
     	
-    	DummyEntity e1 = new DummyEntity();
+    	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
     	e1.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e1, 1f, 1f));
     	
-    	DummyEntity e2 = new DummyEntity();
+    	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
     	e2.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e2, 1f, 1f));
     	
@@ -399,13 +399,13 @@ public class CollisionTest extends BaseUnitTest {
 
     @Test
     public void testBoxBoxCollision_L() {
-    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, TileMap.createEmptyMap(this.mapWidth, this.mapHeight), this.expMapScale);
+    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, new DummyNoCollisionTileMap(this.mapWidth, this.mapHeight), this.expMapScale);
     	
-    	DummyEntity e1 = new DummyEntity();
+    	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
     	e1.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e1, 1f, 1f));
     	
-    	DummyEntity e2 = new DummyEntity();
+    	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
     	e2.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e2, 1f, 1f));
     	
@@ -427,13 +427,13 @@ public class CollisionTest extends BaseUnitTest {
 
     @Test
     public void testBoxBoxCollision_TL() {
-    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, TileMap.createEmptyMap(this.mapWidth, this.mapHeight), this.expMapScale);
+    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, new DummyNoCollisionTileMap(this.mapWidth, this.mapHeight), this.expMapScale);
     	
-    	DummyEntity e1 = new DummyEntity();
+    	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
     	e1.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e1, 1f, 1f));
     	
-    	DummyEntity e2 = new DummyEntity();
+    	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
     	e2.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e2, 1f, 1f));
     	
@@ -455,13 +455,13 @@ public class CollisionTest extends BaseUnitTest {
 
     @Test
     public void testBoxBoxCollision_C() {
-    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, TileMap.createEmptyMap(this.mapWidth, this.mapHeight), this.expMapScale);
+    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, new DummyNoCollisionTileMap(this.mapWidth, this.mapHeight), this.expMapScale);
     	
-    	DummyEntity e1 = new DummyEntity();
+    	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
     	e1.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e1, 1f, 1f));
     	
-    	DummyEntity e2 = new DummyEntity();
+    	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
     	e2.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e2, 1f, 1f));
     	
@@ -483,13 +483,13 @@ public class CollisionTest extends BaseUnitTest {
 
     @Test
     public void testCircleBoxCollisionMovement_1D() {
-    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, TileMap.createEmptyMap(this.mapWidth, this.mapHeight), this.expMapScale);
+    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, new DummyNoCollisionTileMap(this.mapWidth, this.mapHeight), this.expMapScale);
     	
-    	DummyEntity e1 = new DummyEntity();
+    	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
     	e1.addCollisionGeo(0.5f, 0.5f, new CollisionCircle(e1, 1f));
     	
-    	DummyEntity e2 = new DummyEntity();
+    	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
     	e2.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e2, 2f, 2f));
     	
@@ -513,13 +513,13 @@ public class CollisionTest extends BaseUnitTest {
     
     @Test
     public void testCircleBoxCollisionMovement_2D() {
-    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, TileMap.createEmptyMap(this.mapWidth, this.mapHeight), this.expMapScale);
+    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, new DummyNoCollisionTileMap(this.mapWidth, this.mapHeight), this.expMapScale);
     	
-    	DummyEntity e1 = new DummyEntity();
+    	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
     	e1.addCollisionGeo(0.5f, 0.5f, new CollisionCircle(e1, 1f));
     	
-    	DummyEntity e2 = new DummyEntity();
+    	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
     	e2.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e2, 2f, 2f));
     	
@@ -543,13 +543,13 @@ public class CollisionTest extends BaseUnitTest {
     
     @Test
     public void testCircleBoxCollision_T() {
-    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, TileMap.createEmptyMap(this.mapWidth, this.mapHeight), this.expMapScale);
+    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, new DummyNoCollisionTileMap(this.mapWidth, this.mapHeight), this.expMapScale);
     	
-    	DummyEntity e1 = new DummyEntity();
+    	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
     	e1.addCollisionGeo(0.5f, 0.5f, new CollisionCircle(e1, 1f));
     	
-    	DummyEntity e2 = new DummyEntity();
+    	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
     	e2.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e2, 2f, 2f));
     	
@@ -574,13 +574,13 @@ public class CollisionTest extends BaseUnitTest {
     
     @Test
     public void testCircleBoxCollision_TR() {
-    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, TileMap.createEmptyMap(this.mapWidth, this.mapHeight), this.expMapScale);
+    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, new DummyNoCollisionTileMap(this.mapWidth, this.mapHeight), this.expMapScale);
     	
-    	DummyEntity e1 = new DummyEntity();
+    	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
     	e1.addCollisionGeo(0.5f, 0.5f, new CollisionCircle(e1, 1f));
     	
-    	DummyEntity e2 = new DummyEntity();
+    	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
     	e2.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e2, 2f, 2f));
     	
@@ -605,13 +605,13 @@ public class CollisionTest extends BaseUnitTest {
     
     @Test
     public void testCircleBoxCollision_R() {
-    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, TileMap.createEmptyMap(this.mapWidth, this.mapHeight), this.expMapScale);
+    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, new DummyNoCollisionTileMap(this.mapWidth, this.mapHeight), this.expMapScale);
     	
-    	DummyEntity e1 = new DummyEntity();
+    	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
     	e1.addCollisionGeo(0.5f, 0.5f, new CollisionCircle(e1, 1f));
     	
-    	DummyEntity e2 = new DummyEntity();
+    	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
     	e2.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e2, 2f, 2f));
     	
@@ -636,13 +636,13 @@ public class CollisionTest extends BaseUnitTest {
     
     @Test
     public void testCircleBoxCollision_BR() {
-    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, TileMap.createEmptyMap(this.mapWidth, this.mapHeight), this.expMapScale);
+    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, new DummyNoCollisionTileMap(this.mapWidth, this.mapHeight), this.expMapScale);
     	
-    	DummyEntity e1 = new DummyEntity();
+    	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
     	e1.addCollisionGeo(0.5f, 0.5f, new CollisionCircle(e1, 1f));
     	
-    	DummyEntity e2 = new DummyEntity();
+    	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
     	e2.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e2, 2f, 2f));
     	
@@ -667,13 +667,13 @@ public class CollisionTest extends BaseUnitTest {
     
     @Test
     public void testCircleBoxCollision_B() {
-    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, TileMap.createEmptyMap(this.mapWidth, this.mapHeight), this.expMapScale);
+    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, new DummyNoCollisionTileMap(this.mapWidth, this.mapHeight), this.expMapScale);
     	
-    	DummyEntity e1 = new DummyEntity();
+    	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
     	e1.addCollisionGeo(0.5f, 0.5f, new CollisionCircle(e1, 1f));
     	
-    	DummyEntity e2 = new DummyEntity();
+    	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
     	e2.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e2, 2f, 2f));
     	
@@ -698,13 +698,13 @@ public class CollisionTest extends BaseUnitTest {
     
     @Test
     public void testCircleBoxCollision_BL() {
-    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, TileMap.createEmptyMap(this.mapWidth, this.mapHeight), this.expMapScale);
+    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, new DummyNoCollisionTileMap(this.mapWidth, this.mapHeight), this.expMapScale);
     	
-    	DummyEntity e1 = new DummyEntity();
+    	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
     	e1.addCollisionGeo(0.5f, 0.5f, new CollisionCircle(e1, 1f));
     	
-    	DummyEntity e2 = new DummyEntity();
+    	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
     	e2.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e2, 2f, 2f));
     	
@@ -729,13 +729,13 @@ public class CollisionTest extends BaseUnitTest {
     
     @Test
     public void testCircleBoxCollision_L() {
-    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, TileMap.createEmptyMap(this.mapWidth, this.mapHeight), this.expMapScale);
+    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, new DummyNoCollisionTileMap(this.mapWidth, this.mapHeight), this.expMapScale);
     	
-    	DummyEntity e1 = new DummyEntity();
+    	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
     	e1.addCollisionGeo(0.5f, 0.5f, new CollisionCircle(e1, 1f));
     	
-    	DummyEntity e2 = new DummyEntity();
+    	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
     	e2.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e2, 2f, 2f));
     	
@@ -760,13 +760,13 @@ public class CollisionTest extends BaseUnitTest {
     
     @Test
     public void testCircleBoxCollision_TL() {
-    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, TileMap.createEmptyMap(this.mapWidth, this.mapHeight), this.expMapScale);
+    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, new DummyNoCollisionTileMap(this.mapWidth, this.mapHeight), this.expMapScale);
     	
-    	DummyEntity e1 = new DummyEntity();
+    	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
     	e1.addCollisionGeo(0.5f, 0.5f, new CollisionCircle(e1, 1f));
     	
-    	DummyEntity e2 = new DummyEntity();
+    	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
     	e2.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e2, 2f, 2f));
     	
@@ -791,13 +791,13 @@ public class CollisionTest extends BaseUnitTest {
     
     @Test
     public void testCircleBoxCollision_C() {
-    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, TileMap.createEmptyMap(this.mapWidth, this.mapHeight), this.expMapScale);
+    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, new DummyNoCollisionTileMap(this.mapWidth, this.mapHeight), this.expMapScale);
     	
-    	DummyEntity e1 = new DummyEntity();
+    	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
     	e1.addCollisionGeo(0.5f, 0.5f, new CollisionCircle(e1, 1f));
     	
-    	DummyEntity e2 = new DummyEntity();
+    	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
     	e2.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e2, 2f, 2f));
     	
@@ -829,13 +829,13 @@ public class CollisionTest extends BaseUnitTest {
     
     @Test
     public void testBoxCircleCollisionMovement_1D() {
-    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, TileMap.createEmptyMap(this.mapWidth, this.mapHeight), this.expMapScale);
+    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, new DummyNoCollisionTileMap(this.mapWidth, this.mapHeight), this.expMapScale);
     	
-    	DummyEntity e1 = new DummyEntity();
+    	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
     	e1.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e1, 2f, 2f));
     	
-    	DummyEntity e2 = new DummyEntity();
+    	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
     	e2.addCollisionGeo(0.5f, 0.5f, new CollisionCircle(e2, 1f));
     	
@@ -859,13 +859,13 @@ public class CollisionTest extends BaseUnitTest {
     
     @Test
     public void testBoxCircleCollisionMovement_2D() {
-    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, TileMap.createEmptyMap(this.mapWidth, this.mapHeight), this.expMapScale);
+    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, new DummyNoCollisionTileMap(this.mapWidth, this.mapHeight), this.expMapScale);
     	
-    	DummyEntity e1 = new DummyEntity();
+    	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
     	e1.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e1, 2f, 2f));
     	
-    	DummyEntity e2 = new DummyEntity();
+    	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
     	e2.addCollisionGeo(0.5f, 0.5f, new CollisionCircle(e2, 1f));
     	
@@ -889,13 +889,13 @@ public class CollisionTest extends BaseUnitTest {
     
     @Test
     public void testBoxCircleCollision_T() {
-    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, TileMap.createEmptyMap(this.mapWidth, this.mapHeight), this.expMapScale);
+    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, new DummyNoCollisionTileMap(this.mapWidth, this.mapHeight), this.expMapScale);
     	
-    	DummyEntity e1 = new DummyEntity();
+    	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
     	e1.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e1, 2f, 2f));
     	
-    	DummyEntity e2 = new DummyEntity();
+    	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
     	e2.addCollisionGeo(0.5f, 0.5f, new CollisionCircle(e2, 1f));
     	
@@ -920,13 +920,13 @@ public class CollisionTest extends BaseUnitTest {
     
     @Test
     public void testBoxCircleCollision_TR() {
-    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, TileMap.createEmptyMap(this.mapWidth, this.mapHeight), this.expMapScale);
+    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, new DummyNoCollisionTileMap(this.mapWidth, this.mapHeight), this.expMapScale);
     	
-    	DummyEntity e1 = new DummyEntity();
+    	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
     	e1.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e1, 2f, 2f));
     	
-    	DummyEntity e2 = new DummyEntity();
+    	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
     	e2.addCollisionGeo(0.5f, 0.5f, new CollisionCircle(e2, 1f));
     	
@@ -951,13 +951,13 @@ public class CollisionTest extends BaseUnitTest {
     
     @Test
     public void testBoxCircleCollision_R() {
-    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, TileMap.createEmptyMap(this.mapWidth, this.mapHeight), this.expMapScale);
+    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, new DummyNoCollisionTileMap(this.mapWidth, this.mapHeight), this.expMapScale);
     	
-    	DummyEntity e1 = new DummyEntity();
+    	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
     	e1.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e1, 2f, 2f));
     	
-    	DummyEntity e2 = new DummyEntity();
+    	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
     	e2.addCollisionGeo(0.5f, 0.5f, new CollisionCircle(e2, 1f));
     	
@@ -982,13 +982,13 @@ public class CollisionTest extends BaseUnitTest {
     
     @Test
     public void testBoxCircleCollision_BR() {
-    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, TileMap.createEmptyMap(this.mapWidth, this.mapHeight), this.expMapScale);
+    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, new DummyNoCollisionTileMap(this.mapWidth, this.mapHeight), this.expMapScale);
     	
-    	DummyEntity e1 = new DummyEntity();
+    	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
     	e1.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e1, 2f, 2f));
     	
-    	DummyEntity e2 = new DummyEntity();
+    	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
     	e2.addCollisionGeo(0.5f, 0.5f, new CollisionCircle(e2, 1f));
     	
@@ -1013,13 +1013,13 @@ public class CollisionTest extends BaseUnitTest {
     
     @Test
     public void testBoxCircleCollision_B() {
-    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, TileMap.createEmptyMap(this.mapWidth, this.mapHeight), this.expMapScale);
+    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, new DummyNoCollisionTileMap(this.mapWidth, this.mapHeight), this.expMapScale);
     	
-    	DummyEntity e1 = new DummyEntity();
+    	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
     	e1.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e1, 2f, 2f));
     	
-    	DummyEntity e2 = new DummyEntity();
+    	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
     	e2.addCollisionGeo(0.5f, 0.5f, new CollisionCircle(e2, 1f));
     	
@@ -1044,13 +1044,13 @@ public class CollisionTest extends BaseUnitTest {
     
     @Test
     public void testBoxCircleCollision_BL() {
-    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, TileMap.createEmptyMap(this.mapWidth, this.mapHeight), this.expMapScale);
+    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, new DummyNoCollisionTileMap(this.mapWidth, this.mapHeight), this.expMapScale);
     	
-    	DummyEntity e1 = new DummyEntity();
+    	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
     	e1.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e1, 2f, 2f));
     	
-    	DummyEntity e2 = new DummyEntity();
+    	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
     	e2.addCollisionGeo(0.5f, 0.5f, new CollisionCircle(e2, 1f));
     	
@@ -1075,13 +1075,13 @@ public class CollisionTest extends BaseUnitTest {
     
     @Test
     public void testBoxCircleCollision_L() {
-    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, TileMap.createEmptyMap(this.mapWidth, this.mapHeight), this.expMapScale);
+    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, new DummyNoCollisionTileMap(this.mapWidth, this.mapHeight), this.expMapScale);
     	
-    	DummyEntity e1 = new DummyEntity();
+    	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
     	e1.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e1, 2f, 2f));
     	
-    	DummyEntity e2 = new DummyEntity();
+    	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
     	e2.addCollisionGeo(0.5f, 0.5f, new CollisionCircle(e2, 1f));
     	
@@ -1106,13 +1106,13 @@ public class CollisionTest extends BaseUnitTest {
     
     @Test
     public void testBoxCircleCollision_TL() {
-    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, TileMap.createEmptyMap(this.mapWidth, this.mapHeight), this.expMapScale);
+    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, new DummyNoCollisionTileMap(this.mapWidth, this.mapHeight), this.expMapScale);
     	
-    	DummyEntity e1 = new DummyEntity();
+    	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
     	e1.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e1, 2f, 2f));
     	
-    	DummyEntity e2 = new DummyEntity();
+    	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
     	e2.addCollisionGeo(0.5f, 0.5f, new CollisionCircle(e2, 1f));
     	
@@ -1137,13 +1137,13 @@ public class CollisionTest extends BaseUnitTest {
     
     @Test
     public void testBoxCircleCollision_C() {
-    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, TileMap.createEmptyMap(this.mapWidth, this.mapHeight), this.expMapScale);
+    	DummyGameLayer l = new DummyGameLayer(this.mapWidth, this.mapHeight, new DummyNoCollisionTileMap(this.mapWidth, this.mapHeight), this.expMapScale);
     	
-    	DummyEntity e1 = new DummyEntity();
+    	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
     	e1.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e1, 2f, 2f));
     	
-    	DummyEntity e2 = new DummyEntity();
+    	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
     	e2.addCollisionGeo(0.5f, 0.5f, new CollisionCircle(e2, 1f));
     	

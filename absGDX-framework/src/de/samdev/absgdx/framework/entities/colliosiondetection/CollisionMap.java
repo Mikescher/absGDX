@@ -35,6 +35,9 @@ public class CollisionMap {
 	/** A storage for CollisionGeometries of the mapTiles */
 	public final CollisionBox[][] tileCollisionBoxes;
 	
+	private final int mapwidth;
+	private final int mapheight;
+	
 	private int geometryCount = 0;
 	
 	/**
@@ -89,6 +92,8 @@ public class CollisionMap {
 			}
 		}
 
+		this.mapwidth = map.width;
+		this.mapheight = map.height;
 		this.tileCollisionBoxes = new CollisionBox[map.width][map.height];
 		for (int x = 0; x < map.width; x++) {
 			for (int y = 0; y < map.height; y++) {
@@ -283,7 +288,7 @@ public class CollisionMap {
 					}
 				}
 				
-				if (tileX >= 0 && tileX < width && tileY >= 0 && tileY < height) {
+				if (tileX >= 0 && tileX < mapwidth && tileY >= 0 && tileY < mapheight) {
 					CollisionGeometry other = tileCollisionBoxes[tileX][tileY];
 					if (canCollide(g, other) && isHardCollision_EntityTile(g, other) && ShapeMath.doGeometriesIntersect(g, other)) {
 						return other;
@@ -325,7 +330,7 @@ public class CollisionMap {
 					}
 				}
 				
-				if (tileX >= 0 && tileX < width && tileY >= 0 && tileY < height) {
+				if (tileX >= 0 && tileX < mapwidth && tileY >= 0 && tileY < mapheight) {
 					CollisionGeometry other = tileCollisionBoxes[tileX][tileY];
 					if (canCollide(g, other) && ShapeMath.doGeometriesIntersect(g, other)) {
 						return other;
@@ -384,8 +389,8 @@ public class CollisionMap {
 						result.add(other);
 					}
 				}
-				
-				if (tileX >= 0 && tileX < width && tileY >= 0 && tileY < height) {
+
+				if (tileX >= 0 && tileX < mapwidth && tileY >= 0 && tileY < mapheight) {
 					CollisionGeometry other = tileCollisionBoxes[tileX][tileY];
 					if (canCollide(g, other) && ShapeMath.doGeometriesIntersect(g, other)) {
 						result.add(other);
@@ -425,14 +430,14 @@ public class CollisionMap {
 					
 					float dr = g.getRadius() + other.getRadius();
 					
-					if (dx*dx + dy*dy < dr*dr && canCollide(g, other) && g.owner.canMoveCollide(other.owner) && ShapeMath.doGeometriesIntersect(g, other)) { // Shortcut Evaluation - yay
+					if (dx*dx + dy*dy < dr*dr && canCollide(g, other) && g.owner.canMoveCollideWith(other.owner) && ShapeMath.doGeometriesIntersect(g, other)) { // Shortcut Evaluation - yay
 						result.add(other);
 					}
 				}
-				
-				if (tileX >= 0 && tileX < width && tileY >= 0 && tileY < height) {
+
+				if (tileX >= 0 && tileX < mapwidth && tileY >= 0 && tileY < mapheight) {
 					CollisionGeometry other = tileCollisionBoxes[tileX][tileY];
-					if (canCollide(g, other) && other.owner.canMoveCollide(g.owner) && ShapeMath.doGeometriesIntersect(g, other)) {
+					if (canCollide(g, other) && other.owner.canMoveCollideWith(g.owner) && ShapeMath.doGeometriesIntersect(g, other)) {
 						result.add(other);
 					}
 				}
@@ -528,13 +533,13 @@ public class CollisionMap {
 	private boolean isHardCollision(CollisionGeometry a, CollisionGeometry b) {
 		if (a.owner == null || b.owner == null) return true;
 		
-		return a.owner.canMoveCollide(b.owner) || b.owner.canMoveCollide(a.owner);
+		return a.owner.canMoveCollideWith(b.owner) || b.owner.canMoveCollideWith(a.owner);
 	}
 	
 	private boolean isHardCollision_EntityTile(CollisionGeometry entity, CollisionGeometry tile) {
 		if (entity.owner == null || tile.owner == null) return true;
 		
-		return tile.owner.canMoveCollide(entity.owner);
+		return tile.owner.canMoveCollideWith(entity.owner);
 	}
 
 	/**

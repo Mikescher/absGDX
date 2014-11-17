@@ -48,7 +48,7 @@ public abstract class AutoTile extends Tile {
 	}
 
 	@Override
-	public boolean canMoveCollide(CollisionGeometryOwner other) {
+	public boolean canMoveCollideWith(CollisionGeometryOwner other) {
 		return false;
 	}
 }

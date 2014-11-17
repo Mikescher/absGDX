@@ -14,6 +14,7 @@ import de.samdev.absgdx.tests.BaseUnitTest;
 import de.samdev.absgdx.tests.dummy.DummyCollisionCircle;
 import de.samdev.absgdx.tests.dummy.DummyEntity;
 import de.samdev.absgdx.tests.dummy.DummyGameLayer;
+import de.samdev.absgdx.tests.dummy.DummyTile;
 
 public class EntityCollisionTest extends BaseUnitTest {
     @Test
@@ -396,5 +397,45 @@ public class EntityCollisionTest extends BaseUnitTest {
     		e1.movePosition(0.1f, 0f);
     	
     	return new Vector2(11f, 10f).epsilonEquals(e1.getPosition(), 0.0001f);
+    }
+    
+    @Test
+    public void testTileCollisions_Hard() {
+    	TileMap m = TileMap.createEmptyMap(100, 100);
+    	DummyTile dt = new DummyTile();
+    	dt.canHardCollide = true;
+    	m.setTile(10, 10, dt);
+    	DummyGameLayer l = new DummyGameLayer(100, 100, m);
+
+    	DummyEntity e1 = new DummyEntity();
+    	l.addEntity(e1);
+    	e1.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e1, 1f, 1f));
+    	
+    	e1.setPosition(5f, 10f);
+    	
+    	for (int i = 0; i < 100; i++) 
+    		e1.movePosition(0.1f, 0f);
+    	
+    	assertEqualsExt(new Vector2(9.0f, 10f), e1.getPosition(), 0.0001f);
+    }
+    
+    @Test
+    public void testTileCollisions_Soft() {
+    	TileMap m = TileMap.createEmptyMap(100, 100);
+    	DummyTile dt = new DummyTile();
+    	dt.canHardCollide = false;
+    	m.setTile(10, 10, dt);
+    	DummyGameLayer l = new DummyGameLayer(100, 100, m);
+
+    	DummyEntity e1 = new DummyEntity();
+    	l.addEntity(e1);
+    	e1.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e1, 1f, 1f));
+    	
+    	e1.setPosition(5f, 10f);
+    	
+    	for (int i = 0; i < 100; i++) 
+    		e1.movePosition(0.1f, 0f);
+    	
+    	assertEqualsExt(new Vector2(15f, 10f), e1.getPosition(), 0.0001f);
     }
 }

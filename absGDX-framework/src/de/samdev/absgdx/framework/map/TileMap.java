@@ -60,6 +60,20 @@ public class TileMap {
 	public Tile getTile(int x, int y) {
 		return tiles[x][y];
 	}
+	
+	/**
+	 * Returns a tile or NULL if OutOfBounds
+	 * 
+	 * @param x the X position
+	 * @param y the Y position
+	 * @return the tile or NULL
+	 */
+	public Tile getTileChecked(int x, int y) {
+		if (x >= 0 && y >= 0 && x < width && y < height)
+			return tiles[x][y];
+		else
+			return null;
+	}
 
 	/**
 	 * Gets the map width & height as an Vector2 (creates a new Vector2)

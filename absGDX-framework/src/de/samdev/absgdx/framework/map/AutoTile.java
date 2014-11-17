@@ -5,6 +5,7 @@ import java.util.HashMap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
 import de.samdev.absgdx.framework.util.tiled.TmxMapLoader;
 
 /**
@@ -15,6 +16,12 @@ import de.samdev.absgdx.framework.util.tiled.TmxMapLoader;
  * This class is mostly useful in combination with the TmxMapLoader
  */
 public abstract class AutoTile extends Tile {
+	
+	/**
+	 * The propertiesMap this Tile was initialized with
+	 */
+	public final HashMap<String, String> properties;
+	
 	/**
 	 * Creates a new AutoTile
 	 * 
@@ -25,6 +32,8 @@ public abstract class AutoTile extends Tile {
 	 */
 	public AutoTile(Texture tileset, int tilewidth, int tileheight, HashMap<String, String> properties) {
 		super(getAutoTexture(Integer.parseInt(properties.get(TmxMapLoader.PROPERTY_TEXTURE_GID)), tileset, tilewidth, tileheight));
+		
+		this.properties = properties;
 	}
 
 	private static TextureRegion getAutoTexture(int gid, Texture tileset, int tileW, int tileH) {
@@ -36,5 +45,10 @@ public abstract class AutoTile extends Tile {
 	@Override
 	public void update(float delta) {
 		// NOP
+	}
+
+	@Override
+	public boolean canMoveCollide(CollisionGeometryOwner other) {
+		return false;
 	}
 }

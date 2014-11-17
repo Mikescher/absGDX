@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
 import de.samdev.absgdx.framework.map.Tile;
 
 public class DummyTile extends Tile {
@@ -23,6 +24,11 @@ public class DummyTile extends Tile {
 	@Override
 	public void update(float delta) {
 		// NOP
+	}
+
+	@Override
+	public boolean canMoveCollide(CollisionGeometryOwner other) {
+		return false;
 	}
 
 }

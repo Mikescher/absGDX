@@ -7,7 +7,9 @@ import java.util.Set;
 
 import com.badlogic.gdx.math.Vector2;
 
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionBox;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
+import de.samdev.absgdx.framework.map.TileMap;
 import de.samdev.absgdx.framework.math.ShapeMath;
 
 
@@ -29,17 +31,19 @@ public class CollisionMap {
 
 	/** if an geometry doesn't fit in the grid it is stored here*/
 	public final CollisionMapTile[][] outerBorder = new CollisionMapTile[3][3];
+
+	/** A storage for CollisionGeometries of the mapTiles */
+	public final CollisionBox[][] tileCollisionBoxes;
 	
 	private int geometryCount = 0;
 	
 	/**
 	 * Creates a new CollisionMap with an scale of 1 (expScale = 0)
 	 * 
-	 * @param mapwidth the grid width
-	 * @param mapheight the grid height
+	 * @param map the tile map
 	 */
-	public CollisionMap(int mapwidth, int mapheight) {
-		this(mapwidth, mapheight, 0);
+	public CollisionMap(TileMap map) {
+		this(map, 0);
 	}
 	
 	/**
@@ -52,23 +56,22 @@ public class CollisionMap {
 	 * -1: CollisionTiles are 2 times smaller
 	 * etc
 	 * 
-	 * @param mapwidth the grid width
-	 * @param mapheight the grid height
+	 * @param map the map
 	 * @param expScale the ratio collisionMapTileSize / mapTileSize in the form [2^n]
 	 */
-	public CollisionMap(int mapwidth, int mapheight, int expScale) {
+	public CollisionMap(TileMap map, int expScale) {
 		super();
 		
 		this.expTileScale = expScale;
 		if (expScale < 0) {
-			this.width =  (int) Math.ceil(mapwidth  * 1d * (1 << -expScale));
-			this.height = (int) Math.ceil(mapheight * 1d * (1 << -expScale));			
+			this.width =  (int) Math.ceil(map.width  * 1d * (1 << -expScale));
+			this.height = (int) Math.ceil(map.height * 1d * (1 << -expScale));			
 		} else if (expScale == 0) {
-			this.width = mapwidth;
-			this.height = mapheight;			
+			this.width = map.width;
+			this.height = map.height;			
 		} else {
-			this.width =  (int) Math.ceil(mapwidth  * 1d  / (1 << expScale));
-			this.height = (int) Math.ceil(mapheight * 1d  / (1 << expScale));
+			this.width =  (int) Math.ceil(map.width  * 1d  / (1 << expScale));
+			this.height = (int) Math.ceil(map.height * 1d  / (1 << expScale));
 		}
 		
 		this.map = new CollisionMapTile[width][height];
@@ -83,6 +86,13 @@ public class CollisionMap {
 			for (int y = 0; y < 3; y++) {
 				if (x == 1 && y == 1) continue;
 				this.outerBorder[x][y] = new CollisionMapTile();
+			}
+		}
+
+		this.tileCollisionBoxes = new CollisionBox[map.width][map.height];
+		for (int x = 0; x < map.width; x++) {
+			for (int y = 0; y < map.height; y++) {
+				this.tileCollisionBoxes[x][y] = new CollisionBox(map.getTile(x, y), x + 0.5f, y + 0.5f, 1, 1);
 			}
 		}
 	}
@@ -192,6 +202,16 @@ public class CollisionMap {
 	public boolean isColliding(List<CollisionGeometry> g) {
 		return getFirstCollider(g) != null;
 	}
+	
+	/**
+	 * Returns if any geometry in the list that is colliding with an other geometry that can't move into this one
+	 * 
+	 * @param g the geometry-list to test
+	 * @return true if there is an collision
+	 */
+	public boolean isHardColliding(List<CollisionGeometry> g) {
+		return getFirstHardCollider(g) != null;
+	}
 
 	/**
 	 * Returns if the geometry is colliding with an other geometry
@@ -219,6 +239,63 @@ public class CollisionMap {
 	}
 	
 	/**
+	 * Returns the first other geometry found that collides with one of the list so that they can't move into each other (collide hard)
+	 * 
+	 * @param g the geometry-list to test
+	 * @return the first colliding geometry or null
+	 */
+	public CollisionGeometry getFirstHardCollider(List<CollisionGeometry> g) {
+		for (CollisionGeometry geo : g) {
+			CollisionGeometry result = getFirstHardCollider(geo);
+			if (result != null)
+				return result;
+		}
+		return null;
+	}
+	
+	/**
+	 * Returns the first other geometry found that collides with this one and that can't move into this one (hard collision)
+	 * 
+	 * @param g the geometry to test
+	 * @return the first colliding geometry or null
+	 */
+	public CollisionGeometry getFirstHardCollider(CollisionGeometry g) {
+		int rad = getTileRadius(g.getRadius());
+		int px = getTileX(g.getCenterX());
+		int py = getTileY(g.getCenterY());
+		
+		for (int x = -rad; x <= rad; x++) {
+			for (int y = -rad; y <= rad; y++) {
+				int tileX = px+x;
+				int tileY = py+y;
+				
+				for (CollisionGeometry other : getCollisionTile(tileX, tileY).geometries) {
+					if (other == g) continue;
+					if (other.owner == g.owner) continue;
+					
+					float dx = g.getCenterX() - other.getCenterX();
+					float dy = g.getCenterY() - other.getCenterY();
+					
+					float dr = g.getRadius() + other.getRadius();
+					
+					if (dx*dx + dy*dy < dr*dr && canCollide(g, other) && isHardCollision(g, other) && ShapeMath.doGeometriesIntersect(g, other)) { // Shortcut Evaluation - yay
+						return other;
+					}
+				}
+				
+				if (tileX >= 0 && tileX < width && tileY >= 0 && tileY < height) {
+					CollisionGeometry other = tileCollisionBoxes[tileX][tileY];
+					if (canCollide(g, other) && isHardCollision_EntityTile(g, other) && ShapeMath.doGeometriesIntersect(g, other)) {
+						return other;
+					}
+				}
+			}
+		}
+		
+		return null;
+	}
+	
+	/**
 	 * Returns the first other geometry found that collides with this one
 	 * 
 	 * @param g the geometry to test
@@ -231,7 +308,10 @@ public class CollisionMap {
 		
 		for (int x = -rad; x <= rad; x++) {
 			for (int y = -rad; y <= rad; y++) {
-				for (CollisionGeometry other : getCollisionTile(px+x, py+y).geometries) {
+				int tileX = px+x;
+				int tileY = py+y;
+				
+				for (CollisionGeometry other : getCollisionTile(tileX, tileY).geometries) {
 					if (other == g) continue;
 					if (other.owner == g.owner) continue;
 					
@@ -241,6 +321,13 @@ public class CollisionMap {
 					float dr = g.getRadius() + other.getRadius();
 					
 					if (dx*dx + dy*dy < dr*dr && canCollide(g, other) && ShapeMath.doGeometriesIntersect(g, other)) { // Shortcut Evaluation - yay
+						return other;
+					}
+				}
+				
+				if (tileX >= 0 && tileX < width && tileY >= 0 && tileY < height) {
+					CollisionGeometry other = tileCollisionBoxes[tileX][tileY];
+					if (canCollide(g, other) && ShapeMath.doGeometriesIntersect(g, other)) {
 						return other;
 					}
 				}
@@ -281,7 +368,10 @@ public class CollisionMap {
 		
 		for (int x = -rad; x <= rad; x++) {
 			for (int y = -rad; y <= rad; y++) {
-				for (CollisionGeometry other : getCollisionTile(px+x, py+y).geometries) {
+				int tileX = px+x;
+				int tileY = py+y;
+				
+				for (CollisionGeometry other : getCollisionTile(tileX, tileY).geometries) {
 					if (other == g) continue;
 					if (other.owner == g.owner) continue;
 					
@@ -291,6 +381,13 @@ public class CollisionMap {
 					float dr = g.getRadius() + other.getRadius();
 					
 					if (dx*dx + dy*dy < dr*dr && canCollide(g, other) && ShapeMath.doGeometriesIntersect(g, other)) { // Shortcut Evaluation - yay
+						result.add(other);
+					}
+				}
+				
+				if (tileX >= 0 && tileX < width && tileY >= 0 && tileY < height) {
+					CollisionGeometry other = tileCollisionBoxes[tileX][tileY];
+					if (canCollide(g, other) && ShapeMath.doGeometriesIntersect(g, other)) {
 						result.add(other);
 					}
 				}
@@ -307,7 +404,7 @@ public class CollisionMap {
 	 * @param g the geometry to test
 	 * @return a Set of all colliding geometries
 	 */
-	public Set<CollisionGeometry> getMoveColliders(CollisionGeometry g) {
+	public Set<CollisionGeometry> getHardColliders(CollisionGeometry g) {
 		int rad = getTileRadius(g.getRadius());
 		int px = getTileX(g.getCenterX());
 		int py = getTileY(g.getCenterY());
@@ -316,7 +413,10 @@ public class CollisionMap {
 		
 		for (int x = -rad; x <= rad; x++) {
 			for (int y = -rad; y <= rad; y++) {
-				for (CollisionGeometry other : getCollisionTile(px+x, py+y).geometries) {
+				int tileX = px+x;
+				int tileY = py+y;
+
+				for (CollisionGeometry other : getCollisionTile(tileX, tileY).geometries) {
 					if (other == g) continue;
 					if (other.owner == g.owner) continue;
 					
@@ -326,6 +426,13 @@ public class CollisionMap {
 					float dr = g.getRadius() + other.getRadius();
 					
 					if (dx*dx + dy*dy < dr*dr && canCollide(g, other) && g.owner.canMoveCollide(other.owner) && ShapeMath.doGeometriesIntersect(g, other)) { // Shortcut Evaluation - yay
+						result.add(other);
+					}
+				}
+				
+				if (tileX >= 0 && tileX < width && tileY >= 0 && tileY < height) {
+					CollisionGeometry other = tileCollisionBoxes[tileX][tileY];
+					if (canCollide(g, other) && other.owner.canMoveCollide(g.owner) && ShapeMath.doGeometriesIntersect(g, other)) {
 						result.add(other);
 					}
 				}
@@ -416,6 +523,18 @@ public class CollisionMap {
 		if (a.owner == null || b.owner == null) return true;
 		
 		return a.owner.canCollideWith(b.owner) || b.owner.canCollideWith(a.owner);
+	}
+	
+	private boolean isHardCollision(CollisionGeometry a, CollisionGeometry b) {
+		if (a.owner == null || b.owner == null) return true;
+		
+		return a.owner.canMoveCollide(b.owner) || b.owner.canMoveCollide(a.owner);
+	}
+	
+	private boolean isHardCollision_EntityTile(CollisionGeometry entity, CollisionGeometry tile) {
+		if (entity.owner == null || tile.owner == null) return true;
+		
+		return tile.owner.canMoveCollide(entity.owner);
 	}
 
 	/**

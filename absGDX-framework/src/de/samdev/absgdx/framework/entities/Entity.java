@@ -310,7 +310,7 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 		
 		for (EntityCollisionGeometry mygeometry : collisionGeometries) {
 			mygeometry.updatePosition(getPositionX() + dx, getPositionY());			
-			Set<CollisionGeometry> colliders = collisionOwner.getMoveColliders(mygeometry.geometry);
+			Set<CollisionGeometry> colliders = collisionOwner.getHardColliders(mygeometry.geometry);
 			mygeometry.updatePosition(getPositionX(), getPositionY());
 			
 			for (CollisionGeometry othergeometry : colliders) {
@@ -363,7 +363,7 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 		
 		for (EntityCollisionGeometry mygeometry : collisionGeometries) {
 			mygeometry.updatePosition(getPositionX(), getPositionY() + dy);			
-			Set<CollisionGeometry> colliders = collisionOwner.getMoveColliders(mygeometry.geometry);
+			Set<CollisionGeometry> colliders = collisionOwner.getHardColliders(mygeometry.geometry);
 			mygeometry.updatePosition(getPositionX(), getPositionY());
 			
 			for (CollisionGeometry othergeometry : colliders) {
@@ -541,6 +541,15 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	 */
 	public boolean isColliding() {
 		return collisionOwner.isColliding(collisionGeometriesWrapper);
+	}
+	
+	/**
+	 * Returns if the entity is colliding with any other thatcan't move into each other
+	 * 
+	 * @return true if there is an collision
+	 */
+	public boolean isHardColliding() {
+		return collisionOwner.isHardColliding(collisionGeometriesWrapper);
 	}
 	
 	/**

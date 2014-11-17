@@ -3,6 +3,7 @@ package de.samdev.absgdx.framework.layer;
 import java.util.Iterator;
 import java.util.List;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -16,6 +17,7 @@ import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionMap;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionBox;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionCircle;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
+import de.samdev.absgdx.framework.map.Tile;
 import de.samdev.absgdx.framework.map.TileMap;
 import de.samdev.absgdx.framework.map.mapscaleresolver.AbstractMapScaleResolver;
 import de.samdev.absgdx.framework.map.mapscaleresolver.ShowCompleteMapScaleResolver;
@@ -51,7 +53,7 @@ public abstract class GameLayer extends AgdxLayer {
 		super(owner);
 
 		this.map = map;
-		this.collisionMap = new CollisionMap(map.width, map.height);
+		this.collisionMap = new CollisionMap(map);
 	}
 
 	/**
@@ -72,7 +74,7 @@ public abstract class GameLayer extends AgdxLayer {
 		super(owner);
 
 		this.map = map;
-		this.collisionMap = new CollisionMap(map.width, map.height, expCollisionTileScale);
+		this.collisionMap = new CollisionMap(map, expCollisionTileScale);
 	}
 	
 	@Override
@@ -371,5 +373,17 @@ public abstract class GameLayer extends AgdxLayer {
 	 */
 	public int getRenderingEntitiesCount() {
 		return renderedEntities;
+	}
+
+	/**
+	 * Get the Tile under the cursor
+	 * 
+	 * @return the tile under the mouse or NULL
+	 */
+	public Tile getTileUnderMouse() {
+		Rectangle visible = getVisibleMapBox();
+		int x = (int) (visible.x +  (Gdx.input.getX() * visible.width)/ Gdx.graphics.getWidth());
+		int y = (int) (visible.y +  ((Gdx.graphics.getHeight() - Gdx.input.getY()) * visible.height)/ Gdx.graphics.getHeight()); 
+		return map.getTileChecked(x, y);
 	}
 }

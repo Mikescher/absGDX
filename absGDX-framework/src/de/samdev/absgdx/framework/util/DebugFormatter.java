@@ -1,8 +1,13 @@
 package de.samdev.absgdx.framework.util;
 
+import java.util.HashMap;
+import java.util.Map.Entry;
+
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+
+import de.samdev.absgdx.framework.util.tiled.TmxMapLoader;
 
 /**
  * An util class for formatting values (used for debugging)
@@ -150,5 +155,40 @@ public class DebugFormatter {
 			return "" + (long)r;
 		else
 			return "" + ((int)(r * decimalPointsPot) * 1d / decimalPointsPot);
+	}
+	
+	/**
+	 * formats the propertiesMap from an TmxMapLoader
+	 * 
+	 * @param properties the map
+	 * @param limit the max amount of properties in the output
+	 * @return
+	 */
+	public static String fmtPropertiesMap(HashMap<String, String> properties, int limit) {
+		if (properties == null) return "NULL";
+		
+		StringBuilder b = new StringBuilder();
+		
+		boolean first = true;
+		for (Entry<String, String> entry : properties.entrySet()) {
+			if (entry.getKey().equals(TmxMapLoader.PROPERTY_COMPRESSION)) continue;
+			if (entry.getKey().equals(TmxMapLoader.PROPERTY_ENCODING)) continue;
+			if (entry.getKey().equals(TmxMapLoader.PROPERTY_LAYER_WIDTH)) continue;
+			if (entry.getKey().equals(TmxMapLoader.PROPERTY_LAYER_HEIGHT)) continue;
+			if (entry.getKey().equals(TmxMapLoader.PROPERTY_LAYER_LEVEL)) continue;
+			if (entry.getKey().equals(TmxMapLoader.PROPERTY_MAP_WIDTH)) continue;
+			if (entry.getKey().equals(TmxMapLoader.PROPERTY_MAP_HEIGHT)) continue;
+			
+			if (! first) b.append(" ; ");
+			b.append(entry.getKey().replaceAll("\\[absGDX\\]-", "") + "=" + entry.getValue());
+			first = false;
+			
+			if (--limit == 0) {
+				b.append(" ...");
+				return b.toString();
+			}
+		}
+		
+		return b.toString();
 	}
 }

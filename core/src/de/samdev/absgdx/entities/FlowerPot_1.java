@@ -26,7 +26,7 @@ public class FlowerPot_1 extends Entity {
 		
 		addCollisionGeo(1, 1, new CollisionCircle(this, 1f));
 		
-		if (isColliding()) alive = false;
+		if (isHardColliding()) alive = false;
 	}
 	
 	@Override

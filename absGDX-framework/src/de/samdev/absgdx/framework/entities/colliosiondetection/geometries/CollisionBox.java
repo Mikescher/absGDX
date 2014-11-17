@@ -33,6 +33,21 @@ public class CollisionBox extends CollisionGeometry {
 		this.outerRadius = (float) Math.sqrt(width*width + height*height) / 2;
 	}
 
+	/**
+	 * Creates a new CollisionBox 
+	 * 
+	 * @param owner the Entity that owns this geometry
+	 * @param x the x position
+	 * @param y the y position
+	 * @param width the box width
+	 * @param height the box height
+	 */
+	public CollisionBox(CollisionGeometryOwner owner, float x, float y, float width, float height) {
+		this(owner, width, height);
+		
+		setCenter(x, y);
+	}
+
 	@Override
 	public float getRadius() {
 		return outerRadius;

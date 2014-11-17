@@ -1,7 +1,8 @@
-package de.samdev.absgdx;
+package de.samdev.absgdx.tiles;
 
 import java.util.HashMap;
 
+import de.samdev.absgdx.Textures;
 import de.samdev.absgdx.framework.map.AutoTile;
 
 public class StandardAutoTile extends AutoTile {

@@ -11,12 +11,13 @@ import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.Collis
 import de.samdev.absgdx.tests.BaseUnitTest;
 import de.samdev.absgdx.tests.dummy.DummyCollisionBox;
 import de.samdev.absgdx.tests.dummy.DummyCollisionCircle;
+import de.samdev.absgdx.tests.dummy.DummyCollisionMap;
 
 public class CollisionMapTest extends BaseUnitTest {
 
 	@Test
 	public void testAddGeometryCircle() {
-		CollisionMap m = new CollisionMap(100, 100);
+		CollisionMap m = new DummyCollisionMap(100, 100);
 		boolean[][] compare = new boolean[100][100];
 
 		boolean[][] compareOuter = new boolean[3][3];
@@ -39,7 +40,7 @@ public class CollisionMapTest extends BaseUnitTest {
 
 	@Test
 	public void testAddGeometryBox() {
-		CollisionMap m = new CollisionMap(100, 100);
+		CollisionMap m = new DummyCollisionMap(100, 100);
 		boolean[][] compare = new boolean[100][100];
 
 		boolean[][] compareOuter = new boolean[3][3];
@@ -62,7 +63,7 @@ public class CollisionMapTest extends BaseUnitTest {
 
 	@Test
 	public void testAddGeometryBoxBorder() {
-		CollisionMap m = new CollisionMap(100, 100);
+		CollisionMap m = new DummyCollisionMap(100, 100);
 		boolean[][] compare = new boolean[100][100];
 
 		boolean[][] compareOuter = new boolean[3][3];
@@ -89,7 +90,7 @@ public class CollisionMapTest extends BaseUnitTest {
 
 	@Test
 	public void testAddGeometryCircleBorder() {
-		CollisionMap m = new CollisionMap(100, 100);
+		CollisionMap m = new DummyCollisionMap(100, 100);
 		boolean[][] compare = new boolean[100][100];
 
 		boolean[][] compareOuter = new boolean[3][3];
@@ -113,7 +114,7 @@ public class CollisionMapTest extends BaseUnitTest {
 
 	@Test
 	public void testMoveGeometryCircle() {
-		CollisionMap m = new CollisionMap(100, 100);
+		CollisionMap m = new DummyCollisionMap(100, 100);
 		boolean[][] compare = new boolean[100][100];
 
 		boolean[][] compareOuter = new boolean[3][3];
@@ -139,7 +140,7 @@ public class CollisionMapTest extends BaseUnitTest {
 
 	@Test
 	public void testMoveGeometryBox() {
-		CollisionMap m = new CollisionMap(100, 100);
+		CollisionMap m = new DummyCollisionMap(100, 100);
 		boolean[][] compare = new boolean[100][100];
 
 		boolean[][] compareOuter = new boolean[3][3];
@@ -165,7 +166,7 @@ public class CollisionMapTest extends BaseUnitTest {
 
 	@Test
 	public void testMoveGeometryBoxBorder() {
-		CollisionMap m = new CollisionMap(100, 100);
+		CollisionMap m = new DummyCollisionMap(100, 100);
 		boolean[][] compare = new boolean[100][100];
 
 		boolean[][] compareOuter = new boolean[3][3];
@@ -195,7 +196,7 @@ public class CollisionMapTest extends BaseUnitTest {
 
 	@Test
 	public void testMoveGeometryCircleBorder() {
-		CollisionMap m = new CollisionMap(100, 100);
+		CollisionMap m = new DummyCollisionMap(100, 100);
 		boolean[][] compare = new boolean[100][100];
 
 		boolean[][] compareOuter = new boolean[3][3];

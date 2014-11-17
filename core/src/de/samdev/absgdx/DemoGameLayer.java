@@ -18,6 +18,8 @@ import de.samdev.absgdx.framework.map.TileMap;
 import de.samdev.absgdx.framework.map.mapscaleresolver.SectionMapScaleResolver;
 import de.samdev.absgdx.framework.util.exceptions.TmxMapParsingException;
 import de.samdev.absgdx.framework.util.tiled.TmxMapLoader;
+import de.samdev.absgdx.tiles.AbyssTile;
+import de.samdev.absgdx.tiles.StandardAutoTile;
 
 public class DemoGameLayer extends GameLayer {
 
@@ -50,6 +52,11 @@ public class DemoGameLayer extends GameLayer {
 	
 	private static TileMap loadMap() {
 		TmxMapLoader loader = new TmxMapLoader(Gdx.files.internal("demomap.tmx"));
+		
+		loader.addMapping(1290, AbyssTile.class);
+		loader.addMapping(1291, AbyssTile.class);
+		loader.addMapping(1258, AbyssTile.class);
+		loader.addMapping(1259, AbyssTile.class);
 		
 		loader.addDefaultMapping(StandardAutoTile.class);
 		

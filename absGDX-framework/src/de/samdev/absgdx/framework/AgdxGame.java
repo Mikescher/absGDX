@@ -17,6 +17,8 @@ import com.badlogic.gdx.math.Vector3;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionMap;
 import de.samdev.absgdx.framework.layer.AgdxLayer;
 import de.samdev.absgdx.framework.layer.GameLayer;
+import de.samdev.absgdx.framework.map.AutoTile;
+import de.samdev.absgdx.framework.map.Tile;
 import de.samdev.absgdx.framework.renderer.DebugTextRenderer;
 import de.samdev.absgdx.framework.util.DebugFormatter;
 import de.samdev.absgdx.framework.util.DebugFrequencyMeter;
@@ -124,12 +126,22 @@ public abstract class AgdxGame implements ApplicationListener {
 		
 		if (settings.debugTextMap.isActive() && !layers.empty() && layers.peek() instanceof GameLayer) {
 			GameLayer glayer = (GameLayer) layers.peek();
+			Tile tile = glayer.getTileUnderMouse();
 			
 			debugTextRenderer.drawFormatted("Map: Scale=%s   Offset=%s   Visible=%s   Size=%s", 
 					DebugFormatter.fmtF(glayer.getTileScale(), 2), 
 					DebugFormatter.fmtV2(glayer.getMapOffset(), 10), 
 					DebugFormatter.fmtRectangle(glayer.getVisibleMapBox(), 10),
 					DebugFormatter.fmtV2(glayer.getMap().getDimensions(), 1));
+			
+			if (tile == null)
+				debugTextRenderer.drawFormatted("Tile: NULL");
+			else
+				debugTextRenderer.drawFormatted("Tile: %s", tile.getClass().getName());
+			
+			if (tile instanceof AutoTile)
+				debugTextRenderer.drawFormatted("AutoTile: %s", DebugFormatter.fmtPropertiesMap(((AutoTile)tile).properties, 5));
+			
 			debugTextRenderer.draw();
 		}
 

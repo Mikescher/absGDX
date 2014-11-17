@@ -3,6 +3,8 @@ package de.samdev.absgdx.framework.map;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
+
 /**
  * A simple Tile with no update method
  * 
@@ -30,5 +32,10 @@ public abstract class StaticTile extends Tile {
 	@Override
 	public void update(float delta) {
 		// NOP
+	}
+
+	@Override
+	public boolean canMoveCollide(CollisionGeometryOwner other) {
+		return false;
 	}
 }

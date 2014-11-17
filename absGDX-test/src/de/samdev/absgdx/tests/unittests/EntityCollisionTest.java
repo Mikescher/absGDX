@@ -351,4 +351,50 @@ public class EntityCollisionTest extends BaseUnitTest {
     	
     	assertEqualsExt(new Vector2(10.99f, 10f), e2.getPosition(), 0.00001f);
     }
+
+    @Test
+    public void testNoCollisionMovement() {
+    	assertEquals(false, doNoCollisionMovement(false, false, false, false));
+    	assertEquals(false, doNoCollisionMovement(false, false, false, true));
+    	assertEquals(false, doNoCollisionMovement(false, false, true,  false));  // <- canCollide() is not commutative (kinda illegal)
+    	assertEquals(false, doNoCollisionMovement(false, false, true,  true));   // <- canCollide() is not commutative (kinda illegal)
+    	assertEquals(false, doNoCollisionMovement(false, true,  false, false)); 
+    	assertEquals(false, doNoCollisionMovement(false, true,  false, true));
+    	assertEquals(true,  doNoCollisionMovement(false, true,  true,  false));  // <- canCollide() is not commutative (kinda illegal)
+    	assertEquals(true,  doNoCollisionMovement(false, true,  true,  true));   // <- canCollide() is not commutative (kinda illegal)
+    	assertEquals(false, doNoCollisionMovement(true,  false, false, false));  // <- canCollide() is not commutative (kinda illegal)
+    	assertEquals(false, doNoCollisionMovement(true,  false, false, true));   // <- canCollide() is not commutative (kinda illegal)
+    	assertEquals(false, doNoCollisionMovement(true,  false, true,  false));
+    	assertEquals(false, doNoCollisionMovement(true,  false, true,  true));
+    	assertEquals(true,  doNoCollisionMovement(true,  true,  false, false));  // <- canCollide() is not commutative (kinda illegal)
+    	assertEquals(true,  doNoCollisionMovement(true,  true,  false, true));   // <- canCollide() is not commutative (kinda illegal)
+    	assertEquals(true,  doNoCollisionMovement(true,  true,  true,  false));
+    	assertEquals(true,  doNoCollisionMovement(true,  true,  true,  true));
+    }
+    
+    private boolean doNoCollisionMovement(boolean e1_cc, boolean e1_cm, boolean e2_cc, boolean e2_cm) {
+    	DummyGameLayer l = new DummyGameLayer(100, 100, TileMap.createEmptyMap(100, 100));
+
+    	DummyEntity e1 = new DummyEntity();
+    	l.addEntity(e1);
+    	e1.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e1, 1f, 1f));
+    	
+    	DummyEntity e2 = new DummyEntity();
+    	l.addEntity(e2);
+    	e2.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e2, 1f, 20f));
+    	
+    	e1.setPosition(10f, 10f);
+    	e2.setPosition(12f, 10f);
+    	
+    	e1.canCollide = e1_cc;
+    	e1.canMoveCollide = e1_cm;
+    	
+    	e2.canCollide = e2_cc;
+    	e2.canMoveCollide = e2_cm;
+    	
+    	for (int i = 0; i < 100; i++) 
+    		e1.movePosition(0.1f, 0f);
+    	
+    	return new Vector2(11f, 10f).epsilonEquals(e1.getPosition(), 0.0001f);
+    }
 }

@@ -69,7 +69,12 @@ public class SimpleEntity extends Entity {
 
 	@Override
 	public boolean canCollideWith(CollisionGeometryOwner other) {
-		return false;
+		return true;
+	}
+
+	@Override
+	public boolean canMoveCollide(CollisionGeometryOwner other) {
+		return true;
 	}
 
 	@Override

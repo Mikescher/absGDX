@@ -71,4 +71,9 @@ public class FlowerPot_1 extends Entity {
 	public boolean canCollideWith(CollisionGeometryOwner other) {
 		return other.getClass() != FlowerPot_1.class;
 	}
+
+	@Override
+	public boolean canMoveCollide(CollisionGeometryOwner other) {
+		return true;
+	}
 }

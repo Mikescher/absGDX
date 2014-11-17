@@ -19,6 +19,9 @@ public class DummyEntity extends Entity {
 	public int dummy_ctr_onActiveMovementCollide = 0;
 	public int dummy_ctr_onPassiveMovementCollide = 0;
 	
+	public boolean canCollide = true;
+	public boolean canMoveCollide = true;
+	
 	public DummyEntity() {
 		super((TextureRegion)null, 1, 1);
 	}
@@ -79,6 +82,11 @@ public class DummyEntity extends Entity {
 
 	@Override
 	public boolean canCollideWith(CollisionGeometryOwner other) {
-		return true;
+		return canCollide;
+	}
+
+	@Override
+	public boolean canMoveCollide(CollisionGeometryOwner other) {
+		return canMoveCollide;
 	}
 }

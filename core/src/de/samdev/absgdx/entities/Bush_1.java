@@ -56,4 +56,9 @@ public class Bush_1 extends Entity {
 	public boolean canCollideWith(CollisionGeometryOwner other) {
 		return true;
 	}
+
+	@Override
+	public boolean canMoveCollide(CollisionGeometryOwner other) {
+		return true;
+	}
 }

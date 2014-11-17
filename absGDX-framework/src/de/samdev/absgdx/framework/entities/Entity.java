@@ -310,7 +310,7 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 		
 		for (EntityCollisionGeometry mygeometry : collisionGeometries) {
 			mygeometry.updatePosition(getPositionX() + dx, getPositionY());			
-			Set<CollisionGeometry> colliders = collisionOwner.getColliders(mygeometry.geometry);
+			Set<CollisionGeometry> colliders = collisionOwner.getMoveColliders(mygeometry.geometry);
 			mygeometry.updatePosition(getPositionX(), getPositionY());
 			
 			for (CollisionGeometry othergeometry : colliders) {
@@ -363,7 +363,7 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 		
 		for (EntityCollisionGeometry mygeometry : collisionGeometries) {
 			mygeometry.updatePosition(getPositionX(), getPositionY() + dy);			
-			Set<CollisionGeometry> colliders = collisionOwner.getColliders(mygeometry.geometry);
+			Set<CollisionGeometry> colliders = collisionOwner.getMoveColliders(mygeometry.geometry);
 			mygeometry.updatePosition(getPositionX(), getPositionY());
 			
 			for (CollisionGeometry othergeometry : colliders) {

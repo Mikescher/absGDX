@@ -300,6 +300,41 @@ public class CollisionMap {
 		return result;
 	}
 	
+	/**
+	 * Returns all geometries that collide with this one in a movePosition process
+	 * This method is only useful for movePosition() in class Entity
+	 * 
+	 * @param g the geometry to test
+	 * @return a Set of all colliding geometries
+	 */
+	public Set<CollisionGeometry> getMoveColliders(CollisionGeometry g) {
+		int rad = getTileRadius(g.getRadius());
+		int px = getTileX(g.getCenterX());
+		int py = getTileY(g.getCenterY());
+		
+		Set<CollisionGeometry> result = new HashSet<CollisionGeometry>();
+		
+		for (int x = -rad; x <= rad; x++) {
+			for (int y = -rad; y <= rad; y++) {
+				for (CollisionGeometry other : getCollisionTile(px+x, py+y).geometries) {
+					if (other == g) continue;
+					if (other.owner == g.owner) continue;
+					
+					float dx = g.getCenterX() - other.getCenterX();
+					float dy = g.getCenterY() - other.getCenterY();
+					
+					float dr = g.getRadius() + other.getRadius();
+					
+					if (dx*dx + dy*dy < dr*dr && canCollide(g, other) && g.owner.canMoveCollide(other.owner) && ShapeMath.doGeometriesIntersect(g, other)) { // Shortcut Evaluation - yay
+						result.add(other);
+					}
+				}
+			}
+		}
+		
+		return result;
+	}
+	
 	private int getTileRadius(float radius) {
 		if (expTileScale < 0) {
 			return (int) Math.ceil(radius * 1d * (1 << -expTileScale));	

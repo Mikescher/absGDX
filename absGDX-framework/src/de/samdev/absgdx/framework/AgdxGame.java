@@ -94,6 +94,7 @@ public abstract class AgdxGame implements ApplicationListener {
 		}
 		
 	}
+	
 
 	private void doRender() {
 		Gdx.gl.glClearColor(0, 0, 0, 1); // MAGENTA
@@ -189,12 +190,20 @@ public abstract class AgdxGame implements ApplicationListener {
 	}
 
 	private void doUpdate() {
+		float delta = Gdx.graphics.getDeltaTime() * 1000f;
+		delta = Math.min(delta, 100); // TODO What do when delta > 100 (Warning / abort / nothing  ???)
+
+		onUpdate(delta);
+		
 		if (!layers.empty()) {
-			float delta = Gdx.graphics.getDeltaTime() * 1000f;
-			delta = Math.min(delta, 100); // TODO What do when delta > 100 (Warning / abort / nothing  ???)
 			layers.peek().update(delta);
 		}
 	}
+	
+	/**
+	 * @param delta the time since the last update (in ms) - can be averaged over he last few cycles
+	 */
+	public abstract void onUpdate(float delta);
 
 	@Override
 	public void resize(int width, int height) {

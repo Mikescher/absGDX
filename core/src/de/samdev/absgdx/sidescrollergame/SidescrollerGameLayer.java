@@ -19,7 +19,7 @@ public class SidescrollerGameLayer extends GameLayer {
 
 		setMapScaleResolver(new MaximumBoundaryMapScaleResolver(20, 15));
 		
-		addEntity(new PlayerEntity(1, 6));
+		addEntity(new PlayerEntity(1, 8));
 	}
 
 	private static TileMap loadMap() {

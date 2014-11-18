@@ -12,9 +12,10 @@ public class AgdxTiledGameTest extends BaseUnitTest {
     	new AgdxGame()
     	{
 			@Override
-			public void onCreate() {
-				// nothing
-			}
+			public void onCreate() {/**/}
+
+			@Override
+			public void onUpdate(float delta) {/**/}
 		};
     }
 

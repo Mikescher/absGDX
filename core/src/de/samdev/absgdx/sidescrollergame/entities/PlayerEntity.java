@@ -1,5 +1,8 @@
 package de.samdev.absgdx.sidescrollergame.entities;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
+
 import de.samdev.absgdx.Textures;
 import de.samdev.absgdx.framework.entities.Entity;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
@@ -16,26 +19,22 @@ public class PlayerEntity extends Entity {
 
 	@Override
 	public void onActiveCollide(CollisionGeometryOwner passiveCollider, CollisionGeometry myGeo, CollisionGeometry otherGeo) {
-		// TODO Auto-generated method stub
-
+		// 
 	}
 
 	@Override
 	public void onPassiveCollide(CollisionGeometryOwner activeCollider, CollisionGeometry myGeo, CollisionGeometry otherGeo) {
-		// TODO Auto-generated method stub
-
+		// 
 	}
 
 	@Override
 	public void onActiveMovementCollide(CollisionGeometryOwner passiveCollider, CollisionGeometry myGeo, CollisionGeometry otherGeo) {
-		// TODO Auto-generated method stub
-
+		// 
 	}
 
 	@Override
 	public void onPassiveMovementCollide(CollisionGeometryOwner activeCollider, CollisionGeometry myGeo, CollisionGeometry otherGeo) {
-		// TODO Auto-generated method stub
-
+		// 
 	}
 
 	@Override
@@ -50,14 +49,21 @@ public class PlayerEntity extends Entity {
 
 	@Override
 	public void beforeUpdate(float delta) {
-		// TODO Auto-generated method stub
+		pauseAnimation(speed.isZero());
+		
+		speed.x = 0;
+		
+		if (Gdx.input.isKeyPressed(Keys.D)) speed.x = +0.002f;
+		if (Gdx.input.isKeyPressed(Keys.A)) speed.x = -0.002f;
 
+		if (Gdx.input.isKeyPressed(Keys.W)) speed.y = +0.002f;
 	}
 
 	@Override
-	public void onLayerAdd(GameLayer layer) {
-		// TODO Auto-generated method stub
-
+	public void onLayerAdd(GameLayer layer) {		
+		addFullCollisionBox();
+		
+		setMass(10);
 	}
 
 }

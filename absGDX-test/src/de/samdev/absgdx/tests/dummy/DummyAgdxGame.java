@@ -28,4 +28,9 @@ public class DummyAgdxGame extends AgdxGame {
 		return scrn_h;
 	}
 
+	@Override
+	public void onUpdate(float delta) {
+		// NOP
+	}
+
 }

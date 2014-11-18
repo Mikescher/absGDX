@@ -15,6 +15,7 @@ import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometry
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionListener;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionMap;
 import de.samdev.absgdx.framework.entities.colliosiondetection.ReadOnlyEntityCollisionGeometryListIterator;
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionBox;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.EntityCollisionGeometry;
 import de.samdev.absgdx.framework.layer.GameLayer;
@@ -25,12 +26,15 @@ import de.samdev.absgdx.framework.math.ShapeMath;
  *
  */
 public abstract class Entity implements CollisionListener, CollisionGeometryOwner {
+	private final static float GRAVITY_CONSTANT = 0.000001f;
+	
 	private final TextureRegion[] animation;
 	private final int animationLength;
 	private final float frameDuration;
 	
-	private float animationPos = 0f;
-	
+	protected float animationPos = 0f;
+	protected boolean isAnimationPaused = false;
+
 	private float x = 0f;
 	private float y = 0f;
 	
@@ -45,6 +49,9 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	
 	/** If this is false the Entity will get removed at the end of the current update cycle */
 	public boolean alive = true;
+	
+	/** This mass is used for Gravity - leave at 0.0f if you don't want Gravity */
+	public float mass = 0.0f;
 	
 	/** 
 	 * Here are the collisionBoxes of this Entity stores
@@ -420,7 +427,7 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	 * @return if animationLength > 1
 	 */
 	public boolean isAnimated() {
-		return animationLength > 1;
+		return animationLength > 1 && ! isAnimationPaused;
 	}
 	
 	/**
@@ -441,15 +448,31 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 
 	private void updateMovement(float delta) {
 		speed.x += acceleration.x * delta;
-		speed.y += acceleration.y * delta;
+		speed.y += (acceleration.y - GRAVITY_CONSTANT*mass) * delta;
 		
-		if (movePosition(this.speed.x * delta, this.speed.y * delta)) {
+		if (movePositionX(this.speed.x * delta)) {
 			// Collision appeared
 			
-			speed.setZero();
-			acceleration.setZero();
+			speed.x = 0;
+			acceleration.x = 0;
 		}
 		
+		if (movePositionY(this.speed.y * delta)) {
+			// Collision appeared
+			
+			speed.y = 0;
+			acceleration.y = 0;
+		}
+	}
+	
+	/**
+	 * Get the acceleration including 
+	 *  - the gravitational force
+	 * 
+	 * @return
+	 */
+	public Vector2 getRealAcceleration() {
+		return new Vector2(acceleration.x, acceleration.y - GRAVITY_CONSTANT*mass);
 	}
 	
 	/**
@@ -458,7 +481,6 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	 * @param delta the time since the last update (in ms) - can be averaged over he last few cycles
 	 */
 	public abstract void beforeUpdate(float delta);
-
 	
 	/**
 	 * This method is called when the Entity is added to a GameLayer
@@ -504,6 +526,15 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 		collisionOwner.addGeometry(geo);
 		
 		return wrapper;
+	}	
+	
+	/**
+	 * Add a collisionBox the size of this Entity
+	 * 
+	 * @return A wrapper object - needed to remove the geometry again
+	 */
+	public EntityCollisionGeometry addFullCollisionBox() {
+		return addCollisionGeo(width/2, height/2, new CollisionBox(this, width, height));
 	}
 	
 	/**
@@ -568,5 +599,23 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	 */
 	public CollisionGeometry getFirstCollider() {
 		return collisionOwner.getFirstCollider(collisionGeometriesWrapper);
+	}
+	
+	/**
+	 * Pauses / un-pauses an Animation
+	 * 
+	 * @param pause true means the animations will be paused
+	 */
+	public void pauseAnimation(boolean pause) {
+		isAnimationPaused = pause;
+	}
+	
+	/**
+	 * Change the mass of his Entity (used for Gravity calculations)
+	 * 
+	 * @param mass the mass
+	 */
+	public void setMass(float mass) {
+		this.mass = mass;
 	}
 }

@@ -1,33 +1,33 @@
-package de.samdev.absgdx;
+package de.samdev.absgdx.topdowngame;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 
-import de.samdev.absgdx.entities.Anchorpoint_1;
-import de.samdev.absgdx.entities.Angel_1;
-import de.samdev.absgdx.entities.Bucket_1;
-import de.samdev.absgdx.entities.Bucket_2;
-import de.samdev.absgdx.entities.Bucket_3;
-import de.samdev.absgdx.entities.Bush_1;
-import de.samdev.absgdx.entities.Bush_2;
-import de.samdev.absgdx.entities.FlowerPot_1;
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.layer.GameLayer;
 import de.samdev.absgdx.framework.map.TileMap;
 import de.samdev.absgdx.framework.map.mapscaleresolver.SectionMapScaleResolver;
 import de.samdev.absgdx.framework.util.exceptions.TmxMapParsingException;
 import de.samdev.absgdx.framework.util.tiled.TmxMapLoader;
-import de.samdev.absgdx.tiles.AbyssTile;
-import de.samdev.absgdx.tiles.StandardAutoTile;
+import de.samdev.absgdx.topdowngame.entities.Anchorpoint_1;
+import de.samdev.absgdx.topdowngame.entities.Angel_1;
+import de.samdev.absgdx.topdowngame.entities.Bucket_1;
+import de.samdev.absgdx.topdowngame.entities.Bucket_2;
+import de.samdev.absgdx.topdowngame.entities.Bucket_3;
+import de.samdev.absgdx.topdowngame.entities.Bush_1;
+import de.samdev.absgdx.topdowngame.entities.Bush_2;
+import de.samdev.absgdx.topdowngame.entities.FlowerPot_1;
+import de.samdev.absgdx.topdowngame.tiles.AbyssTile;
+import de.samdev.absgdx.topdowngame.tiles.StandardAutoTile;
 
-public class DemoGameLayer extends GameLayer {
+public class TopDownGameLayer extends GameLayer {
 
 	private Bucket_1 bucket_1;
 	private Bucket_2 bucket_2;
 	private Bucket_3 bucket_3;
 	
-	public DemoGameLayer(AgdxGame owner) {
+	public TopDownGameLayer(AgdxGame owner) {
 		super(owner, loadMap());
 
 		setMapScaleResolver(new SectionMapScaleResolver(64, 36, 0.5f, 20f));
@@ -72,12 +72,6 @@ public class DemoGameLayer extends GameLayer {
 	
 	@Override
 	public void onUpdate(float delta) {
-		if (Gdx.input.isKeyJustPressed(Keys.F1)) owner.settings.debugEnabled.doSwitch();
-		if (Gdx.input.isKeyJustPressed(Keys.F2)) owner.settings.debugVisualEntities.doSwitch();
-		if (Gdx.input.isKeyJustPressed(Keys.F3)) owner.settings.debugVisualMap.doSwitch();
-		if (Gdx.input.isKeyJustPressed(Keys.F4)) owner.settings.debugTextInfos.doSwitch();
-		if (Gdx.input.isKeyJustPressed(Keys.F5)) owner.settings.debugEntitiesPhysicVectors.doSwitch();
-
 		final float speed = 0.025f * delta;
 
 		if (Gdx.input.isKeyPressed(Keys.RIGHT))

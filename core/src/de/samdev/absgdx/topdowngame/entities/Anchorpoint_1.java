@@ -1,4 +1,7 @@
-package de.samdev.absgdx.entities;
+package de.samdev.absgdx.topdowngame.entities;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 
 import de.samdev.absgdx.Textures;
 import de.samdev.absgdx.framework.entities.Entity;
@@ -8,31 +11,34 @@ import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.Collis
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
 import de.samdev.absgdx.framework.layer.GameLayer;
 
-public class Angel_1 extends Entity {
+public class Anchorpoint_1 extends Entity {
 	
-	public Angel_1() {
-		super(Textures.tex_Angel, 6, 12);
+	public Anchorpoint_1() {
+		super(Textures.tex_Anchorpoint_empty, 2, 2);
 	}
 	
 	@Override
 	public void onLayerAdd(GameLayer layer) {
-		setPosition(39.0f, 21.0f);
+		setPosition(34.0f, 23.0f);
 		
-		addCollisionGeo(3.25f, 10f, new CollisionCircle(this, 1.5f)); // head
-		
-		addCollisionGeo(3.25f, 9f, new CollisionBox(this, 3.0f, 1f)); // shoulders
-		
-		addCollisionGeo(3.25f, 7f, new CollisionBox(this, 3.0f, 3f)); // torso
-		
-		addCollisionGeo(1.25f, 7.25f, new CollisionBox(this, 1.0f, 2.5f)); // left wing
-		addCollisionGeo(5.25f, 7.25f, new CollisionBox(this, 1.0f, 2.5f)); // right wing
-		
-		addCollisionGeo(3.15f, 2.75f, new CollisionBox(this, 5.0f, 5.5f)); // podest
 	}
 
 	@Override
 	public void beforeUpdate(float delta) {
-		//
+		speed.set(0,0);
+		
+		if (Gdx.input.isKeyPressed(Keys.W)) speed.y += 0.01;
+		if (Gdx.input.isKeyPressed(Keys.A)) speed.x -= 0.01;
+		if (Gdx.input.isKeyPressed(Keys.S)) speed.y -= 0.01;
+		if (Gdx.input.isKeyPressed(Keys.D)) speed.x += 0.01;
+
+		if (Gdx.input.isKeyJustPressed(Keys.H)) setPositionY(getPositionY()+0.25f);
+		
+		removeAllCollisionGeos();
+		addCollisionGeo(0.65f, 1.15f, new CollisionCircle(this, 0.35f));
+		addCollisionGeo(1.35f, 1.15f, new CollisionCircle(this, 0.35f));
+
+		addCollisionGeo(1.0f, 0.85f, new CollisionBox(this, 0.8f, 1.2f));
 	}
 
 	@Override
@@ -62,6 +68,6 @@ public class Angel_1 extends Entity {
 
 	@Override
 	public boolean canMoveCollideWith(CollisionGeometryOwner other) {
-		return true;
+		return other.getClass() != Bucket_1.class && other.getClass() != Bucket_2.class && other.getClass() != Bucket_3.class;
 	}
 }

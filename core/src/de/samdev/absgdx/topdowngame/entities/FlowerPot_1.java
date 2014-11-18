@@ -1,35 +1,50 @@
-package de.samdev.absgdx.entities;
+package de.samdev.absgdx.topdowngame.entities;
 
-import com.badlogic.gdx.math.Vector2;
-
-import de.samdev.absgdx.DemoGameLayer;
 import de.samdev.absgdx.Textures;
 import de.samdev.absgdx.framework.entities.Entity;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionCircle;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
 import de.samdev.absgdx.framework.layer.GameLayer;
+import de.samdev.absgdx.topdowngame.TopDownGameLayer;
 
-public class Bucket_1 extends Entity {
+public class FlowerPot_1 extends Entity {
 
-	public DemoGameLayer owner;
+	public TopDownGameLayer owner;
 	
-	public Bucket_1() {
-		super(Textures.tex_Bucket_full, 2, 2);
+	public float tick = 0;
+	
+	public int dead = 60*10 + (int)(16*60 * Math.random());
+	
+	public FlowerPot_1() {
+		super(Textures.tex_Flowers_empty, 2, 2);		
 	}
 
 	@Override
 	public void onLayerAdd(GameLayer layer) {
-		setPosition(15f, 15f);
-		
-		this.speed.y = 5/1000f;
+		setPosition(0.0f, 00.0f + (float)(Math.random() * 20f));
 		
 		addCollisionGeo(1, 1, new CollisionCircle(this, 1f));
+		
+		if (isHardColliding()) alive = false;
 	}
 	
 	@Override
 	public void beforeUpdate(float delta) {
-		this.acceleration = new Vector2(20, 20).sub(getPosition()).nor().scl(1/1000f * 1/100f);
+		tick += delta / 16.666f;
+		
+		if (getPositionY() < 5) {
+			acceleration.y =  0.00003f;
+		} else {
+			acceleration.y = -0.00003f;
+		}
+		
+		speed.x = 0.0025f;
+		
+		speed.clamp(0.0f, 0.015f);
+		
+		if (tick > dead)
+			this.alive = false;
 	}
 
 	@Override
@@ -54,11 +69,11 @@ public class Bucket_1 extends Entity {
 
 	@Override
 	public boolean canCollideWith(CollisionGeometryOwner other) {
-		return other.getClass() != Bucket_1.class && other.getClass() != Bucket_2.class && other.getClass() != Bucket_3.class;
+		return other.getClass() != FlowerPot_1.class;
 	}
 
 	@Override
 	public boolean canMoveCollideWith(CollisionGeometryOwner other) {
-		return other.getClass() != Anchorpoint_1.class;
+		return other.getClass() != FlowerPot_1.class && other.getClass() != Anchorpoint_1.class;
 	}
 }

@@ -1,22 +1,22 @@
-package de.samdev.absgdx.entities;
+package de.samdev.absgdx.topdowngame.entities;
 
-import de.samdev.absgdx.DemoGameLayer;
 import de.samdev.absgdx.Textures;
 import de.samdev.absgdx.framework.entities.Entity;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
 import de.samdev.absgdx.framework.layer.GameLayer;
+import de.samdev.absgdx.topdowngame.TopDownGameLayer;
 
-public class Bush_1 extends Entity {
+public class Bush_2 extends Entity {
 
-	public DemoGameLayer owner;
+	public TopDownGameLayer owner;
 	
 	public int tick = 0;
-	
+
 	public float x, y;
 	
-	public Bush_1(float x, float y) {
-		super(Textures.tex_Bush_full, 2, 2);
+	public Bush_2(float x, float y) {
+		super(Textures.tex_Bush_empty, 2, 2);
 		
 		this.x = x;
 		this.y = y;

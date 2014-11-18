@@ -1,32 +1,35 @@
-package de.samdev.absgdx.entities;
+package de.samdev.absgdx.topdowngame.entities;
 
-import de.samdev.absgdx.DemoGameLayer;
 import de.samdev.absgdx.Textures;
 import de.samdev.absgdx.framework.entities.Entity;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionBox;
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionCircle;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
 import de.samdev.absgdx.framework.layer.GameLayer;
 
-public class Bush_2 extends Entity {
-
-	public DemoGameLayer owner;
+public class Angel_1 extends Entity {
 	
-	public int tick = 0;
-
-	public float x, y;
-	
-	public Bush_2(float x, float y) {
-		super(Textures.tex_Bush_empty, 2, 2);
-		
-		this.x = x;
-		this.y = y;
+	public Angel_1() {
+		super(Textures.tex_Angel, 6, 12);
 	}
-
+	
 	@Override
 	public void onLayerAdd(GameLayer layer) {
-		setPosition(x, y);
+		setPosition(39.0f, 21.0f);
+		
+		addCollisionGeo(3.25f, 10f, new CollisionCircle(this, 1.5f)); // head
+		
+		addCollisionGeo(3.25f, 9f, new CollisionBox(this, 3.0f, 1f)); // shoulders
+		
+		addCollisionGeo(3.25f, 7f, new CollisionBox(this, 3.0f, 3f)); // torso
+		
+		addCollisionGeo(1.25f, 7.25f, new CollisionBox(this, 1.0f, 2.5f)); // left wing
+		addCollisionGeo(5.25f, 7.25f, new CollisionBox(this, 1.0f, 2.5f)); // right wing
+		
+		addCollisionGeo(3.15f, 2.75f, new CollisionBox(this, 5.0f, 5.5f)); // podest
 	}
-	
+
 	@Override
 	public void beforeUpdate(float delta) {
 		//

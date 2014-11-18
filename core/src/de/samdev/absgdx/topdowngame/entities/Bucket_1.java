@@ -1,28 +1,28 @@
-package de.samdev.absgdx.entities;
+package de.samdev.absgdx.topdowngame.entities;
 
 import com.badlogic.gdx.math.Vector2;
 
-import de.samdev.absgdx.DemoGameLayer;
 import de.samdev.absgdx.Textures;
 import de.samdev.absgdx.framework.entities.Entity;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionCircle;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
 import de.samdev.absgdx.framework.layer.GameLayer;
+import de.samdev.absgdx.topdowngame.TopDownGameLayer;
 
-public class Bucket_2 extends Entity {
+public class Bucket_1 extends Entity {
 
-	public DemoGameLayer owner;
-
-	public Bucket_2() {
-		super(Textures.tex_Bucket_empty, 2, 2);
+	public TopDownGameLayer owner;
+	
+	public Bucket_1() {
+		super(Textures.tex_Bucket_full, 2, 2);
 	}
 
 	@Override
 	public void onLayerAdd(GameLayer layer) {
-		setPosition(25f, 15f);
+		setPosition(15f, 15f);
 		
-		this.speed.y = - 5/1000f;
+		this.speed.y = 5/1000f;
 		
 		addCollisionGeo(1, 1, new CollisionCircle(this, 1f));
 	}

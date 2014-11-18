@@ -1,44 +1,35 @@
-package de.samdev.absgdx.entities;
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
+package de.samdev.absgdx.topdowngame.entities;
 
 import de.samdev.absgdx.Textures;
 import de.samdev.absgdx.framework.entities.Entity;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
-import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionBox;
-import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionCircle;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
 import de.samdev.absgdx.framework.layer.GameLayer;
+import de.samdev.absgdx.topdowngame.TopDownGameLayer;
 
-public class Anchorpoint_1 extends Entity {
+public class Bush_1 extends Entity {
+
+	public TopDownGameLayer owner;
 	
-	public Anchorpoint_1() {
-		super(Textures.tex_Anchorpoint_empty, 2, 2);
+	public int tick = 0;
+	
+	public float x, y;
+	
+	public Bush_1(float x, float y) {
+		super(Textures.tex_Bush_full, 2, 2);
+		
+		this.x = x;
+		this.y = y;
 	}
-	
+
 	@Override
 	public void onLayerAdd(GameLayer layer) {
-		setPosition(34.0f, 23.0f);
-		
+		setPosition(x, y);
 	}
-
+	
 	@Override
 	public void beforeUpdate(float delta) {
-		speed.set(0,0);
-		
-		if (Gdx.input.isKeyPressed(Keys.W)) speed.y += 0.01;
-		if (Gdx.input.isKeyPressed(Keys.A)) speed.x -= 0.01;
-		if (Gdx.input.isKeyPressed(Keys.S)) speed.y -= 0.01;
-		if (Gdx.input.isKeyPressed(Keys.D)) speed.x += 0.01;
-
-		if (Gdx.input.isKeyJustPressed(Keys.H)) setPositionY(getPositionY()+0.25f);
-		
-		removeAllCollisionGeos();
-		addCollisionGeo(0.65f, 1.15f, new CollisionCircle(this, 0.35f));
-		addCollisionGeo(1.35f, 1.15f, new CollisionCircle(this, 0.35f));
-
-		addCollisionGeo(1.0f, 0.85f, new CollisionBox(this, 0.8f, 1.2f));
+		//
 	}
 
 	@Override
@@ -68,6 +59,6 @@ public class Anchorpoint_1 extends Entity {
 
 	@Override
 	public boolean canMoveCollideWith(CollisionGeometryOwner other) {
-		return other.getClass() != Bucket_1.class && other.getClass() != Bucket_2.class && other.getClass() != Bucket_3.class;
+		return true;
 	}
 }

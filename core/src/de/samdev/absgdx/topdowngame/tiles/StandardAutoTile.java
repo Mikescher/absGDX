@@ -1,4 +1,4 @@
-package de.samdev.absgdx.tiles;
+package de.samdev.absgdx.topdowngame.tiles;
 
 import java.util.HashMap;
 

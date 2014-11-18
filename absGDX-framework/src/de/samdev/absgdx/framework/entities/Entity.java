@@ -26,7 +26,8 @@ import de.samdev.absgdx.framework.math.ShapeMath;
  *
  */
 public abstract class Entity implements CollisionListener, CollisionGeometryOwner {
-	private final static float GRAVITY_CONSTANT = 0.000001f;
+	/** The gravitational constant used in the movement calculations */
+	public final static float GRAVITY_CONSTANT = 0.000001f;
 	
 	private final TextureRegion[] animation;
 	private final int animationLength;

@@ -1,5 +1,6 @@
 package de.samdev.absgdx.framework.layer;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.Collis
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
 import de.samdev.absgdx.framework.map.Tile;
 import de.samdev.absgdx.framework.map.TileMap;
+import de.samdev.absgdx.framework.map.background.MapBackground;
 import de.samdev.absgdx.framework.map.mapscaleresolver.AbstractMapScaleResolver;
 import de.samdev.absgdx.framework.map.mapscaleresolver.ShowCompleteMapScaleResolver;
 import de.samdev.absgdx.framework.math.SortedLinkedEntityList;
@@ -35,6 +37,8 @@ public abstract class GameLayer extends AgdxLayer {
 	protected final TileMap map;
 	protected Vector2 map_offset = new Vector2(0, 0);
 
+	protected List<MapBackground> backgrounds = new ArrayList<MapBackground>();
+	
 	private AbstractMapScaleResolver mapScaleResolver = new ShowCompleteMapScaleResolver();
 
 	//######## ENTITIES ########
@@ -99,10 +103,15 @@ public abstract class GameLayer extends AgdxLayer {
 	}
 
 	private void renderMap(SpriteBatch sbatch, ShapeRenderer srenderer, Rectangle visible) {
-		sbatch.disableBlending();
+		sbatch.enableBlending();
 		sbatch.begin();
-		for (int y = (int) visible.y; y < Math.min(map.height, (int)(visible.y + visible.height + 1)); y++) {
-			for (int x = (int) visible.x; x < Math.min(map.width, (int)(visible.x + visible.width + 1)); x++) {
+		
+		for (MapBackground background : this.backgrounds) {
+			background.draw(sbatch, map_offset, map, visible);
+		}
+		
+		for (int y = Math.max(0, (int) visible.y); y < Math.min(map.height, (int)(visible.y + visible.height + 1)); y++) {
+			for (int x = Math.max(0, (int) visible.x); x < Math.min(map.width, (int)(visible.x + visible.width + 1)); x++) {
 				TextureRegion r = map.getTile(x, y).getTexture();
 				
 				if (r != null)
@@ -141,8 +150,8 @@ public abstract class GameLayer extends AgdxLayer {
 			srenderer.begin(ShapeType.Line);
 			srenderer.setColor(owner.settings.debugMapGridLinesColor.get());
 			
-			for (int y = (int) visible.y; y < Math.min(map.height, (int)(visible.y + visible.height + 1)); y++) {
-				for (int x = (int) visible.x; x < Math.min(map.width, (int)(visible.x + visible.width + 1)); x++) {
+			for (int y = Math.max(0, (int) visible.y); y < Math.min(map.height, (int)(visible.y + visible.height + 1)); y++) {
+				for (int x = Math.max(0, (int) visible.x); x < Math.min(map.width, (int)(visible.x + visible.width + 1)); x++) {
 					srenderer.rect(x, y, 1, 1);
 				}
 			}
@@ -155,8 +164,8 @@ public abstract class GameLayer extends AgdxLayer {
 			
 			double scale = Math.pow(2, -collisionMap.expTileScale);
 			
-			for (int y = (int) visible.y; y < Math.min(map.height, (int)(visible.y + visible.height + 1)); y++) {
-				for (int x = (int) visible.x; x < Math.min(map.width, (int)(visible.x + visible.width + 1)); x++) {
+			for (int y = Math.max(0, (int) visible.y); y < Math.min(map.height, (int)(visible.y + visible.height + 1)); y++) {
+				for (int x = Math.max(0, (int) visible.x); x < Math.min(map.width, (int)(visible.x + visible.width + 1)); x++) {
 					if (! collisionMap.map[(int) (x * scale)][(int) (y * scale)].geometries.isEmpty()) {
 						srenderer.line(x, y, x+1, y+1);
 						srenderer.line(x+1, y, x, y+1);
@@ -408,5 +417,16 @@ public abstract class GameLayer extends AgdxLayer {
 	 */
 	public Tile getTileUnderMouse() {
 		return map.getTileChecked((int)GetMouseOnMapPositionX(), (int) GetMouseOnMapPositionY());
+	}
+	
+	/**
+	 * Adds a new background in front of the existing backgrounds
+	 * 
+	 * (Use the list 'backgrounds' to access the Background-List)
+	 * 
+	 * @param b the background to add
+	 */
+	public void addBackground(MapBackground b) {
+		this.backgrounds.add(b);
 	}
 }

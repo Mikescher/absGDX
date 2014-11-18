@@ -7,6 +7,9 @@ public final class Textures {
 	public static Texture texmap;
 	public static Texture texsidemap;
 	public static Texture texplayerset;
+
+	public static Texture texParallax_1;
+	public static Texture texParallax_2;
 	
 	public static TextureRegion tex_dirt;
 	
@@ -38,6 +41,9 @@ public final class Textures {
 		texmap = new Texture("map.png");
 		texsidemap = new Texture("side.png");
 		texplayerset = new Texture("playerSet.png");
+		
+		texParallax_1 = new Texture("parallax_1.png");
+		texParallax_2 = new Texture("parallax_2.png");
 		
 		tex_dirt = new TextureRegion(texmap, 9*16, 9*16, 16, 16);
 

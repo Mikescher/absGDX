@@ -1,7 +1,11 @@
 package de.samdev.absgdx.tests.unittests;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 
+import de.samdev.absgdx.framework.math.ShapeMath;
 import de.samdev.absgdx.tests.BaseUnitTest;
 import de.samdev.absgdx.tests.dummy.DummyEntity;
 
@@ -56,5 +60,42 @@ public class EntityTest extends BaseUnitTest {
     	
     	assertEqualsExt(e1.speed, e2.speed, 100f);
     	assertEqualsExt(e1.speed, e3.speed, 100f);
+    }
+
+    @Test
+    public void testGravity() {
+    	DummyEntity e1 = new DummyEntity();
+    	DummyEntity e2 = new DummyEntity();
+    	DummyEntity e3 = new DummyEntity();
+    	DummyEntity e4 = new DummyEntity();
+    	
+    	e1.setPosition(0, 0);
+    	e2.setPosition(0, 0);
+    	e3.setPosition(0, 0);
+    	e4.setPosition(0, 0);
+    	
+    	e1.setMass(0.0f);
+    	e2.setMass(10.0f);
+    	e3.setMass(20.0f);
+    	e4.setMass(-10.0f);
+    	
+    	for (int i = 0; i < 10*1000; i++) {
+			e1.update(1f);
+			e2.update(1f);
+			e3.update(1f);
+			e4.update(1f);
+		}
+
+    	assertTrue(e2.getPosition().y == -e4.getPosition().y);
+
+    	assertEquals(-0.5f *   0f * DummyEntity.GRAVITY_CONSTANT * ShapeMath.fsquare(10f * 1000f), e1.getPosition().y, 0.1f);
+    	assertEquals(-0.5f *  10f * DummyEntity.GRAVITY_CONSTANT * ShapeMath.fsquare(10f * 1000f), e2.getPosition().y, 0.1f);
+    	assertEquals(-0.5f *  20f * DummyEntity.GRAVITY_CONSTANT * ShapeMath.fsquare(10f * 1000f), e3.getPosition().y, 0.1f);
+    	assertEquals(-0.5f * -10f * DummyEntity.GRAVITY_CONSTANT * ShapeMath.fsquare(10f * 1000f), e4.getPosition().y, 0.1f);
+    	
+    	assertEquals(0f , e1.getPosition().x, 0f);
+    	assertEquals(0f , e2.getPosition().x, 0f);
+    	assertEquals(0f , e3.getPosition().x, 0f);
+    	assertEquals(0f , e4.getPosition().x, 0f);
     }
 }

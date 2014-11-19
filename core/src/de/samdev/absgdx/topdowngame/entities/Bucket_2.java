@@ -13,6 +13,8 @@ import de.samdev.absgdx.topdowngame.TopDownGameLayer;
 public class Bucket_2 extends Entity {
 
 	public TopDownGameLayer owner;
+	
+	private Vector2 acceleration = addNewAcceleration();
 
 	public Bucket_2() {
 		super(Textures.tex_Bucket_empty, 2, 2);
@@ -29,7 +31,7 @@ public class Bucket_2 extends Entity {
 	
 	@Override
 	public void beforeUpdate(float delta) {
-		this.acceleration = new Vector2(20, 20).sub(getPosition()).nor().scl(1/1000f * 1/100f);
+		this.acceleration.set(20, 20).sub(getPosition()).nor().scl(1/1000f * 1/100f);
 	}
 
 	@Override

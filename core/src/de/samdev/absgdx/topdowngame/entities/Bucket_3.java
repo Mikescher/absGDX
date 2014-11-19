@@ -14,6 +14,8 @@ import de.samdev.absgdx.topdowngame.TopDownGameLayer;
 public class Bucket_3 extends Entity {
 
 	public TopDownGameLayer owner;
+	
+	private Vector2 acceleration = addNewAcceleration();
 
 	private Entity other_A;
 	private Entity other_B;
@@ -35,7 +37,7 @@ public class Bucket_3 extends Entity {
 	@Override
 	public void beforeUpdate(float delta) {
 		Vector2 other = other_A.getMiddle().add(other_A.getMiddle().sub(other_B.getMiddle()).scl(0.5f));
-		acceleration = getMiddle().sub(other).scl(-0.0000000005f * other.len() * other.len());
+		acceleration.set(getMiddle().sub(other).scl(-0.0000000005f * other.len() * other.len()));
 		
 		for (Entity entity : owner.iterateEntities()) {
 			if (entity == this) continue;

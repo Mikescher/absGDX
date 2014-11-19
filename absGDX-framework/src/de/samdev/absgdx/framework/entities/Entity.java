@@ -44,8 +44,9 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	private float width;
 	private float height;
 	
-	/** The (physical) acceleration */
-	public Vector2 acceleration = new Vector2();
+	/** The (physical) acceleration forces (! plural - add new ones with addNewAcceleration() ) */
+	public List<Vector2> accelerations = new ArrayList<Vector2>();
+	private Vector2 acc_gravity;
 	
 	/** The (physical) speed */
 	public Vector2 speed = new Vector2();
@@ -54,7 +55,7 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	public boolean alive = true;
 	
 	/** This mass is used for Gravity - leave at 0.0f if you don't want Gravity */
-	public float mass = 0.0f;
+	private float mass = 0.0f;
 	
 	/** 
 	 * Here are the collisionBoxes of this Entity stores
@@ -96,6 +97,7 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 		this.animationLength = 1;
 		this.frameDuration = 0;
 		
+		this.acc_gravity = addNewAcceleration();
 		this.collisionGeometriesWrapper = new CollisionGeometryListWrapper(collisionGeometries);
 	}
 	
@@ -115,7 +117,8 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 		this.animation = new TextureRegion[]{textures};
 		this.animationLength = 1;
 		this.frameDuration = 0;
-		
+
+		this.acc_gravity = addNewAcceleration();
 		this.collisionGeometriesWrapper = new CollisionGeometryListWrapper(collisionGeometries);
 	}
 
@@ -136,7 +139,8 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 		this.animation = textures;
 		this.animationLength = textures.length;
 		this.frameDuration = animationDuration / animationLength;
-		
+
+		this.acc_gravity = addNewAcceleration();
 		this.collisionGeometriesWrapper = new CollisionGeometryListWrapper(collisionGeometries);
 	}
 	
@@ -450,21 +454,21 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	}
 
 	private void updateMovement(float delta) {
-		speed.x += acceleration.x * delta;
-		speed.y += (acceleration.y - GRAVITY_CONSTANT*mass) * delta;
+		for (Vector2 acc : accelerations) {
+			speed.x += acc.x * delta;
+			speed.y += acc.y * delta;
+		}
 		
 		if (movePositionX(this.speed.x * delta)) {
 			// Collision appeared
 			
 			speed.x = 0;
-			acceleration.x = 0;
 		}
 		
 		if (movePositionY(this.speed.y * delta)) {
 			// Collision appeared
 			
 			speed.y = 0;
-			acceleration.y = 0;
 		}
 	}
 	
@@ -475,7 +479,11 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	 * @return
 	 */
 	public Vector2 getRealAcceleration() {
-		return new Vector2(acceleration.x, acceleration.y - GRAVITY_CONSTANT*mass);
+		Vector2 result = new Vector2();
+		for (Vector2 acc : accelerations) {
+			result.add(acc);
+		}
+		return result;
 	}
 	
 	/**
@@ -620,6 +628,7 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	 */
 	public void setMass(float mass) {
 		this.mass = mass;
+		acc_gravity.y = -mass * GRAVITY_CONSTANT;
 	}
 	
 	/**
@@ -728,5 +737,25 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 			mygeometry.updatePosition(getPositionX() + TOUCHING_DISTANCE, getPositionY());
 		
 		return fcollider != null;
+	}
+	
+	/**
+	 * Gets a new force (= acceleration) to use with this Entity
+	 * 
+	 * @return the acceleration Vector2
+	 */
+	public Vector2 addNewAcceleration() {
+		Vector2 result;
+		accelerations.add(result = new Vector2());
+		return result;
+	}
+	
+	/**
+	 * If this Entity is affected by gravity
+	 * 
+	 * @return true if mass != 0
+	 */
+	public boolean hasGravity() {
+		return mass != 0f;
 	}
 }

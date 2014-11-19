@@ -2,6 +2,7 @@ package de.samdev.absgdx.sidescrollergame.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.Textures;
 import de.samdev.absgdx.framework.entities.Entity;
@@ -11,6 +12,9 @@ import de.samdev.absgdx.framework.layer.GameLayer;
 
 public class PlayerEntity extends Entity {
 
+	private Vector2 movement_acc = addNewAcceleration();
+	private Vector2 grinding_acc = addNewAcceleration();
+	
 	public PlayerEntity(float x, float y) {
 		super(Textures.tex_player, 1000, 1, 92/70f);
 
@@ -51,12 +55,19 @@ public class PlayerEntity extends Entity {
 	public void beforeUpdate(float delta) {
 		pauseAnimation(speed.isZero());
 		
-		speed.x = 0;
+		movement_acc.x = 0;
+		if (Gdx.input.isKeyPressed(Keys.D)) movement_acc.x = +0.000004f;
+		if (Gdx.input.isKeyPressed(Keys.A)) movement_acc.x = -0.000004f;
 		
-		if (Gdx.input.isKeyPressed(Keys.D)) speed.x = +0.002f;
-		if (Gdx.input.isKeyPressed(Keys.A)) speed.x = -0.002f;
-
-		if (Gdx.input.isKeyPressed(Keys.W)) speed.y = +0.002f;
+		if (speed.x > 0.008 && movement_acc.x > 0) movement_acc.x = 0;
+		if (speed.x < -0.008 && movement_acc.x < 0) movement_acc.x = 0;
+		
+		
+		grinding_acc.x = 0;
+		if (! Gdx.input.isKeyPressed(Keys.D) && ! Gdx.input.isKeyPressed(Keys.A)) grinding_acc.x = -0.00001f * speed.x/0.008f;
+		if (! Gdx.input.isKeyPressed(Keys.D) && ! Gdx.input.isKeyPressed(Keys.A) && Math.abs(speed.x) < 0.0001) speed.x = 0;
+		
+		if (Gdx.input.isKeyPressed(Keys.W) && isTouchingBottom()) speed.y = +0.005f;
 	}
 
 	@Override

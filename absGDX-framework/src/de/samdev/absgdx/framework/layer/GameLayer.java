@@ -208,16 +208,21 @@ public abstract class GameLayer extends AgdxLayer {
 			    	float cy = entity.getCenterY();
 			    	
 			    	Vector2 speed = new Vector2(entity.speed);
-			    	Vector2 acc = entity.getRealAcceleration();
-			    	
 			    	speed.scl(200);
-			    	acc.scl(4 * 200 * 200);
+			    	speed.limit(5);
 			    	
 			    	srenderer.setColor(owner.settings.debugEntitiesPhysicSpeedVectorColor.get());
 			    	ShapeRendererUtil.arrowLine(srenderer, cx, cy, cx + speed.x, cy + speed.y, 0.3f);
 			    	
-			    	srenderer.setColor(owner.settings.debugEntitiesPhysicAccelerationVectorColor.get());
-			    	ShapeRendererUtil.arrowLine(srenderer, cx, cy, cx + acc.x, cy + acc.y, 0.3f);
+			    	for (Vector2 eacc : entity.accelerations) {
+			    		Vector2 acc = new Vector2(eacc);
+			    		acc.scl(100*2000);
+			    		acc.limit(5);
+						
+			    		srenderer.setColor(owner.settings.debugEntitiesPhysicAccelerationVectorColor.get());
+			    		ShapeRendererUtil.arrowLine(srenderer, cx, cy, cx + acc.x, cy + acc.y, 0.3f);
+					}
+			    	
 			    }
 		    }
 		}

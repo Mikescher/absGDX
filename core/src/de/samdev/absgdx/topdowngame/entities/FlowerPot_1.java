@@ -1,5 +1,7 @@
 package de.samdev.absgdx.topdowngame.entities;
 
+import com.badlogic.gdx.math.Vector2;
+
 import de.samdev.absgdx.Textures;
 import de.samdev.absgdx.framework.entities.Entity;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
@@ -15,6 +17,8 @@ public class FlowerPot_1 extends Entity {
 	public float tick = 0;
 	
 	public int dead = 60*10 + (int)(16*60 * Math.random());
+	
+	private Vector2 acceleration = addNewAcceleration();
 	
 	public FlowerPot_1() {
 		super(Textures.tex_Flowers_empty, 2, 2);		

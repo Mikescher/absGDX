@@ -5,6 +5,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import com.badlogic.gdx.math.Vector2;
+
 import de.samdev.absgdx.framework.math.ShapeMath;
 import de.samdev.absgdx.tests.BaseUnitTest;
 import de.samdev.absgdx.tests.dummy.DummyEntity;
@@ -45,10 +47,14 @@ public class EntityTest extends BaseUnitTest {
     	e2.setPosition(0, 0);
     	e3.setPosition(0, 0);
     	
+    	Vector2 a1 = e1.addNewAcceleration();
+    	Vector2 a2 = e2.addNewAcceleration();
+    	Vector2 a3 = e3.addNewAcceleration();
+    	
     	for (int i = 0; i < 70 * 1 * 2 * 3; i++) {
-    		e1.acceleration.set(0.00005f, 1/90000f);
-    		e2.acceleration.set(0.00005f, 1/90000f);
-    		e3.acceleration.set(0.00005f, 1/90000f);
+    		a1.set(0.00005f, 1/90000f);
+    		a2.set(0.00005f, 1/90000f);
+    		a3.set(0.00005f, 1/90000f);
     		
 			if (i % 1 == 0) e1.update(66.6f * 1);
 			if (i % 2 == 0) e2.update(66.6f * 2);
@@ -97,5 +103,10 @@ public class EntityTest extends BaseUnitTest {
     	assertEquals(0f , e2.getPosition().x, 0f);
     	assertEquals(0f , e3.getPosition().x, 0f);
     	assertEquals(0f , e4.getPosition().x, 0f);
+    	
+    	assertEquals(false, e1.hasGravity());	
+    	assertEquals(true, e2.hasGravity());	
+    	assertEquals(true, e3.hasGravity());	
+    	assertEquals(true, e4.hasGravity());
     }
 }

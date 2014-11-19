@@ -24,7 +24,7 @@ public class SidescrollerGameLayer extends GameLayer {
 		setMapScaleResolver(new MaximumBoundaryMapScaleResolver(20, 15));
 //		setMapScaleResolver(new ShowCompleteMapScaleResolver());
 		
-		addEntity(new PlayerEntity(1, 8));
+		addEntity(new PlayerEntity(1, 9));
 //		addBackground(new ParallaxBackground(Textures.texParallax_1, 24));
 //		addBackground(new ParallaxBackground(Textures.texParallax_2, 16));
 

@@ -8,7 +8,7 @@ import de.samdev.absgdx.Textures;
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.layer.GameLayer;
 import de.samdev.absgdx.framework.map.TileMap;
-import de.samdev.absgdx.framework.map.background.RepeatingBackground;
+import de.samdev.absgdx.framework.map.background.ParallaxBackground;
 import de.samdev.absgdx.framework.map.mapscaleresolver.MaximumBoundaryMapScaleResolver;
 import de.samdev.absgdx.framework.util.exceptions.TmxMapParsingException;
 import de.samdev.absgdx.framework.util.tiled.TmxMapLoader;
@@ -28,8 +28,8 @@ public class SidescrollerGameLayer extends GameLayer {
 //		addBackground(new ParallaxBackground(Textures.texParallax_1, 24));
 //		addBackground(new ParallaxBackground(Textures.texParallax_2, 16));
 
-		addBackground(new RepeatingBackground(Textures.texParallax_1, 24));
-		addBackground(new RepeatingBackground(Textures.texParallax_2, 16));
+		addBackground(new ParallaxBackground(Textures.texParallax_1, 24));
+		addBackground(new ParallaxBackground(Textures.texParallax_2, 16));
 	}
 
 	private static TileMap loadMap() {

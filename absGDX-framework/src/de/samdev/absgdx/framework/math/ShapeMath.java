@@ -9,7 +9,8 @@ import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.Collis
  *
  */
 public class ShapeMath {
-	private final static float FDELTA = 0.00001f;
+	/** This delta value is used as the additional distance in getTouchDistance() methods */
+	public final static float FDELTA = 0.00001f;
 	
 	/**
 	 * Get the X-distance the two geometries can minimally have 

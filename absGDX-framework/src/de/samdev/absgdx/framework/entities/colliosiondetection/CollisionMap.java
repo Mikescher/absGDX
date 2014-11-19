@@ -401,10 +401,25 @@ public class CollisionMap {
 		
 		return result;
 	}
+
+	/**
+	 * Returns all geometries that collide with the ones in the list in a movePosition process (hard collision)
+	 * 
+	 * @param g the geometry list to test
+	 * @return a Set of all colliding geometries
+	 */
+	public Set<CollisionGeometry> getHardColliders(List<CollisionGeometry> g) {
+		Set<CollisionGeometry> result = new HashSet<CollisionGeometry>();
+		
+		for (CollisionGeometry geo : result) {
+			result.addAll(getHardColliders(geo));
+		}
+		
+		return result;
+	}
 	
 	/**
-	 * Returns all geometries that collide with this one in a movePosition process
-	 * This method is only useful for movePosition() in class Entity
+	 * Returns all geometries that collide with this one in a movePosition process (hard collision)
 	 * 
 	 * @param g the geometry to test
 	 * @return a Set of all colliding geometries

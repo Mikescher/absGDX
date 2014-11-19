@@ -26,6 +26,8 @@ import de.samdev.absgdx.framework.math.ShapeMath;
  *
  */
 public abstract class Entity implements CollisionListener, CollisionGeometryOwner {
+	private final static float TOUCHING_DISTANCE = ShapeMath.FDELTA * 4;
+	
 	/** The gravitational constant used in the movement calculations */
 	public final static float GRAVITY_CONSTANT = 0.000001f;
 	
@@ -618,5 +620,113 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	 */
 	public void setMass(float mass) {
 		this.mass = mass;
+	}
+	
+	/**
+	 * @see #isTouchingTop()
+	 * 
+	 * (= "is the Entity hitting its head on the ceiling")
+	 * 
+	 * @return true if it is touching another geometry on the TOP side
+	 */
+	public boolean isTouchingTop() {
+		return isTouchingNorth();
+	}
+	
+	/**
+	 * Return is one of the geometries is hard colliding (not direct - only touching) with an other geometry on the NORTH side
+	 * 
+	 * @return true if it is touching another geometry on the NORTH side
+	 */
+	public boolean isTouchingNorth() {
+		for (EntityCollisionGeometry mygeometry : collisionGeometries)
+			mygeometry.updatePosition(getPositionX(), getPositionY() + TOUCHING_DISTANCE);
+		
+		CollisionGeometry fcollider = collisionOwner.getFirstHardCollider(collisionGeometriesWrapper);
+
+		for (EntityCollisionGeometry mygeometry : collisionGeometries)
+			mygeometry.updatePosition(getPositionX(), getPositionY() - TOUCHING_DISTANCE);
+		
+		return fcollider != null;
+	}
+	
+	/**
+	 * @see #isTouchingEast()
+	 * 
+	 * @return true if it is touching another geometry on the RIGHT side
+	 */
+	public boolean isTouchingRight() {
+		return isTouchingEast();
+	}
+
+	/**
+	 * Return is one of the geometries is hard colliding (not direct - only touching) with an other geometry on the EAST side
+	 * 
+	 * @return true if it is touching another geometry on the EAST side
+	 */
+	public boolean isTouchingEast() {
+		for (EntityCollisionGeometry mygeometry : collisionGeometries)
+			mygeometry.updatePosition(getPositionX() + TOUCHING_DISTANCE, getPositionY());
+		
+		CollisionGeometry fcollider = collisionOwner.getFirstHardCollider(collisionGeometriesWrapper);
+
+		for (EntityCollisionGeometry mygeometry : collisionGeometries)
+			mygeometry.updatePosition(getPositionX() - TOUCHING_DISTANCE, getPositionY());
+		
+		return fcollider != null;
+	}
+	
+	/**
+	 * @see #isTouchingSouth()
+	 * 
+	 * (= "is the Entity standing on the ground")
+	 * 
+	 * @return true if it is touching another geometry on the BOTTOM side
+	 */	
+	public boolean isTouchingBottom() {
+		return isTouchingSouth();
+	}
+	
+	/**
+	 * Return is one of the geometries is hard colliding (not direct - only touching) with an other geometry on the SOUTH side
+	 * 
+	 * @return true if it is touching another geometry on the SOUTH side
+	 */
+	public boolean isTouchingSouth() {
+		for (EntityCollisionGeometry mygeometry : collisionGeometries)
+			mygeometry.updatePosition(getPositionX(), getPositionY() - TOUCHING_DISTANCE);
+		
+		CollisionGeometry fcollider = collisionOwner.getFirstHardCollider(collisionGeometriesWrapper);
+
+		for (EntityCollisionGeometry mygeometry : collisionGeometries)
+			mygeometry.updatePosition(getPositionX(), getPositionY() + TOUCHING_DISTANCE);
+		
+		return fcollider != null;
+	}
+	
+	/**
+	 * @see #isTouchingWest()
+	 * 
+	 * @return true if it is touching another geometry on the LEFT side
+	 */
+	public boolean isTouchingLeft() {
+		return isTouchingWest();
+	}
+	
+	/**
+	 * Return is one of the geometries is hard colliding (not direct - only touching) with an other geometry on the WEST side
+	 * 
+	 * @return true if it is touching another geometry on the WEST side
+	 */
+	public boolean isTouchingWest() {
+		for (EntityCollisionGeometry mygeometry : collisionGeometries)
+			mygeometry.updatePosition(getPositionX() - TOUCHING_DISTANCE, getPositionY());
+		
+		CollisionGeometry fcollider = collisionOwner.getFirstHardCollider(collisionGeometriesWrapper);
+
+		for (EntityCollisionGeometry mygeometry : collisionGeometries)
+			mygeometry.updatePosition(getPositionX() + TOUCHING_DISTANCE, getPositionY());
+		
+		return fcollider != null;
 	}
 }

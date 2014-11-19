@@ -67,7 +67,7 @@ public class PlayerEntity extends Entity {
 		if (! Gdx.input.isKeyPressed(Keys.D) && ! Gdx.input.isKeyPressed(Keys.A)) grinding_acc.x = -0.00001f * speed.x/0.008f;
 		if (! Gdx.input.isKeyPressed(Keys.D) && ! Gdx.input.isKeyPressed(Keys.A) && Math.abs(speed.x) < 0.0001) speed.x = 0;
 		
-		if (Gdx.input.isKeyPressed(Keys.W) && isTouchingBottom()) speed.y = +0.005f;
+		if (Gdx.input.isKeyPressed(Keys.W) && (isTouchingBottom() || Gdx.input.isKeyPressed(Keys.SHIFT_LEFT))) speed.y = +0.008f;
 	}
 
 	@Override

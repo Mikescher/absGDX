@@ -172,7 +172,7 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	}
 	
 	/**
-	 * Get the X position
+	 * Get the X - bottom position
 	 * 
 	 * @return
 	 */
@@ -181,12 +181,30 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	}
 
 	/**
-	 * Get the Y position
+	 * Get the Y - left position
 	 * 
 	 * @return
 	 */
 	public float getPositionY() {
 		return y;
+	}
+	
+	/**
+	 * Get the X - right position
+	 * 
+	 * @return
+	 */
+	public float getPositionRightX() {
+		return x + width;
+	}
+
+	/**
+	 * Get the Y - top position
+	 * 
+	 * @return
+	 */
+	public float getPositionTopY() {
+		return y + height;
 	}
 
 	/**
@@ -758,4 +776,5 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	public boolean hasGravity() {
 		return mass != 0f;
 	}
+
 }

@@ -1,7 +1,5 @@
 package de.samdev.absgdx.tests;
 
-import static org.junit.Assert.assertEquals;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,10 +17,10 @@ public abstract class BaseUnitTest {
 	}
 
 	public static void assertEqualsExt(Vector2 expected, Vector2 actual, float epsilon) {
-		try {
-			assertEquals(expected.x, actual.x, epsilon);
-			assertEquals(expected.y, actual.y, epsilon);
-		} catch (AssertionFailedError e) {
+		boolean a = !fcomp(expected.x, actual.x, epsilon);
+		boolean b = !fcomp(expected.y, actual.y, epsilon);
+		
+		if (a || b) {
 			throw new AssertionFailedError("expected:<" + expected.x + "|" + expected.y + "> but was:<" + actual.x + "|" + actual.y + ">" );
 		}
 	}
@@ -32,12 +30,12 @@ public abstract class BaseUnitTest {
 	}
 	
 	public static void assertEqualsExt(Rectangle expected, Rectangle actual, float epsilon) {
-		try {
-			assertEquals(expected.x, actual.x, epsilon);
-			assertEquals(expected.y, actual.y, epsilon);
-			assertEquals(expected.width, actual.width, epsilon);
-			assertEquals(expected.height, actual.height, epsilon);
-		} catch (AssertionFailedError e) {
+		boolean a = !fcomp(expected.x, actual.x, epsilon);
+		boolean b = !fcomp(expected.y, actual.y, epsilon);
+		boolean c = !fcomp(expected.width, actual.width, epsilon);
+		boolean d = !fcomp(expected.height, actual.height, epsilon);
+		
+		if (a || b || c || d) {
 			throw new AssertionFailedError("expected:<" + expected + "> but was:<" + actual + ">" );
 		}
 	}
@@ -68,5 +66,7 @@ public abstract class BaseUnitTest {
 		return content.toString();
 	}
 	
-	//TODO UnitTests for: expMapScale
+	private static boolean fcomp(float expected, float actual, float delta) {
+		return Float.compare(expected, actual) == 0 || (Math.abs(expected - actual) <= delta);
+	}
 }

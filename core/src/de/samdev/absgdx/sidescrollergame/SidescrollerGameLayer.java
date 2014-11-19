@@ -18,13 +18,15 @@ import de.samdev.absgdx.sidescrollergame.tiles.SpawnTile;
 
 public class SidescrollerGameLayer extends GameLayer {
 
+	private PlayerEntity pe = null;
+	
 	public SidescrollerGameLayer(AgdxGame owner) {
 		super(owner, loadMap());
 
 		setMapScaleResolver(new MaximumBoundaryMapScaleResolver(20, 15));
 //		setMapScaleResolver(new ShowCompleteMapScaleResolver());
 		
-		addEntity(new PlayerEntity(1, 9));
+		addEntity(pe = new PlayerEntity(1, 9));
 //		addBackground(new ParallaxBackground(Textures.texParallax_1, 24));
 //		addBackground(new ParallaxBackground(Textures.texParallax_2, 16));
 
@@ -59,6 +61,8 @@ public class SidescrollerGameLayer extends GameLayer {
 			setBoundedOffset(new Vector2(map_offset.x, map_offset.y + speed));
 		if (Gdx.input.isKeyPressed(Keys.DOWN))
 			setBoundedOffset(new Vector2(map_offset.x, map_offset.y - speed));
+		
+		scrollMapToEntity(pe, 5f, 2f);
 	}
 
 }

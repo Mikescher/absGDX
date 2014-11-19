@@ -250,7 +250,7 @@ public abstract class GameLayer extends AgdxLayer {
 	/**
 	 * @return the currently visible tiles (in tile-coordinates : 1 tile = 1 unit)
 	 */
-	public Rectangle getVisibleMapBox() {
+	public Rectangle getVisibleMapBox() { //TODO this is called often - cache it ?
 		float tilesize = mapScaleResolver.getTileSize(owner.getScreenWidth(), owner.getScreenHeight(), map.height, map.width);
 		
 		Rectangle view = new Rectangle(map_offset.x, map_offset.y, owner.getScreenWidth() / tilesize, owner.getScreenHeight() / tilesize);
@@ -433,5 +433,55 @@ public abstract class GameLayer extends AgdxLayer {
 	 */
 	public void addBackground(MapBackground b) {
 		this.backgrounds.add(b);
+	}
+	
+	/**
+	 * Scrolls the map so that the Entity is visible (with the defined gaps around the borders)
+	 * 
+	 * @param e the visible entity
+	 * @param gap the gap (in tile coordinates) around all 4 edges
+	 */
+	public void scrollMapToEntity(Entity e, float gap) {
+		scrollMapToEntity(e, gap, gap);
+	}
+
+	/**
+	 * Scrolls the map so that the Entity is visible (with the defined gaps around the borders)
+	 * 
+	 * @param e the visible entity
+	 * @param gapLeftRight  the gap (in tile coordinates) around the two X edges
+	 * @param gapTopBottom  the gap (in tile coordinates) around the two Y edges
+	 */
+	public void scrollMapToEntity(Entity e, float gapLeftRight, float gapTopBottom) {
+		scrollMapToEntity(e, gapLeftRight, gapLeftRight, gapTopBottom, gapTopBottom);
+	}
+
+	/**
+	 * Scrolls the map so that the Entity is visible (with the defined gaps around the borders)
+	 * 
+	 * @param e the visible entity
+	 * @param gapLeft   the gap (in tile coordinates) around the LEFT edge
+	 * @param gapRight   the gap (in tile coordinates) around the RIGHT edge
+	 * @param gapTop   the gap (in tile coordinates) around the TOP edge
+	 * @param gapBottom   the gap (in tile coordinates) around the BOTTOM edge
+	 */
+	public void scrollMapToEntity(Entity e, float gapLeft, float gapRight, float gapTop, float gapBottom) {
+		Rectangle visible = getVisibleMapBox();
+		
+		boolean leftOut = e.getPositionX() < visible.x + gapLeft;
+		boolean rightOut = e.getPositionRightX() > visible.x + visible.width - gapRight;
+
+		boolean bottomOut = e.getPositionY() < visible.y + gapBottom;
+		boolean topOut = e.getPositionTopY() > visible.y + visible.height - gapTop;
+		
+		if (leftOut && rightOut) map_offset.x = e.getCenterX() - visible.width/2;
+		else if (leftOut)  map_offset.x = e.getPositionX() - gapLeft;
+		else if (rightOut)  map_offset.x = (e.getPositionRightX() + gapRight) - visible.width;
+		
+		if (bottomOut && topOut) map_offset.y = e.getCenterY() - visible.height/2;
+		else if (bottomOut)  map_offset.y = e.getPositionY() - gapBottom;
+		else if (topOut)  map_offset.y = (e.getPositionTopY() + gapTop) - visible.height;
+		
+		setBoundedOffset(map_offset);
 	}
 }

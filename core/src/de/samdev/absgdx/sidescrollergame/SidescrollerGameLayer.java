@@ -32,6 +32,8 @@ public class SidescrollerGameLayer extends GameLayer {
 
 		addBackground(new ParallaxBackground(Textures.texParallax_1, 24));
 		addBackground(new ParallaxBackground(Textures.texParallax_2, 16));
+		
+		addOuterMapCollisionBoxes();
 	}
 
 	private static TileMap loadMap() {
@@ -54,13 +56,13 @@ public class SidescrollerGameLayer extends GameLayer {
 		final float speed = 0.025f * delta;
 		
 		if (Gdx.input.isKeyPressed(Keys.RIGHT))
-			setBoundedOffset(new Vector2(map_offset.x + speed, map_offset.y));
+			setRawOffset(new Vector2(map_offset.x + speed, map_offset.y));
 		if (Gdx.input.isKeyPressed(Keys.LEFT))
-			setBoundedOffset(new Vector2(map_offset.x - speed, map_offset.y));
+			setRawOffset(new Vector2(map_offset.x - speed, map_offset.y));
 		if (Gdx.input.isKeyPressed(Keys.UP))
-			setBoundedOffset(new Vector2(map_offset.x, map_offset.y + speed));
+			setRawOffset(new Vector2(map_offset.x, map_offset.y + speed));
 		if (Gdx.input.isKeyPressed(Keys.DOWN))
-			setBoundedOffset(new Vector2(map_offset.x, map_offset.y - speed));
+			setRawOffset(new Vector2(map_offset.x, map_offset.y - speed));
 		
 		scrollMapToEntity(pe, 5f, 2f);
 	}

@@ -445,14 +445,14 @@ public class CollisionMap {
 					
 					float dr = g.getRadius() + other.getRadius();
 					
-					if (dx*dx + dy*dy < dr*dr && canCollide(g, other) && g.owner.canMoveCollideWith(other.owner) && ShapeMath.doGeometriesIntersect(g, other)) { // Shortcut Evaluation - yay
+					if (dx*dx + dy*dy < dr*dr && canCollide(g, other) && isHardCollision(g, other) && ShapeMath.doGeometriesIntersect(g, other)) { // Shortcut Evaluation - yay
 						result.add(other);
 					}
 				}
 
 				if (tileX >= 0 && tileX < mapwidth && tileY >= 0 && tileY < mapheight) {
 					CollisionGeometry other = tileCollisionBoxes[tileX][tileY];
-					if (canCollide(g, other) && other.owner.canMoveCollideWith(g.owner) && ShapeMath.doGeometriesIntersect(g, other)) {
+					if (canCollide(g, other) && isHardCollision_EntityTile(g, other) && ShapeMath.doGeometriesIntersect(g, other)) {
 						result.add(other);
 					}
 				}

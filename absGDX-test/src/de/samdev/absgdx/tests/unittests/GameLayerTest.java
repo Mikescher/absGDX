@@ -111,8 +111,6 @@ public class GameLayerTest extends BaseUnitTest {
     	layer.scrollMapToEntity(e1, 0);
     	assertEqualsExt(new Vector2(0f, 0f), layer.getMapOffset());
 
-    	
-    	
     	e1.setPosition(3, 20);
     	layer.scrollMapToEntity(e1, 0);
     	assertEqualsExt(new Vector2(0f, 11f), layer.getMapOffset());
@@ -133,22 +131,54 @@ public class GameLayerTest extends BaseUnitTest {
     	layer.scrollMapToEntity(e1, 0);
     	assertEqualsExt(new Vector2(0f, 0f), layer.getMapOffset());
     	
-
-    	
     	e1.setPosition(10, 10);
     	layer.scrollMapToEntity(e1, 1);
     	assertEqualsExt(new Vector2(2f, 2f), layer.getMapOffset());
-    	
-
     	
     	e1.setPosition(100, 100);
     	layer.scrollMapToEntity(e1, 1);
     	assertEqualsExt(new Vector2(90f, 90f), layer.getMapOffset());
     	
-
-    	
     	e1.setPosition(0, 0);
     	layer.scrollMapToEntity(e1, 0);
     	assertEqualsExt(new Vector2(0f, 0f), layer.getMapOffset());
+    }
+    
+    @Test
+    public void testOuterMapCollisionBoxes() {
+    	GameLayer layer = new DummyGameLayer(10, 10, TileMap.createEmptyMap(100, 100));
+    	layer.addOuterMapCollisionBoxes();
+    	
+    	DummyEntity e1 = new DummyEntity();
+    	layer.addEntity(e1);
+    	e1.addFullCollisionBox();
+    	
+    	e1.setPosition(10, 10);
+    	assertEqualsExt(new Vector2(10f, 10f), e1.getPosition());
+    	
+
+    	for (int i = 0; i < 2000; i++) e1.movePosition(0.1f, 0.1f);
+    	assertEqualsExt(new Vector2(99f, 99f), e1.getPosition(), 0.000015f);
+    	
+    	for (int i = 0; i < 2000; i++) e1.movePosition(-0.1f, 0f);
+    	assertEqualsExt(new Vector2(00f, 99f), e1.getPosition(), 0.000015f);
+    	
+    	for (int i = 0; i < 2000; i++) e1.movePosition(0f, -0.1f);
+    	assertEqualsExt(new Vector2(00f, 00f), e1.getPosition(), 0.000015f);
+    	
+    	for (int i = 0; i < 2000; i++) e1.movePosition(0.1f, 0f);
+    	assertEqualsExt(new Vector2(99f, 00f), e1.getPosition(), 0.000015f);
+    	
+    	for (int i = 0; i < 2000; i++) e1.movePosition(-0.1f, 0.1f);
+    	assertEqualsExt(new Vector2(00f, 99f), e1.getPosition(), 0.000015f);
+    	
+    	for (int i = 0; i < 2000; i++) e1.movePosition(0.1f, -0.1f);
+    	assertEqualsExt(new Vector2(99f, 00f), e1.getPosition(), 0.000015f);
+    	
+    	for (int i = 0; i < 2000; i++) e1.movePosition(0f, 0.1f);
+    	assertEqualsExt(new Vector2(99f, 99f), e1.getPosition(), 0.000015f);
+    	
+    	for (int i = 0; i < 2000; i++) e1.movePosition(-0.1f, -0.1f);
+    	assertEqualsExt(new Vector2(00f, 00f), e1.getPosition(), 0.000015f);
     }
 }

@@ -356,21 +356,26 @@ public class EntityCollisionTest extends BaseUnitTest {
     @Test
     public void testNoCollisionMovement() {
     	assertEquals(false, doNoCollisionMovement(false, false, false, false));
-    	assertEquals(false, doNoCollisionMovement(false, false, false, true));
-    	assertEquals(false, doNoCollisionMovement(false, false, true,  false));  // <- canCollide() is not commutative (kinda illegal)
-    	assertEquals(false, doNoCollisionMovement(false, false, true,  true));   // <- canCollide() is not commutative (kinda illegal)
-    	assertEquals(false, doNoCollisionMovement(false, true,  false, false)); 
     	assertEquals(false, doNoCollisionMovement(false, true,  false, true));
-    	assertEquals(true,  doNoCollisionMovement(false, true,  true,  false));  // <- canCollide() is not commutative (kinda illegal)
-    	assertEquals(true,  doNoCollisionMovement(false, true,  true,  true));   // <- canCollide() is not commutative (kinda illegal)
-    	assertEquals(false, doNoCollisionMovement(true,  false, false, false));  // <- canCollide() is not commutative (kinda illegal)
-    	assertEquals(false, doNoCollisionMovement(true,  false, false, true));   // <- canCollide() is not commutative (kinda illegal)
     	assertEquals(false, doNoCollisionMovement(true,  false, true,  false));
-    	assertEquals(false, doNoCollisionMovement(true,  false, true,  true));
-    	assertEquals(true,  doNoCollisionMovement(true,  true,  false, false));  // <- canCollide() is not commutative (kinda illegal)
-    	assertEquals(true,  doNoCollisionMovement(true,  true,  false, true));   // <- canCollide() is not commutative (kinda illegal)
-    	assertEquals(true,  doNoCollisionMovement(true,  true,  true,  false));
     	assertEquals(true,  doNoCollisionMovement(true,  true,  true,  true));
+    	
+    	//#####################################################################
+    	
+    	// canCollide()/canMoveCollide() is not commutative (kinda illegal)
+    	
+    	assertEquals(false, doNoCollisionMovement(false, false, false, true));
+    	assertEquals(false, doNoCollisionMovement(false, false, true,  false));
+    	assertEquals(true,  doNoCollisionMovement(false, false, true,  true)); 
+    	assertEquals(false, doNoCollisionMovement(false, true,  false, false));
+    	assertEquals(true,  doNoCollisionMovement(false, true,  true,  false));
+    	assertEquals(true,  doNoCollisionMovement(false, true,  true,  true)); 
+    	assertEquals(false, doNoCollisionMovement(true,  false, false, false));
+    	assertEquals(true,  doNoCollisionMovement(true,  false, false, true)); 
+    	assertEquals(true,  doNoCollisionMovement(true,  false, true,  true));
+    	assertEquals(true,  doNoCollisionMovement(true,  true,  false, false));
+    	assertEquals(true,  doNoCollisionMovement(true,  true,  false, true)); 
+    	assertEquals(true,  doNoCollisionMovement(true,  true,  true,  false));
     }
     
     private boolean doNoCollisionMovement(boolean e1_cc, boolean e1_cm, boolean e2_cc, boolean e2_cm) {

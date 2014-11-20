@@ -90,38 +90,5 @@ public class TopDownGameLayer extends GameLayer {
 			last = System.currentTimeMillis();
 			addEntity(new FlowerPot_1());
 		}
-		
-		if (Gdx.input.isKeyJustPressed(Keys.O)) {
-			System.out.println();
-			System.out.println();
-			System.out.println();
-			System.out.println();
-			System.out.println();
-			
-			
-			StringBuilder b = new StringBuilder();
-			for (int y = collisionMap.height - 1; y >= 0; y--) {
-				for (int x = 0; x < collisionMap.width; x++) {
-					b.append(collisionMap.map[x][y].geometries.size());
-				}
-				b.append(System.lineSeparator());
-			}
-
-			System.out.print(b.toString());
-			
-			System.out.println();
-			System.out.println();
-			
-			for (int y = 3 - 1; y >= 0; y--) {
-				for (int x = 0; x < 3; x++) {
-					System.out.print(collisionMap.outerBorder[x][y] == null ? "X" : ("" + collisionMap.outerBorder[x][y].geometries.size()));
-				}
-				System.out.println();
-			}
-			
-			System.out.println();
-			System.out.println();
-			System.out.println();
-		}
 	}
 }

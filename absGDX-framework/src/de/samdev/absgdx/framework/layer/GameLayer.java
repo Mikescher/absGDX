@@ -14,10 +14,12 @@ import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.entities.Entity;
+import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionMap;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionBox;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionCircle;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.OuterMapCollisionOwner;
 import de.samdev.absgdx.framework.map.Tile;
 import de.samdev.absgdx.framework.map.TileMap;
 import de.samdev.absgdx.framework.map.background.MapBackground;
@@ -483,5 +485,41 @@ public abstract class GameLayer extends AgdxLayer {
 		else if (topOut)  map_offset.y = (e.getPositionTopY() + gapTop) - visible.height;
 		
 		setBoundedOffset(map_offset);
+	}
+	
+	/**
+	 * Adds CollisionBoxes outside of the map so that no Entities can escape
+	 * 
+	 * This uses the standard owner 'OuterMapCollisionOwner' as an owner.
+	 */
+	public void addOuterMapCollisionBoxes() {
+		CollisionGeometryOwner owner = new OuterMapCollisionOwner();
+
+		for (int x = -1; x <= map.width; x++) {
+			collisionMap.addGeometry(new CollisionBox(owner, x, -0.5f, 1, 1));
+			collisionMap.addGeometry(new CollisionBox(owner, x, map.height + 0.5f, 1, 1));
+		}
+		
+		for (int y = 0; y < map.height; y++) {
+			collisionMap.addGeometry(new CollisionBox(owner, -0.5f, y, 1, 1));
+			collisionMap.addGeometry(new CollisionBox(owner, map.width+0.5f, y, 1, 1));
+		}
+	}
+	
+	/**
+	 * Adds CollisionBoxes outside of the map so that no Entities can escape
+	 * 
+	 * @param owner The CollisionGeometryOwner of the collisionBoxes
+	 */
+	public void addOuterMapCollisionBoxes(CollisionGeometryOwner owner) {
+		for (int x = -1; x <= map.width; x++) {
+			collisionMap.addGeometry(new CollisionBox(owner, x, -0.5f, 1, 1));
+			collisionMap.addGeometry(new CollisionBox(owner, x, map.height + 0.5f, 1, 1));
+		}
+		
+		for (int y = 0; y < map.height; y++) {
+			collisionMap.addGeometry(new CollisionBox(owner, -0.5f, y, 1, 1));
+			collisionMap.addGeometry(new CollisionBox(owner, map.width+0.5f, y, 1, 1));
+		}
 	}
 }

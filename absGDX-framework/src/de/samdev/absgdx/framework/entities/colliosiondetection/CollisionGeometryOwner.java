@@ -31,8 +31,10 @@ public interface CollisionGeometryOwner {
 	 * return TRUE : This Entity can not move over the other entity - they will collide.
 	 * => HARD COLLISION (can't move into each other with movePosition() )
 	 * 
-	 * Normally if a is the moving part the method is called as a.canMoveCollide(b).
-	 * Except when b is a Tile - the it is always the Tile method that is called as in b.canCollideWith(a).
+	 * The results of this function should be commutative (  a.canCollideWith(b) == b.canCollideWith(a)  ).
+	 * If they are not canCollide(a, b) is calculated as a.canCollideWith(b) OR b.canCollideWith(a)
+	 * 
+	 * EXCEPT when its a Entity<->Tile Collision, then the tile.canMoveCOllideWith() method is the one that counts
 	 * 
 	 * @param other the tile to collide
 	 * @return true if they can collide

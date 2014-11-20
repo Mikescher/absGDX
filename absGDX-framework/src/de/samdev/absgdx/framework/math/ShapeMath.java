@@ -47,7 +47,7 @@ public class ShapeMath {
 	 * @return the minimal x distance
 	 */
 	public static float getXTouchDistance(CollisionCircle a, CollisionCircle b) {
-		return fsqrt(fsquare(a.getRadius() + b.getRadius()) - fsquare(b.getCenterY() - a.getCenterY())) * Math.signum(b.getCenterX() - a.getCenterX());
+		return FloatMath.fsqrt(FloatMath.fsquare(a.getRadius() + b.getRadius()) - FloatMath.fsquare(b.getCenterY() - a.getCenterY())) * Math.signum(b.getCenterX() - a.getCenterX());
 	}
 	
 	/**
@@ -64,9 +64,9 @@ public class ShapeMath {
 		if (a.getCenterY() > b.getY() && a.getCenterY() < b.getTopY())
 			return (a.getRadius() + b.width/2 + FDELTA) * Math.signum(b.getCenterX() - a.getCenterX());
 		else if (a.getCenterY() <= b.getY())
-			return (fsqrt(fsquare(a.getRadius() + FDELTA) - fsquare(b.getY() - a.getCenterY())) + b.width/2) * Math.signum(b.getCenterX() - a.getCenterX());
+			return (FloatMath.fsqrt(FloatMath.fsquare(a.getRadius() + FDELTA) - FloatMath.fsquare(b.getY() - a.getCenterY())) + b.width/2) * Math.signum(b.getCenterX() - a.getCenterX());
 		else if (a.getCenterY() >= b.getTopY())
-			return (fsqrt(fsquare(a.getRadius() + FDELTA) - fsquare(b.getTopY() - a.getCenterY())) + b.width/2) * Math.signum(b.getCenterX() - a.getCenterX());
+			return (FloatMath.fsqrt(FloatMath.fsquare(a.getRadius() + FDELTA) - FloatMath.fsquare(b.getTopY() - a.getCenterY())) + b.width/2) * Math.signum(b.getCenterX() - a.getCenterX());
 		else
 			return Float.NaN; // Can never happen
 	}
@@ -120,7 +120,7 @@ public class ShapeMath {
 	 * @return the minimal y distance
 	 */
 	public static float getYTouchDistance(CollisionCircle a, CollisionCircle b) {
-		return fsqrt(fsquare(a.getRadius() + b.getRadius() + FDELTA) - fsquare(b.getCenterX() - a.getCenterX())) * Math.signum(b.getCenterY() - a.getCenterY());
+		return FloatMath.fsqrt(FloatMath.fsquare(a.getRadius() + b.getRadius() + FDELTA) - FloatMath.fsquare(b.getCenterX() - a.getCenterX())) * Math.signum(b.getCenterY() - a.getCenterY());
 	}
 	
 	/**
@@ -137,9 +137,9 @@ public class ShapeMath {
 		if (a.getCenterX() > b.getX() && a.getCenterX() < b.getRightX())
 			return (a.getRadius() + b.height/2 + FDELTA) * Math.signum(b.getCenterY() - a.getCenterY());
 		else if (a.getCenterX() <= b.getX())
-			return (fsqrt(fsquare(a.getRadius() + FDELTA) - fsquare(b.getX() - a.getCenterX())) + b.height/2) * Math.signum(b.getCenterY() - a.getCenterY());
+			return (FloatMath.fsqrt(FloatMath.fsquare(a.getRadius() + FDELTA) - FloatMath.fsquare(b.getX() - a.getCenterX())) + b.height/2) * Math.signum(b.getCenterY() - a.getCenterY());
 		else if (a.getCenterX() >= b.getRightX())
-			return (fsqrt(fsquare(a.getRadius() + FDELTA) - fsquare(b.getRightX() - a.getCenterX())) + b.height/2) * Math.signum(b.getCenterY() - a.getCenterY());
+			return (FloatMath.fsqrt(FloatMath.fsquare(a.getRadius() + FDELTA) - FloatMath.fsquare(b.getRightX() - a.getCenterX())) + b.height/2) * Math.signum(b.getCenterY() - a.getCenterY());
 		else
 			return Float.NaN; // Can never happen
 	}
@@ -157,26 +157,6 @@ public class ShapeMath {
 	public static float getYTouchDistance(CollisionBox a, CollisionBox b) {
 		return (a.height/2 + b.height/2 + FDELTA) * Math.signum(b.getCenterY() - a.getCenterY());
 	}
-
-	/**
-	 * Calculates the square (of a float)
-	 * 
-	 * @param x the input value
-	 * @return x * x
-	 */
-	public static float fsquare(float x) {
-		return x*x;
-	}
-	
-	/**
-	 * Calculates the square-root (of a float)
-	 * 
-	 * @param x the input value
-	 * @return sqrt(x)
-	 */
-	public static float fsqrt(float x) {
-		return (float) Math.sqrt(x);
-	}
 	
 	/**
 	 * Returns if two geometries intersect each other
@@ -185,7 +165,7 @@ public class ShapeMath {
 	 * @param b the second geometry
 	 * @return true if a and b intersect each other
 	 */
-	public static boolean doGeometriesIntersect(CollisionGeometry a, CollisionGeometry b) {
+	public static boolean doGeometriesIntersect(CollisionGeometry a, CollisionGeometry b) { // TODO Move to methods inside of the CollGeos
 		if (a instanceof CollisionCircle && b instanceof CollisionCircle) {
 			return doGeometriesIntersect((CollisionCircle)a, (CollisionCircle)b);
 		} else if (a instanceof CollisionCircle && b instanceof CollisionBox) {
@@ -207,7 +187,7 @@ public class ShapeMath {
 	 * @return true if a and b intersect each other
 	 */
 	public static boolean doGeometriesIntersect(CollisionCircle a, CollisionCircle b) {
-		return fsquare(a.getCenterX()-b.getCenterX()) + fsquare(a.getCenterY()-b.getCenterY()) < fsquare(a.getRadius() + b.getRadius());
+		return FloatMath.fsquare(a.getCenterX()-b.getCenterX()) + FloatMath.fsquare(a.getCenterY()-b.getCenterY()) < FloatMath.fsquare(a.getRadius() + b.getRadius());
 	}
 	
 	/**
@@ -223,10 +203,10 @@ public class ShapeMath {
 		else if (a.getCenterX() > b.getX() && a.getCenterX() < b.getRightX())
 			return a.getCenterY() > (b.getY() - a.getRadius()) && a.getCenterY() < (b.getTopY() + a.getRadius());
 		else
-			return fsquare(a.getCenterX()-b.getX()) + fsquare(a.getCenterY()-b.getY()) < fsquare(a.getRadius()) ||
-					fsquare(a.getCenterX()-b.getRightX()) + fsquare(a.getCenterY()-b.getY()) < fsquare(a.getRadius()) ||
-					fsquare(a.getCenterX()-b.getRightX()) + fsquare(a.getCenterY()-b.getTopY()) < fsquare(a.getRadius()) ||
-					fsquare(a.getCenterX()-b.getX()) + fsquare(a.getCenterY()-b.getTopY()) < fsquare(a.getRadius());
+			return FloatMath.fsquare(a.getCenterX()-b.getX()) + FloatMath.fsquare(a.getCenterY()-b.getY()) < FloatMath.fsquare(a.getRadius()) ||
+					FloatMath.fsquare(a.getCenterX()-b.getRightX()) + FloatMath.fsquare(a.getCenterY()-b.getY()) < FloatMath.fsquare(a.getRadius()) ||
+					FloatMath.fsquare(a.getCenterX()-b.getRightX()) + FloatMath.fsquare(a.getCenterY()-b.getTopY()) < FloatMath.fsquare(a.getRadius()) ||
+					FloatMath.fsquare(a.getCenterX()-b.getX()) + FloatMath.fsquare(a.getCenterY()-b.getTopY()) < FloatMath.fsquare(a.getRadius());
 	}
 	
 	/**

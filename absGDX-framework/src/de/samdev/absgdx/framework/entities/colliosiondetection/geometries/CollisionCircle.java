@@ -1,6 +1,7 @@
 package de.samdev.absgdx.framework.entities.colliosiondetection.geometries;
 
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
+import de.samdev.absgdx.framework.math.FloatMath;
 
 
 /**
@@ -27,6 +28,11 @@ public class CollisionCircle extends CollisionGeometry {
 	@Override
 	public float getRadius() {
 		return radius;
+	}
+
+	@Override
+	public float area() {
+		return 2* FloatMath.PI * radius;
 	}
 
 }

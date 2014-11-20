@@ -474,21 +474,21 @@ public class CollisionMap {
 	
 	private int getTileX(float x) {
 		if (expTileScale < 0) {
-			return (int) (x * 1d * (1 << -expTileScale));		
+			return (int) Math.floor(x * 1d * (1 << -expTileScale));		
 		} else if (expTileScale == 0) {
-			return (int) x;
+			return (int) Math.floor(x);
 		} else {
-			return (int) (x * 1d  / (1 << expTileScale));
+			return (int) Math.floor(x * 1d  / (1 << expTileScale));
 		}
 	}
 	
 	private int getTileY(float y) {
 		if (expTileScale < 0) {
-			return (int) (y * 1d * (1 << -expTileScale));		
+			return (int) Math.floor(y * 1d * (1 << -expTileScale));		
 		} else if (expTileScale == 0) {
-			return (int) y;
+			return (int) Math.floor(y);
 		} else {
-			return (int) (y * 1d  / (1 << expTileScale));
+			return (int) Math.floor(y * 1d  / (1 << expTileScale));
 		}
 	}
 	

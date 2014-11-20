@@ -69,4 +69,11 @@ public abstract class CollisionGeometry {
 	 * @return
 	 */
 	public abstract float getRadius();
+	
+	/**
+	 * Calculates and returns the area of the geometry 
+	 * 
+	 * @return
+	 */
+	public abstract float area();
 }

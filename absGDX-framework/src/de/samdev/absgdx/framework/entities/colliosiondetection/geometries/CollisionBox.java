@@ -88,4 +88,9 @@ public class CollisionBox extends CollisionGeometry {
 	public float getTopY() {
 		return center.y + height/2;
 	}
+
+	@Override
+	public float area() {
+		return width * height;
+	}
 }

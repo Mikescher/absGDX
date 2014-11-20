@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import com.badlogic.gdx.math.Vector2;
 
-import de.samdev.absgdx.framework.math.ShapeMath;
+import de.samdev.absgdx.framework.math.FloatMath;
 import de.samdev.absgdx.tests.BaseUnitTest;
 import de.samdev.absgdx.tests.dummy.DummyEntity;
 
@@ -94,10 +94,10 @@ public class EntityTest extends BaseUnitTest {
 
     	assertTrue(e2.getPosition().y == -e4.getPosition().y);
 
-    	assertEquals(-0.5f *   0f * DummyEntity.GRAVITY_CONSTANT * ShapeMath.fsquare(10f * 1000f), e1.getPosition().y, 0.1f);
-    	assertEquals(-0.5f *  10f * DummyEntity.GRAVITY_CONSTANT * ShapeMath.fsquare(10f * 1000f), e2.getPosition().y, 0.1f);
-    	assertEquals(-0.5f *  20f * DummyEntity.GRAVITY_CONSTANT * ShapeMath.fsquare(10f * 1000f), e3.getPosition().y, 0.1f);
-    	assertEquals(-0.5f * -10f * DummyEntity.GRAVITY_CONSTANT * ShapeMath.fsquare(10f * 1000f), e4.getPosition().y, 0.1f);
+    	assertEquals(-0.5f *   0f * DummyEntity.GRAVITY_CONSTANT * FloatMath.fsquare(10f * 1000f), e1.getPosition().y, 0.1f);
+    	assertEquals(-0.5f *  10f * DummyEntity.GRAVITY_CONSTANT * FloatMath.fsquare(10f * 1000f), e2.getPosition().y, 0.1f);
+    	assertEquals(-0.5f *  20f * DummyEntity.GRAVITY_CONSTANT * FloatMath.fsquare(10f * 1000f), e3.getPosition().y, 0.1f);
+    	assertEquals(-0.5f * -10f * DummyEntity.GRAVITY_CONSTANT * FloatMath.fsquare(10f * 1000f), e4.getPosition().y, 0.1f);
     	
     	assertEquals(0f , e1.getPosition().x, 0f);
     	assertEquals(0f , e2.getPosition().x, 0f);

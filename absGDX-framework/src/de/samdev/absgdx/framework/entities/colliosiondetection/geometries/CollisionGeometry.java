@@ -15,6 +15,8 @@ import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionListener
  *
  */
 public abstract class CollisionGeometry {
+	/** This delta value is used as the additional distance in getTouchDistance() methods */
+	public final static float FDELTA = 0.00001f;
 
 	protected Vector2 center = new Vector2();
 	
@@ -76,4 +78,157 @@ public abstract class CollisionGeometry {
 	 * @return
 	 */
 	public abstract float area();
+	
+	/**
+	 * Get the X-distance that this geometries and another can minimally have
+	 * (at this distance they don't intersect but touch)
+	 * 
+	 * [!] The distance gets ShapeMath.FDELTA added so the no-intersection ruled is enforced
+	 * 
+	 * @param other the other geometry
+	 * @return the minimal x distance
+	 */
+	public float getXTouchDistance(CollisionGeometry other) {
+		if (other instanceof CollisionBox) 
+			return getXTouchDistance((CollisionBox)other);
+		else if (other instanceof CollisionCircle) 
+			return getXTouchDistance((CollisionCircle)other);
+		else if (other instanceof CollisionTriangle) 
+			return getXTouchDistance((CollisionTriangle)other);
+		else
+			throw new IllegalArgumentException();
+	}
+	
+	/**
+	 * Get the X-distance that this geometries and another can minimally have 
+	 * -> the other one is a CollisionBox
+	 * (at this distance they don't intersect but touch)
+	 * 
+	 * [!] The distance gets ShapeMath.FDELTA added so the no-intersection ruled is enforced
+	 * 
+	 * @param other the other geometry
+	 * @return the minimal x distance
+	 */
+	public abstract float getXTouchDistance(CollisionBox other);
+	
+	/**
+	 * Get the X-distance that this geometries and another can minimally have 
+	 * -> the other one is a CollisionCircle
+	 * (at this distance they don't intersect but touch)
+	 * 
+	 * [!] The distance gets ShapeMath.FDELTA added so the no-intersection ruled is enforced
+	 * 
+	 * @param other the other geometry
+	 * @return the minimal x distance
+	 */
+	public abstract float getXTouchDistance(CollisionCircle other);
+	
+	/**
+	 * Get the X-distance that this geometries and another can minimally have 
+	 * -> the other one is a CollisionTriangle
+	 * (at this distance they don't intersect but touch)
+	 * 
+	 * [!] The distance gets ShapeMath.FDELTA added so the no-intersection ruled is enforced
+	 * 
+	 * @param other the other geometry
+	 * @return the minimal x distance
+	 */
+	public abstract float getXTouchDistance(CollisionTriangle other);
+	
+	/**
+	 * Get the Y-distance that this geometries and another can minimally have 
+	 * (at this distance they don't intersect but touch)
+	 * 
+	 * [!] The distance gets ShapeMath.FDELTA added so the no-intersection ruled is enforced
+	 * 
+	 * @param other the other geometry
+	 * @return the minimal y distance
+	 */
+	public float getYTouchDistance(CollisionGeometry other) {
+		if (other instanceof CollisionBox) 
+			return getYTouchDistance((CollisionBox)other);
+		else if (other instanceof CollisionCircle) 
+			return getYTouchDistance((CollisionCircle)other);
+		else if (other instanceof CollisionTriangle) 
+			return getYTouchDistance((CollisionTriangle)other);
+		else
+			throw new IllegalArgumentException();
+	}
+	
+	/**
+	 * Get the Y-distance that this geometries and another can minimally have 
+	 * -> the other one is a CollisionBox
+	 * (at this distance they don't intersect but touch)
+	 * 
+	 * [!] The distance gets ShapeMath.FDELTA added so the no-intersection ruled is enforced
+	 * 
+	 * @param other the other geometry
+	 * @return the minimal y distance
+	 */
+	public abstract float getYTouchDistance(CollisionBox other);
+	
+	/**
+	 * Get the Y-distance that this geometries and another can minimally have 
+	 * -> the other one is a CollisionCircle
+	 * (at this distance they don't intersect but touch)
+	 * 
+	 * [!] The distance gets ShapeMath.FDELTA added so the no-intersection ruled is enforced
+	 * 
+	 * @param other the other geometry
+	 * @return the minimal y distance
+	 */
+	public abstract float getYTouchDistance(CollisionCircle other);
+	
+	/**
+	 * Get the Y-distance that this geometries and another can minimally have 
+	 * -> the other one is a CollisionTriangle
+	 * (at this distance they don't intersect but touch)
+	 * 
+	 * [!] The distance gets ShapeMath.FDELTA added so the no-intersection ruled is enforced
+	 * 
+	 * @param other the other geometry
+	 * @return the minimal y distance
+	 */
+	public abstract float getYTouchDistance(CollisionTriangle other);
+	
+	/**
+	 * Returns if this geometry and another are intersecting each other
+	 * 
+	 * @param other the other geometry
+	 * @return true if [this] and [other] intersect each other
+	 */
+	public boolean isIntersectingWith(CollisionGeometry other) {
+		if (other instanceof CollisionBox) 
+			return isIntersectingWith((CollisionBox)other);
+		else if (other instanceof CollisionCircle) 
+			return isIntersectingWith((CollisionCircle)other);
+		else if (other instanceof CollisionTriangle) 
+			return isIntersectingWith((CollisionTriangle)other);
+		else
+			throw new IllegalArgumentException();
+	}
+	
+	/**
+	 * Returns if this geometry and another (a box) are intersecting each other
+	 * 
+	 * @param other the other geometry
+	 * @return true if [this] and [other] intersect each other
+	 */
+	public abstract boolean isIntersectingWith(CollisionBox other);
+	
+	/**
+	 * Returns if this geometry and another (a circle) are intersecting each other
+	 * 
+	 * @param other the other geometry
+	 * @return true if [this] and [other] intersect each other
+	 */
+	public abstract boolean isIntersectingWith(CollisionCircle other);
+	
+	/**
+	 * Returns if this geometry and another (a triangle) are intersecting each other
+	 * 
+	 * @param other the other geometry
+	 * @return true if [this] and [other] intersect each other
+	 */
+	public abstract boolean isIntersectingWith(CollisionTriangle other);
 }

@@ -1,7 +1,9 @@
 package de.samdev.absgdx.framework.entities.colliosiondetection.geometries;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
 import de.samdev.absgdx.framework.math.FloatMath;
+import de.samdev.absgdx.framework.math.ShapeMath;
 
 
 /**
@@ -35,4 +37,51 @@ public class CollisionCircle extends CollisionGeometry {
 		return 2* FloatMath.PI * radius;
 	}
 
+	@Override
+	public float getXTouchDistance(CollisionBox other) {
+		return ShapeMath.getXTouchDistance(this, other);
+	}
+
+	@Override
+	public float getXTouchDistance(CollisionCircle other) {
+		return FloatMath.fsqrt(FloatMath.fsquare(this.getRadius() + other.getRadius() + FDELTA) - FloatMath.fsquare(other.getCenterY() - this.getCenterY())) * Math.signum(other.getCenterX() - this.getCenterX());
+	}
+
+	@Override
+	public float getXTouchDistance(CollisionTriangle other) {
+		// TODO Auto-generated method stub
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public float getYTouchDistance(CollisionBox other) {
+		return ShapeMath.getYTouchDistance(this, other);
+	}
+
+	@Override
+	public float getYTouchDistance(CollisionCircle other) {
+		return FloatMath.fsqrt(FloatMath.fsquare(this.getRadius() + other.getRadius() + FDELTA) - FloatMath.fsquare(other.getCenterX() - this.getCenterX())) * Math.signum(other.getCenterY() - this.getCenterY());
+	}
+
+	@Override
+	public float getYTouchDistance(CollisionTriangle other) {
+		// TODO Auto-generated method stub
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public boolean isIntersectingWith(CollisionBox other) {
+		return ShapeMath.doGeometriesIntersect(this, other);
+	}
+
+	@Override
+	public boolean isIntersectingWith(CollisionCircle other) {
+		return FloatMath.fsquare(this.getCenterX() - other.getCenterX()) + FloatMath.fsquare(this.getCenterY() - other.getCenterY()) < FloatMath.fsquare(this.getRadius() + other.getRadius());
+	}
+
+	@Override
+	public boolean isIntersectingWith(CollisionTriangle other) {
+		// TODO Auto-generated method stub
+		throw new NotImplementedException();
+	}
 }

@@ -10,8 +10,6 @@ import com.badlogic.gdx.math.Vector2;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionBox;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
 import de.samdev.absgdx.framework.map.TileMap;
-import de.samdev.absgdx.framework.math.ShapeMath;
-
 
 /**
  * A CollisionMap holds all CollisionGeometries and orders them in a grid structure
@@ -283,14 +281,14 @@ public class CollisionMap {
 					
 					float dr = g.getRadius() + other.getRadius();
 					
-					if (dx*dx + dy*dy < dr*dr && canCollide(g, other) && isHardCollision(g, other) && ShapeMath.doGeometriesIntersect(g, other)) { // Shortcut Evaluation - yay
+					if (dx*dx + dy*dy < dr*dr && canCollide(g, other) && isHardCollision(g, other) && g.isIntersectingWith(other)) { // Shortcut Evaluation - yay
 						return other;
 					}
 				}
 				
 				if (tileX >= 0 && tileX < mapwidth && tileY >= 0 && tileY < mapheight) {
 					CollisionGeometry other = tileCollisionBoxes[tileX][tileY];
-					if (canCollide(g, other) && isHardCollision_EntityTile(g, other) && ShapeMath.doGeometriesIntersect(g, other)) {
+					if (canCollide(g, other) && isHardCollision_EntityTile(g, other) && g.isIntersectingWith(other)) {
 						return other;
 					}
 				}
@@ -325,14 +323,14 @@ public class CollisionMap {
 					
 					float dr = g.getRadius() + other.getRadius();
 					
-					if (dx*dx + dy*dy < dr*dr && canCollide(g, other) && ShapeMath.doGeometriesIntersect(g, other)) { // Shortcut Evaluation - yay
+					if (dx*dx + dy*dy < dr*dr && canCollide(g, other) && g.isIntersectingWith(other)) { // Shortcut Evaluation - yay
 						return other;
 					}
 				}
 				
 				if (tileX >= 0 && tileX < mapwidth && tileY >= 0 && tileY < mapheight) {
 					CollisionGeometry other = tileCollisionBoxes[tileX][tileY];
-					if (canCollide(g, other) && ShapeMath.doGeometriesIntersect(g, other)) {
+					if (canCollide(g, other) && g.isIntersectingWith(other)) {
 						return other;
 					}
 				}
@@ -385,14 +383,14 @@ public class CollisionMap {
 					
 					float dr = g.getRadius() + other.getRadius();
 					
-					if (dx*dx + dy*dy < dr*dr && canCollide(g, other) && ShapeMath.doGeometriesIntersect(g, other)) { // Shortcut Evaluation - yay
+					if (dx*dx + dy*dy < dr*dr && canCollide(g, other) && g.isIntersectingWith(other)) { // Shortcut Evaluation - yay
 						result.add(other);
 					}
 				}
 
 				if (tileX >= 0 && tileX < mapwidth && tileY >= 0 && tileY < mapheight) {
 					CollisionGeometry other = tileCollisionBoxes[tileX][tileY];
-					if (canCollide(g, other) && ShapeMath.doGeometriesIntersect(g, other)) {
+					if (canCollide(g, other) && g.isIntersectingWith(other)) {
 						result.add(other);
 					}
 				}
@@ -445,14 +443,14 @@ public class CollisionMap {
 					
 					float dr = g.getRadius() + other.getRadius();
 					
-					if (dx*dx + dy*dy < dr*dr && canCollide(g, other) && isHardCollision(g, other) && ShapeMath.doGeometriesIntersect(g, other)) { // Shortcut Evaluation - yay
+					if (dx*dx + dy*dy < dr*dr && canCollide(g, other) && isHardCollision(g, other) && g.isIntersectingWith(other)) { // Shortcut Evaluation - yay
 						result.add(other);
 					}
 				}
 
 				if (tileX >= 0 && tileX < mapwidth && tileY >= 0 && tileY < mapheight) {
 					CollisionGeometry other = tileCollisionBoxes[tileX][tileY];
-					if (canCollide(g, other) && isHardCollision_EntityTile(g, other) && ShapeMath.doGeometriesIntersect(g, other)) {
+					if (canCollide(g, other) && isHardCollision_EntityTile(g, other) && g.isIntersectingWith(other)) {
 						result.add(other);
 					}
 				}

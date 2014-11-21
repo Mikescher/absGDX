@@ -1,5 +1,7 @@
 package de.samdev.absgdx.framework.entities.colliosiondetection.geometries;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
@@ -139,5 +141,59 @@ public class CollisionTriangle extends CollisionGeometry {
 	 */
 	public Vector2 getPoint3() {
 		return new Vector2(point3_x, point3_y);
+	}
+
+	@Override
+	public float getXTouchDistance(CollisionBox other) {
+		// TODO Auto-generated method stub
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public float getXTouchDistance(CollisionCircle other) {
+		// TODO Auto-generated method stub
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public float getXTouchDistance(CollisionTriangle other) {
+		// TODO Auto-generated method stub
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public float getYTouchDistance(CollisionBox other) {
+		// TODO Auto-generated method stub
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public float getYTouchDistance(CollisionCircle other) {
+		// TODO Auto-generated method stub
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public float getYTouchDistance(CollisionTriangle other) {
+		// TODO Auto-generated method stub
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public boolean isIntersectingWith(CollisionBox other) {
+		// TODO Auto-generated method stub
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public boolean isIntersectingWith(CollisionCircle other) {
+		// TODO Auto-generated method stub
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public boolean isIntersectingWith(CollisionTriangle other) {
+		// TODO Auto-generated method stub
+		throw new NotImplementedException();
 	}
 }

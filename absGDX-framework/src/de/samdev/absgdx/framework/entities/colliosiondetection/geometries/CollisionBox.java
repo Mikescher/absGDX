@@ -1,6 +1,8 @@
 package de.samdev.absgdx.framework.entities.colliosiondetection.geometries;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
+import de.samdev.absgdx.framework.math.ShapeMath;
 
 
 /**
@@ -92,5 +94,53 @@ public class CollisionBox extends CollisionGeometry {
 	@Override
 	public float area() {
 		return width * height;
+	}
+
+	@Override
+	public float getXTouchDistance(CollisionBox other) {
+		return (this.width/2 + other.width/2 + FDELTA) * Math.signum(other.getCenterX() - this.getCenterX());
+	}
+
+	@Override
+	public float getXTouchDistance(CollisionCircle other) {
+		return -ShapeMath.getXTouchDistance(other, this);
+	}
+
+	@Override
+	public float getXTouchDistance(CollisionTriangle other) {
+		// TODO Auto-generated method stub
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public float getYTouchDistance(CollisionBox other) {
+		return (this.height/2 + other.height/2 + FDELTA) * Math.signum(other.getCenterY() - this.getCenterY());
+	}
+
+	@Override
+	public float getYTouchDistance(CollisionCircle other) {
+		return -ShapeMath.getYTouchDistance(other, this);
+	}
+
+	@Override
+	public float getYTouchDistance(CollisionTriangle other) {
+		// TODO Auto-generated method stub
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public boolean isIntersectingWith(CollisionBox other) {
+		return ! (this.getRightX() < other.getX() || other.getRightX() < this.getX() || this.getTopY() < other.getY() || other.getTopY() < this.getY());
+	}
+
+	@Override
+	public boolean isIntersectingWith(CollisionCircle other) {
+		return ShapeMath.doGeometriesIntersect(other, this);
+	}
+
+	@Override
+	public boolean isIntersectingWith(CollisionTriangle other) {
+		// TODO Auto-generated method stub
+		throw new NotImplementedException();
 	}
 }

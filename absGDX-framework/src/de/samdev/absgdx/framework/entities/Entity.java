@@ -19,14 +19,13 @@ import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.Collis
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.EntityCollisionGeometry;
 import de.samdev.absgdx.framework.layer.GameLayer;
-import de.samdev.absgdx.framework.math.ShapeMath;
 
 /**
  * An Entity in the game
  *
  */
 public abstract class Entity implements CollisionListener, CollisionGeometryOwner {
-	private final static float TOUCHING_DISTANCE = ShapeMath.FDELTA * 4;
+	private final static float TOUCHING_DISTANCE = CollisionGeometry.FDELTA * 4;
 	
 	/** The gravitational constant used in the movement calculations */
 	public final static float GRAVITY_CONSTANT = 0.000001f;
@@ -348,7 +347,7 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 			for (CollisionGeometry othergeometry : colliders) {
 				if (othergeometry.owner == this) continue;
 				
-				float new_dx = othergeometry.getCenterX() - ShapeMath.getXTouchDistance(mygeometry.geometry, othergeometry) - mygeometry.geometry.getCenterX();
+				float new_dx = othergeometry.getCenterX() - mygeometry.geometry.getXTouchDistance(othergeometry) - mygeometry.geometry.getCenterX();
 				if (Math.abs(new_dx) < Math.abs(dx))
 					dx = new_dx;
 				
@@ -401,7 +400,7 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 			for (CollisionGeometry othergeometry : colliders) {
 				if (othergeometry.owner == this) continue;
 				
-				float new_dy = othergeometry.getCenterY() - ShapeMath.getYTouchDistance(mygeometry.geometry, othergeometry) - mygeometry.geometry.getCenterY();
+				float new_dy = othergeometry.getCenterY() - mygeometry.geometry.getXTouchDistance(othergeometry) - mygeometry.geometry.getCenterY();
 				if (Math.abs(new_dy) < Math.abs(dy))
 					dy = new_dy;
 				passiveCollider = othergeometry;

@@ -26,11 +26,13 @@ public class TopDownGameLayer extends GameLayer {
 	private Bucket_1 bucket_1;
 	private Bucket_2 bucket_2;
 	private Bucket_3 bucket_3;
+
+	private Anchorpoint_1 ap_1;
 	
 	public TopDownGameLayer(AgdxGame owner) {
 		super(owner, loadMap());
 
-		setMapScaleResolver(new SectionMapScaleResolver(64, 36, 0.5f, 20f));
+		setMapScaleResolver(new SectionMapScaleResolver(32, 18, 0.5f, 20f));
 //		setMapScaleResolver(new ShowCompleteMapScaleResolver());
 //		setMapScaleResolver(new MaximumBoundaryMapScaleResolver(3, 3));
 
@@ -47,7 +49,7 @@ public class TopDownGameLayer extends GameLayer {
 		
 		addEntity(new Angel_1());
 		
-		addEntity(new Anchorpoint_1());
+		addEntity(ap_1 = new Anchorpoint_1());
 	}
 	
 	private static TileMap loadMap() {
@@ -90,5 +92,7 @@ public class TopDownGameLayer extends GameLayer {
 			last = System.currentTimeMillis();
 			addEntity(new FlowerPot_1());
 		}
+		
+		scrollMapToEntity(ap_1, 2);
 	}
 }

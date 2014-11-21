@@ -400,7 +400,7 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 			for (CollisionGeometry othergeometry : colliders) {
 				if (othergeometry.owner == this) continue;
 				
-				float new_dy = othergeometry.getCenterY() - mygeometry.geometry.getXTouchDistance(othergeometry) - mygeometry.geometry.getCenterY();
+				float new_dy = othergeometry.getCenterY() - mygeometry.geometry.getYTouchDistance(othergeometry) - mygeometry.geometry.getCenterY();
 				if (Math.abs(new_dy) < Math.abs(dy))
 					dy = new_dy;
 				passiveCollider = othergeometry;

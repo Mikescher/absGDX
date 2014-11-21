@@ -7,7 +7,6 @@ import de.samdev.absgdx.Textures;
 import de.samdev.absgdx.framework.entities.Entity;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionBox;
-import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionCircle;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
 import de.samdev.absgdx.framework.layer.GameLayer;
 
@@ -21,6 +20,10 @@ public class Anchorpoint_1 extends Entity {
 	public void onLayerAdd(GameLayer layer) {
 		setPosition(34.0f, 23.0f);
 		
+//		addCollisionGeo(0.65f, 1.15f, new CollisionCircle(this, 0.35f));
+//		addCollisionGeo(1.35f, 1.15f, new CollisionCircle(this, 0.35f));
+		
+		addCollisionGeo(1.0f, 0.85f, new CollisionBox(this, 0.8f, 1.2f));
 	}
 
 	@Override
@@ -33,12 +36,6 @@ public class Anchorpoint_1 extends Entity {
 		if (Gdx.input.isKeyPressed(Keys.D)) speed.x += 0.01;
 
 		if (Gdx.input.isKeyJustPressed(Keys.H)) setPositionY(getPositionY()+0.25f);
-		
-		removeAllCollisionGeos();
-		addCollisionGeo(0.65f, 1.15f, new CollisionCircle(this, 0.35f));
-		addCollisionGeo(1.35f, 1.15f, new CollisionCircle(this, 0.35f));
-
-		addCollisionGeo(1.0f, 0.85f, new CollisionBox(this, 0.8f, 1.2f));
 	}
 
 	@Override

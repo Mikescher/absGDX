@@ -539,6 +539,10 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	/**
 	 * Adds a new CollisionGeometry to this entity
 	 * 
+	 * [ATTENTION] The relative Coordinates are relative to the CENTER of the geometry
+	 * Geometry are positioned via their center
+	 * Entities are positioned via their bottom-left corner
+	 * 
 	 * @param relativeX the x position of the Geometry relative to this Entity
 	 * @param relativeY the y position of the Geometry relative to this Entity
 	 * @param geo the geometry

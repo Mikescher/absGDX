@@ -1,6 +1,7 @@
 package de.samdev.absgdx.tests.unittests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -34,21 +35,22 @@ public class CollisionGeometryTest extends BaseUnitTest {
 	public void testCollisionTriangle_1() {
 		CollisionTriangle t1 = new CollisionTriangle(null, new Vector2(0, 0), new Vector2(1, 0), new Vector2(0, 1));
 		
-		assertEquals(FloatMath.fsqrt(2)/2f, t1.circumRadius, 0.0001f);
+		assertEquals(FloatMath.fsqrt(5/9.0), t1.circumRadius, 0.0001f);
 		
-		assertEquals(-0.5f, t1.point1_x, 0.0001f);
-		assertEquals(-0.5f, t1.point1_y, 0.0001f);
+		assertEquals(-1/3f, t1.point1_x, 0.0001f);
+		assertEquals(-1/3f, t1.point1_y, 0.0001f);
 
-		assertEquals(+0.5f, t1.point2_x, 0.0001f);
-		assertEquals(-0.5f, t1.point2_y, 0.0001f);
+		assertEquals(+2/3f, t1.point2_x, 0.0001f);
+		assertEquals(-1/3f, t1.point2_y, 0.0001f);
 
-		assertEquals(-0.5f, t1.point3_x, 0.0001f);
-		assertEquals(+0.5f, t1.point3_y, 0.0001f);
+		assertEquals(-1/3f, t1.point3_x, 0.0001f);
+		assertEquals(+2/3f, t1.point3_y, 0.0001f);
 		
-		float len = t1.getPoint1().len();
-		assertEquals(len, t1.getPoint1().len(), 0.0001f);
-		assertEquals(len, t1.getPoint2().len(), 0.0001f);
-		assertEquals(len, t1.getPoint3().len(), 0.0001f);
+		float len = t1.circumRadius;
+		assertTrue(len >= t1.getPoint1().len());
+		assertTrue(len >=  t1.getPoint2().len());
+		assertTrue(len >=  t1.getPoint3().len());
+		assertEquals(len, FloatMath.fmax(t1.getPoint1().len(), t1.getPoint2().len(), t1.getPoint3().len()), 0.0001f);
 
 		assertEquals(len, t1.circumRadius, 0.0001f);
 		
@@ -59,13 +61,13 @@ public class CollisionGeometryTest extends BaseUnitTest {
 	public void testCollisionTriangle_2() {
 		CollisionTriangle t1 = new CollisionTriangle(null, new Vector2(0, 0), new Vector2(0, 10), new Vector2(10, 0));
 		
-		assertEquals(FloatMath.fsqrt(50), t1.circumRadius, 0.0001f);
+		assertEquals(FloatMath.fsqrt((5*10*10)/9.0), t1.circumRadius, 0.0001f);
 		
-		float len = t1.getPoint1().len();
-
-		assertEquals(len, t1.getPoint1().len(), 0.0001f);
-		assertEquals(len, t1.getPoint2().len(), 0.0001f);
-		assertEquals(len, t1.getPoint3().len(), 0.0001f);
+		float len = t1.circumRadius;
+		assertTrue(len >= t1.getPoint1().len());
+		assertTrue(len >=  t1.getPoint2().len());
+		assertTrue(len >=  t1.getPoint3().len());
+		assertEquals(len, FloatMath.fmax(t1.getPoint1().len(), t1.getPoint2().len(), t1.getPoint3().len()), 0.0001f);
 
 		assertEquals(len, t1.circumRadius, 0.0001f);
 		
@@ -81,11 +83,11 @@ public class CollisionGeometryTest extends BaseUnitTest {
 	public void testCollisionTriangle_4() {
 		CollisionTriangle t1 = new CollisionTriangle(null, new Vector2(99, 12), new Vector2(-20, 10), new Vector2(10, 11.11f));
 		
-		float len = t1.getPoint1().len();
-
-		assertEquals(len, t1.getPoint1().len(), 0.0001f);
-		assertEquals(len, t1.getPoint2().len(), 0.0001f);
-		assertEquals(len, t1.getPoint3().len(), 0.0001f);
+		float len = t1.circumRadius;
+		assertTrue(len >= t1.getPoint1().len());
+		assertTrue(len >=  t1.getPoint2().len());
+		assertTrue(len >=  t1.getPoint3().len());
+		assertEquals(len, FloatMath.fmax(t1.getPoint1().len(), t1.getPoint2().len(), t1.getPoint3().len()), 0.0001f);
 
 		assertEquals(len, t1.circumRadius, 0.0001f);
 	}
@@ -94,11 +96,11 @@ public class CollisionGeometryTest extends BaseUnitTest {
 	public void testCollisionTriangle_5() {
 		CollisionTriangle t1 = new CollisionTriangle(null, new Vector2(-20, -88.7654321f), new Vector2(-0.555555f, 42), new Vector2(89.89898989f, -40.00001f));
 		
-		float len = t1.getPoint1().len();
-
-		assertEquals(len, t1.getPoint1().len(), 0.0001f);
-		assertEquals(len, t1.getPoint2().len(), 0.0001f);
-		assertEquals(len, t1.getPoint3().len(), 0.0001f);
+		float len = t1.circumRadius;
+		assertTrue(len >= t1.getPoint1().len());
+		assertTrue(len >=  t1.getPoint2().len());
+		assertTrue(len >=  t1.getPoint3().len());
+		assertEquals(len, FloatMath.fmax(t1.getPoint1().len(), t1.getPoint2().len(), t1.getPoint3().len()), 0.0001f);
 
 		assertEquals(len, t1.circumRadius, 0.0001f);
 		

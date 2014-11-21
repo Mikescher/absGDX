@@ -29,10 +29,15 @@ public class CollisionTriangle extends CollisionGeometry {
 	/** The circumRadius of the triangle*/
 	public final float circumRadius;
 	
+	/** This is the x-value the initial points (in the constructor) got corrected*/
+	public final float centroidCorrection_x;
+	/** This is the y-value the initial points (in the constructor) got corrected*/
+	public final float centroidCorrection_y;
+	
 	/**
 	 * Creates a new Triangle
 	 * 
-	 * The vertices will be made relative to their circumCenter (!) they will use every translation they have
+	 * The vertices will be made relative to their centroid (!) they will use every translation they have
 	 * 
 	 * @param owner the Entity that owns this geometry
 	 * @param p1x the first point (X)
@@ -61,26 +66,18 @@ public class CollisionTriangle extends CollisionGeometry {
 			throw new IllegalArgumentException("polygons must have an area (!= 0).");
 		}
 		
-		//TODO @ http://www.faqs.org/faqs/graphics/algorithms-faq/ Subject 1.04
-		float d_12_x = p2x - p1x; 
-		float d_12_y = p2y - p1y;
-		float d_13_x = p3x - p1x;
-		float d_13_y = p3y - p1y;
-		float v_12 = d_12_x * (p1x + p2x) + d_12_y * (p1y + p2y);
-		float v_13 = d_13_x * (p1x + p3x) + d_13_y * (p1y + p3y);
-		float scl = 2 * (d_12_x * (p3y - p2y) - d_12_y * (p3x - p2x));
-
-		float circumCenter_x = (d_13_y * v_12 - d_12_y * v_13) / scl;
-		float circumCenter_y = (d_12_x * v_13 - d_13_x * v_12) / scl;
-		this.circumRadius = FloatMath.fsqrt(FloatMath.fsquare(p1x - circumCenter_x) + FloatMath.fsquare(p1y - circumCenter_y));
+		this.centroidCorrection_x = (p1x+p2x+p3x) / 3f;
+		this.centroidCorrection_y = (p1y+p2y+p3y) / 3f;
         		
 		// Normalize around circumCenter
-		p1x -= circumCenter_x;
-		p1y -= circumCenter_y;
-		p2x -= circumCenter_x;
-		p2y -= circumCenter_y;
-		p3x -= circumCenter_x;
-		p3y -= circumCenter_y;
+		p1x -= centroidCorrection_x;
+		p1y -= centroidCorrection_y;
+		p2x -= centroidCorrection_x;
+		p2y -= centroidCorrection_y;
+		p3x -= centroidCorrection_x;
+		p3y -= centroidCorrection_y;
+		
+		this.circumRadius = FloatMath.fsqrt(FloatMath.fmax(FloatMath.fpyth(p1x, p1y), FloatMath.fpyth(p2x, p2y), FloatMath.fpyth(p3x, p3y)));
 		
 		this.point1_x = p1x;
 		this.point1_y = p1y;

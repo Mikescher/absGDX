@@ -113,6 +113,16 @@ public class FloatMath {
 	}
 
 	/**
+	 * Converts a angle in radians to one in degree
+	 * 
+	 * @param rad the angle in radians
+	 * @return the angle in degree
+	 */
+	public static float toDegrees(double rad) {
+		return (float) Math.toDegrees(rad);
+	}
+
+	/**
 	 * Calculates the sinus
 	 * 
 	 * @param angle the angle in radians

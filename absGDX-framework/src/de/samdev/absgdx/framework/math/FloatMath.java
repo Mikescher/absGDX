@@ -101,4 +101,44 @@ public class FloatMath {
 	public static float fmax(float a, float b, float c, float d, float e) {
 		return Math.max(a, Math.max(b, Math.max(c, Math.max(d, e))));
 	}
+
+	/**
+	 * Converts a angle in degree to one in radians
+	 * 
+	 * @param degree the angle in degree
+	 * @return the angle in radians
+	 */
+	public static float toRadians(double degree) {
+		return (float) Math.toRadians(degree);
+	}
+
+	/**
+	 * Calculates the sinus
+	 * 
+	 * @param angle the angle in radians
+	 * @return the sinus  of the angle
+	 */
+	public static float fsin(double angle) {
+		return (float) Math.sin(angle);
+	}
+
+	/**
+	 * Calculates the cosinus
+	 * 
+	 * @param angle the angle in radians
+	 * @return the cosinus  of the angle
+	 */
+	public static float fcos(double angle) {
+		return (float) Math.cos(angle);
+	}
+
+	/**
+	 * Calculates the tangens
+	 * 
+	 * @param angle the angle in radians
+	 * @return the tangens  of the angle
+	 */
+	public static float ftan(double angle) {
+		return (float) Math.tan(angle);
+	}
 }

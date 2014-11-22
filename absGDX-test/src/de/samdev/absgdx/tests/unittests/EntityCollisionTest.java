@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionBox;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionCircle;
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionTriangle;
 import de.samdev.absgdx.framework.map.TileMap;
 import de.samdev.absgdx.tests.BaseUnitTest;
 import de.samdev.absgdx.tests.dummy.DummyCollisionCircle;
@@ -17,7 +18,8 @@ import de.samdev.absgdx.tests.dummy.DummyGameLayer;
 import de.samdev.absgdx.tests.dummy.DummyTile;
 
 public class EntityCollisionTest extends BaseUnitTest {
-    @Test
+
+	@Test
     public void testCollisionGeometriesAdd() {
     	DummyEntity e = new DummyEntity();
     	DummyGameLayer l = new DummyGameLayer(100, 100, TileMap.createEmptyMap(100, 100));
@@ -353,6 +355,72 @@ public class EntityCollisionTest extends BaseUnitTest {
     	assertEqualsExt(new Vector2(10.99f, 10f), e2.getPosition(), 0.00001f);
     }
 
+    @Test
+    public void testMovementAgainstTwoGeometries_TriangleTriangle() {
+    	DummyGameLayer l = new DummyGameLayer(100, 100, TileMap.createEmptyMap(100, 100));
+
+    	DummyEntity e1 = new DummyEntity();
+    	l.addEntity(e1);
+    	e1.addCollisionGeo(-1/6f, 1f, new CollisionTriangle(e1, 0f, 0f,     0.1f, 0f,     0f, 0.1f));
+    	e1.addCollisionGeo(0.1f, 0f, new CollisionTriangle(e1, 0f, 0f,     0.1f, 0f,     0f, 0.1f));
+    	
+    	DummyEntity e2 = new DummyEntity();
+    	l.addEntity(e2);
+    	e2.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e2, 1f, 1f));
+    	
+    	e2.setPosition(10f, 10f);
+    	e1.setPosition(12f, 10f);
+    	
+    	for (int i = 0; i < 100; i++) 
+    		e2.movePosition(0.1f, 0f);
+    	
+    	assertEqualsExt(new Vector2(10.9f, 10f), e2.getPosition(), 0.00001f);
+    }
+    
+    @Test
+    public void testMovementAgainstTwoGeometries_TriangleBox() {
+    	DummyGameLayer l = new DummyGameLayer(100, 100, TileMap.createEmptyMap(100, 100));
+
+    	DummyEntity e1 = new DummyEntity();
+    	l.addEntity(e1);
+    	e1.addCollisionGeo(-1/6f, 1f, new CollisionTriangle(e1, 0f, 0f,     0.1f, 0f,     0f, 0.1f));
+    	e1.addCollisionGeo(0.1f, 0f, new CollisionBox(e1, 0.2f, 0.2f));
+    	
+    	DummyEntity e2 = new DummyEntity();
+    	l.addEntity(e2);
+    	e2.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e2, 1f, 1f));
+    	
+    	e2.setPosition(10f, 10f);
+    	e1.setPosition(12f, 10f);
+    	
+    	for (int i = 0; i < 100; i++) 
+    		e2.movePosition(0.1f, 0f);
+    	
+    	assertEqualsExt(new Vector2(10.9f, 10f), e2.getPosition(), 0.00001f);
+    }
+    
+    @Test
+    public void testMovementAgainstTwoGeometries_TriangleCircle() {
+    	DummyGameLayer l = new DummyGameLayer(100, 100, TileMap.createEmptyMap(100, 100));
+
+    	DummyEntity e1 = new DummyEntity();
+    	l.addEntity(e1);
+    	e1.addCollisionGeo(-1/6f, 1f, new CollisionTriangle(e1, 0f, 0f,     0.1f, 0f,     0f, 0.1f));
+    	e1.addCollisionGeo(0.1f, 1f, new CollisionCircle(e1, 0.1f));
+    	
+    	DummyEntity e2 = new DummyEntity();
+    	l.addEntity(e2);
+    	e2.addCollisionGeo(0.5f, 0.5f, new CollisionBox(e2, 1f, 1f));
+    	
+    	e2.setPosition(10f, 10f);
+    	e1.setPosition(12f, 10f);
+    	
+    	for (int i = 0; i < 100; i++) 
+    		e2.movePosition(0.1f, 0f);
+    	
+    	assertEqualsExt(new Vector2(10.9f, 10f), e2.getPosition(), 0.00001f);
+    }
+    
     @Test
     public void testNoCollisionMovement() {
     	assertEquals(false, doNoCollisionMovement(false, false, false, false));

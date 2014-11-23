@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
 import de.samdev.absgdx.framework.math.FloatMath;
+import de.samdev.absgdx.framework.math.ShapeMath;
 
 /**
  * A Collision Geometry in the shape of a triangle 
@@ -142,14 +143,12 @@ public class CollisionTriangle extends CollisionGeometry {
 
 	@Override
 	public float getXTouchDistance(CollisionBox other) {
-		// TODO Auto-generated method stub
-		throw new NotImplementedException();
+		return ShapeMath.getXTouchDistance(this, other);
 	}
 
 	@Override
 	public float getXTouchDistance(CollisionCircle other) {
-		// TODO Auto-generated method stub
-		throw new NotImplementedException();
+		return ShapeMath.getXTouchDistance(this, other);
 	}
 
 	@Override
@@ -160,14 +159,12 @@ public class CollisionTriangle extends CollisionGeometry {
 
 	@Override
 	public float getYTouchDistance(CollisionBox other) {
-		// TODO Auto-generated method stub
-		throw new NotImplementedException();
+		return ShapeMath.getYTouchDistance(this, other);
 	}
 
 	@Override
 	public float getYTouchDistance(CollisionCircle other) {
-		// TODO Auto-generated method stub
-		throw new NotImplementedException();
+		return ShapeMath.getYTouchDistance(this, other);
 	}
 
 	@Override
@@ -178,14 +175,12 @@ public class CollisionTriangle extends CollisionGeometry {
 
 	@Override
 	public boolean isIntersectingWith(CollisionBox other) {
-		// TODO Auto-generated method stub
-		throw new NotImplementedException();
+		return ShapeMath.doGeometriesIntersect(this, other);
 	}
 
 	@Override
 	public boolean isIntersectingWith(CollisionCircle other) {
-		// TODO Auto-generated method stub
-		throw new NotImplementedException();
+		return ShapeMath.doGeometriesIntersect(this, other);
 	}
 
 	@Override

@@ -1,8 +1,10 @@
 package de.samdev.absgdx.framework.math;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionBox;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionCircle;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionTriangle;
 
 /**
  * This class contains mathematical methods for 2D Geometry
@@ -32,6 +34,36 @@ public class ShapeMath {
 	}
 
 	/**
+	 * Get the X-distance the two geometries (a triangle and a circle) can minimally have 
+	 * (at this distance they don't intersect but touch)
+	 * 
+	 * [!] The distance gets CollisionGeometry.FDELTA added so the no-intersection ruled is enforced
+	 * 
+	 * @param a the first geometry
+	 * @param b the second geometry
+	 * @return the minimal x distance
+	 */
+	public static float getXTouchDistance(CollisionTriangle a, CollisionCircle b) {
+		// TODO Auto-generated method stub
+		throw new NotImplementedException();
+	}
+
+	/**
+	 * Get the X-distance the two geometries (a triangle and a box) can minimally have 
+	 * (at this distance they don't intersect but touch)
+	 * 
+	 * [!] The distance gets CollisionGeometry.FDELTA added so the no-intersection ruled is enforced
+	 * 
+	 * @param a the first geometry
+	 * @param b the second geometry
+	 * @return the minimal x distance
+	 */
+	public static float getXTouchDistance(CollisionTriangle a, CollisionBox b) {
+		// TODO Auto-generated method stub
+		throw new NotImplementedException();
+	}
+	
+	/**
 	 * Get the Y-distance the two geometries (a circle and a rectangle) can minimally have 
 	 * (at this distance they don't intersect but touch)
 	 * 
@@ -53,6 +85,36 @@ public class ShapeMath {
 	}
 
 	/**
+	 * Get the Y-distance the two geometries (a triangle and a circle) can minimally have 
+	 * (at this distance they don't intersect but touch)
+	 * 
+	 * [!] The distance gets CollisionGeometry.FDELTA added so the no-intersection ruled is enforced
+	 * 
+	 * @param a the first geometry
+	 * @param b the second geometry
+	 * @return the minimal x distance
+	 */
+	public static float getYTouchDistance(CollisionTriangle a, CollisionCircle b) {
+		// TODO Auto-generated method stub
+		throw new NotImplementedException();
+	}
+
+	/**
+	 * Get the Y-distance the two geometries (a triangle and a box) can minimally have 
+	 * (at this distance they don't intersect but touch)
+	 * 
+	 * [!] The distance gets CollisionGeometry.FDELTA added so the no-intersection ruled is enforced
+	 * 
+	 * @param a the first geometry
+	 * @param b the second geometry
+	 * @return the minimal x distance
+	 */
+	public static float getYTouchDistance(CollisionTriangle a, CollisionBox b) {
+		// TODO Auto-generated method stub
+		throw new NotImplementedException();
+	}
+	
+	/**
 	 * Returns if two geometries (a circle and a rectangle) intersect each other
 	 * 
 	 * @param a the first geometry
@@ -69,5 +131,27 @@ public class ShapeMath {
 					FloatMath.fsquare(a.getCenterX()-b.getRightX()) + FloatMath.fsquare(a.getCenterY()-b.getY()) < FloatMath.fsquare(a.getRadius()) ||
 					FloatMath.fsquare(a.getCenterX()-b.getRightX()) + FloatMath.fsquare(a.getCenterY()-b.getTopY()) < FloatMath.fsquare(a.getRadius()) ||
 					FloatMath.fsquare(a.getCenterX()-b.getX()) + FloatMath.fsquare(a.getCenterY()-b.getTopY()) < FloatMath.fsquare(a.getRadius());
+	}
+
+	/**
+	 * Returns if two geometries (a triangle and a circle) intersect each other
+	 * 
+	 * @param a the first geometry
+	 * @param b the second geometry
+	 * @return true if a and b intersect each other
+	 */	
+	public static boolean doGeometriesIntersect(CollisionTriangle a, CollisionCircle b) {
+		throw new NotImplementedException();
+	}
+
+	/**
+	 * Returns if two geometries (a triangle and a box) intersect each other
+	 * 
+	 * @param a the first geometry
+	 * @param b the second geometry
+	 * @return true if a and b intersect each other
+	 */	
+	public static boolean doGeometriesIntersect(CollisionTriangle a, CollisionBox b) {
+		throw new NotImplementedException();
 	}
 }

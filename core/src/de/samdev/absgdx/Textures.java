@@ -34,6 +34,7 @@ public final class Textures {
 
 	public static TextureRegion tex_AbyssTile;
 	public static TextureRegion texSpawnTile;
+	public static TextureRegion texSlideTile;
 
 	public static TextureRegion[] tex_player;
 
@@ -52,8 +53,9 @@ public final class Textures {
 		tex_GroundTile_BL = new TextureRegion(texmap, 0*16, 7*16, 16, 16);
 		tex_GroundTile_BR = new TextureRegion(texmap, 1*16, 7*16, 16, 16);
 		tex_AbyssTile = new TextureRegion(texmap, 10*16, 40*16, 16, 16);
-		
+
 		texSpawnTile = new TextureRegion(texsidemap, 4*70, 7*70, 70, 70);
+		texSlideTile = new TextureRegion(texsidemap, 2*70, 11*70, 70, 70);
 		
 		tex_Bucket_empty = new TextureRegion(texmap, 10*32, 24*32, 32, 32);
 		tex_Bucket_full = new TextureRegion(texmap, 11*32, 24*32, 32, 32);

@@ -1,6 +1,5 @@
 package de.samdev.absgdx.framework.entities.colliosiondetection.geometries;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
 import de.samdev.absgdx.framework.math.FloatMath;
 import de.samdev.absgdx.framework.math.ShapeMath;
@@ -49,8 +48,7 @@ public class CollisionCircle extends CollisionGeometry {
 
 	@Override
 	public float getXTouchDistance(CollisionTriangle other) {
-		// TODO Auto-generated method stub
-		throw new NotImplementedException();
+		return -ShapeMath.getYTouchDistance(other, this);
 	}
 
 	@Override
@@ -65,8 +63,7 @@ public class CollisionCircle extends CollisionGeometry {
 
 	@Override
 	public float getYTouchDistance(CollisionTriangle other) {
-		// TODO Auto-generated method stub
-		throw new NotImplementedException();
+		return -ShapeMath.getYTouchDistance(other, this);
 	}
 
 	@Override
@@ -81,7 +78,6 @@ public class CollisionCircle extends CollisionGeometry {
 
 	@Override
 	public boolean isIntersectingWith(CollisionTriangle other) {
-		// TODO Auto-generated method stub
-		throw new NotImplementedException();
+		return ShapeMath.doGeometriesIntersect(other, this);
 	}
 }

@@ -18,6 +18,7 @@ import de.samdev.absgdx.topdowngame.entities.Bucket_3;
 import de.samdev.absgdx.topdowngame.entities.Bush_1;
 import de.samdev.absgdx.topdowngame.entities.Bush_2;
 import de.samdev.absgdx.topdowngame.entities.FlowerPot_1;
+import de.samdev.absgdx.topdowngame.entities.Slide_1;
 import de.samdev.absgdx.topdowngame.tiles.AbyssTile;
 import de.samdev.absgdx.topdowngame.tiles.StandardAutoTile;
 
@@ -36,20 +37,22 @@ public class TopDownGameLayer extends GameLayer {
 //		setMapScaleResolver(new ShowCompleteMapScaleResolver());
 //		setMapScaleResolver(new MaximumBoundaryMapScaleResolver(3, 3));
 
-		addEntity(bucket_1 = new Bucket_1());
-		addEntity(bucket_2 = new Bucket_2());
-		addEntity(bucket_3 = new Bucket_3(bucket_1, bucket_2));
+//		addEntity(bucket_1 = new Bucket_1());
+//		addEntity(bucket_2 = new Bucket_2());
+//		addEntity(bucket_3 = new Bucket_3(bucket_1, bucket_2));
 		
-		bucket_1.owner = this;
-		bucket_2.owner = this;
-		bucket_3.owner = this;
+//		bucket_1.owner = this;
+//		bucket_2.owner = this;
+//		bucket_3.owner = this;
 
-		addEntity(new Bush_1(33.0f, 19.0f));
-		addEntity(new Bush_2(34.0f, 19.5f));
+//		addEntity(new Bush_1(33.0f, 19.0f));
+//		addEntity(new Bush_2(34.0f, 19.5f));
 		
-		addEntity(new Angel_1());
-		
+//		addEntity(new Angel_1());
+
 		addEntity(ap_1 = new Anchorpoint_1());
+
+		addEntity(new Slide_1());
 	}
 	
 	private static TileMap loadMap() {
@@ -90,7 +93,7 @@ public class TopDownGameLayer extends GameLayer {
 		
 		if (System.currentTimeMillis() - last > 33){
 			last = System.currentTimeMillis();
-			addEntity(new FlowerPot_1());
+//			addEntity(new FlowerPot_1());
 		}
 		
 		scrollMapToEntity(ap_1, 2);

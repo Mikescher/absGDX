@@ -115,30 +115,57 @@ public class CollisionTriangle extends CollisionGeometry {
 	}
 	
 	/**
-	 * Get point1 as Vector2
+	 * Get point1 X coordinate
 	 * 
 	 * @return
 	 */
-	public Vector2 getPoint1() {
-		return new Vector2(point1_x, point1_y);
+	public float getPoint1_X() {
+		return center.x + point1_x;
 	}
 
 	/**
-	 * Get point2 as Vector2
+	 * Get point1 X coordinate
 	 * 
 	 * @return
 	 */
-	public Vector2 getPoint2() {
-		return new Vector2(point2_x, point2_y);
+	public float getPoint1_Y() {
+		return center.y + point1_y;
 	}
-	
+
 	/**
-	 * Get point3 as Vector2
+	 * Get point1 X coordinate
 	 * 
 	 * @return
 	 */
-	public Vector2 getPoint3() {
-		return new Vector2(point3_x, point3_y);
+	public float getPoint2_X() {
+		return center.x + point2_x;
+	}
+
+	/**
+	 * Get point1 X coordinate
+	 * 
+	 * @return
+	 */
+	public float getPoint2_Y() {
+		return center.y + point2_y;
+	}
+
+	/**
+	 * Get point1 X coordinate
+	 * 
+	 * @return
+	 */
+	public float getPoint3_X() {
+		return center.x + point3_x;
+	}
+
+	/**
+	 * Get point1 X coordinate
+	 * 
+	 * @return
+	 */
+	public float getPoint3_Y() {
+		return center.y + point3_y;
 	}
 
 	@Override
@@ -187,5 +214,22 @@ public class CollisionTriangle extends CollisionGeometry {
 	public boolean isIntersectingWith(CollisionTriangle other) {
 		// TODO Auto-generated method stub
 		throw new NotImplementedException();
+	}
+
+	/**
+	 * Return if the point is inside of this triangle
+	 * 
+	 * @param x the x coordinate
+	 * @param y the y coordinate
+	 * @return true if the point lays inside
+	 */
+	public boolean containsPoint(float x, float y) {
+	    boolean b1, b2, b3;
+
+	    b1 = (x - getPoint2_X()) * (getPoint1_Y() - getPoint2_Y()) - (getPoint1_X() - getPoint2_X()) * (y - getPoint2_Y()) < 0;
+	    b2 = (x - getPoint3_X()) * (getPoint2_Y() - getPoint3_Y()) - (getPoint2_X() - getPoint3_X()) * (y - getPoint3_Y()) < 0;
+	    b3 = (x - getPoint1_X()) * (getPoint3_Y() - getPoint3_Y()) - (getPoint3_X() - getPoint1_X()) * (y - getPoint1_Y()) < 0;
+
+	    return ((b1 == b2) && (b2 == b3));
 	}
 }

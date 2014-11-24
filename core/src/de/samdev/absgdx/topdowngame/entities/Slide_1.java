@@ -29,7 +29,7 @@ public class Slide_1 extends Entity {
 	public void onLayerAdd(GameLayer layer) {
 		setPosition(x, y);
 		
-		addCollisionGeo(1/3f, 1/3f, new CollisionTriangle(this, new Vector2(0f, 0f), new Vector2(1f, 0f), new Vector2(0f, 1f)));
+		addCollisionGeo(4/3f, 2/3f, new CollisionTriangle(this, new Vector2(0f, 0f), new Vector2(2f, 0f), new Vector2(2f, 2f)));
 	}
 	
 	@Override

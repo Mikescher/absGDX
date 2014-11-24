@@ -19,6 +19,7 @@ import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionMap;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionBox;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionCircle;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionTriangle;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.OuterMapCollisionOwner;
 import de.samdev.absgdx.framework.map.Tile;
 import de.samdev.absgdx.framework.map.TileMap;
@@ -201,6 +202,9 @@ public abstract class GameLayer extends AgdxLayer {
 						} else if (collGeo instanceof CollisionBox) {
 							CollisionBox collBox = (CollisionBox) collGeo;
 							srenderer.rect(collBox.getX(), collBox.getY(), collBox.width, collBox.height);
+						} else if (collGeo instanceof CollisionTriangle) {
+							CollisionTriangle collT = (CollisionTriangle) collGeo;
+							srenderer.triangle(collT.getPoint1_X(), collT.getPoint1_Y(), collT.getPoint2_X(), collT.getPoint2_Y(), collT.getPoint3_X(), collT.getPoint3_Y());
 						}
 			    	}
 			    }

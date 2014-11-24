@@ -1,5 +1,7 @@
 package de.samdev.absgdx.framework.math;
 
+import com.badlogic.gdx.math.Vector2;
+
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionBox;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionCircle;
@@ -151,7 +153,92 @@ public class ShapeMath {
 	 * @param b the second geometry
 	 * @return true if a and b intersect each other
 	 */	
-	public static boolean doGeometriesIntersect(CollisionTriangle a, CollisionBox b) {
-		throw new NotImplementedException();
+	public static boolean doGeometriesIntersect(CollisionTriangle a, CollisionBox b) { // Shortcut Evaluation - The Method
+		return 
+				// Triangle Line 1->2
+				doLinesIntersect(a.getPoint1_X(), a.getPoint1_Y(),a.getPoint2_X(), a.getPoint2_Y(), b.getX(), b.getY(), b.getX(), b.getTopY()) ||
+				doLinesIntersect(a.getPoint1_X(), a.getPoint1_Y(),a.getPoint2_X(), a.getPoint2_Y(), b.getX(), b.getTopY(), b.getRightX(), b.getTopY()) ||
+				doLinesIntersect(a.getPoint1_X(), a.getPoint1_Y(),a.getPoint2_X(), a.getPoint2_Y(), b.getRightX(), b.getTopY(), b.getRightX(), b.getY()) ||
+				doLinesIntersect(a.getPoint1_X(), a.getPoint1_Y(),a.getPoint2_X(), a.getPoint2_Y(), b.getRightX(), b.getY(), b.getX(), b.getY()) ||
+
+				// Triangle Line 2->3
+				doLinesIntersect(a.getPoint2_X(), a.getPoint2_Y(),a.getPoint3_X(), a.getPoint3_Y(), b.getX(), b.getY(), b.getX(), b.getTopY()) ||
+				doLinesIntersect(a.getPoint2_X(), a.getPoint2_Y(),a.getPoint3_X(), a.getPoint3_Y(), b.getX(), b.getTopY(), b.getRightX(), b.getTopY()) ||
+				doLinesIntersect(a.getPoint2_X(), a.getPoint2_Y(),a.getPoint3_X(), a.getPoint3_Y(), b.getRightX(), b.getTopY(), b.getRightX(), b.getY()) ||
+				doLinesIntersect(a.getPoint2_X(), a.getPoint2_Y(),a.getPoint3_X(), a.getPoint3_Y(), b.getRightX(), b.getY(), b.getX(), b.getY()) ||
+
+				// Triangle Line 3->1
+				doLinesIntersect(a.getPoint3_X(), a.getPoint3_Y(),a.getPoint1_X(), a.getPoint1_Y(), b.getX(), b.getY(), b.getX(), b.getTopY()) ||
+				doLinesIntersect(a.getPoint3_X(), a.getPoint3_Y(),a.getPoint1_X(), a.getPoint1_Y(), b.getX(), b.getTopY(), b.getRightX(), b.getTopY()) ||
+				doLinesIntersect(a.getPoint3_X(), a.getPoint3_Y(),a.getPoint1_X(), a.getPoint1_Y(), b.getRightX(), b.getTopY(), b.getRightX(), b.getY()) ||
+				doLinesIntersect(a.getPoint3_X(), a.getPoint3_Y(),a.getPoint1_X(), a.getPoint1_Y(), b.getRightX(), b.getY(), b.getX(), b.getY()) ||
+
+				// Triangle inside Box
+				b.containsPoint(a.getPoint1_X(), a.getPoint2_X()) ||
+
+				// Box inside Triangle
+				a.containsPoint(b.getX(), b.getY());
+	}
+	
+	/**
+	 * Do two line segments intersect
+	 * 
+	 * @param l1_p1_x Point 1 of Line 1, x coordinate
+	 * @param l1_p1_y Point 1 of Line 1, y coordinate
+	 * @param l1_p2_x Point 2 of Line 1, x coordinate
+	 * @param l1_p2_y Point 2 of Line 1, y coordinate
+	 * @param l2_p1_x Point 1 of Line 2, x coordinate
+	 * @param l2_p1_y Point 1 of Line 2, y coordinate
+	 * @param l2_p2_x Point 2 of Line 2, x coordinate
+	 * @param l2_p2_y Point 2 of Line 2, y coordinate
+	 * @return true if the two lines intersect
+	 */
+	public static boolean doLinesIntersect(float l1_p1_x, float l1_p1_y, float l1_p2_x, float l1_p2_y, float l2_p1_x, float l2_p1_y, float l2_p2_x, float l2_p2_y) {
+		float r_d = (l1_p2_x-l1_p1_x)*(l2_p2_y-l2_p1_y)-(l1_p2_y-l1_p1_y)*(l2_p2_x-l2_p1_x);
+		float s_d = (l1_p2_x-l1_p1_x)*(l2_p2_y-l2_p1_y)-(l1_p2_y-l1_p1_y)*(l2_p2_x-l2_p1_x);
+		
+		if (r_d != 0 && s_d != 0) {
+			float r_n = (l1_p1_y-l2_p1_y)*(l2_p2_x-l2_p1_x)-(l1_p1_x-l2_p1_x)*(l2_p2_y-l2_p1_y);
+			float s_n = (l1_p1_y-l2_p1_y)*(l1_p2_x-l1_p1_x)-(l1_p1_x-l2_p1_x)*(l1_p2_y-l1_p1_y);
+			
+			float r = r_n / r_d;
+			float s = s_n / s_d;
+			
+			return (1 >= r && r >= 0) && (1 >= s && s >= 0);
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Get the point where two line segments intersect
+	 * 
+	 * @param l1_p1_x Point 1 of Line 1, x coordinate
+	 * @param l1_p1_y Point 1 of Line 1, y coordinate
+	 * @param l1_p2_x Point 2 of Line 1, x coordinate
+	 * @param l1_p2_y Point 2 of Line 1, y coordinate
+	 * @param l2_p1_x Point 1 of Line 2, x coordinate
+	 * @param l2_p1_y Point 1 of Line 2, y coordinate
+	 * @param l2_p2_x Point 2 of Line 2, x coordinate
+	 * @param l2_p2_y Point 2 of Line 2, y coordinate
+	 * @return The intersection point or NULL if there isn't one
+	 */
+	public static Vector2 getLineIntersection(float l1_p1_x, float l1_p1_y, float l1_p2_x, float l1_p2_y, float l2_p1_x, float l2_p1_y, float l2_p2_x, float l2_p2_y) {
+		float r_d = (l1_p2_x-l1_p1_x)*(l2_p2_y-l2_p1_y)-(l1_p2_y-l1_p1_y)*(l2_p2_x-l2_p1_x);
+		float s_d = (l1_p2_x-l1_p1_x)*(l2_p2_y-l2_p1_y)-(l1_p2_y-l1_p1_y)*(l2_p2_x-l2_p1_x);
+		
+		if (r_d != 0 && s_d != 0) {
+			float r_n = (l1_p1_y-l2_p1_y)*(l2_p2_x-l2_p1_x)-(l1_p1_x-l2_p1_x)*(l2_p2_y-l2_p1_y);
+			float s_n = (l1_p1_y-l2_p1_y)*(l1_p2_x-l1_p1_x)-(l1_p1_x-l2_p1_x)*(l1_p2_y-l1_p1_y);
+			
+			float r = r_n / r_d;
+			float s = s_n / s_d;
+			
+			if ((1 >= r && r >= 0) && (1 >= s && s >= 0)) {
+				return new Vector2(l1_p1_x + r * (l1_p2_x - l1_p1_x), l1_p1_y + r * (l1_p2_y - l1_p1_y));
+			}
+		}
+		
+		return null;
 	}
 }

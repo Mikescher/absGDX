@@ -56,6 +56,15 @@ public abstract class CollisionGeometry {
 	}
 
 	/**
+	 * Gets the a copy of the center vector
+	 * 
+	 * @return
+	 */
+	public Vector2 getCenter() {
+		return new Vector2(center);
+	}
+	
+	/**
 	 * Changes the center coordinate
 	 * 
 	 * @param x the x position

@@ -135,7 +135,7 @@ public class CollisionCircleTriangleTest extends CollisionTest {
     	assertEquals("0-1-0-0-0-0", e2.dummyCtrSignSummary());
     	
     	for (int i = 0; i < 8000; i++)
-    		e1.movePosition(-0.01f, -0.01f);
+    		e2.movePosition(-0.01f, -0.01f);
     	
     	assertEqualsExt(new Vector2(11 - FloatMath.fsin(FloatMath.toRadians(45)), 11 - FloatMath.fsin(FloatMath.toRadians(45))), e2.getPosition(), 0.00005f);
 

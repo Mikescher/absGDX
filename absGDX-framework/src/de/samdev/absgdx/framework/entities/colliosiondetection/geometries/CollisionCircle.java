@@ -80,4 +80,9 @@ public class CollisionCircle extends CollisionGeometry {
 	public boolean isIntersectingWith(CollisionTriangle other) {
 		return ShapeMath.doGeometriesIntersect(other, this);
 	}
+
+	@Override
+	public boolean containsPoint(float x, float y) {
+		return FloatMath.fpyth(x - center.x, y - center.y) <= radius*radius;
+	}
 }

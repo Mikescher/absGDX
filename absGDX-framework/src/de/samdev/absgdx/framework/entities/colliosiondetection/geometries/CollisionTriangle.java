@@ -216,13 +216,7 @@ public class CollisionTriangle extends CollisionGeometry {
 		throw new NotImplementedException();
 	}
 
-	/**
-	 * Return if the point is inside of this triangle
-	 * 
-	 * @param x the x coordinate
-	 * @param y the y coordinate
-	 * @return true if the point lays inside
-	 */
+	@Override
 	public boolean containsPoint(float x, float y) {
 	    boolean b1, b2, b3;
 

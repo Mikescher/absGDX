@@ -240,4 +240,13 @@ public abstract class CollisionGeometry {
 	 * @return true if [this] and [other] intersect each other
 	 */
 	public abstract boolean isIntersectingWith(CollisionTriangle other);
+	
+	/**
+	 * Return if the point is inside of this geometry
+	 * 
+	 * @param x the x coordinate
+	 * @param y the y coordinate
+	 * @return true if the point lays inside
+	 */
+	public abstract boolean containsPoint(float x, float y);
 }

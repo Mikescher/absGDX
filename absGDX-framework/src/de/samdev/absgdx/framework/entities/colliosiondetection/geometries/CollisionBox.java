@@ -140,13 +140,7 @@ public class CollisionBox extends CollisionGeometry {
 		return ShapeMath.doGeometriesIntersect(other, this);
 	}
 
-	/**
-	 * Return if the point is inside of this rectangle
-	 * 
-	 * @param x the x coordinate
-	 * @param y the y coordinate
-	 * @return true if the point lays inside
-	 */
+	@Override
 	public boolean containsPoint(float x, float y) {
 		return ! (x < getX() || x > getRightX() || y < getY() || y > getTopY());
 	}

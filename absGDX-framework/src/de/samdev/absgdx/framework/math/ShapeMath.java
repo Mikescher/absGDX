@@ -143,7 +143,16 @@ public class ShapeMath {
 	 * @return true if a and b intersect each other
 	 */	
 	public static boolean doGeometriesIntersect(CollisionTriangle a, CollisionCircle b) {
-		throw new NotImplementedException();
+		return 
+				b.containsPoint(a.getPoint1_X(), a.getPoint1_Y()) ||
+				b.containsPoint(a.getPoint2_X(), a.getPoint2_Y()) ||
+				b.containsPoint(a.getPoint3_X(), a.getPoint3_Y()) ||
+				
+				getLinePointDistanceSquared(b.getCenterX(), b.getCenterY(), a.getPoint1_X(), a.getPoint1_Y(), a.getPoint2_X(), a.getPoint2_Y()) <= (b.radius*b.radius) ||
+				getLinePointDistanceSquared(b.getCenterX(), b.getCenterY(), a.getPoint2_X(), a.getPoint2_Y(), a.getPoint3_X(), a.getPoint3_Y()) <= (b.radius*b.radius) ||
+				getLinePointDistanceSquared(b.getCenterX(), b.getCenterY(), a.getPoint3_X(), a.getPoint3_Y(), a.getPoint1_X(), a.getPoint1_Y()) <= (b.radius*b.radius) ||
+
+				a.containsPoint(b.getCenterX(), b.getCenterY());
 	}
 
 	/**
@@ -240,5 +249,34 @@ public class ShapeMath {
 		}
 		
 		return null;
+	}
+	
+	/**
+	 * Get the line - point distance
+	 * 
+	 * @param p_x the x coordinate of the point
+	 * @param p_y the y coordinate of the point
+	 * @param l1_p1_x the start point (X) of the line
+	 * @param l1_p1_y the start point (Y) of the line
+	 * @param l1_p2_x the end point (X) of the line
+	 * @param l1_p2_y the end point (Y) of the line
+	 * @return the distance line <-> point
+	 */
+	public static float getLinePointDistanceSquared(float p_x, float p_y, float l1_p1_x, float l1_p1_y, float l1_p2_x, float l1_p2_y) {
+		  float l2 = FloatMath.fpyth(l1_p2_x - l1_p1_x, l1_p2_y - l1_p1_y);
+		  
+		  if (l2 == 0f) {
+			  return FloatMath.fpyth(p_x - l1_p1_x, p_y - l1_p1_y);
+		  }
+			  
+		  float t = ((p_x - l1_p1_x) * (l1_p2_x - l1_p1_x) + (p_y - l1_p1_y) * (l1_p2_y - l1_p1_y)) / l2;
+		  
+		  if (t < 0f) {
+			  return FloatMath.fpyth(p_x - l1_p1_x, p_y - l1_p1_y);
+		  } else if (t > 1f) { 
+			  return FloatMath.fpyth(p_x - l1_p2_x, p_y - l1_p2_y);
+		  }
+		  
+		  return FloatMath.fpyth(p_x - (l1_p1_x + t * (l1_p2_x - l1_p1_x)), p_y - (l1_p1_y + t * (l1_p2_y - l1_p1_y)));
 	}
 }

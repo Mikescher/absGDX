@@ -1,6 +1,7 @@
 package de.samdev.absgdx.framework.math;
 
 import com.badlogic.gdx.math.Vector2;
+import com.sun.org.apache.bcel.internal.generic.FLOAD;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionBox;
@@ -46,10 +47,44 @@ public class ShapeMath {
 	 * @return the minimal x distance
 	 */
 	public static float getXTouchDistance(CollisionTriangle a, CollisionCircle b) {
-		// TODO Auto-generated method stub
-		throw new NotImplementedException();
+		float dist_l1 = -getCircleLineXDistance(b.getCenterX(), b.getCenterY(), b.radius, a.getPoint1_X(), a.getPoint1_Y(), a.getPoint2_X(), a.getPoint2_Y());
+		float dist_l2 = -getCircleLineXDistance(b.getCenterX(), b.getCenterY(), b.radius, a.getPoint2_X(), a.getPoint2_Y(), a.getPoint3_X(), a.getPoint3_Y());
+		float dist_l3 = -getCircleLineXDistance(b.getCenterX(), b.getCenterY(), b.radius, a.getPoint3_X(), a.getPoint3_Y(), a.getPoint1_X(), a.getPoint1_Y());
+		
+		if (a.getCenter().x < b.getCenterX()) { // [+]
+			return FloatMath.fmin(dist_l1, dist_l2, dist_l3);
+		} else { // [-]
+			return FloatMath.fmax(dist_l1, dist_l2, dist_l3);
+		}
 	}
 
+	public static float getCircleLineXDistance(float c_x, float c_y, float rad, float p1_x, float p1_y, float p2_x, float p2_y) {
+		float distance_p1 = (p1_x - c_x) - FloatMath.fsqrt(FloatMath.fmax(0, (rad * rad) - FloatMath.fabs(p1_y - c_y)));
+		float distance_p2 = (p2_x - c_x) - FloatMath.fsqrt(FloatMath.fmax(0, (rad * rad) - FloatMath.fabs(p2_y - c_y)));
+		
+		float angle = (float) (Math.atan2(p2_y - p1_y, p2_x - p1_x) + Math.PI/2);
+		
+		float d_12_x = (p2_x - p1_x);
+		float d_12_y = (p2_y - p1_y);
+		
+		float circle_coll_x = c_x + FloatMath.fcos(angle) * rad;
+		float circle_coll_y = c_y + FloatMath.fsin(angle) * rad;
+		
+		float line_coll_y = circle_coll_y;
+		float line_coll_s = (c_y*circle_coll_y - p1_y) / d_12_y;
+		
+		if (line_coll_s > 0 && (p1_y + line_coll_s * d_12_y) < p2_y) {
+			float line_coll_x = p1_x + d_12_x * line_coll_s;
+			
+			return line_coll_x - circle_coll_x;
+		} else if (line_coll_s <= 0) {
+			return distance_p1;
+		} else {
+			return distance_p2;
+		}
+		
+	}
+	
 	/**
 	 * Get the X-distance the two geometries (a triangle and a box) can minimally have 
 	 * (at this distance they don't intersect but touch)
@@ -263,20 +298,20 @@ public class ShapeMath {
 	 * @return the distance line <-> point
 	 */
 	public static float getLinePointDistanceSquared(float p_x, float p_y, float l1_p1_x, float l1_p1_y, float l1_p2_x, float l1_p2_y) {
-		  float l2 = FloatMath.fpyth(l1_p2_x - l1_p1_x, l1_p2_y - l1_p1_y);
-		  
-		  if (l2 == 0f) {
-			  return FloatMath.fpyth(p_x - l1_p1_x, p_y - l1_p1_y);
-		  }
-			  
-		  float t = ((p_x - l1_p1_x) * (l1_p2_x - l1_p1_x) + (p_y - l1_p1_y) * (l1_p2_y - l1_p1_y)) / l2;
-		  
-		  if (t < 0f) {
-			  return FloatMath.fpyth(p_x - l1_p1_x, p_y - l1_p1_y);
-		  } else if (t > 1f) { 
-			  return FloatMath.fpyth(p_x - l1_p2_x, p_y - l1_p2_y);
-		  }
-		  
-		  return FloatMath.fpyth(p_x - (l1_p1_x + t * (l1_p2_x - l1_p1_x)), p_y - (l1_p1_y + t * (l1_p2_y - l1_p1_y)));
+		float l2 = FloatMath.fpyth(l1_p2_x - l1_p1_x, l1_p2_y - l1_p1_y);
+
+		if (l2 == 0f) {
+			return FloatMath.fpyth(p_x - l1_p1_x, p_y - l1_p1_y);
+		}
+
+		float t = ((p_x - l1_p1_x) * (l1_p2_x - l1_p1_x) + (p_y - l1_p1_y) * (l1_p2_y - l1_p1_y)) / l2;
+
+		if (t < 0f) {
+			return FloatMath.fpyth(p_x - l1_p1_x, p_y - l1_p1_y);
+		} else if (t > 1f) {
+			return FloatMath.fpyth(p_x - l1_p2_x, p_y - l1_p2_y);
+		}
+
+		return FloatMath.fpyth(p_x - (l1_p1_x + t * (l1_p2_x - l1_p1_x)), p_y - (l1_p1_y + t * (l1_p2_y - l1_p1_y)));
 	}
 }

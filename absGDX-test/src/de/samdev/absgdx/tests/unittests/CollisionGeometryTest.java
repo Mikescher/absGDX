@@ -98,8 +98,8 @@ public class CollisionGeometryTest extends BaseUnitTest {
 		
 		float len = t1.circumRadius;
 		assertTrue(len >= new Vector2(t1.point1_x, t1.point1_y).len());
-		assertTrue(len >=  new Vector2(t1.point2_x, t1.point2_y).len());
-		assertTrue(len >=  new Vector2(t1.point3_x, t1.point3_y).len());
+		assertTrue(len >= new Vector2(t1.point2_x, t1.point2_y).len());
+		assertTrue(len >= new Vector2(t1.point3_x, t1.point3_y).len());
 		assertEquals(len, FloatMath.fmax(new Vector2(t1.point1_x, t1.point1_y).len(), new Vector2(t1.point2_x, t1.point2_y).len(), new Vector2(t1.point3_x, t1.point3_y).len()), 0.0001f);
 
 		assertEquals(len, t1.circumRadius, 0.0001f);
@@ -109,6 +109,21 @@ public class CollisionGeometryTest extends BaseUnitTest {
 		CollisionTriangle tsub3 = new CollisionTriangle(null, new Vector2(), new Vector2(t1.point3_x, t1.point3_y), new Vector2(t1.point1_x, t1.point1_y));
 
 		assertEquals(t1.area(), tsub1.area() + tsub2.area() + tsub3.area(), 0.001f);
+	}
+
+	@Test
+	public void testsLSAEJDF_WEQJFUOOOWEAN() { // TODO FUCKING REM ME !!!!!!!!!1
+		CollisionCircle c = new CollisionCircle(null, 1/2f);
+		CollisionTriangle t = new CollisionTriangle(null, new Vector2(0, 0), new Vector2(1, 0), new Vector2(1, 1));
+		
+		c.setCenter(1/2f, 1/2f);		
+		t.setCenter(4f + 2/3f, 1/3f);
+		System.out.println("> -3.5 = " + t.getXTouchDistance(c));
+		
+		
+		c.setCenter(1/2f, 0f);		
+		t.setCenter(4f + 2/3f, 1/3f);
+		System.out.println("> -3 = " + t.getXTouchDistance(c));
 	}
 
 }

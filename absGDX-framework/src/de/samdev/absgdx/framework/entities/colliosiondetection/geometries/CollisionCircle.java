@@ -48,7 +48,7 @@ public class CollisionCircle extends CollisionGeometry {
 
 	@Override
 	public float getXTouchDistance(CollisionTriangle other) {
-		return -ShapeMath.getYTouchDistance(other, this);
+		return -ShapeMath.getXTouchDistance(other, this);
 	}
 
 	@Override

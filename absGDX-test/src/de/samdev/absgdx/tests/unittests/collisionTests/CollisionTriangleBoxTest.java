@@ -327,7 +327,7 @@ public class CollisionTriangleBoxTest extends CollisionTest {
     	l.addEntity(e2);
     	e2.addCollisionGeo(1/2f, 1/2f, new CollisionBox(e2, 10f, 10f));
     	
-    	e1.setPosition(10f, 10f);
+    	e1.setPosition(100f, 100f);
     	e2.setPosition(0f, 0f);
     	
     	assertEquals("0-1-0-0-0-0", e1.dummyCtrSignSummary());
@@ -356,7 +356,7 @@ public class CollisionTriangleBoxTest extends CollisionTest {
     	e2.addCollisionGeo(1/2f, 1/2f, new CollisionBox(e2, 1f, 1f));
     	
     	e2.setPosition(0f, 0f);
-    	e1.setPosition(10f, 10f);
+    	e1.setPosition(100f, 100f);
     	
     	assertEquals("0-1-0-0-0-0", e1.dummyCtrSignSummary());
     	assertEquals("0-1-0-0-0-0", e2.dummyCtrSignSummary());

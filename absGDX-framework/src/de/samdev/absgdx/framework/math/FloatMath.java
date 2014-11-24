@@ -101,6 +101,87 @@ public class FloatMath {
 	public static float fmax(float a, float b, float c, float d, float e) {
 		return Math.max(a, Math.max(b, Math.max(c, Math.max(d, e))));
 	}
+	
+	/**
+	 * Get the maximum of the input values
+	 * 
+	 * @param a input value [1]
+	 * @param b input value [2]
+	 * @param c input value [3]
+	 * @param d input value [4]
+	 * @param e input value [5]
+	 * @param f input value [6]
+	 * @return MAX(a, b, c, d, e)
+	 */
+	public static float fmax(float a, float b, float c, float d, float e, float f) {
+		return Math.max(a, Math.max(b, Math.max(c, Math.max(d, Math.max(e, f)))));
+	}
+	
+
+	/**
+	 * Get the minimum of the input values
+	 * 
+	 * @param a input value [1]
+	 * @param b input value [2]
+	 * @return min(a, b)
+	 */
+	public static float fmin(float a, float b) {
+		return Math.min(a, b);
+	}
+	
+	/**
+	 * Get the minimum of the input values
+	 * 
+	 * @param a input value [1]
+	 * @param b input value [2]
+	 * @param c input value [3]
+	 * @return min(a, b, c)
+	 */
+	public static float fmin(float a, float b, float c) {
+		return Math.min(a, Math.min(b, c));
+	}
+	
+	/**
+	 * Get the minimum of the input values
+	 * 
+	 * @param a input value [1]
+	 * @param b input value [2]
+	 * @param c input value [3]
+	 * @param d input value [4]
+	 * @return min(a, b, c, d)
+	 */
+	public static float fmin(float a, float b, float c, float d) {
+		return Math.min(a, Math.min(b, Math.min(c, d)));
+	}
+	
+	/**
+	 * Get the minimum of the input values
+	 * 
+	 * @param a input value [1]
+	 * @param b input value [2]
+	 * @param c input value [3]
+	 * @param d input value [4]
+	 * @param e input value [5]
+	 * @return min(a, b, c, d, e)
+	 */
+	public static float fmin(float a, float b, float c, float d, float e) {
+		return Math.min(a, Math.min(b, Math.min(c, Math.min(d, e))));
+	}
+	
+	/**
+	 * Get the minimum of the input values
+	 * 
+	 * @param a input value [1]
+	 * @param b input value [2]
+	 * @param c input value [3]
+	 * @param d input value [4]
+	 * @param e input value [5]
+	 * @param f input value [6]
+	 * @return min(a, b, c, d, e)
+	 */
+	public static float fmin(float a, float b, float c, float d, float e, float f) {
+		return Math.min(a, Math.min(b, Math.min(c, Math.min(d, Math.min(e, f)))));
+	}
 
 	/**
 	 * Converts a angle in degree to one in radians
@@ -150,5 +231,9 @@ public class FloatMath {
 	 */
 	public static float ftan(double angle) {
 		return (float) Math.tan(angle);
+	}
+
+	public static float fabs(float f) {
+		return Math.abs(f);
 	}
 }

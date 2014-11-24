@@ -47,10 +47,10 @@ public class CollisionGeometryTest extends BaseUnitTest {
 		assertEquals(+2/3f, t1.point3_y, 0.0001f);
 		
 		float len = t1.circumRadius;
-		assertTrue(len >= t1.getPoint1().len());
-		assertTrue(len >=  t1.getPoint2().len());
-		assertTrue(len >=  t1.getPoint3().len());
-		assertEquals(len, FloatMath.fmax(t1.getPoint1().len(), t1.getPoint2().len(), t1.getPoint3().len()), 0.0001f);
+		assertTrue(len >= new Vector2(t1.point1_x, t1.point1_y).len());
+		assertTrue(len >=  new Vector2(t1.point2_x, t1.point2_y).len());
+		assertTrue(len >=  new Vector2(t1.point3_x, t1.point3_y).len());
+		assertEquals(len, FloatMath.fmax(new Vector2(t1.point1_x, t1.point1_y).len(), new Vector2(t1.point2_x, t1.point2_y).len(), new Vector2(t1.point3_x, t1.point3_y).len()), 0.0001f);
 
 		assertEquals(len, t1.circumRadius, 0.0001f);
 		
@@ -64,10 +64,10 @@ public class CollisionGeometryTest extends BaseUnitTest {
 		assertEquals(FloatMath.fsqrt((5*10*10)/9.0), t1.circumRadius, 0.0001f);
 		
 		float len = t1.circumRadius;
-		assertTrue(len >= t1.getPoint1().len());
-		assertTrue(len >=  t1.getPoint2().len());
-		assertTrue(len >=  t1.getPoint3().len());
-		assertEquals(len, FloatMath.fmax(t1.getPoint1().len(), t1.getPoint2().len(), t1.getPoint3().len()), 0.0001f);
+		assertTrue(len >= new Vector2(t1.point1_x, t1.point1_y).len());
+		assertTrue(len >=  new Vector2(t1.point2_x, t1.point2_y).len());
+		assertTrue(len >=  new Vector2(t1.point3_x, t1.point3_y).len());
+		assertEquals(len, FloatMath.fmax(new Vector2(t1.point1_x, t1.point1_y).len(), new Vector2(t1.point2_x, t1.point2_y).len(), new Vector2(t1.point3_x, t1.point3_y).len()), 0.0001f);
 
 		assertEquals(len, t1.circumRadius, 0.0001f);
 		
@@ -84,10 +84,10 @@ public class CollisionGeometryTest extends BaseUnitTest {
 		CollisionTriangle t1 = new CollisionTriangle(null, new Vector2(99, 12), new Vector2(-20, 10), new Vector2(10, 11.11f));
 		
 		float len = t1.circumRadius;
-		assertTrue(len >= t1.getPoint1().len());
-		assertTrue(len >=  t1.getPoint2().len());
-		assertTrue(len >=  t1.getPoint3().len());
-		assertEquals(len, FloatMath.fmax(t1.getPoint1().len(), t1.getPoint2().len(), t1.getPoint3().len()), 0.0001f);
+		assertTrue(len >= new Vector2(t1.point1_x, t1.point1_y).len());
+		assertTrue(len >=  new Vector2(t1.point2_x, t1.point2_y).len());
+		assertTrue(len >=  new Vector2(t1.point3_x, t1.point3_y).len());
+		assertEquals(len, FloatMath.fmax(new Vector2(t1.point1_x, t1.point1_y).len(), new Vector2(t1.point2_x, t1.point2_y).len(), new Vector2(t1.point3_x, t1.point3_y).len()), 0.0001f);
 
 		assertEquals(len, t1.circumRadius, 0.0001f);
 	}
@@ -97,16 +97,16 @@ public class CollisionGeometryTest extends BaseUnitTest {
 		CollisionTriangle t1 = new CollisionTriangle(null, new Vector2(-20, -88.7654321f), new Vector2(-0.555555f, 42), new Vector2(89.89898989f, -40.00001f));
 		
 		float len = t1.circumRadius;
-		assertTrue(len >= t1.getPoint1().len());
-		assertTrue(len >=  t1.getPoint2().len());
-		assertTrue(len >=  t1.getPoint3().len());
-		assertEquals(len, FloatMath.fmax(t1.getPoint1().len(), t1.getPoint2().len(), t1.getPoint3().len()), 0.0001f);
+		assertTrue(len >= new Vector2(t1.point1_x, t1.point1_y).len());
+		assertTrue(len >=  new Vector2(t1.point2_x, t1.point2_y).len());
+		assertTrue(len >=  new Vector2(t1.point3_x, t1.point3_y).len());
+		assertEquals(len, FloatMath.fmax(new Vector2(t1.point1_x, t1.point1_y).len(), new Vector2(t1.point2_x, t1.point2_y).len(), new Vector2(t1.point3_x, t1.point3_y).len()), 0.0001f);
 
 		assertEquals(len, t1.circumRadius, 0.0001f);
 		
-		CollisionTriangle tsub1 = new CollisionTriangle(null, new Vector2(), t1.getPoint1(), t1.getPoint2());
-		CollisionTriangle tsub2 = new CollisionTriangle(null, new Vector2(), t1.getPoint2(), t1.getPoint3());
-		CollisionTriangle tsub3 = new CollisionTriangle(null, new Vector2(), t1.getPoint3(), t1.getPoint1());
+		CollisionTriangle tsub1 = new CollisionTriangle(null, new Vector2(), new Vector2(t1.point1_x, t1.point1_y), new Vector2(t1.point2_x, t1.point2_y));
+		CollisionTriangle tsub2 = new CollisionTriangle(null, new Vector2(), new Vector2(t1.point2_x, t1.point2_y), new Vector2(t1.point3_x, t1.point3_y));
+		CollisionTriangle tsub3 = new CollisionTriangle(null, new Vector2(), new Vector2(t1.point3_x, t1.point3_y), new Vector2(t1.point1_x, t1.point1_y));
 
 		assertEquals(t1.area(), tsub1.area() + tsub2.area() + tsub3.area(), 0.001f);
 	}

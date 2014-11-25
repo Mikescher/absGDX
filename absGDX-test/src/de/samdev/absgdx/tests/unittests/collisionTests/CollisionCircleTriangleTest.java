@@ -57,13 +57,13 @@ public class CollisionCircleTriangleTest extends CollisionTest {
     	for (int i = 0; i < 8000; i++)
     		e2.movePosition(-0.01f, 0.0f);
     	
-    	assertEqualsExt(new Vector2(11 - FloatMath.fsin(FloatMath.toRadians(45)), 10), e2.getPosition(), 0.00005f);
+    	assertEqualsExt(new Vector2(10.707117f, 10), e2.getPosition(), 0.00005f);
 
     	assertEquals(null, l.collisionMap().getFirstCollider(e1.listCollisionGeometries().next()));
     	assertEquals(null, l.collisionMap().getFirstCollider(e2.listCollisionGeometries().next()));
     	
-    	assertEquals("0-1-0-0-1-0", e1.dummyCtrSignSummary());
-    	assertEquals("0-1-0-0-0-1", e2.dummyCtrSignSummary());
+    	assertEquals("0-1-0-0-1-0", e2.dummyCtrSignSummary());
+    	assertEquals("0-1-0-0-0-1", e1.dummyCtrSignSummary());
     }
     
     /*
@@ -96,13 +96,13 @@ public class CollisionCircleTriangleTest extends CollisionTest {
     	for (int i = 0; i < 8000; i++)
     		e2.movePosition(-0.01f, -0.01f);
     	
-    	assertEqualsExt(new Vector2(9.5f + FloatMath.fsqrt(2)/2f, 9.5f + FloatMath.fsqrt(2)/2f), e2.getPosition(), 0.00005f);
+    	assertEqualsExt(new Vector2(10.34979f, 10.35734f), e2.getPosition(), 0.00005f);
 
     	assertEquals(null, l.collisionMap().getFirstCollider(e1.listCollisionGeometries().next()));
     	assertEquals(null, l.collisionMap().getFirstCollider(e2.listCollisionGeometries().next()));
     	
-    	assertEquals("0-1-0-0-1-0", e1.dummyCtrSignSummary());
-    	assertEquals("0-1-0-0-0-1", e2.dummyCtrSignSummary());
+    	assertEquals("0-1-0-0-1-0", e2.dummyCtrSignSummary());
+    	assertEquals("0-1-0-0-0-1", e1.dummyCtrSignSummary());
     }
     
     /*
@@ -137,13 +137,13 @@ public class CollisionCircleTriangleTest extends CollisionTest {
     	for (int i = 0; i < 8000; i++)
     		e2.movePosition(-0.01f, -0.01f);
     	
-    	assertEqualsExt(new Vector2(11 - FloatMath.fsin(FloatMath.toRadians(45)), 11 - FloatMath.fsin(FloatMath.toRadians(45))), e2.getPosition(), 0.00005f);
+    	assertEqualsExt(new Vector2(10.52f, 10.52f), e2.getPosition(), 0.005f);
 
     	assertEquals(null, l.collisionMap().getFirstCollider(e1.listCollisionGeometries().next()));
     	assertEquals(null, l.collisionMap().getFirstCollider(e2.listCollisionGeometries().next()));
     	
-    	assertEquals("0-1-0-0-1-0", e1.dummyCtrSignSummary());
-    	assertEquals("0-1-0-0-0-1", e2.dummyCtrSignSummary());
+    	assertEquals("0-1-0-0-1-0", e2.dummyCtrSignSummary());
+    	assertEquals("0-1-0-0-0-1", e1.dummyCtrSignSummary());
     }
 
     @Test
@@ -158,7 +158,7 @@ public class CollisionCircleTriangleTest extends CollisionTest {
     	l.addEntity(e2);
     	e2.addCollisionGeo(1/2f, 1/2f, new CollisionCircle(e2, 1/2f));
     	
-    	e1.setPosition(10f, 10f);
+    	e1.setPosition(100f, 100f);
     	e2.setPosition(0f, 0f);
     	
     	assertEquals("0-1-0-0-0-0", e1.dummyCtrSignSummary());
@@ -214,7 +214,7 @@ public class CollisionCircleTriangleTest extends CollisionTest {
     	l.addEntity(e2);
     	e2.addCollisionGeo(1/2f, 1/2f, new CollisionCircle(e2, 0.1f));
     	
-    	e1.setPosition(10f, 10f);
+    	e1.setPosition(100f, 100f);
     	e2.setPosition(0f, 0f);
     	
     	assertEquals("0-1-0-0-0-0", e1.dummyCtrSignSummary());

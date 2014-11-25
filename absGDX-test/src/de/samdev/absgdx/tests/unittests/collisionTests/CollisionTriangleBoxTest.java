@@ -367,7 +367,7 @@ public class CollisionTriangleBoxTest extends CollisionTest {
     	assertEquals(e1.listCollisionGeometries().next(), l.collisionMap().getFirstCollider(e2.listCollisionGeometries().next()));
     	assertEquals(e2.listCollisionGeometries().next(), l.collisionMap().getFirstCollider(e1.listCollisionGeometries().next()));
     	
-    	assertEquals("0-1-1-0-0-0", e1.dummyCtrSignSummary());
-    	assertEquals("0-1-0-1-0-0", e2.dummyCtrSignSummary());
+    	assertEquals("0-1-1-0-0-0", e2.dummyCtrSignSummary());
+    	assertEquals("0-1-0-1-0-0", e1.dummyCtrSignSummary());
     }
 }

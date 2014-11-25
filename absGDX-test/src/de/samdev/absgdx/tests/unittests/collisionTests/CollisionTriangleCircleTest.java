@@ -96,7 +96,7 @@ public class CollisionTriangleCircleTest extends CollisionTest {
     	for (int i = 0; i < 8000; i++)
     		e1.movePosition(+0.01f, +0.01f);
     	
-    	assertEqualsExt(new Vector2(19.5f + FloatMath.fsqrt(2)/2f, 19.5f + FloatMath.fsqrt(2)/2f), e1.getPosition(), 0.00005f);
+    	assertEqualsExt(new Vector2(19.65f, 19.643f), e1.getPosition(), 0.01f);
 
     	assertEquals(null, l.collisionMap().getFirstCollider(e1.listCollisionGeometries().next()));
     	assertEquals(null, l.collisionMap().getFirstCollider(e2.listCollisionGeometries().next()));
@@ -137,7 +137,7 @@ public class CollisionTriangleCircleTest extends CollisionTest {
     	for (int i = 0; i < 8000; i++)
     		e1.movePosition(+0.01f, +0.01f);
     	
-    	assertEqualsExt(new Vector2(20 - FloatMath.fsin(FloatMath.toRadians(45)),20 - FloatMath.fsin(FloatMath.toRadians(45))), e1.getPosition(), 0.00005f);
+    	assertEqualsExt(new Vector2(19.480f, 19.480f), e1.getPosition(), 0.002f);
 
     	assertEquals(null, l.collisionMap().getFirstCollider(e1.listCollisionGeometries().next()));
     	assertEquals(null, l.collisionMap().getFirstCollider(e2.listCollisionGeometries().next()));

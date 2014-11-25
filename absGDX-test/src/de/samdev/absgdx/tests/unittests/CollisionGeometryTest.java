@@ -110,20 +110,4 @@ public class CollisionGeometryTest extends BaseUnitTest {
 
 		assertEquals(t1.area(), tsub1.area() + tsub2.area() + tsub3.area(), 0.001f);
 	}
-
-	@Test
-	public void testsLSAEJDF_WEQJFUOOOWEAN() { // TODO FUCKING REM ME !!!!!!!!!1
-		CollisionCircle c = new CollisionCircle(null, 1/2f);
-		CollisionTriangle t = new CollisionTriangle(null, new Vector2(0, 0), new Vector2(1, 0), new Vector2(1, 1));
-		
-		c.setCenter(1/2f, 1/2f);		
-		t.setCenter(4f + 2/3f, 1/3f);
-		System.out.println("> -3.5 = " + t.getXTouchDistance(c));
-		
-		
-		c.setCenter(1/2f, 0f);		
-		t.setCenter(4f + 2/3f, 1/3f);
-		System.out.println("> -3 = " + t.getXTouchDistance(c));
-	}
-
 }

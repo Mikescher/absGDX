@@ -16,9 +16,13 @@ import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionListener
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionMap;
 import de.samdev.absgdx.framework.entities.colliosiondetection.ReadOnlyEntityCollisionGeometryListIterator;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionBox;
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionCircle;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionTriangle;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.EntityCollisionGeometry;
 import de.samdev.absgdx.framework.layer.GameLayer;
+import de.samdev.absgdx.framework.math.FloatMath;
+import de.samdev.absgdx.framework.math.align.AlignCorner4;
 
 /**
  * An Entity in the game
@@ -567,6 +571,37 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	 */
 	public EntityCollisionGeometry addFullCollisionBox() {
 		return addCollisionGeo(width/2, height/2, new CollisionBox(this, width, height));
+	}
+	
+	/**
+	 * Add a collisionBox the size of this Entity
+	 * 
+	 * @return A wrapper object - needed to remove the geometry again
+	 */
+	public EntityCollisionGeometry addFullCollisionCircle() {
+		return addCollisionGeo(width/2, height/2, new CollisionCircle(this, FloatMath.fmin(width, height)));
+	}
+	
+	/**
+	 * Add a collisionBox the size of this Entity
+	 * 
+	 * @param align the edge which will _not_ be included in the triangle
+	 * 
+	 * @return A wrapper object - needed to remove the geometry again
+	 */
+	public EntityCollisionGeometry addFullCollisionTriangle(AlignCorner4 align) {
+		switch (align) {
+		case TOPLEFT:
+			return addCollisionGeo(2 * width/3, 1 * height/3, new CollisionTriangle(this, 0f, 0f,       width, 0f,     width, height));
+		case TOPRIGHT:
+			return addCollisionGeo(1 * width/3, 1 * height/3, new CollisionTriangle(this, 0f, 0f,       width, 0f,     0f, height));
+		case BOTTOMLEFT:
+			return addCollisionGeo(2 * width/3, 2 * height/3, new CollisionTriangle(this, 0f, height,   width, 0f,     width, height));
+		case BOTTOMRIGHT:
+			return addCollisionGeo(1 * width/3, 2 * height/3, new CollisionTriangle(this, 0f, 0f,       0f, height,    width, height));
+		default:
+			return null;
+		}
 	}
 	
 	/**

@@ -52,7 +52,7 @@ public class TopDownGameLayer extends GameLayer {
 
 		addEntity(ap_1 = new Anchorpoint_1());
 
-		addEntity(new Slide_1());
+		addEntity(new Slide_1(ap_1));
 	}
 	
 	private static TileMap loadMap() {

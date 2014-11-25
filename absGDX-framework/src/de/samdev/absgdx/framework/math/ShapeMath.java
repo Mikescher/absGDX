@@ -52,9 +52,9 @@ public class ShapeMath {
 		float dist_l3 = -getCircleLineXDistance(b.getCenterX(), b.getCenterY(), b.radius, a.getPoint3_X(), a.getPoint3_Y(), a.getPoint1_X(), a.getPoint1_Y());
 		
 		if (a.getCenter().x < b.getCenterX()) { // [+]
-			return FloatMath.fnaturalmin(dist_l1, dist_l2, dist_l3);
+			return (b.getCenter().x - a.getCenterX()) - FloatMath.fnaturalmin(dist_l1, dist_l2, dist_l3);
 		} else { // [-]
-			return FloatMath.fnaturalmax(dist_l1, dist_l2, dist_l3);
+			return (b.getCenter().x - a.getCenterX()) - FloatMath.fnaturalmax(dist_l1, dist_l2, dist_l3);
 		}
 	}
 
@@ -74,15 +74,16 @@ public class ShapeMath {
 		float dist_l3 = -getCircleLineYDistance(b.getCenterX(), b.getCenterY(), b.radius, a.getPoint3_X(), a.getPoint3_Y(), a.getPoint1_X(), a.getPoint1_Y());
 		
 		if (a.getCenter().y < b.getCenterY()) { // [+]
-			return FloatMath.fnaturalmin(dist_l1, dist_l2, dist_l3);
+			return (b.getCenter().y - a.getCenterY()) - FloatMath.fnaturalmin(dist_l1, dist_l2, dist_l3);
 		} else { // [-]
-			return FloatMath.fnaturalmax(dist_l1, dist_l2, dist_l3);
+			return (b.getCenter().y - a.getCenterY()) - FloatMath.fnaturalmax(dist_l1, dist_l2, dist_l3);
 		}
 	}
 	
 	/**
 	 * Get the X-distance the Circle can maximally move before it collides with the line-segment
 	 * (at this distance they don't intersect but touch)
+	 * (be aware that this is a different value than the get X/Y TouchDistance methods, this is the "maximal move distance", not the "minimal distance")
 	 * 
 	 * [!] The distance gets CollisionGeometry.FDELTA added so the no-intersection ruled is enforced
 	 * 

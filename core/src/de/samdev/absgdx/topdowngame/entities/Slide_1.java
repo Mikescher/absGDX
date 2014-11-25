@@ -17,24 +17,31 @@ public class Slide_1 extends Entity {
 	public int tick = 0;
 	
 	public float x, y;
+	public Entity other;
 	
-	public Slide_1() {
+	public CollisionGeometry t;
+	
+	public Slide_1(Entity e) {
 		super(Textures.texSlideTile, 2, 2);
 		
 		this.x = 20;
 		this.y = 23;
+		this.other = e;
 	}
 
 	@Override
 	public void onLayerAdd(GameLayer layer) {
 		setPosition(x, y);
 		
-		addCollisionGeo(4/3f, 2/3f, new CollisionTriangle(this, new Vector2(0f, 0f), new Vector2(2f, 0f), new Vector2(2f, 2f)));
+		addCollisionGeo(4/3f, 2/3f, t = new CollisionTriangle(this, new Vector2(0f, 0f), new Vector2(2f, 0f), new Vector2(2f, 2f)));
+//		t = addFullCollisionBox().geometry;
 	}
 	
 	@Override
 	public void beforeUpdate(float delta) {
-		//
+		System.out.println(other.collisionGeometries.get(0).geometry.getXTouchDistance(t));
+		System.out.println(other.collisionGeometries.get(0).geometry.getYTouchDistance(t));
+		System.out.println("");
 	}
 
 	@Override

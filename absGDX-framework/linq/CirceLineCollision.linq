@@ -75,12 +75,12 @@ void Main()
 	
 	
 	
-	getCircleLineXDistance(40, 140, 20,    100, 140,   150, 140);
+	getCircleLineXDistance(40, 140, 20,    200, 140,   250, 150);
 }
 
 static float FDELTA = 0.001f;
 
-static int cnt = 1;
+int cnt = 1;
 
 void getCircleLineXDistance( float c_x, float c_y,float rad, float p1_x, float p1_y, float p2_x, float p2_y) {
 	("[" + cnt++ + "]").Dump();

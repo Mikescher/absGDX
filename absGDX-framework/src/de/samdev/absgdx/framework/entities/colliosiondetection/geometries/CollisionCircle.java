@@ -85,4 +85,11 @@ public class CollisionCircle extends CollisionGeometry {
 	public boolean containsPoint(float x, float y) {
 		return FloatMath.fpyth(x - center.x, y - center.y) <= radius*radius;
 	}
+
+	@Override
+	public CollisionGeometry copy() {
+		CollisionGeometry g = new CollisionCircle(owner, radius);
+		g.setCenter(getCenterX(), getCenterY());
+		return g;
+	}
 }

@@ -249,4 +249,11 @@ public abstract class CollisionGeometry {
 	 * @return true if the point lays inside
 	 */
 	public abstract boolean containsPoint(float x, float y);
+	
+	/**
+	 *Creates an exact copy of this geometry
+	 * 
+	 * @return
+	 */
+	public abstract CollisionGeometry copy();
 }

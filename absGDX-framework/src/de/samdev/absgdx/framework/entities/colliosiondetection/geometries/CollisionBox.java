@@ -144,4 +144,11 @@ public class CollisionBox extends CollisionGeometry {
 	public boolean containsPoint(float x, float y) {
 		return ! (x < getX() || x > getRightX() || y < getY() || y > getTopY());
 	}
+
+	@Override
+	public CollisionGeometry copy() {
+		CollisionGeometry g = new CollisionBox(owner, width, height);
+		g.setCenter(getCenterX(), getCenterY());
+		return g;
+	}
 }

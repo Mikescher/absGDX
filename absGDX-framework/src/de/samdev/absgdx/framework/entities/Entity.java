@@ -339,6 +339,7 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 		if (dx == 0) return false;
 
 		float signum = Math.signum(dx);
+		float correction = -dx * 100;
 		
 		CollisionGeometry passiveCollider = null;
 		CollisionGeometry activeCollider = null;
@@ -346,18 +347,23 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 		for (EntityCollisionGeometry mygeometry : collisionGeometries) {
 			mygeometry.updatePosition(getPositionX() + dx, getPositionY());			
 			Set<CollisionGeometry> colliders = collisionOwner.getHardColliders(mygeometry.geometry);
+			
 			mygeometry.updatePosition(getPositionX(), getPositionY());
+			
+			float myGeo_centerX = mygeometry.geometry.getCenterX();
+			mygeometry.updatePosition(getPositionX() + correction, getPositionY());
 			
 			for (CollisionGeometry othergeometry : colliders) {
 				if (othergeometry.owner == this) continue;
 				
-				float new_dx = othergeometry.getCenterX() - mygeometry.geometry.getXTouchDistance(othergeometry) - mygeometry.geometry.getCenterX();
+				float new_dx = othergeometry.getCenterX() - mygeometry.geometry.getXTouchDistance(othergeometry) - myGeo_centerX;
 				if (Math.abs(new_dx) < Math.abs(dx))
 					dx = new_dx;
 				
 				passiveCollider = othergeometry;
 				activeCollider = mygeometry.geometry;
 			}
+			mygeometry.updatePosition(getPositionX(), getPositionY());
 		}
 		
 		if (Math.signum(dx) != signum) dx = 0f;
@@ -392,6 +398,7 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 		if (dy == 0) return false;
 		
 		float signum = Math.signum(dy);
+		float correction = - dy * 100;
 		
 		CollisionGeometry passiveCollider = null;
 		CollisionGeometry activeCollider = null;
@@ -399,17 +406,22 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 		for (EntityCollisionGeometry mygeometry : collisionGeometries) {
 			mygeometry.updatePosition(getPositionX(), getPositionY() + dy);			
 			Set<CollisionGeometry> colliders = collisionOwner.getHardColliders(mygeometry.geometry);
+			
 			mygeometry.updatePosition(getPositionX(), getPositionY());
+			
+			float myGeo_centerY = mygeometry.geometry.getCenterY();
+			mygeometry.updatePosition(getPositionX(), getPositionY() + correction);
 			
 			for (CollisionGeometry othergeometry : colliders) {
 				if (othergeometry.owner == this) continue;
 				
-				float new_dy = othergeometry.getCenterY() - mygeometry.geometry.getYTouchDistance(othergeometry) - mygeometry.geometry.getCenterY();
+				float new_dy = othergeometry.getCenterY() - mygeometry.geometry.getYTouchDistance(othergeometry) - myGeo_centerY;
 				if (Math.abs(new_dy) < Math.abs(dy))
 					dy = new_dy;
 				passiveCollider = othergeometry;
 				activeCollider = mygeometry.geometry;
 			}
+			mygeometry.updatePosition(getPositionX(), getPositionY());
 		}
 		
 		if (Math.signum(dy) != signum) dy = 0f;
@@ -666,6 +678,15 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	 */
 	public CollisionGeometry getFirstCollider() {
 		return collisionOwner.getFirstCollider(collisionGeometriesWrapper);
+	}
+	
+	/**
+	 * Returns the first other geometry found that collides with this one so that they can't move into each other (collide hard)
+	 * 
+	 * @return the first colliding geometry or null
+	 */
+	public CollisionGeometry getFirstHardCollider() {
+		return collisionOwner.getFirstHardCollider(collisionGeometriesWrapper);
 	}
 	
 	/**

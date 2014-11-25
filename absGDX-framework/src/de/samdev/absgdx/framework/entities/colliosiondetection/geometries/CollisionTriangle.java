@@ -237,4 +237,11 @@ public class CollisionTriangle extends CollisionGeometry {
 
 	    return ((b1 == b2) && (b2 == b3));
 	}
+
+	@Override
+	public CollisionGeometry copy() {
+		CollisionGeometry g = new CollisionTriangle(owner, point1_x, point1_y, point2_x, point2_y, point3_x, point3_y);
+		g.setCenter(getCenterX(), getCenterY());
+		return g;
+	}
 }

@@ -19,7 +19,7 @@ public class Anchorpoint_1 extends Entity {
 	
 	@Override
 	public void onLayerAdd(GameLayer layer) {
-		setPosition(14.0f, 23.0f);
+		setPosition(21.76f, 26.0f);
 		
 //		addCollisionGeo(0.65f, 1.15f, new CollisionCircle(this, 0.35f));
 //		addCollisionGeo(1.35f, 1.15f, new CollisionCircle(this, 0.35f));

@@ -147,7 +147,7 @@ public class CollisionTriangleTriangleTest extends CollisionTest {
     	for (int i = 0; i < 8000; i++)
     		e1.movePosition(-0.01f, -0.01f);
     	
-    	assertEqualsExt(new Vector2(00, 00), e1.getPosition(), 0.00005f);
+    	assertEqualsExt(new Vector2(00, 00), e1.getPosition(), 0.0005f);
 
     	assertEquals(null, l.collisionMap().getFirstCollider(e1.listCollisionGeometries().next()));
     	assertEquals(null, l.collisionMap().getFirstCollider(e2.listCollisionGeometries().next()));
@@ -187,7 +187,7 @@ public class CollisionTriangleTriangleTest extends CollisionTest {
     	for (int i = 0; i < 8000; i++)
     		e1.movePosition(-0.01f, -0.01f);
     	
-    	assertEqualsExt(new Vector2(0.5f, 0.5f), e1.getPosition(), 0.00005f);
+    	assertEqualsExt(new Vector2(0.5f, 0.5f), e1.getPosition(), 0.0005f);
 
     	assertEquals(null, l.collisionMap().getFirstCollider(e1.listCollisionGeometries().next()));
     	assertEquals(null, l.collisionMap().getFirstCollider(e2.listCollisionGeometries().next()));
@@ -265,9 +265,9 @@ public class CollisionTriangleTriangleTest extends CollisionTest {
     	assertEquals("0-1-0-0-0-0", e2.dummyCtrSignSummary());
     	
     	for (int i = 0; i < 8000; i++)
-    		e1.movePosition(-0.01f, +0.01f);
+    		if (e1.movePosition(-0.01f, +0.01f)) break;
     	
-    	assertEqualsExt(new Vector2(+1.0f, -1.0f), e1.getPosition(), 0.00005f);
+    	assertEqualsExt(new Vector2(+1.0f, -1.0f), e1.getPosition(), 0.05f); // a lot of delta because in the last step it moves 0.01 in x either way
 
     	assertEquals(null, l.collisionMap().getFirstCollider(e1.listCollisionGeometries().next()));
     	assertEquals(null, l.collisionMap().getFirstCollider(e2.listCollisionGeometries().next()));

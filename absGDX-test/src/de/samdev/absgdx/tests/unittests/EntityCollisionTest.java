@@ -307,6 +307,8 @@ public class EntityCollisionTest extends BaseUnitTest {
     	
     	for (int i = 0; i < 100; i++) 
     		e2.movePosition(0.1f, 0f);
+
+		e2.movePosition(0.1f, 0f);
     	
     	assertEqualsExt(new Vector2(10.99f, 10f), e2.getPosition(), 0.00001f);
     }    

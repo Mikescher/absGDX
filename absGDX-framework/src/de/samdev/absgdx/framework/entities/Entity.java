@@ -357,13 +357,18 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 				if (othergeometry.owner == this) continue;
 				
 				float new_dx = othergeometry.getCenterX() - mygeometry.geometry.getXTouchDistance(othergeometry) - myGeo_centerX;
-				if (Math.abs(new_dx) < Math.abs(dx))
-					dx = new_dx;
-				else
-					dx = 0;
 				
-				passiveCollider = othergeometry;
-				activeCollider = mygeometry.geometry;
+				if (FloatMath.fsignum(new_dx) == -signum && dx != 0) { // reverse force
+					dx = 0;
+					
+					passiveCollider = othergeometry;
+					activeCollider = mygeometry.geometry;
+				} else if (Math.abs(new_dx) <= Math.abs(dx)) {
+					dx = new_dx;
+					
+					passiveCollider = othergeometry;
+					activeCollider = mygeometry.geometry;
+				}
 			}
 			mygeometry.updatePosition(getPositionX(), getPositionY());
 		}
@@ -419,13 +424,17 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 				
 				float new_dy = othergeometry.getCenterY() - mygeometry.geometry.getYTouchDistance(othergeometry) - myGeo_centerY;
 				
-				if (Math.abs(new_dy) < Math.abs(dy))
+				if (FloatMath.fsignum(new_dy) == -signum && dy != 0) { // reverse force
+					dy = 0;
+					
+					passiveCollider = othergeometry;
+					activeCollider = mygeometry.geometry;
+				} else if (Math.abs(new_dy) <= Math.abs(dy)) {
 					dy = new_dy;
-				else
-					dy = 0;	
-				
-				passiveCollider = othergeometry;
-				activeCollider = mygeometry.geometry;
+					
+					passiveCollider = othergeometry;
+					activeCollider = mygeometry.geometry;
+				}
 			}
 			mygeometry.updatePosition(getPositionX(), getPositionY());
 		}

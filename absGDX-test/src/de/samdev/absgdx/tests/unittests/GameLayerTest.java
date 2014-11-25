@@ -158,6 +158,7 @@ public class GameLayerTest extends BaseUnitTest {
     	
 
     	for (int i = 0; i < 2000; i++) e1.movePosition(0.1f, 0.1f);
+    	e1.movePosition(0.1f, 0.1f);
     	assertEqualsExt(new Vector2(99f, 99f), e1.getPosition(), 0.000015f);
     	
     	for (int i = 0; i < 2000; i++) e1.movePosition(-0.1f, 0f);

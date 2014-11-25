@@ -132,11 +132,11 @@ public class CollisionTriangleTriangleTest extends CollisionTest {
     	
     	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
-    	e1.addCollisionGeo(1/3f, 1/3f, new CollisionTriangle(e1, 0f, 0f, 0f, 1f, 1f, 0f));
+    	e1.addCollisionGeo(2/3f, 2/3f, new CollisionTriangle(e1, 1f, 0f, 1f, 1f, 0f, 1f));
     	
     	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
-    	e2.addCollisionGeo(2/3f, 2/3f, new CollisionTriangle(e2, 1f, 0f, 1f, 1f, 1f, 0f));
+    	e2.addCollisionGeo(1/3f, 1/3f, new CollisionTriangle(e2, 0f, 0f, 1f, 0f, 0f, 1f));
     	
     	e1.setPosition(10, 10);
     	e2.setPosition(00, 00);

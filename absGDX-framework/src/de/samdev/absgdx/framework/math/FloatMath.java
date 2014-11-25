@@ -195,11 +195,31 @@ public class FloatMath {
 	}
 
 	/**
+	 * Get the maximum of the input values
+	 * If one value is NaN then the other one is returned
+	 * If both values are NaN then NaN is returned
+	 * 
+	 * @param a input value [1]
+	 * @param b input value [2]
+	 * @param c input value [3]
+	 * @param d input value [4]
+	 * @param e input value [5]
+	 * @param f input value [6]
+	 * @param g input value [7]
+	 * @param h input value [8]
+	 * @param i input value [9]
+	 * @return MAX(a, b, c, d, e, f, g, h, i)
+	 */
+	public static float fnaturalmax(float a, float b, float c, float d, float e, float f, float g, float h, float i) {
+		return fnaturalmax(a, fnaturalmax(b, fnaturalmax(c, fnaturalmax(d, fnaturalmax(e, fnaturalmax(f, fnaturalmax(g, fnaturalmax(h, i))))))));
+	}
+	
+	/**
 	 * Get the minimum of the input values
 	 * 
 	 * @param a input value [1]
 	 * @param b input value [2]
-	 * @return min(a, b)
+	 * @return MIN(a, b)
 	 */
 	public static float fmin(float a, float b) {
 		return Math.min(a, b);
@@ -211,7 +231,7 @@ public class FloatMath {
 	 * @param a input value [1]
 	 * @param b input value [2]
 	 * @param c input value [3]
-	 * @return min(a, b, c)
+	 * @return MIN(a, b, c)
 	 */
 	public static float fmin(float a, float b, float c) {
 		return Math.min(a, Math.min(b, c));
@@ -224,7 +244,7 @@ public class FloatMath {
 	 * @param b input value [2]
 	 * @param c input value [3]
 	 * @param d input value [4]
-	 * @return min(a, b, c, d)
+	 * @return MIN(a, b, c, d)
 	 */
 	public static float fmin(float a, float b, float c, float d) {
 		return Math.min(a, Math.min(b, Math.min(c, d)));
@@ -238,7 +258,7 @@ public class FloatMath {
 	 * @param c input value [3]
 	 * @param d input value [4]
 	 * @param e input value [5]
-	 * @return min(a, b, c, d, e)
+	 * @return MIN(a, b, c, d, e)
 	 */
 	public static float fmin(float a, float b, float c, float d, float e) {
 		return Math.min(a, Math.min(b, Math.min(c, Math.min(d, e))));
@@ -253,7 +273,7 @@ public class FloatMath {
 	 * @param d input value [4]
 	 * @param e input value [5]
 	 * @param f input value [6]
-	 * @return min(a, b, c, d, e)
+	 * @return MIN(a, b, c, d, e)
 	 */
 	public static float fmin(float a, float b, float c, float d, float e, float f) {
 		return Math.min(a, Math.min(b, Math.min(c, Math.min(d, Math.min(e, f)))));
@@ -334,6 +354,26 @@ public class FloatMath {
 	 */
 	public static float fnaturalmin(float a, float b, float c, float d, float e, float f) {
 		return fnaturalmin(a, fnaturalmin(b, fnaturalmin(c, fnaturalmin(d, fnaturalmin(e, f)))));
+	}
+	
+	/**
+	 * Get the minimum of the input values
+	 * If one value is NaN then the other one is returned
+	 * If both values are NaN then NaN is returned
+	 * 
+	 * @param a input value [1]
+	 * @param b input value [2]
+	 * @param c input value [3]
+	 * @param d input value [4]
+	 * @param e input value [5]
+	 * @param f input value [6]
+	 * @param g input value [7]
+	 * @param h input value [8]
+	 * @param i input value [9]
+	 * @return MIN(a, b, c, d, e, f, g, h, i)
+	 */
+	public static float fnaturalmin(float a, float b, float c, float d, float e, float f, float g, float h, float i) {
+		return fnaturalmin(a, fnaturalmin(b, fnaturalmin(c, fnaturalmin(d, fnaturalmin(e, fnaturalmin(f, fnaturalmin(g, fnaturalmin(h, i))))))));
 	}
 	
 	/**

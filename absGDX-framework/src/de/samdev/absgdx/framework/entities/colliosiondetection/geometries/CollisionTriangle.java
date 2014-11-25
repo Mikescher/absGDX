@@ -180,14 +180,80 @@ public class CollisionTriangle extends CollisionGeometry {
 
 	@Override
 	public float getXTouchDistance(CollisionTriangle other) {
-		// TODO Auto-generated method stub
-		throw new NotImplementedException();
+		float d1 = ShapeMath.getPointLineXDistance(getPoint1_X(), getPoint1_Y(), other.getPoint1_X(), other.getPoint1_Y(), other.getPoint2_X(), other.getPoint2_Y());
+		float d2 = ShapeMath.getPointLineXDistance(getPoint1_X(), getPoint1_Y(), other.getPoint2_X(), other.getPoint2_Y(), other.getPoint3_X(), other.getPoint3_Y());
+		float d3 = ShapeMath.getPointLineXDistance(getPoint1_X(), getPoint1_Y(), other.getPoint3_X(), other.getPoint3_Y(), other.getPoint1_X(), other.getPoint1_Y());
+
+		float d4 = ShapeMath.getPointLineXDistance(getPoint2_X(), getPoint2_Y(), other.getPoint1_X(), other.getPoint1_Y(), other.getPoint2_X(), other.getPoint2_Y());
+		float d5 = ShapeMath.getPointLineXDistance(getPoint2_X(), getPoint2_Y(), other.getPoint2_X(), other.getPoint2_Y(), other.getPoint3_X(), other.getPoint3_Y());
+		float d6 = ShapeMath.getPointLineXDistance(getPoint2_X(), getPoint2_Y(), other.getPoint3_X(), other.getPoint3_Y(), other.getPoint1_X(), other.getPoint1_Y());
+
+		float d7 = ShapeMath.getPointLineXDistance(getPoint3_X(), getPoint3_Y(), other.getPoint1_X(), other.getPoint1_Y(), other.getPoint2_X(), other.getPoint2_Y());
+		float d8 = ShapeMath.getPointLineXDistance(getPoint3_X(), getPoint3_Y(), other.getPoint2_X(), other.getPoint2_Y(), other.getPoint3_X(), other.getPoint3_Y());
+		float d9 = ShapeMath.getPointLineXDistance(getPoint3_X(), getPoint3_Y(), other.getPoint3_X(), other.getPoint3_Y(), other.getPoint1_X(), other.getPoint1_Y());
+		
+		float s1 = -ShapeMath.getPointLineXDistance(other.getPoint1_X(), other.getPoint1_Y(), getPoint1_X(), getPoint1_Y(), getPoint2_X(), getPoint2_Y());
+		float s2 = -ShapeMath.getPointLineXDistance(other.getPoint1_X(), other.getPoint1_Y(), getPoint2_X(), getPoint2_Y(), getPoint3_X(), getPoint3_Y());
+		float s3 = -ShapeMath.getPointLineXDistance(other.getPoint1_X(), other.getPoint1_Y(), getPoint3_X(), getPoint3_Y(), getPoint1_X(), getPoint1_Y());
+
+		float s4 = -ShapeMath.getPointLineXDistance(other.getPoint2_X(), other.getPoint2_Y(), getPoint1_X(), getPoint1_Y(), getPoint2_X(), getPoint2_Y());
+		float s5 = -ShapeMath.getPointLineXDistance(other.getPoint2_X(), other.getPoint2_Y(), getPoint2_X(), getPoint2_Y(), getPoint3_X(), getPoint3_Y());
+		float s6 = -ShapeMath.getPointLineXDistance(other.getPoint2_X(), other.getPoint2_Y(), getPoint3_X(), getPoint3_Y(), getPoint1_X(), getPoint1_Y());
+
+		float s7 = -ShapeMath.getPointLineXDistance(other.getPoint3_X(), other.getPoint3_Y(), getPoint1_X(), getPoint1_Y(), getPoint2_X(), getPoint2_Y());
+		float s8 = -ShapeMath.getPointLineXDistance(other.getPoint3_X(), other.getPoint3_Y(), getPoint2_X(), getPoint2_Y(), getPoint3_X(), getPoint3_Y());
+		float s9 = -ShapeMath.getPointLineXDistance(other.getPoint3_X(), other.getPoint3_Y(), getPoint3_X(), getPoint3_Y(), getPoint1_X(), getPoint1_Y());
+		
+		if (getCenter().x < other.getCenterX()) { // [+]
+			float dmin = FloatMath.fnaturalmin(d1, d2, d3, d4, d5, d6, d7, d8, d9);
+			float smin = FloatMath.fnaturalmin(s1, s2, s3, s4, s5, s6, s7, s8, s9);
+			
+			return (other.getCenter().x - getCenterX()) - FloatMath.fnaturalmin(dmin, smin) + CollisionGeometry.FDELTA;
+		} else { // [-]
+			float dmax = FloatMath.fnaturalmax(d1, d2, d3, d4, d5, d6, d7, d8, d9);
+			float smax = FloatMath.fnaturalmax(s1, s2, s3, s4, s5, s6, s7, s8, s9);
+			
+			return (other.getCenter().x - getCenterX()) - FloatMath.fnaturalmax(dmax, smax) - CollisionGeometry.FDELTA;
+		}
 	}
 
 	@Override
 	public float getYTouchDistance(CollisionTriangle other) {
-		// TODO Auto-generated method stub
-		throw new NotImplementedException();
+		float d1 = ShapeMath.getPointLineYDistance(getPoint1_X(), getPoint1_Y(), other.getPoint1_X(), other.getPoint1_Y(), other.getPoint2_X(), other.getPoint2_Y());
+		float d2 = ShapeMath.getPointLineYDistance(getPoint1_X(), getPoint1_Y(), other.getPoint2_X(), other.getPoint2_Y(), other.getPoint3_X(), other.getPoint3_Y());
+		float d3 = ShapeMath.getPointLineYDistance(getPoint1_X(), getPoint1_Y(), other.getPoint3_X(), other.getPoint3_Y(), other.getPoint1_X(), other.getPoint1_Y());
+
+		float d4 = ShapeMath.getPointLineYDistance(getPoint2_X(), getPoint2_Y(), other.getPoint1_X(), other.getPoint1_Y(), other.getPoint2_X(), other.getPoint2_Y());
+		float d5 = ShapeMath.getPointLineYDistance(getPoint2_X(), getPoint2_Y(), other.getPoint2_X(), other.getPoint2_Y(), other.getPoint3_X(), other.getPoint3_Y());
+		float d6 = ShapeMath.getPointLineYDistance(getPoint2_X(), getPoint2_Y(), other.getPoint3_X(), other.getPoint3_Y(), other.getPoint1_X(), other.getPoint1_Y());
+
+		float d7 = ShapeMath.getPointLineYDistance(getPoint3_X(), getPoint3_Y(), other.getPoint1_X(), other.getPoint1_Y(), other.getPoint2_X(), other.getPoint2_Y());
+		float d8 = ShapeMath.getPointLineYDistance(getPoint3_X(), getPoint3_Y(), other.getPoint2_X(), other.getPoint2_Y(), other.getPoint3_X(), other.getPoint3_Y());
+		float d9 = ShapeMath.getPointLineYDistance(getPoint3_X(), getPoint3_Y(), other.getPoint3_X(), other.getPoint3_Y(), other.getPoint1_X(), other.getPoint1_Y());
+		
+		float s1 = -ShapeMath.getPointLineYDistance(other.getPoint1_X(), other.getPoint1_Y(), getPoint1_X(), getPoint1_Y(), getPoint2_X(), getPoint2_Y());
+		float s2 = -ShapeMath.getPointLineYDistance(other.getPoint1_X(), other.getPoint1_Y(), getPoint2_X(), getPoint2_Y(), getPoint3_X(), getPoint3_Y());
+		float s3 = -ShapeMath.getPointLineYDistance(other.getPoint1_X(), other.getPoint1_Y(), getPoint3_X(), getPoint3_Y(), getPoint1_X(), getPoint1_Y());
+
+		float s4 = -ShapeMath.getPointLineYDistance(other.getPoint2_X(), other.getPoint2_Y(), getPoint1_X(), getPoint1_Y(), getPoint2_X(), getPoint2_Y());
+		float s5 = -ShapeMath.getPointLineYDistance(other.getPoint2_X(), other.getPoint2_Y(), getPoint2_X(), getPoint2_Y(), getPoint3_X(), getPoint3_Y());
+		float s6 = -ShapeMath.getPointLineYDistance(other.getPoint2_X(), other.getPoint2_Y(), getPoint3_X(), getPoint3_Y(), getPoint1_X(), getPoint1_Y());
+
+		float s7 = -ShapeMath.getPointLineYDistance(other.getPoint3_X(), other.getPoint3_Y(), getPoint1_X(), getPoint1_Y(), getPoint2_X(), getPoint2_Y());
+		float s8 = -ShapeMath.getPointLineYDistance(other.getPoint3_X(), other.getPoint3_Y(), getPoint2_X(), getPoint2_Y(), getPoint3_X(), getPoint3_Y());
+		float s9 = -ShapeMath.getPointLineYDistance(other.getPoint3_X(), other.getPoint3_Y(), getPoint3_X(), getPoint3_Y(), getPoint1_X(), getPoint1_Y());
+		
+		if (getCenter().y < other.getCenterY()) { // [+]
+			float dmin = FloatMath.fnaturalmin(d1, d2, d3, d4, d5, d6, d7, d8, d9);
+			float smin = FloatMath.fnaturalmin(s1, s2, s3, s4, s5, s6, s7, s8, s9);
+			
+			return (other.getCenter().y - getCenterY()) - FloatMath.fnaturalmin(dmin, smin) + CollisionGeometry.FDELTA;
+		} else { // [-]
+			float dmax = FloatMath.fnaturalmax(d1, d2, d3, d4, d5, d6, d7, d8, d9);
+			float smax = FloatMath.fnaturalmax(s1, s2, s3, s4, s5, s6, s7, s8, s9);
+			
+			return (other.getCenter().y - getCenterY()) - FloatMath.fnaturalmax(dmax, smax) - CollisionGeometry.FDELTA;
+		}
 	}
 
 	@Override
@@ -212,7 +278,7 @@ public class CollisionTriangle extends CollisionGeometry {
 
 	@Override
 	public boolean isIntersectingWith(CollisionTriangle other) {
-		boolean is = 
+		return
 				ShapeMath.doLinesIntersect(getPoint1_X(), getPoint1_Y(), getPoint2_X(), getPoint2_Y(), other.getPoint1_X(), other.getPoint1_Y(), other.getPoint2_X(), other.getPoint2_Y()) ||
 				ShapeMath.doLinesIntersect(getPoint1_X(), getPoint1_Y(), getPoint2_X(), getPoint2_Y(), other.getPoint2_X(), other.getPoint2_Y(), other.getPoint3_X(), other.getPoint3_Y()) ||
 				ShapeMath.doLinesIntersect(getPoint1_X(), getPoint1_Y(), getPoint2_X(), getPoint2_Y(), other.getPoint3_X(), other.getPoint3_Y(), other.getPoint1_X(), other.getPoint1_Y()) ||
@@ -228,8 +294,6 @@ public class CollisionTriangle extends CollisionGeometry {
 				containsPoint(other.getPoint1_X(), other.getPoint1_Y()) ||
 
 				other.containsPoint(getPoint1_X(), getPoint1_Y());
-		
-		return is;
 	}
 
 	@Override
@@ -238,7 +302,7 @@ public class CollisionTriangle extends CollisionGeometry {
 
 	    b1 = (x - getPoint2_X()) * (getPoint1_Y() - getPoint2_Y()) - (getPoint1_X() - getPoint2_X()) * (y - getPoint2_Y()) < 0;
 	    b2 = (x - getPoint3_X()) * (getPoint2_Y() - getPoint3_Y()) - (getPoint2_X() - getPoint3_X()) * (y - getPoint3_Y()) < 0;
-	    b3 = (x - getPoint1_X()) * (getPoint3_Y() - getPoint3_Y()) - (getPoint3_X() - getPoint1_X()) * (y - getPoint1_Y()) < 0;
+	    b3 = (x - getPoint1_X()) * (getPoint3_Y() - getPoint1_Y()) - (getPoint3_X() - getPoint1_X()) * (y - getPoint1_Y()) < 0;
 
 	    return ((b1 == b2) && (b2 == b3));
 	}

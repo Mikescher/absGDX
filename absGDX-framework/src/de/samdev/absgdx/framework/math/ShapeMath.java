@@ -431,4 +431,54 @@ public class ShapeMath {
 
 		return FloatMath.fpyth(p_x - (l1_p1_x + t * (l1_p2_x - l1_p1_x)), p_y - (l1_p1_y + t * (l1_p2_y - l1_p1_y)));
 	}
+	
+	public static float getPointLineXDistance(float p_x, float p_y, float lp1_x, float lp1_y, float lp2_x, float lp2_y) {
+		float dy = (lp2_y - lp1_y);
+		
+		if (dy == 0) {
+			if (p_y == lp2_y) {
+				return FloatMath.fmin(FloatMath.fabs(lp2_x - p_x), FloatMath.fabs(lp1_x - p_x)) * FloatMath.fsignum((lp2_x + lp1_x)/2 - p_x);
+			} else {
+				return Float.NaN;
+			}
+		}
+		
+		float dx = (lp2_x - lp1_x);
+		
+		float s = (p_y - lp1_y) / dy;
+		
+		float line_coll_x = lp1_x + s*dx;
+		float line_coll_y = lp1_y + s*dy;
+		
+		if (line_coll_x >= FloatMath.fmin(lp1_x, lp2_x) && line_coll_x <= FloatMath.fmax(lp1_x, lp2_x) && line_coll_y >= FloatMath.fmin(lp1_y, lp2_y) && line_coll_y <= FloatMath.fmax(lp1_y, lp2_y)) {
+			return (line_coll_x - p_x);
+		} else {
+			return Float.NaN;
+		}
+	}
+	
+	public static float getPointLineYDistance(float p_x, float p_y, float lp1_x, float lp1_y, float lp2_x, float lp2_y) {
+		float dx = (lp2_x - lp1_x);
+		
+		if (dx == 0) {
+			if (p_x == lp2_x) {
+				return FloatMath.fmin(FloatMath.fabs(lp2_y - p_y), FloatMath.fabs(lp1_y - p_y)) * FloatMath.fsignum((lp2_y + lp1_y)/2 - p_y);
+			} else {
+				return Float.NaN;
+			}
+		}
+		
+		float dy = (lp2_y - lp1_y);
+		
+		float s = (p_x - lp1_x) / dx;
+		
+		float line_coll_x = lp1_x + s*dx;
+		float line_coll_y = lp1_y + s*dy;
+		
+		if (line_coll_x >= FloatMath.fmin(lp1_x, lp2_x) && line_coll_x <= FloatMath.fmax(lp1_x, lp2_x) && line_coll_y >= FloatMath.fmin(lp1_y, lp2_y) && line_coll_y <= FloatMath.fmax(lp1_y, lp2_y)) {
+			return (line_coll_y - p_y);
+		} else {
+			return Float.NaN;
+		}
+	}
 }

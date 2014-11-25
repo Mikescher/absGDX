@@ -359,6 +359,8 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 				float new_dx = othergeometry.getCenterX() - mygeometry.geometry.getXTouchDistance(othergeometry) - myGeo_centerX;
 				if (Math.abs(new_dx) < Math.abs(dx))
 					dx = new_dx;
+				else
+					dx = 0;
 				
 				passiveCollider = othergeometry;
 				activeCollider = mygeometry.geometry;
@@ -416,8 +418,12 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 				if (othergeometry.owner == this) continue;
 				
 				float new_dy = othergeometry.getCenterY() - mygeometry.geometry.getYTouchDistance(othergeometry) - myGeo_centerY;
+				
 				if (Math.abs(new_dy) < Math.abs(dy))
 					dy = new_dy;
+				else
+					dy = 0;	
+				
 				passiveCollider = othergeometry;
 				activeCollider = mygeometry.geometry;
 			}

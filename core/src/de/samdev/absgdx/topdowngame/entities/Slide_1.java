@@ -25,7 +25,7 @@ public class Slide_1 extends Entity {
 	public Slide_1(Entity e) {
 		super(Textures.texSlideTile, 16, 16);
 		
-		this.x = 20;
+		this.x = 10;
 		this.y = 23;
 		this.other = e;
 	}
@@ -40,10 +40,10 @@ public class Slide_1 extends Entity {
 	
 	@Override
 	public void beforeUpdate(float delta) {
-//		System.out.println(other.collisionGeometries.get(0).geometry.getXTouchDistance(t));
-//		System.out.println(other.collisionGeometries.get(0).geometry.getYTouchDistance(t));
-//		System.out.println(this.getFirstHardCollider() != null);
-//		System.out.println("");
+		System.out.println("x: " + other.collisionGeometries.get(0).geometry.getXTouchDistance(t));
+		System.out.println("y: " + other.collisionGeometries.get(0).geometry.getYTouchDistance(t));
+		System.out.println(this.getFirstHardCollider() != null);
+		System.out.println("");
 	}
 
 	@Override

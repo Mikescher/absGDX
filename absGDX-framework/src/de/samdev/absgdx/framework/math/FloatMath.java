@@ -117,6 +117,82 @@ public class FloatMath {
 		return Math.max(a, Math.max(b, Math.max(c, Math.max(d, Math.max(e, f)))));
 	}
 	
+	/**
+	 * Get the maximum of the input values
+	 * If one value is NaN then the other one is returned
+	 * If both values are NaN then NaN is returned
+	 * 
+	 * @param a input value [1]
+	 * @param b input value [2]
+	 * @return MAX(a, b)
+	 */
+	public static float fnaturalmax(float a, float b) {
+		if (Float.isNaN(a)) return b;
+		if (Float.isNaN(b)) return a;
+		return Math.max(a, b);
+	}
+	
+	/**
+	 * Get the maximum of the input values
+	 * If one value is NaN then the other one is returned
+	 * If both values are NaN then NaN is returned
+	 * 
+	 * @param a input value [1]
+	 * @param b input value [2]
+	 * @param c input value [3]
+	 * @return MAX(a, b, c)
+	 */
+	public static float fnaturalmax(float a, float b, float c) {
+		return fnaturalmax(a, fnaturalmax(b, c));
+	}
+	
+	/**
+	 * Get the maximum of the input values
+	 * If one value is NaN then the other one is returned
+	 * If both values are NaN then NaN is returned
+	 * 
+	 * @param a input value [1]
+	 * @param b input value [2]
+	 * @param c input value [3]
+	 * @param d input value [4]
+	 * @return MAX(a, b, c, d)
+	 */
+	public static float fnaturalmax(float a, float b, float c, float d) {
+		return fnaturalmax(a, fnaturalmax(b, fnaturalmax(c, d)));
+	}
+	
+	/**
+	 * Get the maximum of the input values
+	 * If one value is NaN then the other one is returned
+	 * If both values are NaN then NaN is returned
+	 * 
+	 * @param a input value [1]
+	 * @param b input value [2]
+	 * @param c input value [3]
+	 * @param d input value [4]
+	 * @param e input value [5]
+	 * @return MAX(a, b, c, d, e, f)
+	 */
+	public static float fnaturalmax(float a, float b, float c, float d, float e) {
+		return fnaturalmax(a, fnaturalmax(b, fnaturalmax(c, fnaturalmax(d, e))));
+	}
+	
+	/**
+	 * Get the maximum of the input values
+	 * If one value is NaN then the other one is returned
+	 * If both values are NaN then NaN is returned
+	 * 
+	 * @param a input value [1]
+	 * @param b input value [2]
+	 * @param c input value [3]
+	 * @param d input value [4]
+	 * @param e input value [5]
+	 * @param f input value [6]
+	 * @return MAX(a, b, c, d, e, f)
+	 */
+	public static float fnaturalmax(float a, float b, float c, float d, float e, float f) {
+		return fnaturalmax(a, fnaturalmax(b, fnaturalmax(c, fnaturalmax(d, fnaturalmax(e, f)))));
+	}
 
 	/**
 	 * Get the minimum of the input values
@@ -184,6 +260,83 @@ public class FloatMath {
 	}
 
 	/**
+	 * Get the minimum of the input values
+	 * If one value is NaN then the other one is returned
+	 * If both values are NaN then NaN is returned
+	 * 
+	 * @param a input value [1]
+	 * @param b input value [2]
+	 * @return MIN(a, b)
+	 */
+	public static float fnaturalmin(float a, float b) {
+		if (Float.isNaN(a)) return b;
+		if (Float.isNaN(b)) return a;
+		return Math.min(a, b);
+	}
+	
+	/**
+	 * Get the minimum of the input values
+	 * If one value is NaN then the other one is returned
+	 * If both values are NaN then NaN is returned
+	 * 
+	 * @param a input value [1]
+	 * @param b input value [2]
+	 * @param c input value [3]
+	 * @return MIN(a, b, c)
+	 */
+	public static float fnaturalmin(float a, float b, float c) {
+		return fnaturalmin(a, fnaturalmin(b, c));
+	}
+	
+	/**
+	 * Get the minimum of the input values
+	 * If one value is NaN then the other one is returned
+	 * If both values are NaN then NaN is returned
+	 * 
+	 * @param a input value [1]
+	 * @param b input value [2]
+	 * @param c input value [3]
+	 * @param d input value [4]
+	 * @return MIN(a, b, c, d)
+	 */
+	public static float fnaturalmin(float a, float b, float c, float d) {
+		return fnaturalmin(a, fnaturalmin(b, fnaturalmin(c, d)));
+	}
+	
+	/**
+	 * Get the minimum of the input values
+	 * If one value is NaN then the other one is returned
+	 * If both values are NaN then NaN is returned
+	 * 
+	 * @param a input value [1]
+	 * @param b input value [2]
+	 * @param c input value [3]
+	 * @param d input value [4]
+	 * @param e input value [5]
+	 * @return MIN(a, b, c, d, e, f)
+	 */
+	public static float fnaturalmin(float a, float b, float c, float d, float e) {
+		return fnaturalmin(a, fnaturalmin(b, fnaturalmin(c, fnaturalmin(d, e))));
+	}
+	
+	/**
+	 * Get the minimum of the input values
+	 * If one value is NaN then the other one is returned
+	 * If both values are NaN then NaN is returned
+	 * 
+	 * @param a input value [1]
+	 * @param b input value [2]
+	 * @param c input value [3]
+	 * @param d input value [4]
+	 * @param e input value [5]
+	 * @param f input value [6]
+	 * @return MIN(a, b, c, d, e, f)
+	 */
+	public static float fnaturalmin(float a, float b, float c, float d, float e, float f) {
+		return fnaturalmin(a, fnaturalmin(b, fnaturalmin(c, fnaturalmin(d, fnaturalmin(e, f)))));
+	}
+	
+	/**
 	 * Converts a angle in degree to one in radians
 	 * 
 	 * @param degree the angle in degree
@@ -233,7 +386,27 @@ public class FloatMath {
 		return (float) Math.tan(angle);
 	}
 
+	/**
+	 * Calculates the absolute value
+	 * 
+	 * @param f the input value
+	 * @return |f|
+	 */
 	public static float fabs(float f) {
 		return Math.abs(f);
+	}
+
+	/**
+	 * Returns the sign of the input value
+	 * 
+	 * @param f the input value
+	 * @return -1, 0, or 1  (in special cases NaN, see {@link java.lang.Math#signum(double) signum})
+	 */
+	public static float fsignum(float f) {
+		return Math.signum(f);
+	}
+
+	public static float fatan2(float y, float x) {
+		return (float) Math.atan2(y, x);
 	}
 }

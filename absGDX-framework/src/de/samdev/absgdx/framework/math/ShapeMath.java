@@ -52,37 +52,185 @@ public class ShapeMath {
 		float dist_l3 = -getCircleLineXDistance(b.getCenterX(), b.getCenterY(), b.radius, a.getPoint3_X(), a.getPoint3_Y(), a.getPoint1_X(), a.getPoint1_Y());
 		
 		if (a.getCenter().x < b.getCenterX()) { // [+]
-			return FloatMath.fmin(dist_l1, dist_l2, dist_l3);
+			return FloatMath.fnaturalmin(dist_l1, dist_l2, dist_l3);
 		} else { // [-]
-			return FloatMath.fmax(dist_l1, dist_l2, dist_l3);
+			return FloatMath.fnaturalmax(dist_l1, dist_l2, dist_l3);
 		}
 	}
 
+	/**
+	 * Get the Y-distance the two geometries (a triangle and a circle) can minimally have 
+	 * (at this distance they don't intersect but touch)
+	 * 
+	 * [!] The distance gets CollisionGeometry.FDELTA added so the no-intersection ruled is enforced
+	 * 
+	 * @param a the first geometry
+	 * @param b the second geometry
+	 * @return the minimal x distance
+	 */
+	public static float getYTouchDistance(CollisionTriangle a, CollisionCircle b) {
+		float dist_l1 = -getCircleLineYDistance(b.getCenterX(), b.getCenterY(), b.radius, a.getPoint1_X(), a.getPoint1_Y(), a.getPoint2_X(), a.getPoint2_Y());
+		float dist_l2 = -getCircleLineYDistance(b.getCenterX(), b.getCenterY(), b.radius, a.getPoint2_X(), a.getPoint2_Y(), a.getPoint3_X(), a.getPoint3_Y());
+		float dist_l3 = -getCircleLineYDistance(b.getCenterX(), b.getCenterY(), b.radius, a.getPoint3_X(), a.getPoint3_Y(), a.getPoint1_X(), a.getPoint1_Y());
+		
+		if (a.getCenter().y < b.getCenterY()) { // [+]
+			return FloatMath.fnaturalmin(dist_l1, dist_l2, dist_l3);
+		} else { // [-]
+			return FloatMath.fnaturalmax(dist_l1, dist_l2, dist_l3);
+		}
+	}
+	
+	/**
+	 * Get the X-distance the Circle can maximally move before it collides with the line-segment
+	 * (at this distance they don't intersect but touch)
+	 * 
+	 * [!] The distance gets CollisionGeometry.FDELTA added so the no-intersection ruled is enforced
+	 * 
+	 * If they will never touch Float.NaN is returned
+	 * 
+	 * @param c_x the circle x position
+	 * @param c_y the circle y position
+	 * @param rad the circle radius
+	 * @param p1_x the first line point (x)
+	 * @param p1_y the first line point (y)
+	 * @param p2_x the second line point (x)
+	 * @param p2_y the second line point (y)
+	 * 
+	 * @return the minimal x distance
+	 */
 	public static float getCircleLineXDistance(float c_x, float c_y, float rad, float p1_x, float p1_y, float p2_x, float p2_y) {
+		if (p1_y > p2_y) {
+			float tmp;
+
+			tmp = p1_y;
+			p1_y = p2_y;
+			p2_y = tmp;
+			
+			tmp = p1_x;
+			p1_x = p2_x;
+			p2_x = tmp;
+		}
+
+		float sign = FloatMath.fsignum((p2_x - p1_x) * (c_y - p1_y) - (p2_y - p1_y) * (c_x - p1_x));
+
 		float distance_p1 = (p1_x - c_x) - FloatMath.fsqrt(FloatMath.fmax(0, (rad * rad) - FloatMath.fabs(p1_y - c_y)));
 		float distance_p2 = (p2_x - c_x) - FloatMath.fsqrt(FloatMath.fmax(0, (rad * rad) - FloatMath.fabs(p2_y - c_y)));
-		
-		float angle = (float) (Math.atan2(p2_y - p1_y, p2_x - p1_x) + Math.PI/2);
-		
+
+		float angle = (float) (FloatMath.fatan2(p2_y - p1_y, p2_x - p1_x) + Math.PI / 2);
+
 		float d_12_x = (p2_x - p1_x);
 		float d_12_y = (p2_y - p1_y);
-		
-		float circle_coll_x = c_x + FloatMath.fcos(angle) * rad;
-		float circle_coll_y = c_y + FloatMath.fsin(angle) * rad;
-		
+
+		// if (d_12_y == 0) return float.NaN; // unc me
+
+		float circle_coll_x = c_x - FloatMath.fcos(angle) * rad * sign;
+		float circle_coll_y = c_y - FloatMath.fsin(angle) * rad * sign;
+
+		float line_coll_x;
 		float line_coll_y = circle_coll_y;
-		float line_coll_s = (c_y*circle_coll_y - p1_y) / d_12_y;
-		
+		float line_coll_s = (circle_coll_y - p1_y) / d_12_y;
+
+		// line_coll_s.Dump();
+
 		if (line_coll_s > 0 && (p1_y + line_coll_s * d_12_y) < p2_y) {
-			float line_coll_x = p1_x + d_12_x * line_coll_s;
-			
-			return line_coll_x - circle_coll_x;
+			line_coll_x = p1_x + d_12_x * line_coll_s;
 		} else if (line_coll_s <= 0) {
-			return distance_p1;
+			line_coll_x = p1_x;
+			line_coll_y = p1_y;
+
+			circle_coll_x = c_x + FloatMath.fsqrt(FloatMath.fsquare(rad) - FloatMath.fsquare(c_y - line_coll_y)) * sign;
+			circle_coll_y = line_coll_y;
 		} else {
-			return distance_p2;
+			line_coll_x = p2_x;
+			line_coll_y = p2_y;
+
+			circle_coll_x = c_x + FloatMath.fsqrt(FloatMath.fsquare(rad) - FloatMath.fsquare(c_y - line_coll_y)) * sign;
+			circle_coll_y = line_coll_y;
 		}
-		
+		// line_coll_s.Dump();
+
+		if (!Float.isNaN(circle_coll_x)) {
+			return (line_coll_x - circle_coll_x) - FloatMath.fsignum(line_coll_x - circle_coll_x) * CollisionGeometry.FDELTA;
+		} else {
+			return Float.NaN;
+		}
+	}
+
+	/**
+	 * Get the Y-distance the Circle can maximally move before it collides with the line-segment
+	 * (at this distance they don't intersect but touch)
+	 * 
+	 * [!] The distance gets CollisionGeometry.FDELTA added so the no-intersection ruled is enforced
+	 * 
+	 * If they will never touch Float.NaN is returned
+	 * 
+	 * @param c_x the circle x position
+	 * @param c_y the circle y position
+	 * @param rad the circle radius
+	 * @param p1_x the first line point (x)
+	 * @param p1_y the first line point (y)
+	 * @param p2_x the second line point (x)
+	 * @param p2_y the second line point (y)
+	 * 
+	 * @return the minimal y distance
+	 */
+	public static float getCircleLineYDistance(float c_x, float c_y, float rad, float p1_x, float p1_y, float p2_x, float p2_y) {
+		if (p1_x > p2_x) {
+			float tmp;
+
+			tmp = p1_y;
+			p1_y = p2_y;
+			p2_y = tmp;
+			tmp = p1_x;
+			p1_x = p2_x;
+			p2_x = tmp;
+		}
+		float sign = FloatMath.fsignum((p2_x - p1_x) * (c_y - p1_y) - (p2_y - p1_y) * (c_x - p1_x));
+
+		float distance_p1 = (p1_y - c_y) - FloatMath.fsqrt(FloatMath.fmax(0, (rad * rad) - FloatMath.fabs(p1_x - c_x)));
+		float distance_p2 = (p2_y - c_y) - FloatMath.fsqrt(FloatMath.fmax(0, (rad * rad) - FloatMath.fabs(p2_x - c_x)));
+
+		float angle = (float) (FloatMath.fatan2(p2_y - p1_y, p2_x - p1_x) - Math.PI / 2);
+
+		float d_12_x = (p2_x - p1_x);
+		float d_12_y = (p2_y - p1_y);
+
+		// if (d_12_x == 0) return float.NaN; // unc me
+
+		float circle_coll_x = c_x + FloatMath.fcos(angle) * rad * sign;
+		float circle_coll_y = c_y + FloatMath.fsin(angle) * rad * sign;
+
+		float line_coll_x = circle_coll_x;
+		float line_coll_y;
+		float line_coll_s = (circle_coll_x - p1_x) / d_12_x;
+
+		// graphics.DrawEllipse(new Pen(Color.Red), new Rectangle((int)(c_x- rad), (int)(c_y-rad), (int)(2*rad), (int)(2*rad)));
+		// graphics.DrawLine(new Pen(Color.Red), new PointF(p1_x, p1_y), new PointF(p2_x, p2_y));
+
+		// line_coll_s.Dump();
+
+		if (line_coll_s > 0 && (p1_x + line_coll_s * d_12_x) < p2_x) {
+			line_coll_y = p1_y + d_12_y * line_coll_s;
+		} else if (line_coll_s <= 0) {
+			line_coll_x = p1_x;
+			line_coll_y = p1_y;
+
+			circle_coll_y = c_y - FloatMath.fsqrt(FloatMath.fsquare(rad) - FloatMath.fsquare(c_x - line_coll_x)) * sign;
+			circle_coll_x = line_coll_x;
+		} else {
+			line_coll_x = p2_x;
+			line_coll_y = p2_y;
+
+			circle_coll_y = c_y - FloatMath.fsqrt(FloatMath.fsquare(rad) - FloatMath.fsquare(c_x - line_coll_x)) * sign;
+			circle_coll_x = line_coll_x;
+		}
+		// line_coll_s.Dump();
+
+		if (!Float.isNaN(circle_coll_y)) {
+			return (line_coll_y - circle_coll_y) - FloatMath.fsignum(line_coll_y - circle_coll_y) * CollisionGeometry.FDELTA;
+		} else {
+			return Float.NaN;
+		}
 	}
 	
 	/**
@@ -119,21 +267,6 @@ public class ShapeMath {
 			return (FloatMath.fsqrt(FloatMath.fsquare(a.getRadius() + CollisionGeometry.FDELTA) - FloatMath.fsquare(b.getRightX() - a.getCenterX())) + b.height/2) * Math.signum(b.getCenterY() - a.getCenterY());
 		else
 			return Float.NaN; // Can never happen
-	}
-
-	/**
-	 * Get the Y-distance the two geometries (a triangle and a circle) can minimally have 
-	 * (at this distance they don't intersect but touch)
-	 * 
-	 * [!] The distance gets CollisionGeometry.FDELTA added so the no-intersection ruled is enforced
-	 * 
-	 * @param a the first geometry
-	 * @param b the second geometry
-	 * @return the minimal x distance
-	 */
-	public static float getYTouchDistance(CollisionTriangle a, CollisionCircle b) {
-		// TODO Auto-generated method stub
-		throw new NotImplementedException();
 	}
 
 	/**

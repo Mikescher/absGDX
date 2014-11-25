@@ -23,7 +23,7 @@ public class Slide_1 extends Entity {
 	public CollisionGeometry t;
 	
 	public Slide_1(Entity e) {
-		super(Textures.texSlideTile, 2, 2);
+		super(Textures.texSlideTile, 16, 16);
 		
 		this.x = 20;
 		this.y = 23;

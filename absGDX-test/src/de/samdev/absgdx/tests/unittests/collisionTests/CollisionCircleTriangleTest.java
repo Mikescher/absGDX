@@ -13,7 +13,6 @@ import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionCircle;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionTriangle;
-import de.samdev.absgdx.framework.math.FloatMath;
 import de.samdev.absgdx.tests.dummy.DummyGameLayer;
 import de.samdev.absgdx.tests.dummy.DummyNoCollisionTileMap;
 import de.samdev.absgdx.tests.dummy.DummyNoTileCollisionEntity;

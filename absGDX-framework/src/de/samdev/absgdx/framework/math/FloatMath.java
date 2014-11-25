@@ -406,6 +406,15 @@ public class FloatMath {
 		return Math.signum(f);
 	}
 
+	/**
+	 * Calculates Atan2
+	 * 
+	 * @see java.lang.Math#atan2(double, double)
+	 * 
+	 * @param y the ordinate coordinate 
+	 * @param x the abscissa coordinate
+	 * @return the theta component of the point (r, theta) in polar coordinates that corresponds to the point (x, y) in Cartesian coordinates.
+	 */
 	public static float fatan2(float y, float x) {
 		return (float) Math.atan2(y, x);
 	}

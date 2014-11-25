@@ -185,6 +185,12 @@ public class CollisionTriangle extends CollisionGeometry {
 	}
 
 	@Override
+	public float getYTouchDistance(CollisionTriangle other) {
+		// TODO Auto-generated method stub
+		throw new NotImplementedException();
+	}
+
+	@Override
 	public float getYTouchDistance(CollisionBox other) {
 		return ShapeMath.getYTouchDistance(this, other);
 	}
@@ -192,12 +198,6 @@ public class CollisionTriangle extends CollisionGeometry {
 	@Override
 	public float getYTouchDistance(CollisionCircle other) {
 		return ShapeMath.getYTouchDistance(this, other);
-	}
-
-	@Override
-	public float getYTouchDistance(CollisionTriangle other) {
-		// TODO Auto-generated method stub
-		throw new NotImplementedException();
 	}
 
 	@Override
@@ -212,19 +212,24 @@ public class CollisionTriangle extends CollisionGeometry {
 
 	@Override
 	public boolean isIntersectingWith(CollisionTriangle other) {
-		return
+		boolean is = 
 				ShapeMath.doLinesIntersect(getPoint1_X(), getPoint1_Y(), getPoint2_X(), getPoint2_Y(), other.getPoint1_X(), other.getPoint1_Y(), other.getPoint2_X(), other.getPoint2_Y()) ||
 				ShapeMath.doLinesIntersect(getPoint1_X(), getPoint1_Y(), getPoint2_X(), getPoint2_Y(), other.getPoint2_X(), other.getPoint2_Y(), other.getPoint3_X(), other.getPoint3_Y()) ||
+				ShapeMath.doLinesIntersect(getPoint1_X(), getPoint1_Y(), getPoint2_X(), getPoint2_Y(), other.getPoint3_X(), other.getPoint3_Y(), other.getPoint1_X(), other.getPoint1_Y()) ||
 
 				ShapeMath.doLinesIntersect(getPoint2_X(), getPoint2_Y(), getPoint3_X(), getPoint3_Y(), other.getPoint1_X(), other.getPoint1_Y(), other.getPoint2_X(), other.getPoint2_Y()) ||
 				ShapeMath.doLinesIntersect(getPoint2_X(), getPoint2_Y(), getPoint3_X(), getPoint3_Y(), other.getPoint2_X(), other.getPoint2_Y(), other.getPoint3_X(), other.getPoint3_Y()) ||
+				ShapeMath.doLinesIntersect(getPoint2_X(), getPoint2_Y(), getPoint3_X(), getPoint3_Y(), other.getPoint3_X(), other.getPoint3_Y(), other.getPoint1_X(), other.getPoint1_Y()) ||
 
 				ShapeMath.doLinesIntersect(getPoint3_X(), getPoint3_Y(), getPoint1_X(), getPoint1_Y(), other.getPoint1_X(), other.getPoint1_Y(), other.getPoint2_X(), other.getPoint2_Y()) ||
 				ShapeMath.doLinesIntersect(getPoint3_X(), getPoint3_Y(), getPoint1_X(), getPoint1_Y(), other.getPoint2_X(), other.getPoint2_Y(), other.getPoint3_X(), other.getPoint3_Y()) ||
+				ShapeMath.doLinesIntersect(getPoint3_X(), getPoint3_Y(), getPoint1_X(), getPoint1_Y(), other.getPoint3_X(), other.getPoint3_Y(), other.getPoint1_X(), other.getPoint1_Y()) ||
 				
 				containsPoint(other.getPoint1_X(), other.getPoint1_Y()) ||
 
 				other.containsPoint(getPoint1_X(), getPoint1_Y());
+		
+		return is;
 	}
 
 	@Override

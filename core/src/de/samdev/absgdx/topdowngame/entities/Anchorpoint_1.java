@@ -10,6 +10,7 @@ import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.Collis
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionCircle;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
 import de.samdev.absgdx.framework.layer.GameLayer;
+import de.samdev.absgdx.framework.math.align.AlignCorner4;
 
 public class Anchorpoint_1 extends Entity {
 	
@@ -26,7 +27,7 @@ public class Anchorpoint_1 extends Entity {
 		
 //		addCollisionGeo(1.0f, 0.85f, new CollisionBox(this, 0.8f, 1.2f));
 		
-		addCollisionGeo(1f, 1f, new CollisionCircle(this, 1));
+		addFullCollisionTriangle(AlignCorner4.BOTTOMRIGHT);
 	}
 
 	@Override

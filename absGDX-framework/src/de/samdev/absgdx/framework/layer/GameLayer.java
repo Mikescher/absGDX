@@ -197,6 +197,7 @@ public abstract class GameLayer extends AgdxLayer {
 			    		CollisionGeometry collGeo = itc.next();
 	
 						srenderer.setColor(owner.settings.debugEntitiesCollisionGeometriesColor.get());
+//						srenderer.circle(collGeo.getCenterX(), collGeo.getCenterY(), collGeo.getRadius(), 16);
 						if (collGeo instanceof CollisionCircle) {
 							srenderer.circle(collGeo.getCenterX(), collGeo.getCenterY(), collGeo.getRadius(), 16);
 						} else if (collGeo instanceof CollisionBox) {

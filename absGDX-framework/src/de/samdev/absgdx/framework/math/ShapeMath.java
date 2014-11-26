@@ -228,8 +228,48 @@ public class ShapeMath {
 	 * @return the minimal x distance
 	 */
 	public static float getXTouchDistance(CollisionTriangle a, CollisionBox b) {
-		// TODO Auto-generated method stub
-		throw new NotImplementedException();
+		float d1 = ShapeMath.getPointLineXDistance(a.getPoint1_X(), a.getPoint1_Y(), b.getX(), b.getY(), b.getRightX(), b.getY());
+		float d2 = ShapeMath.getPointLineXDistance(a.getPoint1_X(), a.getPoint1_Y(), b.getRightX(), b.getY(), b.getRightX(), b.getTopY());
+		float d3 = ShapeMath.getPointLineXDistance(a.getPoint1_X(), a.getPoint1_Y(), b.getRightX(), b.getTopY(), b.getX(), b.getTopY());
+		float d4 = ShapeMath.getPointLineXDistance(a.getPoint1_X(), a.getPoint1_Y(), b.getX(), b.getTopY(), b.getX(), b.getY());
+
+		float d5 = ShapeMath.getPointLineXDistance(a.getPoint2_X(), a.getPoint2_Y(), b.getX(), b.getY(), b.getRightX(), b.getY());
+		float d6 = ShapeMath.getPointLineXDistance(a.getPoint2_X(), a.getPoint2_Y(), b.getRightX(), b.getY(), b.getRightX(), b.getTopY());
+		float d7 = ShapeMath.getPointLineXDistance(a.getPoint2_X(), a.getPoint2_Y(), b.getRightX(), b.getTopY(), b.getX(), b.getTopY());
+		float d8 = ShapeMath.getPointLineXDistance(a.getPoint2_X(), a.getPoint2_Y(), b.getX(), b.getTopY(), b.getX(), b.getY());
+
+		float d9 = ShapeMath.getPointLineXDistance(a.getPoint3_X(), a.getPoint3_Y(), b.getX(), b.getY(), b.getRightX(), b.getY());
+		float dA = ShapeMath.getPointLineXDistance(a.getPoint3_X(), a.getPoint3_Y(), b.getRightX(), b.getY(), b.getRightX(), b.getTopY());
+		float dB = ShapeMath.getPointLineXDistance(a.getPoint3_X(), a.getPoint3_Y(), b.getRightX(), b.getTopY(), b.getX(), b.getTopY());
+		float dC = ShapeMath.getPointLineXDistance(a.getPoint3_X(), a.getPoint3_Y(), b.getX(), b.getTopY(), b.getX(), b.getY());
+		
+		float s1 = -ShapeMath.getPointLineXDistance(b.getX(), b.getY(), a.getPoint1_X(), a.getPoint1_Y(), a.getPoint2_X(), a.getPoint2_Y());
+		float s2 = -ShapeMath.getPointLineXDistance(b.getX(), b.getY(), a.getPoint2_X(), a.getPoint2_Y(), a.getPoint3_X(), a.getPoint3_Y());
+		float s3 = -ShapeMath.getPointLineXDistance(b.getX(), b.getY(), a.getPoint3_X(), a.getPoint3_Y(), a.getPoint1_X(), a.getPoint1_Y());
+		
+		float s4 = -ShapeMath.getPointLineXDistance(b.getRightX(), b.getY(), a.getPoint1_X(), a.getPoint1_Y(), a.getPoint2_X(), a.getPoint2_Y());
+		float s5 = -ShapeMath.getPointLineXDistance(b.getRightX(), b.getY(), a.getPoint2_X(), a.getPoint2_Y(), a.getPoint3_X(), a.getPoint3_Y());
+		float s6 = -ShapeMath.getPointLineXDistance(b.getRightX(), b.getY(), a.getPoint3_X(), a.getPoint3_Y(), a.getPoint1_X(), a.getPoint1_Y());
+		
+		float s7 = -ShapeMath.getPointLineXDistance(b.getX(), b.getTopY(), a.getPoint1_X(), a.getPoint1_Y(), a.getPoint2_X(), a.getPoint2_Y());
+		float s8 = -ShapeMath.getPointLineXDistance(b.getX(), b.getTopY(), a.getPoint2_X(), a.getPoint2_Y(), a.getPoint3_X(), a.getPoint3_Y());
+		float s9 = -ShapeMath.getPointLineXDistance(b.getX(), b.getTopY(), a.getPoint3_X(), a.getPoint3_Y(), a.getPoint1_X(), a.getPoint1_Y());
+		
+		float sA = -ShapeMath.getPointLineXDistance(b.getRightX(), b.getTopY(), a.getPoint1_X(), a.getPoint1_Y(), a.getPoint2_X(), a.getPoint2_Y());
+		float sB = -ShapeMath.getPointLineXDistance(b.getRightX(), b.getTopY(), a.getPoint2_X(), a.getPoint2_Y(), a.getPoint3_X(), a.getPoint3_Y());
+		float sC = -ShapeMath.getPointLineXDistance(b.getRightX(), b.getTopY(), a.getPoint3_X(), a.getPoint3_Y(), a.getPoint1_X(), a.getPoint1_Y());
+		
+		if (a.getCenter().x < b.getCenterX()) { // [+]
+			float dmin = FloatMath.fnaturalmin(FloatMath.fnaturalmin(d1, d2, d3, d4), FloatMath.fnaturalmin(d5, d6, d7, d8), FloatMath.fnaturalmin(d9, dA, dB, dC));
+			float smin = FloatMath.fnaturalmin(FloatMath.fnaturalmin(s1, s2, s3, s4), FloatMath.fnaturalmin(s5, s6, s7, s8), FloatMath.fnaturalmin(s9, sA, sB, sC));
+			
+			return (b.getCenter().x - a.getCenterX()) - FloatMath.fnaturalmin(dmin, smin) + CollisionGeometry.FDELTA;
+		} else { // [-]
+			float dmax = FloatMath.fnaturalmax(FloatMath.fnaturalmax(d1, d2, d3, d4), FloatMath.fnaturalmax(d5, d6, d7, d8), FloatMath.fnaturalmax(d9, dA, dB, dC));
+			float smax = FloatMath.fnaturalmax(FloatMath.fnaturalmax(s1, s2, s3, s4), FloatMath.fnaturalmax(s5, s6, s7, s8), FloatMath.fnaturalmax(s9, sA, sB, sC));
+			
+			return (b.getCenter().x - a.getCenterX()) - FloatMath.fnaturalmax(dmax, smax) - CollisionGeometry.FDELTA;
+		}
 	}
 	
 	/**
@@ -264,8 +304,48 @@ public class ShapeMath {
 	 * @return the minimal x distance
 	 */
 	public static float getYTouchDistance(CollisionTriangle a, CollisionBox b) {
-		// TODO Auto-generated method stub
-		throw new NotImplementedException();
+		float d1 = ShapeMath.getPointLineYDistance(a.getPoint1_X(), a.getPoint1_Y(), b.getX(), b.getY(), b.getRightX(), b.getY());
+		float d2 = ShapeMath.getPointLineYDistance(a.getPoint1_X(), a.getPoint1_Y(), b.getRightX(), b.getY(), b.getRightX(), b.getTopY());
+		float d3 = ShapeMath.getPointLineYDistance(a.getPoint1_X(), a.getPoint1_Y(), b.getRightX(), b.getTopY(), b.getX(), b.getTopY());
+		float d4 = ShapeMath.getPointLineYDistance(a.getPoint1_X(), a.getPoint1_Y(), b.getX(), b.getTopY(), b.getX(), b.getY());
+
+		float d5 = ShapeMath.getPointLineYDistance(a.getPoint2_X(), a.getPoint2_Y(), b.getX(), b.getY(), b.getRightX(), b.getY());
+		float d6 = ShapeMath.getPointLineYDistance(a.getPoint2_X(), a.getPoint2_Y(), b.getRightX(), b.getY(), b.getRightX(), b.getTopY());
+		float d7 = ShapeMath.getPointLineYDistance(a.getPoint2_X(), a.getPoint2_Y(), b.getRightX(), b.getTopY(), b.getX(), b.getTopY());
+		float d8 = ShapeMath.getPointLineYDistance(a.getPoint2_X(), a.getPoint2_Y(), b.getX(), b.getTopY(), b.getX(), b.getY());
+
+		float d9 = ShapeMath.getPointLineYDistance(a.getPoint3_X(), a.getPoint3_Y(), b.getX(), b.getY(), b.getRightX(), b.getY());
+		float dA = ShapeMath.getPointLineYDistance(a.getPoint3_X(), a.getPoint3_Y(), b.getRightX(), b.getY(), b.getRightX(), b.getTopY());
+		float dB = ShapeMath.getPointLineYDistance(a.getPoint3_X(), a.getPoint3_Y(), b.getRightX(), b.getTopY(), b.getX(), b.getTopY());
+		float dC = ShapeMath.getPointLineYDistance(a.getPoint3_X(), a.getPoint3_Y(), b.getX(), b.getTopY(), b.getX(), b.getY());
+		
+		float s1 = -ShapeMath.getPointLineYDistance(b.getX(), b.getY(), a.getPoint1_X(), a.getPoint1_Y(), a.getPoint2_X(), a.getPoint2_Y());
+		float s2 = -ShapeMath.getPointLineYDistance(b.getX(), b.getY(), a.getPoint2_X(), a.getPoint2_Y(), a.getPoint3_X(), a.getPoint3_Y());
+		float s3 = -ShapeMath.getPointLineYDistance(b.getX(), b.getY(), a.getPoint3_X(), a.getPoint3_Y(), a.getPoint1_X(), a.getPoint1_Y());
+		
+		float s4 = -ShapeMath.getPointLineYDistance(b.getRightX(), b.getY(), a.getPoint1_X(), a.getPoint1_Y(), a.getPoint2_X(), a.getPoint2_Y());
+		float s5 = -ShapeMath.getPointLineYDistance(b.getRightX(), b.getY(), a.getPoint2_X(), a.getPoint2_Y(), a.getPoint3_X(), a.getPoint3_Y());
+		float s6 = -ShapeMath.getPointLineYDistance(b.getRightX(), b.getY(), a.getPoint3_X(), a.getPoint3_Y(), a.getPoint1_X(), a.getPoint1_Y());
+		
+		float s7 = -ShapeMath.getPointLineYDistance(b.getX(), b.getTopY(), a.getPoint1_X(), a.getPoint1_Y(), a.getPoint2_X(), a.getPoint2_Y());
+		float s8 = -ShapeMath.getPointLineYDistance(b.getX(), b.getTopY(), a.getPoint2_X(), a.getPoint2_Y(), a.getPoint3_X(), a.getPoint3_Y());
+		float s9 = -ShapeMath.getPointLineYDistance(b.getX(), b.getTopY(), a.getPoint3_X(), a.getPoint3_Y(), a.getPoint1_X(), a.getPoint1_Y());
+		
+		float sA = -ShapeMath.getPointLineYDistance(b.getRightX(), b.getTopY(), a.getPoint1_X(), a.getPoint1_Y(), a.getPoint2_X(), a.getPoint2_Y());
+		float sB = -ShapeMath.getPointLineYDistance(b.getRightX(), b.getTopY(), a.getPoint2_X(), a.getPoint2_Y(), a.getPoint3_X(), a.getPoint3_Y());
+		float sC = -ShapeMath.getPointLineYDistance(b.getRightX(), b.getTopY(), a.getPoint3_X(), a.getPoint3_Y(), a.getPoint1_X(), a.getPoint1_Y());
+		
+		if (a.getCenter().y < b.getCenterY()) { // [+]
+			float dmin = FloatMath.fnaturalmin(FloatMath.fnaturalmin(d1, d2, d3, d4), FloatMath.fnaturalmin(d5, d6, d7, d8), FloatMath.fnaturalmin(d9, dA, dB, dC));
+			float smin = FloatMath.fnaturalmin(FloatMath.fnaturalmin(s1, s2, s3, s4), FloatMath.fnaturalmin(s5, s6, s7, s8), FloatMath.fnaturalmin(s9, sA, sB, sC));
+			
+			return (b.getCenter().y - a.getCenterY()) - FloatMath.fnaturalmin(dmin, smin) + CollisionGeometry.FDELTA;
+		} else { // [-]
+			float dmax = FloatMath.fnaturalmax(FloatMath.fnaturalmax(d1, d2, d3, d4), FloatMath.fnaturalmax(d5, d6, d7, d8), FloatMath.fnaturalmax(d9, dA, dB, dC));
+			float smax = FloatMath.fnaturalmax(FloatMath.fnaturalmax(s1, s2, s3, s4), FloatMath.fnaturalmax(s5, s6, s7, s8), FloatMath.fnaturalmax(s9, sA, sB, sC));
+			
+			return (b.getCenter().y - a.getCenterY()) - FloatMath.fnaturalmax(dmax, smax) - CollisionGeometry.FDELTA;
+		}
 	}
 	
 	/**
@@ -335,7 +415,7 @@ public class ShapeMath {
 				doLinesIntersect(a.getPoint3_X(), a.getPoint3_Y(),a.getPoint1_X(), a.getPoint1_Y(), b.getRightX(), b.getY(), b.getX(), b.getY()) ||
 
 				// Triangle inside Box
-				b.containsPoint(a.getPoint1_X(), a.getPoint2_X()) ||
+				b.containsPoint(a.getPoint1_X(), a.getPoint1_Y()) ||
 
 				// Box inside Triangle
 				a.containsPoint(b.getX(), b.getY());

@@ -363,8 +363,8 @@ public class EntityCollisionTest extends BaseUnitTest {
 
     	DummyEntity e1 = new DummyEntity();
     	l.addEntity(e1);
-    	e1.addCollisionGeo(-1/6f, 1f, new CollisionTriangle(e1, 0f, 0f,     0.1f, 0f,     0f, 0.1f));
-    	e1.addCollisionGeo(0.1f, 0f, new CollisionTriangle(e1, 0f, 0f,     0.1f, 0f,     0f, 0.1f));
+    	e1.addCollisionGeo(-0.1f + 1/30f, 1f, new CollisionTriangle(e1, 0f, 0f,     0.1f, 0f,     0f, 0.1f));
+    	e1.addCollisionGeo(-0f   + 1/30f, 0f, new CollisionTriangle(e1, 0f, 0f,     0.1f, 0f,     0f, 0.1f));
     	
     	DummyEntity e2 = new DummyEntity();
     	l.addEntity(e2);
@@ -385,7 +385,7 @@ public class EntityCollisionTest extends BaseUnitTest {
 
     	DummyEntity e1 = new DummyEntity();
     	l.addEntity(e1);
-    	e1.addCollisionGeo(-1/6f, 1f, new CollisionTriangle(e1, 0f, 0f,     0.1f, 0f,     0f, 0.1f));
+    	e1.addCollisionGeo(-0.1f + 1/30f, 1f, new CollisionTriangle(e1, 0f, 0f,     0.1f, 0f,     0f, 0.1f));
     	e1.addCollisionGeo(0.1f, 0f, new CollisionBox(e1, 0.2f, 0.2f));
     	
     	DummyEntity e2 = new DummyEntity();
@@ -407,7 +407,7 @@ public class EntityCollisionTest extends BaseUnitTest {
 
     	DummyEntity e1 = new DummyEntity();
     	l.addEntity(e1);
-    	e1.addCollisionGeo(-1/6f, 1f, new CollisionTriangle(e1, 0f, 0f,     0.1f, 0f,     0f, 0.1f));
+    	e1.addCollisionGeo(-0.1f + 1/30f, 1f, new CollisionTriangle(e1, 0f, 0f,     0.1f, 0f,     0f, 0.1f));
     	e1.addCollisionGeo(0.1f, 1f, new CollisionCircle(e1, 0.1f));
     	
     	DummyEntity e2 = new DummyEntity();

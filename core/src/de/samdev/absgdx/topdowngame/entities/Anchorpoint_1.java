@@ -27,7 +27,8 @@ public class Anchorpoint_1 extends Entity {
 		
 //		addCollisionGeo(1.0f, 0.85f, new CollisionBox(this, 0.8f, 1.2f));
 		
-		addFullCollisionTriangle(AlignCorner4.BOTTOMRIGHT);
+//		addFullCollisionTriangle(AlignCorner4.BOTTOMRIGHT);
+		addFullCollisionBox();
 	}
 
 	@Override

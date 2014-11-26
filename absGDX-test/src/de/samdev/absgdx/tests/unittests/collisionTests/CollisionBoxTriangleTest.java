@@ -93,7 +93,7 @@ public class CollisionBoxTriangleTest extends CollisionTest {
     	for (int i = 0; i < 8000; i++)
     		e2.movePosition(-0.01f, 0.0f);
     	
-    	assertEqualsExt(new Vector2(11, 10), e2.getPosition(), 0.00005f);
+    	assertEqualsExt(new Vector2(11f, 9.5f), e2.getPosition(), 0.00005f);
 
     	assertEquals(null, l.collisionMap().getFirstCollider(e1.listCollisionGeometries().next()));
     	assertEquals(null, l.collisionMap().getFirstCollider(e2.listCollisionGeometries().next()));
@@ -166,7 +166,7 @@ public class CollisionBoxTriangleTest extends CollisionTest {
     	for (int i = 0; i < 8000; i++)
     		e2.movePosition(-0.01f, 0.0f);
     	
-    	assertEqualsExt(new Vector2(11, 10), e2.getPosition(), 0.00005f);
+    	assertEqualsExt(new Vector2(11f, 9.5f), e2.getPosition(), 0.00005f);
 
     	assertEquals(null, l.collisionMap().getFirstCollider(e1.listCollisionGeometries().next()));
     	assertEquals(null, l.collisionMap().getFirstCollider(e2.listCollisionGeometries().next()));
@@ -194,7 +194,7 @@ public class CollisionBoxTriangleTest extends CollisionTest {
     	
     	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
-    	e1.addCollisionGeo(2/3f, 2/3f, new CollisionTriangle(e1, 1f, 0f, 1f, 1f, 1f, 0f));
+    	e1.addCollisionGeo(2/3f, 2/3f, new CollisionTriangle(e1, 1f, 0f, 1f, 1f, 0f, 1f));
     	
     	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
@@ -207,9 +207,9 @@ public class CollisionBoxTriangleTest extends CollisionTest {
     	assertEquals("0-1-0-0-0-0", e2.dummyCtrSignSummary());
     	
     	for (int i = 0; i < 8000; i++)
-    		e2.movePosition(-0.01f, -0.01f);
+    		if (e2.movePosition(-0.01f, -0.01f)) break;
     	
-    	assertEqualsExt(new Vector2(11, 11), e2.getPosition(), 0.00005f);
+    	assertEqualsExt(new Vector2(11, 11), e2.getPosition(), 0.01f);
 
     	assertEquals(null, l.collisionMap().getFirstCollider(e1.listCollisionGeometries().next()));
     	assertEquals(null, l.collisionMap().getFirstCollider(e2.listCollisionGeometries().next()));
@@ -237,7 +237,7 @@ public class CollisionBoxTriangleTest extends CollisionTest {
     	
     	DummyNoTileCollisionEntity e1 = new DummyNoTileCollisionEntity();
     	l.addEntity(e1);
-    	e1.addCollisionGeo(1/3f, 1/3f, new CollisionTriangle(e1, 1f, 0f, 0f, 0f, 1f, 0f));
+    	e1.addCollisionGeo(1/3f, 1/3f, new CollisionTriangle(e1, 1f, 0f, 0f, 0f, 0f, 1f));
     	
     	DummyNoTileCollisionEntity e2 = new DummyNoTileCollisionEntity();
     	l.addEntity(e2);
@@ -252,7 +252,7 @@ public class CollisionBoxTriangleTest extends CollisionTest {
     	for (int i = 0; i < 8000; i++)
     		e2.movePosition(-0.01f, -0.01f);
     	
-    	assertEqualsExt(new Vector2(10.5f, 10.5f), e2.getPosition(), 0.00005f);
+    	assertEqualsExt(new Vector2(10.5f, 10.5f), e2.getPosition(), 0.01f);
 
     	assertEquals(null, l.collisionMap().getFirstCollider(e1.listCollisionGeometries().next()));
     	assertEquals(null, l.collisionMap().getFirstCollider(e2.listCollisionGeometries().next()));

@@ -1,7 +1,5 @@
 package de.samdev.absgdx.framework.math;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionBox;
@@ -512,6 +510,20 @@ public class ShapeMath {
 		return FloatMath.fpyth(p_x - (l1_p1_x + t * (l1_p2_x - l1_p1_x)), p_y - (l1_p1_y + t * (l1_p2_y - l1_p1_y)));
 	}
 	
+	/**	 
+	 * Get the X-distance the the point and the line can minimally have 
+	 * (at this distance the point is on the line)
+	 * 
+	 * [!] The distance DOEN'T gets CollisionGeometry.FDELTA added
+	 * 
+	 * @param p_x the point (x)
+	 * @param p_y the point (y)
+	 * @param lp1_x the start-point of the line (x)
+	 * @param lp1_y the start-point of the line (y)
+	 * @param lp2_x the end-point of the line (x)
+	 * @param lp2_y the end-point of the line (y)
+	 * @return the minimal X distance
+	 */
 	public static float getPointLineXDistance(float p_x, float p_y, float lp1_x, float lp1_y, float lp2_x, float lp2_y) {
 		float dy = (lp2_y - lp1_y);
 		
@@ -537,6 +549,20 @@ public class ShapeMath {
 		}
 	}
 	
+	/**	 
+	 * Get the Y-distance the the point and the line can minimally have 
+	 * (at this distance the point is on the line)
+	 * 
+	 * [!] The distance DOEN'T gets CollisionGeometry.FDELTA added
+	 * 
+	 * @param p_x the point (x)
+	 * @param p_y the point (y)
+	 * @param lp1_x the start-point of the line (x)
+	 * @param lp1_y the start-point of the line (y)
+	 * @param lp2_x the end-point of the line (x)
+	 * @param lp2_y the end-point of the line (y)
+	 * @return the minimal Y distance
+	 */
 	public static float getPointLineYDistance(float p_x, float p_y, float lp1_x, float lp1_y, float lp2_x, float lp2_y) {
 		float dx = (lp2_x - lp1_x);
 		

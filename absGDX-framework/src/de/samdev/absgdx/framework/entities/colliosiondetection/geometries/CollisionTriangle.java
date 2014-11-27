@@ -1,7 +1,5 @@
 package de.samdev.absgdx.framework.entities.colliosiondetection.geometries;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;

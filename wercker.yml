@@ -24,14 +24,14 @@ build:
     - script:
         name: build desktop
         code: |
-          ./gradlew --full-stacktrace -q --project-cache-dir=$WERCKER_CACHE_DIR desktop:build
+          ./gradlew --full-stacktrace --project-cache-dir=$WERCKER_CACHE_DIR desktop:build
 
     - script:
         name: build android
         code: |
-          ./gradlew --full-stacktrace -q --project-cache-dir=$WERCKER_CACHE_DIR android:build
+          ./gradlew --full-stacktrace --project-cache-dir=$WERCKER_CACHE_DIR android:build
 
     - script:
         name: run unit tests
         code: |
-          ./gradlew --full-stacktrace -q --project-cache-dir=$WERCKER_CACHE_DIR absGDX-test:check
+          ./gradlew --full-stacktrace --project-cache-dir=$WERCKER_CACHE_DIR absGDX-test:check

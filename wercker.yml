@@ -3,10 +3,8 @@ box: wercker/android
 build:
   # The steps that will be executed on build
   steps:
-    - script: 
-        name: configure
-        code: |
-          chmod +x gradlew
+    - android-sdk-update:
+        filter: build-tools-21.0.0,android-21
 
     - script:
         name: show base information

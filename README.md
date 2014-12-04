@@ -1,4 +1,4 @@
-absGDX  [![Build Status](https://api.travis-ci.org/Mikescher/absGDX.svg)](https://travis-ci.org/Mikescher/absGDX) [![wercker status](https://app.wercker.com/status/91f3088dcb06f3d5e1d114aef291e80c/s "wercker status")](https://app.wercker.com/project/bykey/91f3088dcb06f3d5e1d114aef291e80c)
+absGDX  [![Build Status](https://api.travis-ci.org/Mikescher/absGDX.svg)](https://travis-ci.org/Mikescher/absGDX)
 =======
 
 [![wercker status](https://app.wercker.com/status/91f3088dcb06f3d5e1d114aef291e80c/m "wercker status")](https://app.wercker.com/project/bykey/91f3088dcb06f3d5e1d114aef291e80c)

@@ -34,4 +34,4 @@ build:
     - script:
         name: run unit tests
         code: |
-          ./gradlew --full-stacktrace -q --project-cache-dir=$WERCKER_CACHE_DIR desktop:build
+          ./gradlew --full-stacktrace -q --project-cache-dir=$WERCKER_CACHE_DIR absGDX-framework:check

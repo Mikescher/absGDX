@@ -9,7 +9,7 @@ build:
           chmod +x gradlew
 
     - android-sdk-update:
-        filter: build-tools-21.0.0,android-21
+        filter: build-tools-21.0.0,build-tools-21.0.1,android-21
 
     - script:
         name: show base information

@@ -40,7 +40,7 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	
 	protected float animationPos = 0f;
 	protected boolean isAnimationPaused = false;
-
+	
 	private float x = 0f;
 	private float y = 0f;
 	
@@ -474,6 +474,41 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	 */
 	public TextureRegion getTexture() {
 		return animation[(int)animationPos]; //TODO Some kind of possibility to add custom rendering or at least multiple textures (layers with transparency ?) - otherwise this will become the next absCanv
+	}
+	
+	/**
+	 * Get the current X scale (of the texture).
+	 * use -1 to flip the texture.
+	 * 
+	 * Override this method if needed
+	 * 
+	 * @return textureScaleX
+	 */
+	public float getTextureScaleX() {
+		return 1;
+	}
+	
+	/**
+	 * Get the current X scale (of the texture).
+	 * use -1 to flip the texture.
+	 * 
+	 * Override this method if needed
+	 * 
+	 * @return textureScaleY
+	 */
+	public float getTextureScaleY() {
+		return 1;
+	}
+	
+	/**
+	 * Get the current clockwise rotation (of the texture) in degree.
+	 * 
+	 * Override this method if needed
+	 * 
+	 * @return textureRotation
+	 */
+	public float getTextureRotation() {
+		return 0;
 	}
 
 	/**

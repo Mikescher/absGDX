@@ -115,10 +115,11 @@ public abstract class GameLayer extends AgdxLayer {
 		
 		for (int y = Math.max(0, (int) visible.y); y < Math.min(map.height, (int)(visible.y + visible.height + 1)); y++) {
 			for (int x = Math.max(0, (int) visible.x); x < Math.min(map.width, (int)(visible.x + visible.width + 1)); x++) {
-				TextureRegion r = map.getTile(x, y).getTexture();
+				Tile t = map.getTile(x, y);
+				TextureRegion r = t.getTexture();
 				
 				if (r != null)
-					sbatch.draw(r, x, y, 1, 1);
+					sbatch.draw(r, x, y, 0.5f, 0.5f, 1.0f, 1.0f, t.getTextureScaleX(), t.getTextureScaleY(), t.getTextureRotation() + 90.0f, true);
 			}
 		}
 		sbatch.end();
@@ -137,7 +138,13 @@ public abstract class GameLayer extends AgdxLayer {
 		    Entity entity = it.next();
 		    //TODO only draw visible entities
 			if (visible.overlaps(entity.getBoundings())) {
-				sbatch.draw(entity.getTexture(), entity.getPositionX(), entity.getPositionY(), entity.getWidth(), entity.getHeight());
+				sbatch.draw(
+						entity.getTexture(), 
+						entity.getPositionX(), entity.getPositionY(), 
+						entity.getWidth()/2f, entity.getHeight()/2f, 
+						entity.getWidth(), entity.getHeight(), 
+						entity.getTextureScaleX(), entity.getTextureScaleY(), 
+						entity.getTextureRotation() + 90.0f, true);
 				renderedEntities++;
 			}
 		}

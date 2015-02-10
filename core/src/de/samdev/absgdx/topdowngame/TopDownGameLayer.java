@@ -7,17 +7,15 @@ import com.badlogic.gdx.math.Vector2;
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.layer.GameLayer;
 import de.samdev.absgdx.framework.map.TileMap;
+import de.samdev.absgdx.framework.map.mapscaleresolver.MaximumBoundaryMapScaleResolver;
 import de.samdev.absgdx.framework.map.mapscaleresolver.SectionMapScaleResolver;
+import de.samdev.absgdx.framework.map.mapscaleresolver.ShowCompleteMapScaleResolver;
 import de.samdev.absgdx.framework.util.exceptions.TmxMapParsingException;
 import de.samdev.absgdx.framework.util.tiled.TmxMapLoader;
 import de.samdev.absgdx.topdowngame.entities.Anchorpoint_1;
-import de.samdev.absgdx.topdowngame.entities.Angel_1;
 import de.samdev.absgdx.topdowngame.entities.Bucket_1;
 import de.samdev.absgdx.topdowngame.entities.Bucket_2;
 import de.samdev.absgdx.topdowngame.entities.Bucket_3;
-import de.samdev.absgdx.topdowngame.entities.Bush_1;
-import de.samdev.absgdx.topdowngame.entities.Bush_2;
-import de.samdev.absgdx.topdowngame.entities.FlowerPot_1;
 import de.samdev.absgdx.topdowngame.entities.Slide_1;
 import de.samdev.absgdx.topdowngame.tiles.AbyssTile;
 import de.samdev.absgdx.topdowngame.tiles.StandardAutoTile;
@@ -34,8 +32,6 @@ public class TopDownGameLayer extends GameLayer {
 		super(owner, loadMap());
 
 		setMapScaleResolver(new SectionMapScaleResolver(32, 18, 0.5f, 20f));
-//		setMapScaleResolver(new ShowCompleteMapScaleResolver());
-//		setMapScaleResolver(new MaximumBoundaryMapScaleResolver(3, 3));
 
 //		addEntity(bucket_1 = new Bucket_1());
 //		addEntity(bucket_2 = new Bucket_2());
@@ -95,6 +91,10 @@ public class TopDownGameLayer extends GameLayer {
 			last = System.currentTimeMillis();
 //			addEntity(new FlowerPot_1());
 		}
+
+		if (Gdx.input.isKeyJustPressed(Keys.F10)) setMapScaleResolver(new SectionMapScaleResolver(32, 18, 0.5f, 20f));
+		if (Gdx.input.isKeyJustPressed(Keys.F11)) setMapScaleResolver(new ShowCompleteMapScaleResolver());
+		if (Gdx.input.isKeyJustPressed(Keys.F12)) setMapScaleResolver(new MaximumBoundaryMapScaleResolver(3, 3));
 		
 		scrollMapToEntity(ap_1, 2);
 	}

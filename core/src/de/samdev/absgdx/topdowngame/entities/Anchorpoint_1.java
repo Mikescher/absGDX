@@ -72,4 +72,23 @@ public class Anchorpoint_1 extends Entity {
 	public boolean canMoveCollideWith(CollisionGeometryOwner other) {
 		return other.getClass() != Bucket_1.class && other.getClass() != Bucket_2.class && other.getClass() != Bucket_3.class;
 	}
+
+	float sx = 0;
+	@Override
+	public float getTextureScaleX() {
+		return (float) Math.sin(sx+=0.01)*10;
+	}
+
+	float sy = 1;
+	@Override
+	public float getTextureScaleY() {
+		return (float) Math.sin(sy+=0.02)*10;
+	}
+
+	float r = 0;
+	@Override
+	public float getTextureRotation() {
+		return r += 1.75;
+	}
+	
 }

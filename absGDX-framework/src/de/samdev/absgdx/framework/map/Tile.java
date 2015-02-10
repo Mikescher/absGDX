@@ -46,6 +46,41 @@ public abstract class Tile implements CollisionListener, CollisionGeometryOwner 
 	}
 	
 	/**
+	 * Get the current X scale (of the texture).
+	 * use -1 to flip the texture.
+	 * 
+	 * Override this method if needed
+	 * 
+	 * @return textureScaleX
+	 */
+	public float getTextureScaleX() {
+		return 1;
+	}
+	
+	/**
+	 * Get the current X scale (of the texture).
+	 * use -1 to flip the texture.
+	 * 
+	 * Override this method if needed
+	 * 
+	 * @return textureScaleY
+	 */
+	public float getTextureScaleY() {
+		return 1;
+	}
+	
+	/**
+	 * Get the current clockwise rotation (of the texture) in degree.
+	 * 
+	 * Override this method if needed
+	 * 
+	 * @return textureRotation
+	 */
+	public float getTextureRotation() {
+		return 0;
+	}
+	
+	/**
 	 * Update the Tile
 	 * 
 	 * @param delta the time since the last update (in ms) - can be averaged over he last few cycles

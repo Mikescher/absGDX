@@ -79,14 +79,12 @@ public class SimpleEntity extends Entity {
 
 	@Override
 	public void beforeUpdate(float delta) {
-		// TODO Auto-generated method stub
-
+		// NOP
 	}
 
 	@Override
 	public void onLayerAdd(GameLayer layer) {
-		// TODO Auto-generated method stub
-
+		// NOP
 	}
 
 }

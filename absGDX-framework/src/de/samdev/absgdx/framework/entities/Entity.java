@@ -31,9 +31,6 @@ import de.samdev.absgdx.framework.math.align.AlignCorner4;
 public abstract class Entity implements CollisionListener, CollisionGeometryOwner {
 	private final static float TOUCHING_DISTANCE = CollisionGeometry.FDELTA * 4;
 	
-	/** The gravitational constant used in the movement calculations */
-	public final static float GRAVITY_CONSTANT = 0.000001f;
-	
 	private final TextureRegion[] animation;
 	private final int animationLength;
 	private final float frameDuration;
@@ -49,16 +46,12 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	
 	/** The (physical) acceleration forces (! plural - add new ones with addNewAcceleration() ) */
 	public List<Vector2> accelerations = new ArrayList<Vector2>();
-	private Vector2 acc_gravity;
 	
 	/** The (physical) speed */
 	public Vector2 speed = new Vector2();
 	
 	/** If this is false the Entity will get removed at the end of the current update cycle */
 	public boolean alive = true;
-	
-	/** This mass is used for Gravity - leave at 0.0f if you don't want Gravity */
-	private float mass = 0.0f;
 	
 	/** 
 	 * Here are the collisionBoxes of this Entity stores
@@ -99,29 +92,27 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 		this.animation = new TextureRegion[]{new TextureRegion(texture)};
 		this.animationLength = 1;
 		this.frameDuration = 0;
-		
-		this.acc_gravity = addNewAcceleration();
+
 		this.collisionGeometriesWrapper = new CollisionGeometryListWrapper(collisionGeometries);
 	}
 	
 	/**
 	 * Creates a new Entity ( on position (0|0) )
 	 * 
-	 * @param textures the texture
+	 * @param texture the texture
 	 * @param w the boundary box width
 	 * @param h the boundary box height
 	 */
-	public Entity(TextureRegion textures, float w, float h) {
+	public Entity(TextureRegion texture, float w, float h) {
 		super();
 		
 		this.width = w;
 		this.height = h;
 		
-		this.animation = new TextureRegion[]{textures};
+		this.animation = new TextureRegion[]{texture};
 		this.animationLength = 1;
 		this.frameDuration = 0;
 
-		this.acc_gravity = addNewAcceleration();
 		this.collisionGeometriesWrapper = new CollisionGeometryListWrapper(collisionGeometries);
 	}
 
@@ -143,7 +134,6 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 		this.animationLength = textures.length;
 		this.frameDuration = animationDuration / animationLength;
 
-		this.acc_gravity = addNewAcceleration();
 		this.collisionGeometriesWrapper = new CollisionGeometryListWrapper(collisionGeometries);
 	}
 	
@@ -268,7 +258,7 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 				
 				boolean succ = collisionOwner.moveGeometry(prevX, prevY, collgeo.geometry);
 				
-				if (! succ) throw new RuntimeException("0"); //TODO REMOVE ME
+				assert succ; //TODO REMOVE ME
 			}
 			
 			checkCollisions();
@@ -383,8 +373,8 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 			geometry.updatePosition(this.x, this.y);
 			
 			boolean succ = collisionOwner.moveGeometry(prevX, prevY, geometry.geometry);
-			
-			if (! succ) throw new RuntimeException("0"); //TODO REMOVE ME
+
+			assert succ; //TODO REMOVE ME
 		}
 		
 		if (passiveCollider != null) {
@@ -449,8 +439,8 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 			geometry.updatePosition(this.x, this.y);
 			
 			boolean succ = collisionOwner.moveGeometry(prevX, prevY, geometry.geometry);
-			
-			if (! succ) throw new RuntimeException("0"); //TODO REMOVE ME
+
+			assert succ; //TODO REMOVE ME
 		}
 		
 		if (passiveCollider != null) {
@@ -749,16 +739,6 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	}
 	
 	/**
-	 * Change the mass of his Entity (used for Gravity calculations)
-	 * 
-	 * @param mass the mass
-	 */
-	public void setMass(float mass) {
-		this.mass = mass;
-		acc_gravity.y = -mass * GRAVITY_CONSTANT;
-	}
-	
-	/**
 	 * @see #isTouchingTop()
 	 * 
 	 * (= "is the Entity hitting its head on the ceiling")
@@ -875,15 +855,6 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 		Vector2 result;
 		accelerations.add(result = new Vector2());
 		return result;
-	}
-	
-	/**
-	 * If this Entity is affected by gravity
-	 * 
-	 * @return true if mass != 0
-	 */
-	public boolean hasGravity() {
-		return mass != 0f;
 	}
 
 }

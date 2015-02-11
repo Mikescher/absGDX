@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import de.samdev.absgdx.framework.math.FloatMath;
 import de.samdev.absgdx.tests.BaseUnitTest;
 import de.samdev.absgdx.tests.dummy.DummyEntity;
+import de.samdev.absgdx.tests.dummy.DummyPhysEntity;
 
 public class EntityTest extends BaseUnitTest {
 
@@ -70,10 +71,10 @@ public class EntityTest extends BaseUnitTest {
 
     @Test
     public void testGravity() {
-    	DummyEntity e1 = new DummyEntity();
-    	DummyEntity e2 = new DummyEntity();
-    	DummyEntity e3 = new DummyEntity();
-    	DummyEntity e4 = new DummyEntity();
+    	DummyPhysEntity e1 = new DummyPhysEntity();
+    	DummyPhysEntity e2 = new DummyPhysEntity();
+    	DummyPhysEntity e3 = new DummyPhysEntity();
+    	DummyPhysEntity e4 = new DummyPhysEntity();
     	
     	e1.setPosition(0, 0);
     	e2.setPosition(0, 0);
@@ -94,10 +95,10 @@ public class EntityTest extends BaseUnitTest {
 
     	assertTrue(e2.getPosition().y == -e4.getPosition().y);
 
-    	assertEquals(-0.5f *   0f * DummyEntity.GRAVITY_CONSTANT * FloatMath.fsquare(10f * 1000f), e1.getPosition().y, 0.1f);
-    	assertEquals(-0.5f *  10f * DummyEntity.GRAVITY_CONSTANT * FloatMath.fsquare(10f * 1000f), e2.getPosition().y, 0.1f);
-    	assertEquals(-0.5f *  20f * DummyEntity.GRAVITY_CONSTANT * FloatMath.fsquare(10f * 1000f), e3.getPosition().y, 0.1f);
-    	assertEquals(-0.5f * -10f * DummyEntity.GRAVITY_CONSTANT * FloatMath.fsquare(10f * 1000f), e4.getPosition().y, 0.1f);
+    	assertEquals(-0.5f *   0f * DummyPhysEntity.GRAVITY_CONSTANT * FloatMath.fsquare(10f * 1000f), e1.getPosition().y, 0.1f);
+    	assertEquals(-0.5f *  10f * DummyPhysEntity.GRAVITY_CONSTANT * FloatMath.fsquare(10f * 1000f), e2.getPosition().y, 0.1f);
+    	assertEquals(-0.5f *  20f * DummyPhysEntity.GRAVITY_CONSTANT * FloatMath.fsquare(10f * 1000f), e3.getPosition().y, 0.1f);
+    	assertEquals(-0.5f * -10f * DummyPhysEntity.GRAVITY_CONSTANT * FloatMath.fsquare(10f * 1000f), e4.getPosition().y, 0.1f);
     	
     	assertEquals(0f , e1.getPosition().x, 0f);
     	assertEquals(0f , e2.getPosition().x, 0f);

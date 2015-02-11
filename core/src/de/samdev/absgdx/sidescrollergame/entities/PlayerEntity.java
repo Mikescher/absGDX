@@ -5,12 +5,12 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.Textures;
-import de.samdev.absgdx.framework.entities.Entity;
+import de.samdev.absgdx.framework.entities.PhysicsEntity;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
 import de.samdev.absgdx.framework.layer.GameLayer;
 
-public class PlayerEntity extends Entity {
+public class PlayerEntity extends PhysicsEntity {
 
 	private Vector2 movement_acc = addNewAcceleration();
 	private Vector2 grinding_acc = addNewAcceleration();

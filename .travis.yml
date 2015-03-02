@@ -10,6 +10,8 @@ script:
  - ./gradlew absGDX-test:check
  - ./gradlew core:check
  - ./gradlew desktop:check
+ - ./gradlew absGDX-menudesigner:check
+ - ./gradlew absGDX-menudesigner:assemble
 
 notifications:
   email:

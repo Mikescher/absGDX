@@ -144,7 +144,8 @@ public abstract class GameLayer extends AgdxLayer {
 						entity.getWidth()/2f, entity.getHeight()/2f, 
 						entity.getWidth(), entity.getHeight(), 
 						entity.getTextureScaleX(), entity.getTextureScaleY(), 
-						entity.getTextureRotation() + 90.0f, true);
+						entity.getTextureRotation());
+
 				renderedEntities++;
 			}
 		}

@@ -15,7 +15,7 @@ import de.samdev.absgdx.framework.math.align.AlignCorner4;
 public class Anchorpoint_1 extends Entity {
 	
 	public Anchorpoint_1() {
-		super(Textures.tex_Anchorpoint_empty, 2, 2);
+		super(Textures.tex_Anchorpoint_empty, 2, 4);
 	}
 	
 	@Override

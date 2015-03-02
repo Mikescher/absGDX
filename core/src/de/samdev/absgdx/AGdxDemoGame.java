@@ -13,8 +13,8 @@ public class AGdxDemoGame extends AgdxGame {
 	public void onCreate() {
 		Textures.init();
 		
-		pushLayer(new SidescrollerGameLayer(this));
 		pushLayer(new TopDownGameLayer(this));
+		pushLayer(new SidescrollerGameLayer(this));
 		
 		setDebugFont(new BitmapFont(Gdx.files.internal("consolefont.fnt")));
 	}

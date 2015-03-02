@@ -24,29 +24,31 @@ import de.samdev.absgdx.framework.util.DebugFormatter;
 import de.samdev.absgdx.framework.util.DebugFrequencyMeter;
 
 /**
- * The basic class. 
- * 
+ * The basic class.
+ *
  * Here is where the magic happens
  *
  */
 public abstract class AgdxGame implements ApplicationListener {
 
+	private final static float MAX_UPDATE_DELTA = 100;
+
 	// ##### LibGDX Objects #####
 
 	private OrthographicCamera camera;
-	
+
 	private SpriteBatch layerSpriteRenderer;
 	private SpriteBatch debugSpriteRenderer;
-	
+
 	private ShapeRenderer layerShapeRenderer;
 	private ShapeRenderer debugShapeRenderer;
 
 	// ##### Debug #####
-	
+
 	private BitmapFont debugFont;		 // TODO Add API to render custom text / with custom font
 	private DebugTextRenderer debugTextRenderer;
 	private final DebugFrequencyMeter freqMeter = new DebugFrequencyMeter();
-	
+
 	// ##### Layer #####
 
 	private final Stack<AgdxLayer> layers = new Stack<AgdxLayer>();
@@ -55,23 +57,23 @@ public abstract class AgdxGame implements ApplicationListener {
 
 	/** the game settings */
 	public final GameSettings settings = new GameSettings();
-	
+
 	@Override
 	public void create() {
 		layerSpriteRenderer = new SpriteBatch();
 		layerShapeRenderer = new ShapeRenderer();
 		debugSpriteRenderer = new SpriteBatch();
 		debugShapeRenderer = new ShapeRenderer();
-		
+
 		setDebugFont(new BitmapFont());
-		
+
 		debugTextRenderer = new DebugTextRenderer(this, debugFont, debugSpriteRenderer, debugShapeRenderer, 10, 10);
-	
+
 		camera = new OrthographicCamera();
 
 		camera.setToOrtho(false, getScreenWidth(), getScreenHeight());
 		camera.update();
-		
+
 		onCreate();
 	}
 
@@ -79,7 +81,7 @@ public abstract class AgdxGame implements ApplicationListener {
 	public void render() {
 		if (settings.debugEnabled.isActive()) {
 			freqMeter.startCycle();
-			
+
 			freqMeter.startUpdate();
 			doUpdate();
 			freqMeter.endUpdate();
@@ -89,12 +91,12 @@ public abstract class AgdxGame implements ApplicationListener {
 			freqMeter.endRender();
 		} else {
 			doUpdate();
-			
+
 			doRender();
 		}
-		
+
 	}
-	
+
 
 	private void doRender() {
 		Gdx.gl.glClearColor(0, 0, 0, 1); // MAGENTA
@@ -107,11 +109,11 @@ public abstract class AgdxGame implements ApplicationListener {
 
 		layerSpriteRenderer.disableBlending();
 		debugSpriteRenderer.enableBlending();
-		
+
 		if (!layers.empty()) {
 			layers.peek().render(layerSpriteRenderer, layerShapeRenderer);
 		}
-		
+
 		if (settings.debugTextInfos.isActive()) {
 			renderDebugTextOverlay();
 		}
@@ -119,50 +121,50 @@ public abstract class AgdxGame implements ApplicationListener {
 
 	private void renderDebugTextOverlay() {
 		debugTextRenderer.begin(settings.debugTextSize.get());
-		
+
 		if (settings.debugTextFPS.isActive()) {
 			debugTextRenderer.drawFormatted("FPS: %s / %s (%s v%s)", DebugFormatter.fmtF(freqMeter.fps, 100), freqMeter.targetFPS, Gdx.app.getType(), Gdx.app.getVersion());
 			debugTextRenderer.draw();
 		}
-		
+
 		if (settings.debugTextMap.isActive() && !layers.empty() && layers.peek() instanceof GameLayer) {
 			GameLayer glayer = (GameLayer) layers.peek();
 			Tile tile = glayer.getTileUnderMouse();
-			
-			debugTextRenderer.drawFormatted("Map: Scale=%s   Offset=%s   Visible=%s   Size=%s", 
-					DebugFormatter.fmtF(glayer.getTileScale(), 2), 
-					DebugFormatter.fmtV2(glayer.getMapOffset(), 10), 
+
+			debugTextRenderer.drawFormatted("Map: Scale=%s   Offset=%s   Visible=%s   Size=%s",
+					DebugFormatter.fmtF(glayer.getTileScale(), 2),
+					DebugFormatter.fmtV2(glayer.getMapOffset(), 10),
 					DebugFormatter.fmtRectangle(glayer.getVisibleMapBox(), 10),
 					DebugFormatter.fmtV2(glayer.getMap().getDimensions(), 1));
-			
+
 			if (tile == null)
 				debugTextRenderer.drawFormatted("Tile: NULL");
 			else
 				debugTextRenderer.drawFormatted("Tile: %s", tile.getClass().getName());
-			
+
 			if (tile instanceof AutoTile)
 				debugTextRenderer.drawFormatted("AutoTile: %s", DebugFormatter.fmtPropertiesMap(((AutoTile)tile).properties, 5));
-			
+
 			debugTextRenderer.draw();
 		}
 
 		if (settings.debugTextEntities.isActive() && !layers.empty() && layers.peek() instanceof GameLayer) {
 			GameLayer glayer = (GameLayer) layers.peek();
-			
-			debugTextRenderer.drawFormatted("Entities: Rendered/Count=%d/%d", 
+
+			debugTextRenderer.drawFormatted("Entities: Rendered/Count=%d/%d",
 					glayer.getRenderingEntitiesCount(),
 					glayer.getEntityCount());
 			debugTextRenderer.draw();
 		}
-		
+
 		if (settings.debugTextCollisionGeometries.isActive() && !layers.empty() && layers.peek() instanceof GameLayer) {
 			CollisionMap cmap = ((GameLayer) layers.peek()).getCollisionMap();
-			
+
 			debugTextRenderer.drawFormatted("CollisionGeos: Count=%d",  cmap.getGeometryCount());
 			debugTextRenderer.drawFormatted("CollisionMap: Scale=%s   Size=%s", cmap.getScaleString(), DebugFormatter.fmtV2(cmap.getDimensions(), 1));
 			debugTextRenderer.draw();
 		}
-		
+
 		if (settings.debugTextTiming.isActive()) {
 			debugTextRenderer.drawFormatted("RenderTime: %sms (%d%%)", DebugFormatter.fmtD(freqMeter.renderTime / 1000000d, 100), (int)freqMeter.getRenderPercentage());
 			debugTextRenderer.drawFormatted("UpdateTime: %sms (%d%%)", DebugFormatter.fmtD(freqMeter.updateTime / 1000000d, 100), (int)freqMeter.getUpdatePercentage());
@@ -177,7 +179,7 @@ public abstract class AgdxGame implements ApplicationListener {
 			debugTextRenderer.drawFormatted("Last GC Call: %ss ago", freqMeter.gcTimeBetweenGC/1000);
 			debugTextRenderer.draw();
 		}
-		
+
 		if (settings.debugTextInput.isActive()) {
 			debugTextRenderer.drawFormatted("Pointer: %s (delta: %s)", DebugFormatter.fmtV2(new Vector2(Gdx.input.getX(), Gdx.input.getY()), 10), DebugFormatter.fmtV2(new Vector2(Gdx.input.getDeltaX(), Gdx.input.getDeltaY()), 10));
 			debugTextRenderer.drawFormatted("Accelerometer: %s", DebugFormatter.fmtV3(new Vector3(Gdx.input.getAccelerometerX(), Gdx.input.getAccelerometerY(), Gdx.input.getAccelerometerZ()), 100));
@@ -185,21 +187,21 @@ public abstract class AgdxGame implements ApplicationListener {
 			debugTextRenderer.drawFormatted("Touched: %s (Just Touched: %s)", Gdx.input.isTouched(), Gdx.input.justTouched());
 			debugTextRenderer.draw();
 		}
-		
+
 		debugTextRenderer.end();
 	}
 
 	private void doUpdate() {
 		float delta = Gdx.graphics.getDeltaTime() * 1000f;
-		delta = Math.min(delta, 100); // TODO What do when delta > 100 (Warning / abort / nothing  ???)
+		delta = Math.min(delta, MAX_UPDATE_DELTA); // TODO What do when delta > MAX_UPDATE_DELTA (Warning / abort / nothing  ???)
 
 		onUpdate(delta);
-		
+
 		if (!layers.empty()) {
 			layers.peek().update(delta);
 		}
 	}
-	
+
 	/**
 	 * @param delta the time since the last update (in ms) - can be averaged over he last few cycles
 	 */
@@ -216,15 +218,15 @@ public abstract class AgdxGame implements ApplicationListener {
 
 	/**
 	 * Sets the default font for rendering debug output
-	 * 
+	 *
 	 * @param bfont
 	 */
 	public void setDebugFont(BitmapFont bfont) {
 		this.debugFont = bfont;
-		
+
 		debugFont.setColor(Color.BLACK);
 	}
-	
+
 	@Override
 	public void pause() {
 		// TODO Auto-generated method stub
@@ -241,16 +243,16 @@ public abstract class AgdxGame implements ApplicationListener {
 	public void dispose() {
 		layerShapeRenderer.dispose();
 		layerSpriteRenderer.dispose();
-		
+
 		debugShapeRenderer.dispose();
 		debugSpriteRenderer.dispose();
-		
+
 		debugFont.dispose();
 	}
-	
+
 	/**
 	 * Load a Texture from the resources
-	 * 
+	 *
 	 * @param file the filename
 	 * @return the texture
 	 */
@@ -274,8 +276,8 @@ public abstract class AgdxGame implements ApplicationListener {
 
 	/**
 	 * Pushes a new Layer on top of the stack
-	 * 
-	 * @param layer 
+	 *
+	 * @param layer
 	 */
 	public void pushLayer(AgdxLayer layer) {
 		layers.push(layer);
@@ -283,7 +285,7 @@ public abstract class AgdxGame implements ApplicationListener {
 
 	/**
 	 * Set the stack to a new layer (and removes all other from it)
-	 * 
+	 *
 	 * @param layer
 	 */
 	public void setLayer(AgdxLayer layer) {

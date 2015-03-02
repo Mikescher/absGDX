@@ -1,0 +1,19 @@
+apply plugin: "java"
+
+sourceCompatibility = 1.6
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+sourceSets.main.java.srcDirs = [ "src/" ]
+sourceSets.test.java.srcDirs = [ "src/" ]
+
+eclipse.project {
+    name = "absGDX-menudesigner"
+}
+
+eclipse.project {
+    name = "absGDX-menudesigner"
+}
+
+dependencies {
+    compile project(":absGDX-framework")
+}

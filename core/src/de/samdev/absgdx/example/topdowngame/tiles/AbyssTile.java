@@ -1,6 +1,6 @@
-package de.samdev.absgdx.topdowngame.tiles;
+package de.samdev.absgdx.example.topdowngame.tiles;
 
-import de.samdev.absgdx.Textures;
+import de.samdev.absgdx.example.Textures;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
 import de.samdev.absgdx.framework.map.Tile;
 

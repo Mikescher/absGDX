@@ -65,6 +65,12 @@ public class GameSettings {
 	public ColorProperty debugEntitiesPhysicSpeedVectorColor;
 	/** The color of the acceleration vector of an entity  */
 	public ColorProperty debugEntitiesPhysicAccelerationVectorColor;
+	/** Show visual information in the MenuLayers  */
+	public BooleanProperty debugMenu;
+	/** Show the actual Dimensions of MenuElements  */
+	public BooleanProperty debugMenuBorders;
+	/** The debug border color of MenuElements  */
+	public ColorProperty debugMenuBordersColor;
 	
 	/**
 	 * Creates a new instance of GameSettings
@@ -122,13 +128,21 @@ public class GameSettings {
 							debugEntitiesPhysicAccelerationVectorColor = new ColorProperty("debugEntitiesPhysicAccelerationVectorColor", Color.BLUE, debugEntitiesPhysicVectors);
 						}
 					}
-				}
 
+					debugMenu = new BooleanProperty("debugMenu", true, debugEnabled);
+					{
+						debugMenuBorders = new BooleanProperty("debugMenuBorders", true, debugMenu);
+						{
+							debugMenuBordersColor = new ColorProperty("debugMenuBordersColor", Color.MAGENTA, debugMenuBorders);
+						}
+					}
+				}
 			}
 		}
+		
 		// ###########################
 
-//		System.out.println(root.getTreeDebugString());
+		//System.out.println(root.getTreeDebugString());
 	}
 
 }

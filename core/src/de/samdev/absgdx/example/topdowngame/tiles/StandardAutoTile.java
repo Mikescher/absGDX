@@ -1,8 +1,8 @@
-package de.samdev.absgdx.topdowngame.tiles;
+package de.samdev.absgdx.example.topdowngame.tiles;
 
 import java.util.HashMap;
 
-import de.samdev.absgdx.Textures;
+import de.samdev.absgdx.example.Textures;
 import de.samdev.absgdx.framework.map.AutoTile;
 
 public class StandardAutoTile extends AutoTile {

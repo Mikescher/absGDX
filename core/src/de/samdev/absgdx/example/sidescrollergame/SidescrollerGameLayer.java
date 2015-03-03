@@ -1,10 +1,13 @@
-package de.samdev.absgdx.sidescrollergame;
+package de.samdev.absgdx.example.sidescrollergame;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 
-import de.samdev.absgdx.Textures;
+import de.samdev.absgdx.example.Textures;
+import de.samdev.absgdx.example.sidescrollergame.entities.PlayerEntity;
+import de.samdev.absgdx.example.sidescrollergame.tiles.SidescrollerAutoTile;
+import de.samdev.absgdx.example.sidescrollergame.tiles.SpawnTile;
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.layer.GameLayer;
 import de.samdev.absgdx.framework.map.TileMap;
@@ -12,9 +15,6 @@ import de.samdev.absgdx.framework.map.background.ParallaxBackground;
 import de.samdev.absgdx.framework.map.mapscaleresolver.MaximumBoundaryMapScaleResolver;
 import de.samdev.absgdx.framework.util.exceptions.TmxMapParsingException;
 import de.samdev.absgdx.framework.util.tiled.TmxMapLoader;
-import de.samdev.absgdx.sidescrollergame.entities.PlayerEntity;
-import de.samdev.absgdx.sidescrollergame.tiles.SidescrollerAutoTile;
-import de.samdev.absgdx.sidescrollergame.tiles.SpawnTile;
 
 public class SidescrollerGameLayer extends GameLayer {
 

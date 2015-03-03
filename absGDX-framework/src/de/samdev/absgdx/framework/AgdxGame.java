@@ -97,7 +97,6 @@ public abstract class AgdxGame implements ApplicationListener {
 
 	}
 
-
 	private void doRender() {
 		Gdx.gl.glClearColor(0, 0, 0, 1); // MAGENTA
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

@@ -1,9 +1,16 @@
-package de.samdev.absgdx.topdowngame;
+package de.samdev.absgdx.example.topdowngame;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 
+import de.samdev.absgdx.example.topdowngame.entities.Anchorpoint_1;
+import de.samdev.absgdx.example.topdowngame.entities.Bucket_1;
+import de.samdev.absgdx.example.topdowngame.entities.Bucket_2;
+import de.samdev.absgdx.example.topdowngame.entities.Bucket_3;
+import de.samdev.absgdx.example.topdowngame.entities.Slide_1;
+import de.samdev.absgdx.example.topdowngame.tiles.AbyssTile;
+import de.samdev.absgdx.example.topdowngame.tiles.StandardAutoTile;
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.layer.GameLayer;
 import de.samdev.absgdx.framework.map.TileMap;
@@ -12,13 +19,6 @@ import de.samdev.absgdx.framework.map.mapscaleresolver.SectionMapScaleResolver;
 import de.samdev.absgdx.framework.map.mapscaleresolver.ShowCompleteMapScaleResolver;
 import de.samdev.absgdx.framework.util.exceptions.TmxMapParsingException;
 import de.samdev.absgdx.framework.util.tiled.TmxMapLoader;
-import de.samdev.absgdx.topdowngame.entities.Anchorpoint_1;
-import de.samdev.absgdx.topdowngame.entities.Bucket_1;
-import de.samdev.absgdx.topdowngame.entities.Bucket_2;
-import de.samdev.absgdx.topdowngame.entities.Bucket_3;
-import de.samdev.absgdx.topdowngame.entities.Slide_1;
-import de.samdev.absgdx.topdowngame.tiles.AbyssTile;
-import de.samdev.absgdx.topdowngame.tiles.StandardAutoTile;
 
 public class TopDownGameLayer extends GameLayer {
 

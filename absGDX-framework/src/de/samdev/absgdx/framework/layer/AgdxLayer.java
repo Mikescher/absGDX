@@ -10,7 +10,8 @@ import de.samdev.absgdx.framework.AgdxGame;
  *  It handles the rendering, logic and input processing
  */
 public abstract class AgdxLayer {
-	protected AgdxGame owner;
+	/** the owner (AgdxGame) */
+	public final AgdxGame owner;
 	
 	/**
 	 * Creates the layer
@@ -40,4 +41,6 @@ public abstract class AgdxLayer {
 	 * Gets called when the screen is resized (mostly on desktop)
 	 */
 	public abstract void onResize();
+	
+	
 }

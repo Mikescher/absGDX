@@ -1,37 +1,46 @@
-package de.samdev.absgdx.topdowngame.entities;
+package de.samdev.absgdx.example.topdowngame.entities;
 
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 
-import de.samdev.absgdx.Textures;
+import de.samdev.absgdx.example.Textures;
 import de.samdev.absgdx.framework.entities.Entity;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionBox;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionCircle;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
 import de.samdev.absgdx.framework.layer.GameLayer;
-import de.samdev.absgdx.topdowngame.TopDownGameLayer;
+import de.samdev.absgdx.framework.math.align.AlignCorner4;
 
-public class Bucket_1 extends Entity {
-
-	public TopDownGameLayer owner;
+public class Anchorpoint_1 extends Entity {
 	
-	private Vector2 acceleration = addNewAcceleration();
-	
-	public Bucket_1() {
-		super(Textures.tex_Bucket_full, 2, 2);
+	public Anchorpoint_1() {
+		super(Textures.tex_Anchorpoint_empty, 2, 4);
 	}
-
+	
 	@Override
 	public void onLayerAdd(GameLayer layer) {
-		setPosition(15f, 15f);
+		setPosition(10f, 30f);
 		
-		this.speed.y = 5/1000f;
+//		addCollisionGeo(0.65f, 1.15f, new CollisionCircle(this, 0.35f));
+//		addCollisionGeo(1.35f, 1.15f, new CollisionCircle(this, 0.35f));
 		
-		addCollisionGeo(1, 1, new CollisionCircle(this, 1f));
+//		addCollisionGeo(1.0f, 0.85f, new CollisionBox(this, 0.8f, 1.2f));
+		
+//		addFullCollisionTriangle(AlignCorner4.BOTTOMRIGHT);
+		addFullCollisionBox();
 	}
-	
+
 	@Override
 	public void beforeUpdate(float delta) {
-		this.acceleration.set(20, 20).sub(getPosition()).nor().scl(1/1000f * 1/100f);
+		speed.set(0,0);
+		
+		if (Gdx.input.isKeyPressed(Keys.W)) speed.y += 0.01;
+		if (Gdx.input.isKeyPressed(Keys.A)) speed.x -= 0.01;
+		if (Gdx.input.isKeyPressed(Keys.S)) speed.y -= 0.01;
+		if (Gdx.input.isKeyPressed(Keys.D)) speed.x += 0.01;
+
+		if (Gdx.input.isKeyJustPressed(Keys.H)) setPositionY(getPositionY()+0.25f);
 	}
 
 	@Override
@@ -56,11 +65,30 @@ public class Bucket_1 extends Entity {
 
 	@Override
 	public boolean canCollideWith(CollisionGeometryOwner other) {
-		return other.getClass() != Bucket_1.class && other.getClass() != Bucket_2.class && other.getClass() != Bucket_3.class;
+		return true;
 	}
 
 	@Override
 	public boolean canMoveCollideWith(CollisionGeometryOwner other) {
-		return other.getClass() != Anchorpoint_1.class;
+		return other.getClass() != Bucket_1.class && other.getClass() != Bucket_2.class && other.getClass() != Bucket_3.class;
 	}
+
+	float sx = 0;
+	@Override
+	public float getTextureScaleX() {
+		return (float) Math.sin(sx+=0.01)*10;
+	}
+
+	float sy = 1;
+	@Override
+	public float getTextureScaleY() {
+		return (float) Math.sin(sy+=0.02)*10;
+	}
+
+	float r = 0;
+	@Override
+	public float getTextureRotation() {
+		return r += 1.75;
+	}
+	
 }

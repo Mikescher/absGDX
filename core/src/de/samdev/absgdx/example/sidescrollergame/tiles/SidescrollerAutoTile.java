@@ -1,8 +1,8 @@
-package de.samdev.absgdx.sidescrollergame.tiles;
+package de.samdev.absgdx.example.sidescrollergame.tiles;
 
 import java.util.HashMap;
 
-import de.samdev.absgdx.Textures;
+import de.samdev.absgdx.example.Textures;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
 import de.samdev.absgdx.framework.map.AutoTile;
 

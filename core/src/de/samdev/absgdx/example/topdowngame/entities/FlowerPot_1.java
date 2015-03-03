@@ -1,46 +1,54 @@
-package de.samdev.absgdx.topdowngame.entities;
+package de.samdev.absgdx.example.topdowngame.entities;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.math.Vector2;
 
-import de.samdev.absgdx.Textures;
+import de.samdev.absgdx.example.Textures;
+import de.samdev.absgdx.example.topdowngame.TopDownGameLayer;
 import de.samdev.absgdx.framework.entities.Entity;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
-import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionBox;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionCircle;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
 import de.samdev.absgdx.framework.layer.GameLayer;
-import de.samdev.absgdx.framework.math.align.AlignCorner4;
 
-public class Anchorpoint_1 extends Entity {
+public class FlowerPot_1 extends Entity {
+
+	public TopDownGameLayer owner;
 	
-	public Anchorpoint_1() {
-		super(Textures.tex_Anchorpoint_empty, 2, 4);
+	public float tick = 0;
+	
+	public int dead = 60*10 + (int)(16*60 * Math.random());
+	
+	private Vector2 acceleration = addNewAcceleration();
+	
+	public FlowerPot_1() {
+		super(Textures.tex_Flowers_empty, 2, 2);		
 	}
-	
+
 	@Override
 	public void onLayerAdd(GameLayer layer) {
-		setPosition(10f, 30f);
+		setPosition(0.0f, 00.0f + (float)(Math.random() * 20f));
 		
-//		addCollisionGeo(0.65f, 1.15f, new CollisionCircle(this, 0.35f));
-//		addCollisionGeo(1.35f, 1.15f, new CollisionCircle(this, 0.35f));
+		addCollisionGeo(1, 1, new CollisionCircle(this, 1f));
 		
-//		addCollisionGeo(1.0f, 0.85f, new CollisionBox(this, 0.8f, 1.2f));
-		
-//		addFullCollisionTriangle(AlignCorner4.BOTTOMRIGHT);
-		addFullCollisionBox();
+		if (isHardColliding()) alive = false;
 	}
-
+	
 	@Override
 	public void beforeUpdate(float delta) {
-		speed.set(0,0);
+		tick += delta / 16.666f;
 		
-		if (Gdx.input.isKeyPressed(Keys.W)) speed.y += 0.01;
-		if (Gdx.input.isKeyPressed(Keys.A)) speed.x -= 0.01;
-		if (Gdx.input.isKeyPressed(Keys.S)) speed.y -= 0.01;
-		if (Gdx.input.isKeyPressed(Keys.D)) speed.x += 0.01;
-
-		if (Gdx.input.isKeyJustPressed(Keys.H)) setPositionY(getPositionY()+0.25f);
+		if (getPositionY() < 5) {
+			acceleration.y =  0.00003f;
+		} else {
+			acceleration.y = -0.00003f;
+		}
+		
+		speed.x = 0.0025f;
+		
+		speed.clamp(0.0f, 0.015f);
+		
+		if (tick > dead)
+			this.alive = false;
 	}
 
 	@Override
@@ -65,30 +73,11 @@ public class Anchorpoint_1 extends Entity {
 
 	@Override
 	public boolean canCollideWith(CollisionGeometryOwner other) {
-		return true;
+		return other.getClass() != FlowerPot_1.class;
 	}
 
 	@Override
 	public boolean canMoveCollideWith(CollisionGeometryOwner other) {
-		return other.getClass() != Bucket_1.class && other.getClass() != Bucket_2.class && other.getClass() != Bucket_3.class;
+		return other.getClass() != FlowerPot_1.class && other.getClass() != Anchorpoint_1.class;
 	}
-
-	float sx = 0;
-	@Override
-	public float getTextureScaleX() {
-		return (float) Math.sin(sx+=0.01)*10;
-	}
-
-	float sy = 1;
-	@Override
-	public float getTextureScaleY() {
-		return (float) Math.sin(sy+=0.02)*10;
-	}
-
-	float r = 0;
-	@Override
-	public float getTextureRotation() {
-		return r += 1.75;
-	}
-	
 }

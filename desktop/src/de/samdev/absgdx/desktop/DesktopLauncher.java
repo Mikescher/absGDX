@@ -4,7 +4,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.math.GridPoint2;
 
-import de.samdev.absgdx.AGdxDemoGame;
+import de.samdev.absgdx.example.AGdxDemoGame;
 import de.samdev.absgdx.framework.util.AndroidResolutions;
 
 public class DesktopLauncher {

@@ -1,49 +1,38 @@
-package de.samdev.absgdx.topdowngame.entities;
+package de.samdev.absgdx.example.topdowngame.entities;
 
-import com.badlogic.gdx.math.Vector2;
-
-import de.samdev.absgdx.Textures;
+import de.samdev.absgdx.example.Textures;
 import de.samdev.absgdx.framework.entities.Entity;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionBox;
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionCircle;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
-import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionTriangle;
 import de.samdev.absgdx.framework.layer.GameLayer;
-import de.samdev.absgdx.framework.math.align.AlignCorner4;
-import de.samdev.absgdx.topdowngame.TopDownGameLayer;
 
-public class Slide_1 extends Entity {
-
-	public TopDownGameLayer owner;
+public class Angel_1 extends Entity {
 	
-	public int tick = 0;
-	
-	public float x, y;
-	public Entity other;
-	
-	public CollisionGeometry t;
-	
-	public Slide_1(Entity e) {
-		super(Textures.texSlideTile, 16, 16);
-		
-		this.x = 10;
-		this.y = 23;
-		this.other = e;
+	public Angel_1() {
+		super(Textures.tex_Angel, 6, 12);
 	}
-
+	
 	@Override
 	public void onLayerAdd(GameLayer layer) {
-		setPosition(x, y);
+		setPosition(39.0f, 21.0f);
 		
-		t = addFullCollisionTriangle(AlignCorner4.TOPLEFT).geometry;
-//		t = addFullCollisionBox().geometry;
+		addCollisionGeo(3.25f, 10f, new CollisionCircle(this, 1.5f)); // head
+		
+		addCollisionGeo(3.25f, 9f, new CollisionBox(this, 3.0f, 1f)); // shoulders
+		
+		addCollisionGeo(3.25f, 7f, new CollisionBox(this, 3.0f, 3f)); // torso
+		
+		addCollisionGeo(1.25f, 7.25f, new CollisionBox(this, 1.0f, 2.5f)); // left wing
+		addCollisionGeo(5.25f, 7.25f, new CollisionBox(this, 1.0f, 2.5f)); // right wing
+		
+		addCollisionGeo(3.15f, 2.75f, new CollisionBox(this, 5.0f, 5.5f)); // podest
 	}
-	
+
 	@Override
 	public void beforeUpdate(float delta) {
-//		System.out.println("x: " + other.collisionGeometries.get(0).geometry.getXTouchDistance(t));
-//		System.out.println("y: " + other.collisionGeometries.get(0).geometry.getYTouchDistance(t));
-//		System.out.println(this.getFirstHardCollider() != null);
-//		System.out.println("");
+		//
 	}
 
 	@Override

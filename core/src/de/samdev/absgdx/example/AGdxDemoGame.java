@@ -1,12 +1,13 @@
-package de.samdev.absgdx;
+package de.samdev.absgdx.example;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
+import de.samdev.absgdx.example.mainmenu.ManualMenu;
+import de.samdev.absgdx.example.sidescrollergame.SidescrollerGameLayer;
+import de.samdev.absgdx.example.topdowngame.TopDownGameLayer;
 import de.samdev.absgdx.framework.AgdxGame;
-import de.samdev.absgdx.sidescrollergame.SidescrollerGameLayer;
-import de.samdev.absgdx.topdowngame.TopDownGameLayer;
 
 public class AGdxDemoGame extends AgdxGame {	
 	@Override
@@ -15,6 +16,7 @@ public class AGdxDemoGame extends AgdxGame {
 		
 		pushLayer(new TopDownGameLayer(this));
 		pushLayer(new SidescrollerGameLayer(this));
+		pushLayer(new ManualMenu(this));
 		
 		setDebugFont(new BitmapFont(Gdx.files.internal("consolefont.fnt")));
 	}

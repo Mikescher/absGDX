@@ -1,35 +1,49 @@
-package de.samdev.absgdx.topdowngame.entities;
+package de.samdev.absgdx.example.topdowngame.entities;
 
-import de.samdev.absgdx.Textures;
+import com.badlogic.gdx.math.Vector2;
+
+import de.samdev.absgdx.example.Textures;
+import de.samdev.absgdx.example.topdowngame.TopDownGameLayer;
 import de.samdev.absgdx.framework.entities.Entity;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionTriangle;
 import de.samdev.absgdx.framework.layer.GameLayer;
-import de.samdev.absgdx.topdowngame.TopDownGameLayer;
+import de.samdev.absgdx.framework.math.align.AlignCorner4;
 
-public class Bush_2 extends Entity {
+public class Slide_1 extends Entity {
 
 	public TopDownGameLayer owner;
 	
 	public int tick = 0;
-
-	public float x, y;
 	
-	public Bush_2(float x, float y) {
-		super(Textures.tex_Bush_empty, 2, 2);
+	public float x, y;
+	public Entity other;
+	
+	public CollisionGeometry t;
+	
+	public Slide_1(Entity e) {
+		super(Textures.texSlideTile, 16, 16);
 		
-		this.x = x;
-		this.y = y;
+		this.x = 10;
+		this.y = 23;
+		this.other = e;
 	}
 
 	@Override
 	public void onLayerAdd(GameLayer layer) {
 		setPosition(x, y);
+		
+		t = addFullCollisionTriangle(AlignCorner4.TOPLEFT).geometry;
+//		t = addFullCollisionBox().geometry;
 	}
 	
 	@Override
 	public void beforeUpdate(float delta) {
-		//
+//		System.out.println("x: " + other.collisionGeometries.get(0).geometry.getXTouchDistance(t));
+//		System.out.println("y: " + other.collisionGeometries.get(0).geometry.getYTouchDistance(t));
+//		System.out.println(this.getFirstHardCollider() != null);
+//		System.out.println("");
 	}
 
 	@Override

@@ -30,12 +30,14 @@ public class DesignFrame extends JFrame {
 	private JPanel tabSettings;
 	private JPanel tabComponents;
 	private Component horizontalStrut;
+	private JPanel pnlProperties;
 
 	public DesignFrame() {
 		initGUI();
 	}
 	
 	private void initGUI() {
+		setTitle("absGDX - Menu Designer");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 949, 724);
 		contentPane = new JPanel();
@@ -71,6 +73,9 @@ public class DesignFrame extends JFrame {
 		
 		list = new JList();
 		tabComponents.add(list);
+		
+		pnlProperties = new JPanel();
+		pnlSettings.addTab("Properties", null, pnlProperties, null);
 		
 		tabSettings = new JPanel();
 		pnlSettings.addTab("Settings", null, tabSettings, null);

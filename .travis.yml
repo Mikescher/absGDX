@@ -1,4 +1,7 @@
 language: java
+env:
+  global:
+   - secure: "NR2E/YM3AydGg/HrcdJ8qXbQbxpSgvYOg0QQN0x/R0HnQaOt80YnBx4ZMu7Ok986vJfX8Qn6po0xiZpRIEV87y40nMkHy8oPXAFiBLNRjmcG30sDChwXiylMeXlwbtlrNRiBav2b5Klm1Z4EhLKWHya0rK5maOKcRcB9m21SqVg="
 
 before_install:
  - chmod +x gradlew
@@ -12,6 +15,10 @@ script:
  - ./gradlew desktop:check
  - ./gradlew absGDX-menudesigner:check
  - ./gradlew absGDX-menudesigner:assemble
+
+after_success:
+ - ./gradlew absGDX-framework:javadoc
+ - .utility/initiate-publish.sh 
 
 notifications:
   email:

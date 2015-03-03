@@ -4,7 +4,7 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; th
 
   echo -e "Publishing javadoc...\n"
 
-  cp -R build/docs/javadoc $HOME/javadoc-latest
+  cp -R absGDX-framework/build/docs/javadoc $HOME/javadoc-latest
 
   cd $HOME
   git config --global user.email "travis@travis-ci.org"

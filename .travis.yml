@@ -18,7 +18,7 @@ script:
 
 after_success:
  - ./gradlew absGDX-framework:javadoc
- - .utility/initiate-publish.sh 
+ - .utility/push-javadoc-to-gh-pages.sh
 
 notifications:
   email:

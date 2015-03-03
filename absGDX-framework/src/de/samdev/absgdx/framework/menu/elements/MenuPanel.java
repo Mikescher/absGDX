@@ -1,4 +1,4 @@
-package de.samdev.absgdx.framework.menu;
+package de.samdev.absgdx.framework.menu.elements;
 
 import java.util.ArrayList;
 import java.util.List;

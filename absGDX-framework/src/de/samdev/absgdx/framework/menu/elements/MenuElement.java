@@ -1,4 +1,4 @@
-package de.samdev.absgdx.framework.menu;
+package de.samdev.absgdx.framework.menu.elements;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;

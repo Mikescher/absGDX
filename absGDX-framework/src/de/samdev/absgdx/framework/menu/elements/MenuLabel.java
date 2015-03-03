@@ -1,15 +1,18 @@
-package de.samdev.absgdx.framework.menu;
+package de.samdev.absgdx.framework.menu.elements;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 import de.samdev.absgdx.framework.menu.attributes.HorzAlign;
 import de.samdev.absgdx.framework.menu.attributes.VertAlign;
 
+/**
+ * A simple Text Display
+ *
+ */
 public class MenuLabel extends MenuElement {
 	private String content = "";
 
@@ -20,6 +23,9 @@ public class MenuLabel extends MenuElement {
 	private HorzAlign hAlign = HorzAlign.LEFT;
 	private VertAlign vAlign = VertAlign.TOP;
 	
+	/**
+	 * Create a new Label
+	 */
 	public MenuLabel() {
 		super();
 	}
@@ -75,7 +81,7 @@ public class MenuLabel extends MenuElement {
 		font.setScale(1, -1);
 		
 		TextBounds bounds = font.getBounds(content);
-		float scale = Math.min(getWidth() / bounds.width, getHeight() / bounds.height);
+		float scale = Math.min(getWidth() / Math.abs(bounds.width), getHeight() / Math.abs(bounds.height));
 		
 		font.setScale(scale, -scale);
 	}
@@ -85,55 +91,121 @@ public class MenuLabel extends MenuElement {
 		// Do nothing
 	}
 
+	/**
+	 * @return the displayed content
+	 */
 	public String getContent() {
 		return content;
 	}
 
+	/**
+	 * Set the displayed content
+	 * 
+	 * @param content the content
+	 */
 	public void setContent(String content) {
 		this.content = content;
 	}
 
+	/**
+	 * @return the horizontal alignment
+	 */
 	public HorzAlign getHorizontalAlign() {
 		return hAlign;
 	}
 
+	/**
+	 * Set the horizontal alignment
+	 * 
+	 * @param hAlign the horizontal Alignment
+	 */
 	public void setHorizontalAlign(HorzAlign hAlign) {
 		this.hAlign = hAlign;
 	}
 
+	/**
+	 * @return the vertical alignment
+	 */
 	public VertAlign getVerticalAlign() {
 		return vAlign;
 	}
 
+	/**
+	 * Set the vertical alignment
+	 * 
+	 * @param vAlign the vertical alignment
+	 */
 	public void setVerticalAlign(VertAlign vAlign) {
 		this.vAlign = vAlign;
 	}
 	
+	/**
+	 * Set both (vertical & horizontal) alignment
+	 * 
+	 * @param hAlign the horizontal Alignment
+	 * @param vAlign the vertical alignment
+	 */
 	public void setAlign(HorzAlign hAlign, VertAlign vAlign) {
 		setHorizontalAlign(hAlign);
 		setVerticalAlign(vAlign);
 	}
 
+	/**
+	 * Get the current font scaling 
+	 * >1 means scaling up
+	 * <1 means scaling down
+	 * 
+	 * @return the current scaling of the displayed font
+	 */
 	public float getFontScale() {
 		return fontscale;
 	}
 
+	/**
+	 * Set the current font scaling 
+	 * >1 means scaling up
+	 * <1 means scaling down
+	 * 
+	 * @param fontscale the new font scale
+	 */
 	public void setFontScale(float fontscale) {
 		this.fontscale = fontscale;
 	}
 
+	/**
+	 * @return the foreground color of the displayed text
+	 */
 	public Color getColor() {
 		return color;
 	}
 
+	/**
+	 * Set the foreground color of the displayed text
+	 * 
+	 * @param color the text color
+	 */
 	public void setColor(Color color) {
 		this.color = color;
 	}
 
+	/**
+	 * Return if autoscale is enabled
+	 * 
+	 * in autoscale mode the font scale is ignored and the text is displayed as big as possible
+	 * 
+	 * @return true if enabled
+	 */
 	public boolean getAutoScale() {
 		return autoScale;
 	}
 
+	/**
+	 * Enable/Disable the autoscale mode
+	 * 
+	 * in autoscale mode the font scale is ignored and the text is displayed as big as possible
+	 * 
+	 * @param autoScale true means "autoscale enabled"
+	 */
 	public void setAutoScale(boolean autoScale) {
 		this.autoScale = autoScale;
 	}

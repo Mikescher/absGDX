@@ -7,8 +7,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import de.samdev.absgdx.framework.AgdxGame;
-import de.samdev.absgdx.framework.menu.MenuElement;
-import de.samdev.absgdx.framework.menu.MenuFrame;
+import de.samdev.absgdx.framework.menu.elements.MenuElement;
+import de.samdev.absgdx.framework.menu.elements.MenuFrame;
 
 /**
  * A Menu Layer

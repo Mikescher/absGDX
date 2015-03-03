@@ -8,8 +8,8 @@ de.samdev.absgdx.framework.map.background
 de.samdev.absgdx.framework.map.mapscaleresolver
 de.samdev.absgdx.framework.math
 de.samdev.absgdx.framework.math.align
-de.samdev.absgdx.framework.menu
 de.samdev.absgdx.framework.menu.attributes
+de.samdev.absgdx.framework.menu.elements
 de.samdev.absgdx.framework.renderer
 de.samdev.absgdx.framework.util
 de.samdev.absgdx.framework.util.dependentProperties

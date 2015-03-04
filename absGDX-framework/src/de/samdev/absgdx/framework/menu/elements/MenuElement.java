@@ -23,6 +23,8 @@ public abstract class MenuElement {
 	private int positionY;
 	private int height;
 	private int width;
+	
+	private boolean visible = true;
 
 	private BitmapFont font = null;
 	
@@ -67,10 +69,12 @@ public abstract class MenuElement {
 	 * @param owner the Menu in which this element exists
 	 */
 	public void renderElement(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont defaultfont, MenuLayer owner) {
-		if (font != null) {
-			render(sbatch, srenderer, font);
-		} else {
-			render(sbatch, srenderer, defaultfont);
+		if (visible) {
+			if (font != null) {
+				render(sbatch, srenderer, font);
+			} else {
+				render(sbatch, srenderer, defaultfont);
+			}
 		}
 		
 		if (owner.owner.settings.debugMenuBorders.isActive()) {
@@ -398,5 +402,21 @@ public abstract class MenuElement {
 		if (layer == null) return false;
 		
 		return layer.isFocused(this);
+	}
+
+	/**
+	 * @return if this component is visible
+	 */
+	public boolean isVisible() {
+		return visible;
+	}
+
+	/**
+	 * Set if this component shall be rendered
+	 * 
+	 * @param visible
+	 */
+	public void setVisible(boolean visible) {
+		this.visible = visible;
 	}
 }

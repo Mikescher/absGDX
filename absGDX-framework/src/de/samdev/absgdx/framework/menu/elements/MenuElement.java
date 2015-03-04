@@ -1,12 +1,11 @@
 package de.samdev.absgdx.framework.menu.elements;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Rectangle;
 
-import de.samdev.absgdx.framework.GameSettings;
 import de.samdev.absgdx.framework.layer.MenuLayer;
 
 /**
@@ -24,10 +23,32 @@ public abstract class MenuElement {
 	private BitmapFont font = null;
 	
 	/**
-	 * Creates a new MenuElement
+	 * the unique identifier to identify this element
+	 */
+	public final String identifier;
+	
+	/**
+	 * the owner *(can be null when not added to layer)*
+	 */
+	protected MenuLayer layer;
+	
+	/**
+	 * Creates a new MenuElement (with a random identifier)
 	 */
 	public MenuElement() {
 		super();
+		
+		this.identifier = "{" + java.util.UUID.randomUUID().toString() + "}";
+	}
+	
+	/**
+	 * Creates a new MenuElement
+	 * @param ident the unique identifier
+	 */
+	public MenuElement(String ident) {
+		super();
+		
+		this.identifier = ident;
 	}
 
 	/**
@@ -55,6 +76,16 @@ public abstract class MenuElement {
 			srenderer.end();
 		}
 	}
+
+	/**
+	 * Called when the tree structure drastically changes
+	 * (e.g. added to a MenuLayer)
+	 * 
+	 * @param owner
+	 */
+	public void pack(MenuLayer owner) {
+		this.layer = owner;
+	}
 	
 	/**
 	 * Renders the Element
@@ -71,6 +102,76 @@ public abstract class MenuElement {
 	public abstract void update(float delta);
 	
 	/**
+	 * Return the element at this (x|y) position
+	 * This is usually this, except for container elements
+	 * 
+	 * @param x the x position
+	 * @param y the y position
+	 * @return
+	 */
+	public abstract MenuElement getElementAt(int x, int y);
+	
+	/**
+	 * Called on PointerDown event
+	 * -> Touching on TouchDevice
+	 * -> MouseDown on Desktop
+	 */
+	public abstract void onPointerDown();
+	
+	/**
+	 * Called on PointerUp event
+	 * -> Touch-release on TouchDevice
+	 * -> MouseUp on Desktop
+	 */
+	public abstract void onPointerUp();
+	
+	/**
+	 * Called on PointerClicked event
+	 * -> Touch on TouchDevice
+	 * -> MouseClick on Desktop
+	 */
+	public abstract void onPointerClicked();
+	
+	/**
+	 * Called when this element gains focus
+	 */
+	public abstract void onFocusGained();
+
+	/**
+	 * Called when this element looses focus
+	 */
+	public abstract void onFocusLost();
+	
+	/**
+	 * Called when the pointer hovers over this element
+	 */
+	public abstract void onStartHover();
+	
+	/**
+	 * Called when the pointer no longer hovers over this element
+	 */
+	public abstract void onEndHover();
+
+	/**
+	 * Called when a Keyboard character is typed
+	 * @param key the character
+	 */
+	public abstract void onKeyTyped(char key);
+
+	/**
+	 * Called when a Keyboard key is pressed down
+	 * @param keycode the key code (see libgdx:Keys)
+	 */
+	public abstract void onKeyDown(int keycode);
+	
+	/**
+	 * @return the boundary rectangle
+	 */
+	public Rectangle getBoundaries() {
+		return new Rectangle(getPositionX(), getPositionY(), getWidth(), getHeight());
+	}
+	
+	/**
 	 * @return the component width
 	 */
 	public int getWidth() {
@@ -80,7 +181,7 @@ public abstract class MenuElement {
 	/**
 	 * Sets the component width
 	 * 
-	 * @param width
+	 * @param width the width
 	 */
 	public void setWidth(int width) {
 		this.width = width;
@@ -96,7 +197,7 @@ public abstract class MenuElement {
 	/**
 	 * Set the component height
 	 * 
-	 * @param height
+	 * @param height the height
 	 */
 	public void setHeight(int height) {
 		this.height = height;
@@ -112,7 +213,7 @@ public abstract class MenuElement {
 	/**
 	 * Set the X position of the component
 	 * 
-	 * @param positionX
+	 * @param positionX the x position
 	 */
 	public void setPositionX(int positionX) {
 		this.positionX = positionX;
@@ -128,7 +229,7 @@ public abstract class MenuElement {
 	/**
 	 * Set the Y position of the component
 	 * 
-	 * @param positionY
+	 * @param positionY the y position
 	 */
 	public void setPositionY(int positionY) {
 		this.positionY = positionY;
@@ -137,8 +238,8 @@ public abstract class MenuElement {
 	/**
 	 * Set the X and Y position of the component
 	 * 
-	 * @param positionX
-	 * @param positionY
+	 * @param positionX the x position
+	 * @param positionY the y position
 	 */
 	public void setPosition(int positionX, int positionY) {
 		setPositionX(positionX);
@@ -148,12 +249,25 @@ public abstract class MenuElement {
 	/**
 	 * Set width and height of the component
 	 * 
-	 * @param width
-	 * @param height
+	 * @param width the width
+	 * @param height the height
 	 */
 	public void setSize(int width, int height) {
 		setWidth(width);
 		setHeight(height);
+	}
+	
+	/**
+	 * Set the X-position, Y-position, width and height of the component
+	 * 
+	 * @param x the x position
+	 * @param y  the y position
+	 * @param width the width 
+	 * @param height the height
+	 */
+	public void setBoundaries(int x, int y, int width, int height) {
+		setPosition(x, y);
+		setSize(width, height);
 	}
 	
 	/**
@@ -191,5 +305,41 @@ public abstract class MenuElement {
 	 */
 	public void setFont(BitmapFont font) {
 		this.font = font;
+	}
+	
+	/**
+	 * Returns if this element is hovered
+	 * Only works when added to an MenuLayer (returns false otherwise)
+	 * 
+	 * @return if this element is hovered
+	 */
+	public boolean isHovered() {
+		if (layer == null) return false;
+		
+		return layer.isHovered(this);
+	}
+
+	/**
+	 * Returns if this element is pressed
+	 * Only works when added to an MenuLayer (returns false otherwise)
+	 * 
+	 * @return if this element is pressed
+	 */
+	public boolean isPressed() {
+		if (layer == null) return false;
+		
+		return layer.isPressed(this);
+	}
+	
+	/**
+	 * Returns if this element is focused
+	 * Only works when added to an MenuLayer (returns false otherwise)
+	 * 
+	 * @return if this element is focused
+	 */
+	public boolean isFocused() {
+		if (layer == null) return false;
+		
+		return layer.isFocused(this);
 	}
 }

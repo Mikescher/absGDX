@@ -1,5 +1,6 @@
 package de.samdev.absgdx.framework.menu.elements;
 
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -10,28 +11,31 @@ import de.samdev.absgdx.framework.menu.attributes.HorzAlign;
 import de.samdev.absgdx.framework.menu.attributes.RectangleRadius;
 import de.samdev.absgdx.framework.menu.attributes.TextAutoScaleMode;
 import de.samdev.absgdx.framework.menu.attributes.VertAlign;
-import de.samdev.absgdx.framework.menu.attributes.VisualButtonState;
 
 /**
- * A click-able Button
+ * A edit-able Text Field
  */
-public class MenuButton extends MenuElement {
-
+public class MenuEdit extends MenuElement {
+	private final static float BLINK_DELAY = 850f;
+	
 	private final MenuLabel innerLabel;
 	
 	private RectangleRadius padding = new RectangleRadius(5, 5, 5, 5);
 	
-	private VisualButtonState visualState = VisualButtonState.NORMAL;
+	private String content = "";
+	private float blinkCounter = 0;
 	
 	/**
 	 * Creates a new MenuButton
 	 */
-	public MenuButton() {
+	public MenuEdit() {
 		super();
 		
 		innerLabel = new MenuLabel();
-		innerLabel.setAutoScale(TextAutoScaleMode.BOTH);
-		innerLabel.setAlign(HorzAlign.CENTER, VertAlign.CENTER);
+		innerLabel.setAlign(HorzAlign.LEFT, VertAlign.CENTER);
+
+		innerLabel.setAutoScale(TextAutoScaleMode.VERTICAL);
+		innerLabel.setContent("");
 	}
 
 	@Override
@@ -39,10 +43,23 @@ public class MenuButton extends MenuElement {
 		innerLabel.setPosition(getPositionX() + padding.left, getPositionY() + padding.top);
 		innerLabel.setSize(getWidth() - padding.getHorizontalSum(), getHeight() - padding.getVerticalSum());
 		
+		innerLabel.setContent(content);
+		float innerScale = innerLabel.getRealFontScale(font);
+		font.setScale(innerScale, -innerScale);
+
+		float cbWidth = innerLabel.getHeight() / 9f;
+		
+		String disp = content;
+		
+		while (font.getBounds(disp).width + 2*cbWidth > innerLabel.getWidth() && disp.length() > 1) {
+			disp = disp.substring(1);
+		}
+		
+		innerLabel.setContent(disp);
+		
 		srenderer.begin(ShapeType.Filled);
 		{
-			float grayValue = 1f - (getDepth() % 16) / 15f;
-			srenderer.setColor(grayValue, grayValue, visualState.ordinal() /3f, 1f);
+			srenderer.setColor(Color.WHITE);
 			srenderer.rect(getPositionX(), getPositionY(), getWidth(), getHeight());
 		}
 		srenderer.end();
@@ -54,12 +71,23 @@ public class MenuButton extends MenuElement {
 		}
 		srenderer.end();
 		
+		if (blinkCounter * 2 < BLINK_DELAY && isFocused()) {
+			srenderer.begin(ShapeType.Filled);
+			
+			srenderer.setColor(Color.BLACK);
+			srenderer.rect(innerLabel.getPositionX() + font.getBounds(disp).width + cbWidth, innerLabel.getPositionY(), cbWidth, innerLabel.getHeight());
+			
+			srenderer.end();
+		}
+		
 		innerLabel.render(sbatch, srenderer, font);
 	}
 
 	@Override
 	public void update(float delta) {
-		// NOP
+		blinkCounter += delta;
+		while (blinkCounter > BLINK_DELAY)
+			blinkCounter -= BLINK_DELAY;
 	}
 
 	/**
@@ -94,7 +122,7 @@ public class MenuButton extends MenuElement {
 	 * @return the displayed content
 	 */
 	public String getContent() {
-		return innerLabel.getContent();
+		return content;
 	}
 
 	/**
@@ -103,7 +131,7 @@ public class MenuButton extends MenuElement {
 	 * @param content the content
 	 */
 	public void setContent(String content) {
-		innerLabel.setContent(content);
+		this.content = content;
 	}
 
 	/**
@@ -186,28 +214,6 @@ public class MenuButton extends MenuElement {
 		innerLabel.setColor(color);
 	}
 
-	/**
-	 * Return the Autoscale Mode
-	 * 
-	 * in autoscale mode the font scale is ignored and the text is displayed as big as possible
-	 * 
-	 * @return the current mode
-	 */
-	public TextAutoScaleMode getAutoScale() {
-		return innerLabel.getAutoScale();
-	}
-
-	/**
-	 * Set the autoscale mode
-	 * 
-	 * in autoscale mode the font scale is ignored and the text is displayed as big as possible
-	 * 
-	 * @param autoScale the desired mode
-	 */
-	public void setAutoScale(TextAutoScaleMode autoScale) {
-		innerLabel.setAutoScale(autoScale);
-	}
-
 	@Override
 	public MenuElement getElementAt(int x, int y) {
 		return this;
@@ -215,12 +221,12 @@ public class MenuButton extends MenuElement {
 
 	@Override
 	public void onPointerDown() {
-		visualState = VisualButtonState.PRESSED;
+		// NOP
 	}
 
 	@Override
 	public void onPointerUp() {
-		visualState = isHovered() ? VisualButtonState.HOVERED : VisualButtonState.NORMAL;
+		// NOP
 	}
 
 	@Override
@@ -240,21 +246,27 @@ public class MenuButton extends MenuElement {
 
 	@Override
 	public void onStartHover() {
-		visualState = VisualButtonState.HOVERED; System.out.println("text");
+		// NOP
 	}
 
 	@Override
 	public void onEndHover() {
-		visualState = VisualButtonState.NORMAL;
+		// NOP
 	}
 
 	@Override
 	public void onKeyTyped(char key) {
-		// NOP
+		if (key >= 32) {
+			content += key;
+			blinkCounter = 0;
+		}
 	}
 
 	@Override
 	public void onKeyDown(int keycode) {
-		// NOP
+		if (keycode == Keys.BACKSPACE && content.length() > 0) {
+			content = content.substring(0, content.length() - 1);
+			blinkCounter = 0;
+		}
 	}
 }

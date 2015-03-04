@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import de.samdev.absgdx.framework.menu.attributes.HorzAlign;
+import de.samdev.absgdx.framework.menu.attributes.TextAutoScaleMode;
 import de.samdev.absgdx.framework.menu.attributes.VertAlign;
 
 /**
@@ -18,7 +19,7 @@ public class MenuLabel extends MenuElement {
 
 	private Color color = Color.BLACK;
 	private float fontscale = 1f;
-	private boolean autoScale = false;
+	private TextAutoScaleMode autoScale = TextAutoScaleMode.NONE;
 	
 	private HorzAlign hAlign = HorzAlign.LEFT;
 	private VertAlign vAlign = VertAlign.TOP;
@@ -32,8 +33,8 @@ public class MenuLabel extends MenuElement {
 
 	@Override
 	public void render(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
-		font.setScale(fontscale, -fontscale);
-		if (getAutoScale()) doAutoScale(font);
+		doAutoScale(font);
+		
 		font.setColor(color);
 		
 		TextBounds bounds = font.getBounds(content);
@@ -77,13 +78,31 @@ public class MenuLabel extends MenuElement {
 		sbatch.disableBlending();
 	}
 
-	private void doAutoScale(BitmapFont font) {
+	private float doAutoScale(BitmapFont font) {
 		font.setScale(1, -1);
 		
-		TextBounds bounds = font.getBounds(content);
-		float scale = Math.min(getWidth() / Math.abs(bounds.width), getHeight() / Math.abs(bounds.height));
+		float scaleX = getWidth() / Math.abs(font.getBounds(content).width);
+		float scaleY = getHeight() / Math.abs(font.getBounds(content + "|AMXYZ*^._").height);
 		
-		font.setScale(scale, -scale);
+		float scale = Math.min(scaleX, scaleY);
+		
+		switch (autoScale) {
+		case NONE:
+			font.setScale(fontscale, -fontscale);
+			return fontscale;
+		case VERTICAL:
+			font.setScale(scaleY, -scaleY);
+			return scaleY;
+		case HORIZONTAL:
+			font.setScale(scaleX, -scaleX);
+			return scaleX;
+		case BOTH:
+			font.setScale(scale, -scale);
+			return scale;
+		default:
+			font.setScale(1, -1);
+			return 1;
+		}
 	}
 
 	@Override
@@ -162,6 +181,18 @@ public class MenuLabel extends MenuElement {
 	}
 
 	/**
+	 * Get the current  (real) font scaling 
+	 * If Autoscale is [on], the autoscale value is returned
+	 * 
+	 * @param font the used font
+	 * 
+	 * @return the real current scaling of the displayed font
+	 */
+	public float getRealFontScale(BitmapFont font) {
+		return doAutoScale(font);
+	}
+
+	/**
 	 * Set the current font scaling 
 	 * >1 means scaling up
 	 * <1 means scaling down
@@ -189,25 +220,75 @@ public class MenuLabel extends MenuElement {
 	}
 
 	/**
-	 * Return if autoscale is enabled
+	 * Return the Autoscale Mode
 	 * 
 	 * in autoscale mode the font scale is ignored and the text is displayed as big as possible
 	 * 
-	 * @return true if enabled
+	 * @return the current mode
 	 */
-	public boolean getAutoScale() {
+	public TextAutoScaleMode getAutoScale() {
 		return autoScale;
 	}
 
 	/**
-	 * Enable/Disable the autoscale mode
+	 * Set the autoscale mode
 	 * 
 	 * in autoscale mode the font scale is ignored and the text is displayed as big as possible
 	 * 
-	 * @param autoScale true means "autoscale enabled"
+	 * @param autoScale the desired mode
 	 */
-	public void setAutoScale(boolean autoScale) {
+	public void setAutoScale(TextAutoScaleMode autoScale) {
 		this.autoScale = autoScale;
+	}
+
+	@Override
+	public MenuElement getElementAt(int x, int y) {
+		return this;
+	}
+
+	@Override
+	public void onPointerDown() {
+		// NOP
+	}
+
+	@Override
+	public void onPointerUp() {
+		// NOP
+	}
+
+	@Override
+	public void onPointerClicked() {
+		// NOP
+	}
+
+	@Override
+	public void onFocusGained() {
+		// NOP
+	}
+
+	@Override
+	public void onFocusLost() {
+		// NOP
+	}
+
+	@Override
+	public void onStartHover() {
+		// NOP
+	}
+
+	@Override
+	public void onEndHover() {
+		// NOP
+	}
+
+	@Override
+	public void onKeyTyped(char key) {
+		// NOP
+	}
+
+	@Override
+	public void onKeyDown(int keycode) {
+		// NOP
 	}
 
 }

@@ -74,9 +74,16 @@ public class CollisionMap {
 			this.width =  (int) Math.ceil(map.width  * 1d  / (1 << expScale));
 			this.height = (int) Math.ceil(map.height * 1d  / (1 << expScale));
 		}
-		
+
 		this.map = new CollisionMapTile[width][height];
+		this.mapwidth = map.width;
+		this.mapheight = map.height;
+		this.tileCollisionBoxes = new CollisionBox[map.width][map.height];
 		
+		initCollisionMap(map);
+	}
+
+	private void initCollisionMap(TileMap map) {
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				this.map[x][y] = new CollisionMapTile();
@@ -90,9 +97,6 @@ public class CollisionMap {
 			}
 		}
 
-		this.mapwidth = map.width;
-		this.mapheight = map.height;
-		this.tileCollisionBoxes = new CollisionBox[map.width][map.height];
 		for (int x = 0; x < map.width; x++) {
 			for (int y = 0; y < map.height; y++) {
 				this.tileCollisionBoxes[x][y] = new CollisionBox(map.getTile(x, y), x + 0.5f, y + 0.5f, 1, 1);

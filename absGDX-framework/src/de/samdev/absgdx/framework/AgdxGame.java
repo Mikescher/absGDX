@@ -280,6 +280,7 @@ public abstract class AgdxGame implements ApplicationListener {
 	 */
 	public void pushLayer(AgdxLayer layer) {
 		layers.push(layer);
+		Gdx.input.setInputProcessor(layers.peek());
 	}
 
 	/**
@@ -288,8 +289,10 @@ public abstract class AgdxGame implements ApplicationListener {
 	 * @param layer
 	 */
 	public void setLayer(AgdxLayer layer) {
-		layers.clear();
-		layers.push(layer);
+		while (! layers.isEmpty()) 
+			popLayer();
+		
+		pushLayer(layer);
 	}
 
 	/**
@@ -297,6 +300,8 @@ public abstract class AgdxGame implements ApplicationListener {
 	 */
 	public void popLayer() {
 		layers.pop();
+
+		Gdx.input.setInputProcessor(layers.peek());
 	}
 
 	/**

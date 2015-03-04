@@ -73,11 +73,9 @@ public class MenuLabel extends MenuElement {
 			return;
 		}
 		
-		sbatch.enableBlending();
 		sbatch.begin();
 		font.draw(sbatch, content, x, y);
 		sbatch.end();
-		sbatch.disableBlending();
 	}
 
 	private float doAutoScale(BitmapFont font) {

@@ -14,7 +14,7 @@ import de.samdev.absgdx.framework.util.dependentProperties.RootProperty;
  */
 public class GameSettings {
 	private final static boolean DEBUG_ENABLED = true; // TODO debugmode ( ON | OFF )
-	private final static boolean DEBUG_ACTIVE = true;
+	private final static boolean DEBUG_ACTIVE = false;
 
 	// ########################################################
 

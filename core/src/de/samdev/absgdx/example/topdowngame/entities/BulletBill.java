@@ -98,32 +98,36 @@ public class BulletBill extends Entity {
 	public void onActiveCollide(CollisionGeometryOwner passiveCollider, CollisionGeometry myGeo, CollisionGeometry otherGeo) {
 		if (passiveCollider instanceof Chinese) {
 			((Chinese)passiveCollider).alive = false;
-			alive = false;
 		}
+		if (passiveCollider instanceof Entity)
+			alive = false;
 	}
 
 	@Override
 	public void onPassiveCollide(CollisionGeometryOwner activeCollider, CollisionGeometry myGeo, CollisionGeometry otherGeo) {
 		if (activeCollider instanceof Chinese) {
 			((Chinese)activeCollider).alive = false;
-			alive = false;
 		}
+		if (activeCollider instanceof Entity)
+			alive = false;
 	}
 
 	@Override
 	public void onActiveMovementCollide(CollisionGeometryOwner passiveCollider, CollisionGeometry myGeo, CollisionGeometry otherGeo) {
 		if (passiveCollider instanceof Chinese) {
 			((Chinese)passiveCollider).alive = false;
-			alive = false;
 		}
+		if (passiveCollider instanceof Entity)
+			alive = false;
 	}
 
 	@Override
 	public void onPassiveMovementCollide(CollisionGeometryOwner activeCollider, CollisionGeometry myGeo, CollisionGeometry otherGeo) {
 		if (activeCollider instanceof Chinese) {
 			((Chinese)activeCollider).alive = false;
-			alive = false;
 		}
+		if (activeCollider instanceof Entity)
+			alive = false;
 	}
 
 	@Override

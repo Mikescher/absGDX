@@ -74,7 +74,7 @@ public abstract class MenuLayer extends AgdxLayer {
 		sbatch.getTransformMatrix().translate(0, owner.getScreenHeight(), 0);
 		sbatch.getTransformMatrix().scale(1, -1, 1);
 		
-		sbatch.disableBlending();
+		sbatch.enableBlending();
 		srenderer.setAutoShapeType(true);
 		
 		root.renderElement(sbatch, srenderer, font, this);

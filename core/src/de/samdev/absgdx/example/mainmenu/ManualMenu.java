@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
+import de.samdev.absgdx.example.Textures;
 import de.samdev.absgdx.example.sidescrollergame.SidescrollerGameLayer;
 import de.samdev.absgdx.example.topdowngame.TopDownGameLayer;
 import de.samdev.absgdx.framework.AgdxGame;
@@ -14,6 +15,7 @@ import de.samdev.absgdx.framework.menu.attributes.VertAlign;
 import de.samdev.absgdx.framework.menu.elements.MenuButton;
 import de.samdev.absgdx.framework.menu.elements.MenuEdit;
 import de.samdev.absgdx.framework.menu.elements.MenuElement;
+import de.samdev.absgdx.framework.menu.elements.MenuImage;
 import de.samdev.absgdx.framework.menu.elements.MenuLabel;
 import de.samdev.absgdx.framework.menu.elements.MenuPanel;
 import de.samdev.absgdx.framework.menu.events.MenuButtonListener;
@@ -24,7 +26,7 @@ public class ManualMenu extends MenuLayer {
 		super(owner, new BitmapFont(Gdx.files.internal("consolefont.fnt")));
 
 		final MenuPanel p = new MenuPanel();
-		p.setBoundaries(450, 50, 550, 350);
+		p.setBoundaries(450, 50, 600, 350);
 		
 		final MenuLabel l2 = new MenuLabel();
 		l2.setBoundaries(115, 150, 300, 40);
@@ -52,8 +54,18 @@ public class ManualMenu extends MenuLayer {
 		});
 		p.addChildren(b);
 		
+		final MenuImage i1 = new MenuImage();
+		i1.setImage(Textures.tex_player_td[1][0]);
+		i1.setBoundaries(10, 10, 65, 80);
+		p.addChildren(i1);
+
+		final MenuImage i2 = new MenuImage();
+		i2.setImage(Textures.tex_player_td[3][0]);
+		i2.setBoundaries(525, 10, 65, 80);
+		p.addChildren(i2);
+		
 		final MenuLabel l = new MenuLabel();
-		l.setBoundaries(25, 25, 450, 40);
+		l.setBoundaries(75, 30, 450, 40);
 		l.setFontScale(0.8f);
 		l.setAutoScale(TextAutoScaleMode.BOTH);
 		l.setAlign(HorzAlign.CENTER, VertAlign.CENTER);

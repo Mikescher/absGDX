@@ -1,5 +1,8 @@
 package de.samdev.absgdx.framework.menu.elements;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -7,6 +10,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 
 import de.samdev.absgdx.framework.layer.MenuLayer;
+import de.samdev.absgdx.framework.menu.events.MenuElementListener;
 
 /**
  * A single element in a Menu Layer (e.g. Buttons, Panels, Checkboxes ...)
@@ -21,6 +25,8 @@ public abstract class MenuElement {
 	private int width;
 
 	private BitmapFont font = null;
+	
+	protected List<MenuElementListener> listeners = new ArrayList<MenuElementListener>();
 	
 	/**
 	 * the unique identifier to identify this element
@@ -88,6 +94,25 @@ public abstract class MenuElement {
 	}
 	
 	/**
+	 * Adds a new (general purpose) listener
+	 * 
+	 * @param l the new listener
+	 */
+	protected void addElementListener(MenuElementListener l) {
+		listeners.add(l);
+	}
+	
+	/**
+	 * Removes a listener
+	 * 
+	 * @param l the to remove listener
+	 * @return if the operation was successful
+	 */
+	public boolean removeListener(MenuElementListener l) {
+		return listeners.remove(l);
+	}
+	
+	/**
 	 * Renders the Element
 	 * 
 	 * @param sbatch the BatchRenderer (from LibGDX)
@@ -116,53 +141,85 @@ public abstract class MenuElement {
 	 * -> Touching on TouchDevice
 	 * -> MouseDown on Desktop
 	 */
-	public abstract void onPointerDown();
+	public void onPointerDown() {
+		for (MenuElementListener lst : listeners) {
+			lst.onPointerDown(this, this.identifier);
+		}
+	}
 	
 	/**
 	 * Called on PointerUp event
 	 * -> Touch-release on TouchDevice
 	 * -> MouseUp on Desktop
 	 */
-	public abstract void onPointerUp();
+	public void onPointerUp() {
+		for (MenuElementListener lst : listeners) {
+			lst.onPointerUp(this, this.identifier);
+		}
+	}
 	
 	/**
 	 * Called on PointerClicked event
 	 * -> Touch on TouchDevice
 	 * -> MouseClick on Desktop
 	 */
-	public abstract void onPointerClicked();
+	public void onPointerClicked() {
+		for (MenuElementListener lst : listeners) {
+			lst.onClicked(this, this.identifier);
+		}
+	}
 	
 	/**
 	 * Called when this element gains focus
 	 */
-	public abstract void onFocusGained();
+	public void onFocusGained() {
+		for (MenuElementListener lst : listeners) {
+			lst.onFocus(this, this.identifier);
+		}
+	}
 
 	/**
 	 * Called when this element looses focus
 	 */
-	public abstract void onFocusLost();
+	public void onFocusLost() {
+		for (MenuElementListener lst : listeners) {
+			lst.onFocusLost(this, this.identifier);
+		}
+	}
 	
 	/**
 	 * Called when the pointer hovers over this element
 	 */
-	public abstract void onStartHover();
+	public void onStartHover() {
+		for (MenuElementListener lst : listeners) {
+			lst.onHover(this, this.identifier);
+		}
+	}
 	
 	/**
 	 * Called when the pointer no longer hovers over this element
 	 */
-	public abstract void onEndHover();
+	public void onEndHover() {
+		for (MenuElementListener lst : listeners) {
+			lst.onHoverEnd(this, this.identifier);
+		}
+	}
 
 	/**
 	 * Called when a Keyboard character is typed
 	 * @param key the character
 	 */
-	public abstract void onKeyTyped(char key);
+	public void onKeyTyped(char key) {
+		// NOP
+	}
 
 	/**
 	 * Called when a Keyboard key is pressed down
 	 * @param keycode the key code (see libgdx:Keys)
 	 */
-	public abstract void onKeyDown(int keycode);
+	public void onKeyDown(int keycode) {
+		// NOP
+	}
 	
 	/**
 	 * @return the boundary rectangle

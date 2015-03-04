@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 import de.samdev.absgdx.framework.layer.MenuLayer;
+import de.samdev.absgdx.framework.menu.events.MenuPanelListener;
 
 /**
  * A panel containing multiple other elements
@@ -67,6 +68,15 @@ public class MenuPanel extends MenuElement {
 		for (MenuElement element : elements) {
 			element.update(delta);
 		}
+	}
+	
+	/**
+	 * Adds a new listener
+	 * 
+	 * @param l the new listener
+	 */
+	public void addPanelListener(MenuPanelListener l) {
+		super.addElementListener(l);
 	}
 
 	@Override
@@ -128,50 +138,5 @@ public class MenuPanel extends MenuElement {
 		}
 		
 		return this;
-	}
-
-	@Override
-	public void onPointerDown() {
-		// NOP
-	}
-
-	@Override
-	public void onPointerUp() {
-		// NOP
-	}
-
-	@Override
-	public void onPointerClicked() {
-		// NOP
-	}
-
-	@Override
-	public void onFocusGained() {
-		// NOP
-	}
-
-	@Override
-	public void onFocusLost() {
-		// NOP
-	}
-
-	@Override
-	public void onStartHover() {
-		// NOP
-	}
-
-	@Override
-	public void onEndHover() {
-		// NOP
-	}
-
-	@Override
-	public void onKeyTyped(char key) {
-		// NOP
-	}
-
-	@Override
-	public void onKeyDown(int keycode) {
-		// NOP
 	}
 }

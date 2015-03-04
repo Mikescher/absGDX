@@ -11,12 +11,12 @@ import de.samdev.absgdx.framework.menu.attributes.RectangleRadius;
 import de.samdev.absgdx.framework.menu.attributes.TextAutoScaleMode;
 import de.samdev.absgdx.framework.menu.attributes.VertAlign;
 import de.samdev.absgdx.framework.menu.attributes.VisualButtonState;
+import de.samdev.absgdx.framework.menu.events.MenuButtonListener;
 
 /**
  * A click-able Button
  */
 public class MenuButton extends MenuElement {
-
 	private final MenuLabel innerLabel;
 	
 	private RectangleRadius padding = new RectangleRadius(5, 5, 5, 5);
@@ -28,6 +28,19 @@ public class MenuButton extends MenuElement {
 	 */
 	public MenuButton() {
 		super();
+		
+		innerLabel = new MenuLabel();
+		innerLabel.setAutoScale(TextAutoScaleMode.BOTH);
+		innerLabel.setAlign(HorzAlign.CENTER, VertAlign.CENTER);
+	}
+	
+	/**
+	 * Creates a new MenuButton
+	 * 
+	 * @param identifier the unique button identifier
+	 */
+	public MenuButton(String identifier) {
+		super(identifier);
 		
 		innerLabel = new MenuLabel();
 		innerLabel.setAutoScale(TextAutoScaleMode.BOTH);
@@ -60,6 +73,15 @@ public class MenuButton extends MenuElement {
 	@Override
 	public void update(float delta) {
 		// NOP
+	}
+	
+	/**
+	 * Adds a new listener
+	 * 
+	 * @param l the new listener
+	 */
+	public void addButtonListener(MenuButtonListener l) {
+		super.addElementListener(l);
 	}
 
 	/**
@@ -215,46 +237,29 @@ public class MenuButton extends MenuElement {
 
 	@Override
 	public void onPointerDown() {
+		super.onPointerDown();
+		
 		visualState = VisualButtonState.PRESSED;
 	}
 
 	@Override
 	public void onPointerUp() {
+		super.onPointerUp();
+		
 		visualState = isHovered() ? VisualButtonState.HOVERED : VisualButtonState.NORMAL;
 	}
 
 	@Override
-	public void onPointerClicked() {
-		// NOP
-	}
-
-	@Override
-	public void onFocusGained() {
-		// NOP
-	}
-
-	@Override
-	public void onFocusLost() {
-		// NOP
-	}
-
-	@Override
 	public void onStartHover() {
-		visualState = VisualButtonState.HOVERED; System.out.println("text");
+		super.onStartHover();
+		
+		visualState = VisualButtonState.HOVERED;
 	}
 
 	@Override
 	public void onEndHover() {
+		super.onEndHover();
+		
 		visualState = VisualButtonState.NORMAL;
-	}
-
-	@Override
-	public void onKeyTyped(char key) {
-		// NOP
-	}
-
-	@Override
-	public void onKeyDown(int keycode) {
-		// NOP
 	}
 }

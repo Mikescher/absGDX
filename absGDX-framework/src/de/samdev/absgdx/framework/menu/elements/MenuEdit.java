@@ -11,6 +11,8 @@ import de.samdev.absgdx.framework.menu.attributes.HorzAlign;
 import de.samdev.absgdx.framework.menu.attributes.RectangleRadius;
 import de.samdev.absgdx.framework.menu.attributes.TextAutoScaleMode;
 import de.samdev.absgdx.framework.menu.attributes.VertAlign;
+import de.samdev.absgdx.framework.menu.events.MenuEditListener;
+import de.samdev.absgdx.framework.menu.events.MenuElementListener;
 
 /**
  * A edit-able Text Field
@@ -89,6 +91,15 @@ public class MenuEdit extends MenuElement {
 		while (blinkCounter > BLINK_DELAY)
 			blinkCounter -= BLINK_DELAY;
 	}
+	
+	/**
+	 * Adds a new listener
+	 * 
+	 * @param l the new listener
+	 */
+	public void addEditListener(MenuEditListener l) {
+		super.addElementListener(l);
+	}
 
 	/**
 	 * @return the text padding
@@ -132,6 +143,10 @@ public class MenuEdit extends MenuElement {
 	 */
 	public void setContent(String content) {
 		this.content = content;
+
+		for (MenuElementListener lst : listeners) {
+			((MenuEditListener)lst).onTextChanged(this, this.identifier, content);
+		}
 	}
 
 	/**
@@ -220,42 +235,9 @@ public class MenuEdit extends MenuElement {
 	}
 
 	@Override
-	public void onPointerDown() {
-		// NOP
-	}
-
-	@Override
-	public void onPointerUp() {
-		// NOP
-	}
-
-	@Override
-	public void onPointerClicked() {
-		// NOP
-	}
-
-	@Override
-	public void onFocusGained() {
-		// NOP
-	}
-
-	@Override
-	public void onFocusLost() {
-		// NOP
-	}
-
-	@Override
-	public void onStartHover() {
-		// NOP
-	}
-
-	@Override
-	public void onEndHover() {
-		// NOP
-	}
-
-	@Override
 	public void onKeyTyped(char key) {
+		super.onKeyTyped(key);
+		
 		if (key >= 32) {
 			content += key;
 			blinkCounter = 0;
@@ -264,6 +246,8 @@ public class MenuEdit extends MenuElement {
 
 	@Override
 	public void onKeyDown(int keycode) {
+		super.onKeyDown(keycode);
+		
 		if (keycode == Keys.BACKSPACE && content.length() > 0) {
 			content = content.substring(0, content.length() - 1);
 			blinkCounter = 0;

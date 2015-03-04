@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import de.samdev.absgdx.framework.menu.attributes.HorzAlign;
 import de.samdev.absgdx.framework.menu.attributes.TextAutoScaleMode;
 import de.samdev.absgdx.framework.menu.attributes.VertAlign;
+import de.samdev.absgdx.framework.menu.events.MenuElementListener;
+import de.samdev.absgdx.framework.menu.events.MenuLabelListener;
 
 /**
  * A simple Text Display
@@ -109,6 +111,15 @@ public class MenuLabel extends MenuElement {
 	public void update(float delta) {
 		// Do nothing
 	}
+	
+	/**
+	 * Adds a new listener
+	 * 
+	 * @param l the new listener
+	 */
+	public void addLabelListener(MenuLabelListener l) {
+		super.addElementListener(l);
+	}
 
 	/**
 	 * @return the displayed content
@@ -124,6 +135,10 @@ public class MenuLabel extends MenuElement {
 	 */
 	public void setContent(String content) {
 		this.content = content;
+		
+		for (MenuElementListener lst : listeners) {
+			((MenuLabelListener)lst).onContentChanged(this, this.identifier, content);
+		}
 	}
 
 	/**
@@ -245,50 +260,4 @@ public class MenuLabel extends MenuElement {
 	public MenuElement getElementAt(int x, int y) {
 		return this;
 	}
-
-	@Override
-	public void onPointerDown() {
-		// NOP
-	}
-
-	@Override
-	public void onPointerUp() {
-		// NOP
-	}
-
-	@Override
-	public void onPointerClicked() {
-		// NOP
-	}
-
-	@Override
-	public void onFocusGained() {
-		// NOP
-	}
-
-	@Override
-	public void onFocusLost() {
-		// NOP
-	}
-
-	@Override
-	public void onStartHover() {
-		// NOP
-	}
-
-	@Override
-	public void onEndHover() {
-		// NOP
-	}
-
-	@Override
-	public void onKeyTyped(char key) {
-		// NOP
-	}
-
-	@Override
-	public void onKeyDown(int keycode) {
-		// NOP
-	}
-
 }

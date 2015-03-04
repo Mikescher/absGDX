@@ -5,9 +5,13 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.example.topdowngame.entities.Anchorpoint_1;
+import de.samdev.absgdx.example.topdowngame.entities.Angel_1;
 import de.samdev.absgdx.example.topdowngame.entities.Bucket_1;
 import de.samdev.absgdx.example.topdowngame.entities.Bucket_2;
 import de.samdev.absgdx.example.topdowngame.entities.Bucket_3;
+import de.samdev.absgdx.example.topdowngame.entities.Bush_1;
+import de.samdev.absgdx.example.topdowngame.entities.Bush_2;
+import de.samdev.absgdx.example.topdowngame.entities.Nazi;
 import de.samdev.absgdx.example.topdowngame.entities.Slide_1;
 import de.samdev.absgdx.example.topdowngame.tiles.AbyssTile;
 import de.samdev.absgdx.example.topdowngame.tiles.StandardAutoTile;
@@ -26,27 +30,29 @@ public class TopDownGameLayer extends GameLayer {
 	private Bucket_2 bucket_2;
 	private Bucket_3 bucket_3;
 
-	private Anchorpoint_1 ap_1;
+	private Nazi ap_1;
 	
 	public TopDownGameLayer(AgdxGame owner) {
 		super(owner, loadMap());
 
 		setMapScaleResolver(new SectionMapScaleResolver(32, 18, 0.5f, 20f));
 
-//		addEntity(bucket_1 = new Bucket_1());
-//		addEntity(bucket_2 = new Bucket_2());
-//		addEntity(bucket_3 = new Bucket_3(bucket_1, bucket_2));
+		addEntity(bucket_1 = new Bucket_1());
+		addEntity(bucket_2 = new Bucket_2());
+		addEntity(bucket_3 = new Bucket_3(bucket_1, bucket_2));
 		
-//		bucket_1.owner = this;
-//		bucket_2.owner = this;
-//		bucket_3.owner = this;
+		bucket_1.owner = this;
+		bucket_2.owner = this;
+		bucket_3.owner = this;
 
-//		addEntity(new Bush_1(33.0f, 19.0f));
-//		addEntity(new Bush_2(34.0f, 19.5f));
+		addEntity(new Bush_1(33.0f, 19.0f));
+		addEntity(new Bush_2(34.0f, 19.5f));
 		
-//		addEntity(new Angel_1());
+		addEntity(new Angel_1());
 
-		addEntity(ap_1 = new Anchorpoint_1());
+		addEntity(new Anchorpoint_1());
+		
+		addEntity(ap_1 = new Nazi());
 
 		addEntity(new Slide_1(ap_1));
 	}
@@ -92,7 +98,7 @@ public class TopDownGameLayer extends GameLayer {
 //			addEntity(new FlowerPot_1());
 		}
 
-		if (Gdx.input.isKeyJustPressed(Keys.F10)) setMapScaleResolver(new SectionMapScaleResolver(32, 18, 0.5f, 20f));
+		if (Gdx.input.isKeyJustPressed(Keys.F10)) setMapScaleResolver(new SectionMapScaleResolver(48, 27, 0.5f, 20f));
 		if (Gdx.input.isKeyJustPressed(Keys.F11)) setMapScaleResolver(new ShowCompleteMapScaleResolver());
 		if (Gdx.input.isKeyJustPressed(Keys.F12)) setMapScaleResolver(new MaximumBoundaryMapScaleResolver(3, 3));
 		

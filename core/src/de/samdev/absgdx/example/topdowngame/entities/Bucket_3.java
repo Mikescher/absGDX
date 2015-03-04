@@ -59,18 +59,6 @@ public class Bucket_3 extends Entity {
 			this.speed.limit(0.05f);
 		
 		this.acceleration.add(speed.x*-0.0001f, speed.y*-0.0001f);
-		
-		Rectangle r = owner.getVisibleMapBox();
-		
-		if (getPositionX() < r.x || (getPositionX()+getWidth()) > (r.x + r.width)) {
-			speed.x *= -1f;
-			acceleration.x = 0;
-		}
-
-		if (getPositionY() < r.y || (getPositionY()+getHeight()) > (r.y + r.height)) {
-			speed.y *= -1f;
-			acceleration.y = 0;
-		}
 	}
 
 	@Override

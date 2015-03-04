@@ -20,7 +20,7 @@ public class Anchorpoint_1 extends Entity {
 	
 	@Override
 	public void onLayerAdd(GameLayer layer) {
-		setPosition(10f, 30f);
+		setPosition(30f, 60f);
 		
 //		addCollisionGeo(0.65f, 1.15f, new CollisionCircle(this, 0.35f));
 //		addCollisionGeo(1.35f, 1.15f, new CollisionCircle(this, 0.35f));
@@ -35,12 +35,12 @@ public class Anchorpoint_1 extends Entity {
 	public void beforeUpdate(float delta) {
 		speed.set(0,0);
 		
-		if (Gdx.input.isKeyPressed(Keys.W)) speed.y += 0.01;
-		if (Gdx.input.isKeyPressed(Keys.A)) speed.x -= 0.01;
-		if (Gdx.input.isKeyPressed(Keys.S)) speed.y -= 0.01;
-		if (Gdx.input.isKeyPressed(Keys.D)) speed.x += 0.01;
-
-		if (Gdx.input.isKeyJustPressed(Keys.H)) setPositionY(getPositionY()+0.25f);
+//		if (Gdx.input.isKeyPressed(Keys.W)) speed.y += 0.01;
+//		if (Gdx.input.isKeyPressed(Keys.A)) speed.x -= 0.01;
+//		if (Gdx.input.isKeyPressed(Keys.S)) speed.y -= 0.01;
+//		if (Gdx.input.isKeyPressed(Keys.D)) speed.x += 0.01;
+//
+//		if (Gdx.input.isKeyJustPressed(Keys.H)) setPositionY(getPositionY()+0.25f);
 	}
 
 	@Override

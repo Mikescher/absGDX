@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
+import de.samdev.absgdx.example.sidescrollergame.SidescrollerGameLayer;
+import de.samdev.absgdx.example.topdowngame.TopDownGameLayer;
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.layer.MenuLayer;
 import de.samdev.absgdx.framework.menu.attributes.HorzAlign;
@@ -33,7 +35,6 @@ public class ManualMenu extends MenuLayer {
 		b.setBoundaries(25, 150, 80, 40);
 		b.setContent("Click Me");
 		b.addButtonListener(new MenuButtonListener() {
-			
 			@Override
 			public void onPointerUp(MenuElement element, String identifier) {/**/}
 			@Override
@@ -61,10 +62,52 @@ public class ManualMenu extends MenuLayer {
 		p.addChildren(l);
 		
 		final MenuEdit e = new MenuEdit();
-		e.setBoundaries(25, 200, 350, 40);
+		e.setBoundaries(25, 200, 400, 40);
 		e.setContent("Edit Me");
 		p.addChildren(e);
+		
+		final MenuButton b2 = new MenuButton();
+		b2.setBoundaries(25, 250, 175, 40);
+		b2.setContent("Top-Down Game");
+		b2.addButtonListener(new MenuButtonListener() {
+			@Override
+			public void onPointerUp(MenuElement element, String identifier) {/**/}
+			@Override
+			public void onPointerDown(MenuElement element, String identifier) {/**/}
+			@Override
+			public void onHoverEnd(MenuElement element, String identifier) {/**/}
+			@Override
+			public void onHover(MenuElement element, String identifier) {/**/}
+			@Override
+			public void onFocusLost(MenuElement element, String identifier) {/**/}
+			@Override
+			public void onFocus(MenuElement element, String identifier) {/**/}
+			@Override
+			public void onClicked(MenuElement element, String identifier) {ManualMenu.this.owner.pushLayer(new TopDownGameLayer(ManualMenu.this.owner));}
+		});
+		p.addChildren(b2);
 
+		final MenuButton b3 = new MenuButton();
+		b3.setBoundaries(250, 250, 175, 40);
+		b3.setContent("Side-Scroll Game");
+		b3.addButtonListener(new MenuButtonListener() {
+			@Override
+			public void onPointerUp(MenuElement element, String identifier) {/**/}
+			@Override
+			public void onPointerDown(MenuElement element, String identifier) {/**/}
+			@Override
+			public void onHoverEnd(MenuElement element, String identifier) {/**/}
+			@Override
+			public void onHover(MenuElement element, String identifier) {/**/}
+			@Override
+			public void onFocusLost(MenuElement element, String identifier) {/**/}
+			@Override
+			public void onFocus(MenuElement element, String identifier) {/**/}
+			@Override
+			public void onClicked(MenuElement element, String identifier) {ManualMenu.this.owner.pushLayer(new SidescrollerGameLayer(ManualMenu.this.owner));}
+		});
+		p.addChildren(b3);
+		
 		getRoot().addChildren(p);
 	}
 

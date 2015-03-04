@@ -5,8 +5,6 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
 import de.samdev.absgdx.example.mainmenu.ManualMenu;
-import de.samdev.absgdx.example.sidescrollergame.SidescrollerGameLayer;
-import de.samdev.absgdx.example.topdowngame.TopDownGameLayer;
 import de.samdev.absgdx.framework.AgdxGame;
 
 public class AGdxDemoGame extends AgdxGame {	
@@ -14,8 +12,6 @@ public class AGdxDemoGame extends AgdxGame {
 	public void onCreate() {
 		Textures.init();
 		
-		pushLayer(new TopDownGameLayer(this));
-		pushLayer(new SidescrollerGameLayer(this));
 		pushLayer(new ManualMenu(this));
 		
 		setDebugFont(new BitmapFont(Gdx.files.internal("consolefont.fnt")));

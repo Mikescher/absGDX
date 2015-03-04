@@ -6,7 +6,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public final class Textures {
 	public static Texture texmap;
 	public static Texture texsidemap;
+	
+	public static Texture texbulletbill;
+	
 	public static Texture texplayerset;
+	public static Texture texplayerset_td;
+	public static Texture texchinaset_td;
 
 	public static Texture texParallax_1;
 	public static Texture texParallax_2;
@@ -37,11 +42,19 @@ public final class Textures {
 	public static TextureRegion texSlideTile;
 
 	public static TextureRegion[] tex_player;
+	
+	public static TextureRegion[] tex_bulletbill;
+
+	public static TextureRegion[][] tex_player_td;
+	public static TextureRegion[][] tex_china_td;
 
 	public static void init() {
 		texmap = new Texture("map.png");
 		texsidemap = new Texture("side.png");
 		texplayerset = new Texture("playerSet.png");
+		texplayerset_td = new Texture("tdplayer.png");
+		texbulletbill = new Texture("bullbill.png");
+		texchinaset_td = new Texture("chinese.png");
 		
 		texParallax_1 = new Texture("parallax_1.png");
 		texParallax_2 = new Texture("parallax_2.png");
@@ -83,6 +96,27 @@ public final class Textures {
 				new TextureRegion(texplayerset, 0x8*72, 0, 72, 97),
 				new TextureRegion(texplayerset, 0x9*72, 0, 72, 97),
 				new TextureRegion(texplayerset, 0xA*72, 0, 72, 97),
+			};
+		
+		tex_player_td = new TextureRegion[4][7];
+		for (int y = 0; y < 4; y++) {
+			for (int x = 0; x < 7; x++) {
+				tex_player_td[y][x] = new TextureRegion(texplayerset_td, x*150 + 30, y*117 + 25, 75, 92);
+			}
+		}
+		
+		tex_china_td = new TextureRegion[4][7];
+		for (int y = 0; y < 4; y++) {
+			for (int x = 0; x < 7; x++) {
+				tex_china_td[y][x] = new TextureRegion(texchinaset_td, x*150 + 30, y*117 + 25, 75, 92);
+			}
+		}
+		
+		tex_bulletbill = new TextureRegion[]{
+				new TextureRegion(texbulletbill, 0x0*27, 0, 27, 14),
+				new TextureRegion(texbulletbill, 0x1*27, 0, 27, 14),
+				new TextureRegion(texbulletbill, 0x2*27, 0, 27, 14),
+				new TextureRegion(texbulletbill, 0x3*27, 0, 27, 14),
 			};
 	}
 }

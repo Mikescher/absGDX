@@ -47,6 +47,8 @@ public abstract class GameLayer extends AgdxLayer {
 	//######## ENTITIES ########
 	
 	protected final SortedLinkedEntityList entities = new SortedLinkedEntityList();
+	private final List<Entity> futureEntities = new ArrayList<Entity>();
+	
 	protected int renderedEntities = 0;
 	protected final CollisionMap collisionMap;
 	
@@ -253,6 +255,7 @@ public abstract class GameLayer extends AgdxLayer {
 			entity.update(delta);
 		}
 		entities.removeDeadEntities();
+		addFutureEntities();
 		
 		onUpdate(delta);
 	}
@@ -367,11 +370,18 @@ public abstract class GameLayer extends AgdxLayer {
 	 * @param e the to add entity
 	 */
 	public void addEntity(Entity e) {
-		entities.add(e);
-		
-		e.collisionOwner = collisionMap;
-		
-		e.onLayerAdd(this);
+		futureEntities.add(e);
+	}
+	
+	private void addFutureEntities() {
+		for (Entity e : futureEntities) {
+			entities.add(e);
+			
+			e.collisionOwner = collisionMap;
+			
+			e.onLayerAdd(this);			
+		}
+		futureEntities.clear();
 	}
 	
 	/**

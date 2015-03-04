@@ -1,48 +1,93 @@
 package de.samdev.absgdx.example.topdowngame.entities;
 
+import java.util.Random;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
+
 import de.samdev.absgdx.example.Textures;
-import de.samdev.absgdx.example.topdowngame.TopDownGameLayer;
 import de.samdev.absgdx.framework.entities.Entity;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionBox;
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionCircle;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
 import de.samdev.absgdx.framework.layer.GameLayer;
 import de.samdev.absgdx.framework.math.align.AlignCorner4;
+import de.samdev.absgdx.framework.math.align.AlignEdge4;
 
-public class Slide_1 extends Entity {
-
-	public TopDownGameLayer owner;
+public class Nazi extends Entity {
+	int direction = 0;
 	
-	public int tick = 0;
+	GameLayer layer;
 	
-	public float x, y;
-	public Entity other;
+	Random rand = new Random();
+	float ctr = 0;
 	
-	public CollisionGeometry t;
-	
-	public Slide_1(Entity e) {
-		super(Textures.texSlideTile, 4, 4);
-		
-		this.x = 10;
-		this.y = 38;
-		this.other = e;
+	public Nazi() {
+		super(Textures.tex_player_td[0], 500f, 2, 2.53f);
 	}
-
+	
 	@Override
 	public void onLayerAdd(GameLayer layer) {
-		setPosition(x, y);
+		setPosition(10f, 30f);
+		addFullCollisionBox();
 		
-		t = addFullCollisionTriangle(AlignCorner4.TOPLEFT).geometry;
-//		t = addFullCollisionBox().geometry;
-	}
-	
-	@Override
-	public void beforeUpdate(float delta) {
-//		System.out.println("x: " + other.collisionGeometries.get(0).geometry.getXTouchDistance(t));
-//		System.out.println("y: " + other.collisionGeometries.get(0).geometry.getYTouchDistance(t));
-//		System.out.println(this.getFirstHardCollider() != null);
-//		System.out.println("");
+		this.layer = layer;
 	}
 
+	@Override
+	public void beforeUpdate(float delta) {
+		speed.set(0,0);
+		
+		if (Gdx.input.isKeyPressed(Keys.W)) speed.y += 0.01;
+		if (Gdx.input.isKeyPressed(Keys.A)) speed.x -= 0.01;
+		if (Gdx.input.isKeyPressed(Keys.S)) speed.y -= 0.01;
+		if (Gdx.input.isKeyPressed(Keys.D)) speed.x += 0.01;
+
+		if (Gdx.input.isKeyJustPressed(Keys.H)) setPositionY(getPositionY()+0.25f);
+		
+		isAnimationPaused = speed.isZero();
+		
+		if (! speed.isZero()) {
+			direction = ((int)(speed.angle() + 45 + 90) % 360) / 90;
+		}
+
+		if (Gdx.input.isKeyJustPressed(Keys.SPACE)) {
+			switch (direction) {
+			case 0:
+				layer.addEntity(new BulletBill(getCenterX(), getCenterY(), AlignEdge4.BOTTOM));
+				break;
+			case 1:
+				layer.addEntity(new BulletBill(getCenterX(), getCenterY(), AlignEdge4.RIGHT));
+				break;
+			case 2:
+				layer.addEntity(new BulletBill(getCenterX(), getCenterY(), AlignEdge4.TOP));
+				break;
+			case 3:
+				layer.addEntity(new BulletBill(getCenterX(), getCenterY(), AlignEdge4.LEFT));
+				break;
+			}
+		}
+		
+		ctr += delta;
+		
+		while (ctr > 1000) {
+			ctr -= 1000;
+			
+			Vector2 d = new Vector2(25, 0);
+			d = d.rotate(rand.nextInt(360));
+			
+			layer.addEntity(new Chinese(getCenterX() + d.x, getCenterY() + d.y, this));
+		}
+	}
+
+	@Override
+	public TextureRegion getTexture() {
+		return Textures.tex_player_td[direction][(int)animationPos];
+	}
+	
 	@Override
 	public void onActiveCollide(CollisionGeometryOwner passiveCollider, CollisionGeometry myGeo, CollisionGeometry otherGeo) {
 //		System.out.println("[COLLISION ACTIVE] " + this.getClass().getSimpleName() + " -> " + passiveCollider.getClass().getSimpleName() + "(" + Integer.toHexString(myGeo.hashCode()) + " | " + Integer.toHexString(otherGeo.hashCode()) + ")");
@@ -65,11 +110,12 @@ public class Slide_1 extends Entity {
 
 	@Override
 	public boolean canCollideWith(CollisionGeometryOwner other) {
-		return true;
+		return ! (other instanceof BulletBill);
 	}
 
 	@Override
 	public boolean canMoveCollideWith(CollisionGeometryOwner other) {
-		return true;
+		return other.getClass() != Bucket_1.class && other.getClass() != Bucket_2.class && other.getClass() != Bucket_3.class;
 	}
+
 }

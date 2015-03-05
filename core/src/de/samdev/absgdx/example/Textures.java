@@ -3,16 +3,14 @@ package de.samdev.absgdx.example;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import de.samdev.absgdx.framework.util.TextureHelper;
+
 public final class Textures {
 	public static Texture texmap;
 	public static Texture texsidemap;
 	
-	public static Texture texbulletbill;
-	
-	public static Texture texplayerset;
 	public static Texture texplayerset_td;
 	public static Texture texchinaset_td;
-	public static Texture animset;
 
 	public static Texture texParallax_1;
 	public static Texture texParallax_2;
@@ -53,53 +51,36 @@ public final class Textures {
 	public static void init() {
 		texmap = new Texture("map.png");
 		texsidemap = new Texture("side.png");
-		texplayerset = new Texture("playerSet.png");
 		texplayerset_td = new Texture("tdplayer.png");
-		texbulletbill = new Texture("bullbill.png");
 		texchinaset_td = new Texture("chinese.png");
-		animset = new Texture("animation.png");
 		
 		texParallax_1 = new Texture("parallax_1.png");
 		texParallax_2 = new Texture("parallax_2.png");
 		
-		tex_dirt = new TextureRegion(texmap, 9*16, 9*16, 16, 16);
+		tex_dirt          = TextureHelper.loadSingleTile(texmap,  9,  9, 16, 16);
+		tex_GroundTile_TL = TextureHelper.loadSingleTile(texmap,  0,  6, 16, 16);
+		tex_GroundTile_TR = TextureHelper.loadSingleTile(texmap,  1,  6, 16, 16);
+		tex_GroundTile_BL = TextureHelper.loadSingleTile(texmap,  0,  7, 16, 16);
+		tex_GroundTile_BR = TextureHelper.loadSingleTile(texmap,  1,  7, 16, 16);
+		tex_AbyssTile     = TextureHelper.loadSingleTile(texmap, 10, 40, 16, 16);
 
-		tex_GroundTile_TL = new TextureRegion(texmap, 0*16, 6*16, 16, 16);
-		tex_GroundTile_TR = new TextureRegion(texmap, 1*16, 6*16, 16, 16);
-		tex_GroundTile_BL = new TextureRegion(texmap, 0*16, 7*16, 16, 16);
-		tex_GroundTile_BR = new TextureRegion(texmap, 1*16, 7*16, 16, 16);
-		tex_AbyssTile = new TextureRegion(texmap, 10*16, 40*16, 16, 16);
-
-		texSpawnTile = new TextureRegion(texsidemap, 4*70, 7*70, 70, 70);
-		texSlideTile = new TextureRegion(texsidemap, 2*70, 11*70, 70, 70);
+		texSpawnTile = TextureHelper.loadSingleTile(texsidemap,  4,  7, 70, 70);
+		texSlideTile = TextureHelper.loadSingleTile(texsidemap,  2, 11, 70, 70);
 		
-		tex_Bucket_empty = new TextureRegion(texmap, 10*32, 24*32, 32, 32);
-		tex_Bucket_full = new TextureRegion(texmap, 11*32, 24*32, 32, 32);
-		tex_Bucket_hay = new TextureRegion(texmap, 12*32, 24*32, 32, 32);
+		tex_Bucket_empty      = TextureHelper.loadSingleTile(texmap, 10, 24, 32, 32);
+		tex_Bucket_full       = TextureHelper.loadSingleTile(texmap, 11, 24, 32, 32);
+		tex_Bucket_hay        = TextureHelper.loadSingleTile(texmap, 12, 24, 32, 32);
+		tex_Flowers_empty     = TextureHelper.loadSingleTile(texmap,  8, 25, 32, 32);
+		tex_Bush_empty        = TextureHelper.loadSingleTile(texmap, 10, 26, 32, 32);
+		tex_Bush_full         = TextureHelper.loadSingleTile(texmap, 10, 27, 32, 32);
+		tex_Anchorpoint_empty = TextureHelper.loadSingleTile(texmap,  8, 24, 32, 32);
+		tex_Anchorpoint_full  = TextureHelper.loadSingleTile(texmap,  9, 24, 32, 32);
 		
-		tex_Flowers_empty = new TextureRegion(texmap, 8*32, 25*32, 32, 32);
-
-		tex_Bush_empty = new TextureRegion(texmap, 10*32, 26*32, 32, 32);
-		tex_Bush_full = new TextureRegion(texmap, 10*32, 27*32, 32, 32);
-
-		tex_Angel = new TextureRegion(texmap, 8*32, 26*32, 32, 64);
+		tex_Angel         = TextureHelper.loadSingleTile(texmap,  8, 13, 32, 64);
 		
-		tex_Anchorpoint_empty = new TextureRegion(texmap, 8*32, 24*32, 32, 32);
-		tex_Anchorpoint_full = new TextureRegion(texmap, 9*32, 24*32, 32, 32);
-		
-		tex_player = new TextureRegion[]{
-				new TextureRegion(texplayerset, 0x0*72, 0, 72, 97),
-				new TextureRegion(texplayerset, 0x1*72, 0, 72, 97),
-				new TextureRegion(texplayerset, 0x2*72, 0, 72, 97),
-				new TextureRegion(texplayerset, 0x3*72, 0, 72, 97),
-				new TextureRegion(texplayerset, 0x4*72, 0, 72, 97),
-				new TextureRegion(texplayerset, 0x5*72, 0, 72, 97),
-				new TextureRegion(texplayerset, 0x6*72, 0, 72, 97),
-				new TextureRegion(texplayerset, 0x7*72, 0, 72, 97),
-				new TextureRegion(texplayerset, 0x8*72, 0, 72, 97),
-				new TextureRegion(texplayerset, 0x9*72, 0, 72, 97),
-				new TextureRegion(texplayerset, 0xA*72, 0, 72, 97),
-			};
+		tex_player     = TextureHelper.load1DArray("playerSet.png", 72, 97, 10);
+		tex_bulletbill = TextureHelper.load1DArray("bullbill.png",  27, 14);
+		tex_animation  = TextureHelper.load1DArray("animation.png", 400, 400);
 		
 		tex_player_td = new TextureRegion[4][7];
 		for (int y = 0; y < 4; y++) {
@@ -113,13 +94,6 @@ public final class Textures {
 			for (int x = 0; x < 7; x++) {
 				tex_china_td[y][x] = new TextureRegion(texchinaset_td, x*150 + 30, y*117 + 25, 75, 92);
 			}
-		}
-		
-		tex_bulletbill = TextureRegion.split(texbulletbill, 27, 14)[0];
-		
-		tex_animation = new TextureRegion[117];
-		for (int i = 0; i < 117; i++) {
-			tex_animation[i] = new TextureRegion(animset, (i%11)*400, (i/11)*400, 400, 400);
 		}
 	}
 }

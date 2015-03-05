@@ -10,11 +10,8 @@ import com.badlogic.gdx.math.Vector2;
 import de.samdev.absgdx.example.Textures;
 import de.samdev.absgdx.framework.entities.Entity;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
-import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionBox;
-import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionCircle;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
 import de.samdev.absgdx.framework.layer.GameLayer;
-import de.samdev.absgdx.framework.math.align.AlignCorner4;
 import de.samdev.absgdx.framework.math.align.AlignEdge4;
 
 public class Nazi extends Entity {

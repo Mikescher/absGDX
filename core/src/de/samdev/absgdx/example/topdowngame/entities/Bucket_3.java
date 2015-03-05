@@ -1,6 +1,5 @@
 package de.samdev.absgdx.example.topdowngame.entities;
 
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.example.Textures;
@@ -88,6 +87,6 @@ public class Bucket_3 extends Entity {
 
 	@Override
 	public boolean canMoveCollideWith(CollisionGeometryOwner other) {
-		return other.getClass() != Anchorpoint_1.class;
+		return other.getClass() != Anchorpoint_1.class && other.getClass() != Chinese.class;
 	}
 }

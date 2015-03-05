@@ -26,15 +26,15 @@ public class ManualMenu extends MenuLayer {
 		super(owner, new BitmapFont(Gdx.files.internal("consolefont.fnt")));
 
 		final MenuPanel p = new MenuPanel();
-		p.setBoundaries(450, 50, 600, 350);
+		p.setBoundaries(450, 50, 600, 310);
 		
 		final MenuLabel l2 = new MenuLabel();
-		l2.setBoundaries(115, 150, 300, 40);
+		l2.setBoundaries(115, 130, 300, 40);
 		l2.setAlign(HorzAlign.LEFT, VertAlign.CENTER);
 		p.addChildren(l2);
 
 		final MenuButton b = new MenuButton();
-		b.setBoundaries(25, 150, 80, 40);
+		b.setBoundaries(25, 130, 80, 40);
 		b.setContent("Click Me");
 		b.addButtonListener(new MenuButtonListener() {
 			@Override
@@ -72,6 +72,11 @@ public class ManualMenu extends MenuLayer {
 		l.setContent("absGDX Example Menu");
 		l.setColor(Color.MAROON);
 		p.addChildren(l);
+
+		final MenuImage i3 = new MenuImage();
+		i3.setBoundaries(440, 145, 145, 145);
+		i3.setImage(Textures.tex_animation, 3500);
+		p.addChildren(i3);
 		
 		final MenuEdit e = new MenuEdit();
 		e.setBoundaries(25, 200, 400, 40);

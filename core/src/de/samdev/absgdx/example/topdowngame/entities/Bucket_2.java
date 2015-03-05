@@ -61,6 +61,6 @@ public class Bucket_2 extends Entity {
 
 	@Override
 	public boolean canMoveCollideWith(CollisionGeometryOwner other) {
-		return other.getClass() != Anchorpoint_1.class;
+		return other.getClass() != Anchorpoint_1.class && other.getClass() != Chinese.class;
 	}
 }

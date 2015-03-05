@@ -1,25 +1,22 @@
 package de.samdev.absgdx.framework.menu.elements;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
-import de.samdev.absgdx.framework.menu.attributes.HorzAlign;
 import de.samdev.absgdx.framework.menu.attributes.ImageBehavior;
-import de.samdev.absgdx.framework.menu.attributes.RectangleRadius;
-import de.samdev.absgdx.framework.menu.attributes.TextAutoScaleMode;
-import de.samdev.absgdx.framework.menu.attributes.VertAlign;
-import de.samdev.absgdx.framework.menu.attributes.VisualButtonState;
 import de.samdev.absgdx.framework.menu.events.MenuImageListener;
 
 /**
  * A simple Texture Display
  */
 public class MenuImage extends MenuElement {
-	private TextureRegion image = null;
+	private TextureRegion[] animation = null;
+	private int animationLength = 1;
+	private float frameDuration = 0;
+	protected float animationPos = 0f;
+	protected boolean isAnimationPaused = false;
 	
 	private ImageBehavior behavior = ImageBehavior.FIT;
 	
@@ -40,7 +37,8 @@ public class MenuImage extends MenuElement {
 	}
 
 	@Override
-	public void render(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
+	public void render(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {		
+		TextureRegion image = getTexture();
 		if (image == null) return;
 		
 		sbatch.begin();
@@ -58,10 +56,10 @@ public class MenuImage extends MenuElement {
 		case FIT:
 			texWidth = getWidth();
 			texHeight = getHeight();
-			if (texWidth / texHeight > image.getRegionWidth() / 1f * image.getRegionHeight()) {
-				texHeight = texWidth * (image.getRegionHeight() * 1f / image.getRegionWidth());
-			} else {
+			if (texWidth / texHeight > image.getRegionWidth() * 1f/ image.getRegionHeight()) {
 				texWidth = texHeight * (image.getRegionWidth() * 1f / image.getRegionHeight());
+			} else {
+				texHeight = texWidth * (image.getRegionHeight() * 1f / image.getRegionWidth());
 			}
 			break;
 
@@ -80,10 +78,33 @@ public class MenuImage extends MenuElement {
 		
 		sbatch.end();
 	}
+	
+	/**
+	 * Gets the current texture - the return value can change every cycle, don't cache this
+	 * 
+	 * @return the texture
+	 */
+	public TextureRegion getTexture() {
+		if (animation == null) return null;
+		
+		return animation[(int)animationPos];
+	}
 
 	@Override
 	public void update(float delta) {
-		// NOP
+		if (isAnimated()) {
+			animationPos += (delta/frameDuration);
+			animationPos %= animationLength;
+		}
+	}
+	
+	/**
+	 * If the Image is animated
+	 * 
+	 * @return if animationLength > 1
+	 */
+	public boolean isAnimated() {
+		return animationLength > 1 && ! isAnimationPaused;
 	}
 	
 	/**
@@ -101,19 +122,32 @@ public class MenuImage extends MenuElement {
 	}
 
 	/**
-	 * @return the displayed texture
+	 * Set the displayed texture (not animated)
+	 * 
+	 * @param texture the new texture
 	 */
-	public TextureRegion getImage() {
-		return image;
+	public void setImage(TextureRegion texture) {
+		this.animation = new TextureRegion[]{texture};
+		this.animationLength = 1;
+		this.frameDuration = 0;
+		
+		this.animationPos = 0;
+		this.isAnimationPaused = false;
 	}
 
 	/**
-	 * Set the displayed texture
+	 * Set the displayed texture (animation)
 	 * 
-	 * @param image the texture
+	 * @param textures the new animation array
+	 * @param animationDuration The duration for one *full* cycle (all frames) 
 	 */
-	public void setImage(TextureRegion image) {
-		this.image = image;
+	public void setImage(TextureRegion[] textures, float animationDuration) {
+		this.animation = textures;
+		this.animationLength = textures.length;
+		this.frameDuration = animationDuration / animationLength;
+		
+		this.animationPos = 0;
+		this.isAnimationPaused = false;
 	}
 
 	/**

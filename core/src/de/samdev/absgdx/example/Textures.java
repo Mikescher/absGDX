@@ -12,6 +12,7 @@ public final class Textures {
 	public static Texture texplayerset;
 	public static Texture texplayerset_td;
 	public static Texture texchinaset_td;
+	public static Texture animset;
 
 	public static Texture texParallax_1;
 	public static Texture texParallax_2;
@@ -44,6 +45,7 @@ public final class Textures {
 	public static TextureRegion[] tex_player;
 	
 	public static TextureRegion[] tex_bulletbill;
+	public static TextureRegion[] tex_animation;
 
 	public static TextureRegion[][] tex_player_td;
 	public static TextureRegion[][] tex_china_td;
@@ -55,6 +57,7 @@ public final class Textures {
 		texplayerset_td = new Texture("tdplayer.png");
 		texbulletbill = new Texture("bullbill.png");
 		texchinaset_td = new Texture("chinese.png");
+		animset = new Texture("animation.png");
 		
 		texParallax_1 = new Texture("parallax_1.png");
 		texParallax_2 = new Texture("parallax_2.png");
@@ -112,11 +115,11 @@ public final class Textures {
 			}
 		}
 		
-		tex_bulletbill = new TextureRegion[]{
-				new TextureRegion(texbulletbill, 0x0*27, 0, 27, 14),
-				new TextureRegion(texbulletbill, 0x1*27, 0, 27, 14),
-				new TextureRegion(texbulletbill, 0x2*27, 0, 27, 14),
-				new TextureRegion(texbulletbill, 0x3*27, 0, 27, 14),
-			};
+		tex_bulletbill = TextureRegion.split(texbulletbill, 27, 14)[0];
+		
+		tex_animation = new TextureRegion[117];
+		for (int i = 0; i < 117; i++) {
+			tex_animation[i] = new TextureRegion(animset, (i%11)*400, (i/11)*400, 400, 400);
+		}
 	}
 }

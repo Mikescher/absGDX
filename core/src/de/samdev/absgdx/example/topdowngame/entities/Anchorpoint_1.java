@@ -1,16 +1,10 @@
 package de.samdev.absgdx.example.topdowngame.entities;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
-
 import de.samdev.absgdx.example.Textures;
 import de.samdev.absgdx.framework.entities.Entity;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
-import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionBox;
-import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionCircle;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
 import de.samdev.absgdx.framework.layer.GameLayer;
-import de.samdev.absgdx.framework.math.align.AlignCorner4;
 
 public class Anchorpoint_1 extends Entity {
 	

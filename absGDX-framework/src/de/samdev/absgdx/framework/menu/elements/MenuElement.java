@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 
 import de.samdev.absgdx.framework.layer.MenuLayer;
+import de.samdev.absgdx.framework.menu.GUITextureProvider;
 import de.samdev.absgdx.framework.menu.events.MenuElementListener;
 
 /**
@@ -28,6 +29,7 @@ public abstract class MenuElement {
 
 	private BitmapFont font = null;
 	
+	protected final GUITextureProvider textureprovider;
 	protected List<MenuElementListener> listeners = new ArrayList<MenuElementListener>();
 	
 	/**
@@ -44,9 +46,16 @@ public abstract class MenuElement {
 	 * Creates a new MenuElement (with a random identifier)
 	 */
 	public MenuElement() {
-		super();
-		
-		this.identifier = "{" + java.util.UUID.randomUUID().toString() + "}";
+		this("{" + java.util.UUID.randomUUID().toString() + "}");
+	}
+	
+	/**
+	 * Creates a new MenuElement (with a random identifier)
+	 * 
+	 * @param texprovider the texture provider for this element
+	 */
+	public MenuElement(GUITextureProvider texprovider) {
+		this("{" + java.util.UUID.randomUUID().toString() + "}", texprovider);
 	}
 	
 	/**
@@ -54,9 +63,20 @@ public abstract class MenuElement {
 	 * @param ident the unique identifier
 	 */
 	public MenuElement(String ident) {
+		this(ident, new GUITextureProvider());
+	}
+	
+	/**
+	 * Creates a new MenuElement
+	 * 
+	 * @param ident the unique identifier
+	 * @param texprovider the texture provider for this element
+	 */
+	public MenuElement(String ident, GUITextureProvider texprovider) {
 		super();
 		
 		this.identifier = ident;
+		this.textureprovider = texprovider;
 	}
 
 	/**
@@ -418,5 +438,12 @@ public abstract class MenuElement {
 	 */
 	public void setVisible(boolean visible) {
 		this.visible = visible;
+	}
+	
+	/**
+	 * @return the texture provider
+	 */
+	public GUITextureProvider getTextureProvider() {
+		return textureprovider;
 	}
 }

@@ -9,9 +9,11 @@ import de.samdev.absgdx.example.sidescrollergame.SidescrollerGameLayer;
 import de.samdev.absgdx.example.topdowngame.TopDownGameLayer;
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.layer.MenuLayer;
+import de.samdev.absgdx.framework.menu.GUITextureProvider;
 import de.samdev.absgdx.framework.menu.attributes.HorzAlign;
 import de.samdev.absgdx.framework.menu.attributes.TextAutoScaleMode;
 import de.samdev.absgdx.framework.menu.attributes.VertAlign;
+import de.samdev.absgdx.framework.menu.attributes.VisualButtonState;
 import de.samdev.absgdx.framework.menu.elements.MenuButton;
 import de.samdev.absgdx.framework.menu.elements.MenuEdit;
 import de.samdev.absgdx.framework.menu.elements.MenuElement;
@@ -25,6 +27,18 @@ public class ManualMenu extends MenuLayer {
 	public ManualMenu(AgdxGame owner) {
 		super(owner, new BitmapFont(Gdx.files.internal("consolefont.fnt")));
 
+		GUITextureProvider prov = new GUITextureProvider();
+		prov.setMenuButton(Textures.tex_buttongui[0], VisualButtonState.NORMAL);
+		prov.setMenuButton(Textures.tex_buttongui[1], VisualButtonState.HOVERED);
+		prov.setMenuButton(Textures.tex_buttongui[2], VisualButtonState.PRESSED);
+		prov.setMenuButton(Textures.tex_buttongui[3], VisualButtonState.DISABLED);
+
+		GUITextureProvider prov2 = new GUITextureProvider();
+		prov2.setMenuButton(Textures.tex_buttongui[4], VisualButtonState.NORMAL);
+		prov2.setMenuButton(Textures.tex_buttongui[5], VisualButtonState.HOVERED);
+		prov2.setMenuButton(Textures.tex_buttongui[6], VisualButtonState.PRESSED);
+		prov2.setMenuButton(Textures.tex_buttongui[7], VisualButtonState.DISABLED);
+		
 		final MenuPanel p = new MenuPanel();
 		p.setBoundaries(450, 50, 600, 310);
 		
@@ -33,9 +47,10 @@ public class ManualMenu extends MenuLayer {
 		l2.setAlign(HorzAlign.LEFT, VertAlign.CENTER);
 		p.addChildren(l2);
 
-		final MenuButton b = new MenuButton();
+		final MenuButton b = new MenuButton(prov);
 		b.setBoundaries(25, 130, 80, 40);
 		b.setContent("Click Me");
+		b.setColor(Color.WHITE);
 		b.addButtonListener(new MenuButtonListener() {
 			@Override
 			public void onPointerUp(MenuElement element, String identifier) {/**/}
@@ -83,9 +98,10 @@ public class ManualMenu extends MenuLayer {
 		e.setContent("Edit Me");
 		p.addChildren(e);
 		
-		final MenuButton b2 = new MenuButton();
+		final MenuButton b2 = new MenuButton(prov2);
 		b2.setBoundaries(25, 250, 175, 40);
 		b2.setContent("Top-Down Game");
+		b2.setColor(Color.WHITE);
 		b2.addButtonListener(new MenuButtonListener() {
 			@Override
 			public void onPointerUp(MenuElement element, String identifier) {/**/}
@@ -104,9 +120,10 @@ public class ManualMenu extends MenuLayer {
 		});
 		p.addChildren(b2);
 
-		final MenuButton b3 = new MenuButton();
+		final MenuButton b3 = new MenuButton(prov2);
 		b3.setBoundaries(250, 250, 175, 40);
 		b3.setContent("Side-Scroll Game");
+		b3.setColor(Color.WHITE);
 		b3.addButtonListener(new MenuButtonListener() {
 			@Override
 			public void onPointerUp(MenuElement element, String identifier) {/**/}
@@ -130,8 +147,7 @@ public class ManualMenu extends MenuLayer {
 
 	@Override
 	public void onResize() {
-		// TODO Auto-generated method stub
-
+		// Kinda ... nothing
 	}
 
 }

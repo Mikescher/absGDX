@@ -14,6 +14,7 @@ public final class Textures {
 
 	public static Texture texParallax_1;
 	public static Texture texParallax_2;
+	public static Texture tex_gui;
 	
 	public static TextureRegion tex_dirt;
 	
@@ -48,6 +49,8 @@ public final class Textures {
 	public static TextureRegion[][] tex_player_td;
 	public static TextureRegion[][] tex_china_td;
 
+	public static TextureRegion[][][] tex_buttongui;
+
 	public static void init() {
 		texmap = new Texture("map.png");
 		texsidemap = new Texture("side.png");
@@ -56,6 +59,7 @@ public final class Textures {
 		
 		texParallax_1 = new Texture("parallax_1.png");
 		texParallax_2 = new Texture("parallax_2.png");
+		tex_gui = new Texture("gui.png");
 		
 		tex_dirt          = TextureHelper.loadSingleTile(texmap,  9,  9, 16, 16);
 		tex_GroundTile_TL = TextureHelper.loadSingleTile(texmap,  0,  6, 16, 16);
@@ -95,5 +99,30 @@ public final class Textures {
 				tex_china_td[y][x] = new TextureRegion(texchinaset_td, x*150 + 30, y*117 + 25, 75, 92);
 			}
 		}
+		
+		tex_buttongui = new TextureRegion[8][3][3];
+		
+		loadSingleButtonGuiTex(0, 00, 00);
+		loadSingleButtonGuiTex(1, 12, 00);
+		loadSingleButtonGuiTex(2, 24, 00);
+		loadSingleButtonGuiTex(3, 36, 16);
+		loadSingleButtonGuiTex(4, 00, 16);
+		loadSingleButtonGuiTex(5, 12, 16);
+		loadSingleButtonGuiTex(6, 24, 16);
+		loadSingleButtonGuiTex(7, 36, 16);
+	}
+
+	private static void loadSingleButtonGuiTex(int id, int ox, int oy) {
+		int scl = 1;
+		
+		tex_buttongui[id][0][0] = new TextureRegion(tex_gui, (ox + 0)*scl, (oy + 0)*scl, 4*scl, 4*scl);
+		tex_buttongui[id][0][1] = new TextureRegion(tex_gui, (ox + 5)*scl, (oy + 0)*scl, 1*scl, 4*scl);
+		tex_buttongui[id][0][2] = new TextureRegion(tex_gui, (ox + 7)*scl, (oy + 0)*scl, 4*scl, 4*scl);
+		tex_buttongui[id][1][0] = new TextureRegion(tex_gui, (ox + 0)*scl, (oy + 5)*scl, 4*scl, 1*scl);
+		tex_buttongui[id][1][1] = new TextureRegion(tex_gui, (ox + 5)*scl, (oy + 5)*scl, 1*scl, 1*scl);
+		tex_buttongui[id][1][2] = new TextureRegion(tex_gui, (ox + 7)*scl, (oy + 5)*scl, 4*scl, 1*scl);
+		tex_buttongui[id][2][0] = new TextureRegion(tex_gui, (ox + 0)*scl, (oy + 7)*scl, 4*scl, 6*scl);
+		tex_buttongui[id][2][1] = new TextureRegion(tex_gui, (ox + 5)*scl, (oy + 7)*scl, 1*scl, 6*scl);
+		tex_buttongui[id][2][2] = new TextureRegion(tex_gui, (ox + 7)*scl, (oy + 7)*scl, 4*scl, 6*scl);
 	}
 }

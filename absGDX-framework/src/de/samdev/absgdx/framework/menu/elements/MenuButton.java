@@ -3,15 +3,18 @@ package de.samdev.absgdx.framework.menu.elements;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
+import de.samdev.absgdx.framework.menu.GUITextureProvider;
 import de.samdev.absgdx.framework.menu.attributes.HorzAlign;
 import de.samdev.absgdx.framework.menu.attributes.RectangleRadius;
 import de.samdev.absgdx.framework.menu.attributes.TextAutoScaleMode;
 import de.samdev.absgdx.framework.menu.attributes.VertAlign;
 import de.samdev.absgdx.framework.menu.attributes.VisualButtonState;
 import de.samdev.absgdx.framework.menu.events.MenuButtonListener;
+import de.samdev.absgdx.framework.util.MenuRenderHelper;
 
 /**
  * A click-able Button
@@ -37,14 +40,59 @@ public class MenuButton extends MenuElement {
 	/**
 	 * Creates a new MenuButton
 	 * 
-	 * @param identifier the unique button identifier
+	 * @param texprovider the texture provider for this element
 	 */
-	public MenuButton(String identifier) {
-		super(identifier);
+	public MenuButton(GUITextureProvider texprovider) {
+		super(texprovider);
 		
 		innerLabel = new MenuLabel();
 		innerLabel.setAutoScale(TextAutoScaleMode.BOTH);
 		innerLabel.setAlign(HorzAlign.CENTER, VertAlign.CENTER);
+
+		if (getTextureProvider().hasButtonTextures(VisualButtonState.NORMAL))
+			autocalcPadding();
+	}
+	
+	/**
+	 * Creates a new MenuButton
+	 * 
+	 * @param identifier the unique button identifier
+	 * @param texprovider the texture provider for this element
+	 */
+	public MenuButton(String identifier, GUITextureProvider texprovider) {
+		super(identifier, texprovider);
+		
+		innerLabel = new MenuLabel();
+		innerLabel.setAutoScale(TextAutoScaleMode.BOTH);
+		innerLabel.setAlign(HorzAlign.CENTER, VertAlign.CENTER);
+
+		if (getTextureProvider().hasButtonTextures(VisualButtonState.NORMAL))
+			autocalcPadding();
+	}
+
+	private void autocalcPadding() {
+		int pad_top_1 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_BUTTON_TL + "#" + VisualButtonState.NORMAL).getRegionHeight();
+		int pad_top_2 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_BUTTON_TT + "#" + VisualButtonState.NORMAL).getRegionHeight();
+		int pad_top_3 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_BUTTON_TR + "#" + VisualButtonState.NORMAL).getRegionHeight();
+
+		int pad_lef_1 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_BUTTON_LL + "#" + VisualButtonState.NORMAL).getRegionWidth();
+		int pad_lef_2 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_BUTTON_TL + "#" + VisualButtonState.NORMAL).getRegionWidth();
+		int pad_lef_3 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_BUTTON_BL + "#" + VisualButtonState.NORMAL).getRegionWidth();
+		
+		int pad_bot_1 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_BUTTON_BL + "#" + VisualButtonState.NORMAL).getRegionHeight();
+		int pad_bot_2 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_BUTTON_BB + "#" + VisualButtonState.NORMAL).getRegionHeight();
+		int pad_bot_3 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_BUTTON_BR + "#" + VisualButtonState.NORMAL).getRegionHeight();
+
+		int pad_rig_1 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_BUTTON_RR + "#" + VisualButtonState.NORMAL).getRegionWidth();
+		int pad_rig_2 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_BUTTON_TR + "#" + VisualButtonState.NORMAL).getRegionWidth();
+		int pad_rig_3 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_BUTTON_BR + "#" + VisualButtonState.NORMAL).getRegionWidth();
+		
+		int pad_top = Math.max(Math.max(pad_top_1, pad_top_2), pad_top_3);
+		int pad_lef = Math.max(Math.max(pad_lef_1, pad_lef_2), pad_lef_3);
+		int pad_bot = Math.max(Math.max(pad_bot_1, pad_bot_2), pad_bot_3);
+		int pad_rig = Math.max(Math.max(pad_rig_1, pad_rig_2), pad_rig_3);
+		
+		setPadding(pad_top, pad_lef, pad_bot, pad_rig);
 	}
 
 	@Override
@@ -52,6 +100,16 @@ public class MenuButton extends MenuElement {
 		innerLabel.setPosition(getPositionX() + padding.left, getPositionY() + padding.top);
 		innerLabel.setSize(getWidth() - padding.getHorizontalSum(), getHeight() - padding.getVerticalSum());
 		
+		if (getTextureProvider().hasButtonTextures(visualState)) {
+			renderTextured(sbatch);
+		} else {
+			renderSimple(srenderer);
+		}
+	
+		innerLabel.render(sbatch, srenderer, font);
+	}
+
+	private void renderSimple(ShapeRenderer srenderer) {
 		srenderer.begin(ShapeType.Filled);
 		{
 			float grayValue = 1f - (getDepth() % 16) / 15f;
@@ -66,8 +124,42 @@ public class MenuButton extends MenuElement {
 			srenderer.rect(getPositionX(), getPositionY(), getWidth(), getHeight());
 		}
 		srenderer.end();
+	}
+
+	private void renderTextured(SpriteBatch sbatch) {
+		TextureRegion tex_TL = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_BUTTON_TL + "#" + visualState);
+		TextureRegion tex_TT = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_BUTTON_TT + "#" + visualState);
+		TextureRegion tex_TR = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_BUTTON_TR + "#" + visualState);
+		TextureRegion tex_LL = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_BUTTON_LL + "#" + visualState);
+		TextureRegion tex_CC = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_BUTTON_CC + "#" + visualState);
+		TextureRegion tex_RR = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_BUTTON_RR + "#" + visualState);
+		TextureRegion tex_BL = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_BUTTON_BL + "#" + visualState);
+		TextureRegion tex_BB = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_BUTTON_BB + "#" + visualState);
+		TextureRegion tex_BR = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_BUTTON_BR + "#" + visualState);
 		
-		innerLabel.render(sbatch, srenderer, font);
+		sbatch.getTransformMatrix().translate(getPositionX(), getPositionY(), 0);
+		sbatch.begin();
+		
+		// Corners
+		
+		MenuRenderHelper.drawTexture(sbatch, tex_TL, 0, 0);
+		MenuRenderHelper.drawTexture(sbatch, tex_TR, getWidth() - tex_TR.getRegionWidth(), 0);
+		MenuRenderHelper.drawTexture(sbatch, tex_BL, 0, getHeight() - tex_BL.getRegionHeight());
+		MenuRenderHelper.drawTexture(sbatch, tex_BR, getWidth() - tex_BR.getRegionWidth(), getHeight() - tex_BR.getRegionHeight());
+		
+		// Edges
+		
+		MenuRenderHelper.drawTextureRepeated(sbatch, tex_TT, tex_TL.getRegionWidth(), 0, getWidth() - tex_TL.getRegionWidth() - tex_TR.getRegionWidth(), tex_TT.getRegionHeight() + 20);
+		MenuRenderHelper.drawTextureRepeated(sbatch, tex_LL, 0, tex_TL.getRegionHeight(), tex_LL.getRegionWidth(), getHeight() - tex_TL.getRegionHeight() - tex_BL.getRegionHeight());
+		MenuRenderHelper.drawTextureRepeated(sbatch, tex_BB, tex_TL.getRegionWidth(), getHeight() -tex_BB.getRegionHeight(), getWidth() - tex_TL.getRegionWidth() - tex_TR.getRegionWidth(), tex_BB.getRegionHeight());
+		MenuRenderHelper.drawTextureRepeated(sbatch, tex_RR, getWidth() - tex_RR.getRegionWidth(), tex_TL.getRegionHeight(), tex_LL.getRegionWidth(), getHeight() - tex_TL.getRegionHeight() - tex_BL.getRegionHeight());
+
+		// center
+		
+		MenuRenderHelper.drawTextureRepeated(sbatch, tex_CC, tex_TL.getRegionWidth(), tex_TL.getRegionHeight(), getWidth() - tex_BR.getRegionWidth() - tex_TL.getRegionWidth(), getHeight() - tex_BR.getRegionHeight() - tex_TL.getRegionHeight());
+		
+		sbatch.end();
+		sbatch.getTransformMatrix().translate(-getPositionX(), -getPositionY(), 0);
 	}
 
 	@Override

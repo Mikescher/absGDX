@@ -373,7 +373,7 @@ public abstract class GameLayer extends AgdxLayer {
 		futureEntities.add(e);
 	}
 	
-	private void addFutureEntities() {
+	protected void addFutureEntities() {
 		for (Entity e : futureEntities) {
 			entities.add(e);
 			

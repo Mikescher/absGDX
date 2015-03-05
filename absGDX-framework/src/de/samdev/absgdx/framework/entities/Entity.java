@@ -575,6 +575,7 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	
 	/**
 	 * Set the Z layer
+	 * Do this ONLY in the constructor - later changes will NOT be recognized
 	 * 
 	 * @param z the z layer
 	 */

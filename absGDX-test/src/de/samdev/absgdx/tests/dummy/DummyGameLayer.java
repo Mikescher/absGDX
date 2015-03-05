@@ -1,5 +1,6 @@
 package de.samdev.absgdx.tests.dummy;
 
+import de.samdev.absgdx.framework.entities.Entity;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionMap;
 import de.samdev.absgdx.framework.layer.GameLayer;
 import de.samdev.absgdx.framework.map.TileMap;
@@ -23,6 +24,13 @@ public class DummyGameLayer extends GameLayer {
 		super(new DummyAgdxGame(screenwidth, screenheight), m, expScale);
 		
 		setMapScaleResolver(new FixedMapScaleResolver(1));
+	}
+	
+	@Override
+	public void addEntity(Entity e) {
+		super.addEntity(e);
+		
+		super.addFutureEntities();
 	}
 	
 	@Override

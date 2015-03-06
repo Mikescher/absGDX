@@ -12,6 +12,8 @@ import com.badlogic.gdx.math.Rectangle;
 
 import de.samdev.absgdx.framework.layer.MenuLayer;
 import de.samdev.absgdx.framework.menu.GUITextureProvider;
+import de.samdev.absgdx.framework.menu.attributes.RectangleRadius;
+import de.samdev.absgdx.framework.menu.attributes.VisualButtonState;
 import de.samdev.absgdx.framework.menu.events.MenuElementListener;
 import de.samdev.absgdx.framework.util.MenuRenderHelper;
 
@@ -136,19 +138,44 @@ public abstract class MenuElement {
 		MenuRenderHelper.drawTexture(sbatch, tex_BL, 0, getHeight() - tex_BL.getRegionHeight());
 		MenuRenderHelper.drawTexture(sbatch, tex_BR, getWidth() - tex_BR.getRegionWidth(), getHeight() - tex_BR.getRegionHeight());
 		
-		// Edges
-		
-		MenuRenderHelper.drawTextureRepeated(sbatch, tex_TT, tex_TL.getRegionWidth(), 0, getWidth() - tex_TL.getRegionWidth() - tex_TR.getRegionWidth(), tex_TT.getRegionHeight() + 20);
-		MenuRenderHelper.drawTextureRepeated(sbatch, tex_LL, 0, tex_TL.getRegionHeight(), tex_LL.getRegionWidth(), getHeight() - tex_TL.getRegionHeight() - tex_BL.getRegionHeight());
-		MenuRenderHelper.drawTextureRepeated(sbatch, tex_BB, tex_TL.getRegionWidth(), getHeight() -tex_BB.getRegionHeight(), getWidth() - tex_TL.getRegionWidth() - tex_TR.getRegionWidth(), tex_BB.getRegionHeight());
-		MenuRenderHelper.drawTextureRepeated(sbatch, tex_RR, getWidth() - tex_RR.getRegionWidth(), tex_TL.getRegionHeight(), tex_LL.getRegionWidth(), getHeight() - tex_TL.getRegionHeight() - tex_BL.getRegionHeight());
+//		// Edges
 
-		// center
-		
-		MenuRenderHelper.drawTextureRepeated(sbatch, tex_CC, tex_TL.getRegionWidth(), tex_TL.getRegionHeight(), getWidth() - tex_BR.getRegionWidth() - tex_TL.getRegionWidth(), getHeight() - tex_BR.getRegionHeight() - tex_TL.getRegionHeight());
-		
+		MenuRenderHelper.drawTextureStretched(sbatch, tex_TT, tex_TL.getRegionWidth(), 0, getWidth() - tex_TL.getRegionWidth() - tex_TR.getRegionWidth(), tex_TT.getRegionHeight());
+		MenuRenderHelper.drawTextureStretched(sbatch, tex_LL, 0, tex_TL.getRegionHeight(), tex_LL.getRegionWidth(), getHeight() - tex_TL.getRegionHeight() - tex_BL.getRegionHeight());
+		MenuRenderHelper.drawTextureStretched(sbatch, tex_BB, tex_TL.getRegionWidth(), getHeight() -tex_BB.getRegionHeight(), getWidth() - tex_TL.getRegionWidth() - tex_TR.getRegionWidth(), tex_BB.getRegionHeight());
+		MenuRenderHelper.drawTextureStretched(sbatch, tex_RR, getWidth() - tex_RR.getRegionWidth(), tex_TL.getRegionHeight(), tex_LL.getRegionWidth(), getHeight() - tex_TL.getRegionHeight() - tex_BL.getRegionHeight());
+
+//		// center
+
+		MenuRenderHelper.drawTextureStretched(sbatch, tex_CC, tex_TL.getRegionWidth(), tex_TL.getRegionHeight(), getWidth() - tex_BR.getRegionWidth() - tex_TL.getRegionWidth(), getHeight() - tex_BR.getRegionHeight() - tex_TL.getRegionHeight());
+	
 		sbatch.end();
 		sbatch.getTransformMatrix().translate(-getPositionX(), -getPositionY(), 0);
+	}
+	
+	protected RectangleRadius get9SidePadding() {
+		int pad_top_1 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_TL + "#" + VisualButtonState.NORMAL).getRegionHeight();
+		int pad_top_2 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_TT + "#" + VisualButtonState.NORMAL).getRegionHeight();
+		int pad_top_3 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_TR + "#" + VisualButtonState.NORMAL).getRegionHeight();
+
+		int pad_lef_1 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_LL + "#" + VisualButtonState.NORMAL).getRegionWidth();
+		int pad_lef_2 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_TL + "#" + VisualButtonState.NORMAL).getRegionWidth();
+		int pad_lef_3 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_BL + "#" + VisualButtonState.NORMAL).getRegionWidth();
+		
+		int pad_bot_1 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_BL + "#" + VisualButtonState.NORMAL).getRegionHeight();
+		int pad_bot_2 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_BB + "#" + VisualButtonState.NORMAL).getRegionHeight();
+		int pad_bot_3 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_BR + "#" + VisualButtonState.NORMAL).getRegionHeight();
+
+		int pad_rig_1 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_RR + "#" + VisualButtonState.NORMAL).getRegionWidth();
+		int pad_rig_2 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_TR + "#" + VisualButtonState.NORMAL).getRegionWidth();
+		int pad_rig_3 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_BR + "#" + VisualButtonState.NORMAL).getRegionWidth();
+		
+		int pad_top = Math.max(Math.max(pad_top_1, pad_top_2), pad_top_3);
+		int pad_lef = Math.max(Math.max(pad_lef_1, pad_lef_2), pad_lef_3);
+		int pad_bot = Math.max(Math.max(pad_bot_1, pad_bot_2), pad_bot_3);
+		int pad_rig = Math.max(Math.max(pad_rig_1, pad_rig_2), pad_rig_3);
+		
+		return new RectangleRadius(pad_top, pad_lef, pad_bot, pad_rig);
 	}
 	
 	/**

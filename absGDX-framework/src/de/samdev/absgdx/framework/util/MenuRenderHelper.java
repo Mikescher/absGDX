@@ -28,6 +28,21 @@ public class MenuRenderHelper {
 	}
 	
 	/**
+	 * Draws a texture stretching
+	 * (MenuTexture need to be pre-flipped)
+	 * 
+	 * @param batch the Sprite Batch to render
+	 * @param region the texture
+	 * @param x x position
+	 * @param y y position
+	 * @param width the target width
+	 * @param height the target height
+	 */
+	public static void drawTextureStretched(SpriteBatch batch, TextureRegion region, float x, float y, float width, float height) {
+		batch.draw(region, x, y + height, width, -height);
+	}
+	
+	/**
 	 * Draws a texture repating
 	 * (MenuTexture need to be pre-flipped)
 	 * 
@@ -38,7 +53,7 @@ public class MenuRenderHelper {
 	 * @param width the target width
 	 * @param height the target height
 	 */
-	public static void drawTextureRepeated(SpriteBatch batch, TextureRegion region, float x, float y, float width, float height) {
+	public static void drawTextureRepeated(SpriteBatch batch, TextureRegion region, float x, float y, float width, float height) { //TODO THIS IS SLOW AS FUCK !!!
 		float regionWidth = region.getRegionWidth(), regionHeight = region.getRegionHeight();
 		float remainingX = width % regionWidth, remainingY = height % regionHeight;
 		float startX = x, startY = y;

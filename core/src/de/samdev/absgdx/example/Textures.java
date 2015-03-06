@@ -54,6 +54,7 @@ public final class Textures {
 	public static TextureRegion[][] tex_panelgui;
 	public static TextureRegion[][] tex_textfield;
 	public static TextureRegion[][] tex_textfield_focus;
+	public static TextureRegion[][] tex_gui_checkers;
 
 	public static void init() {
 		texmap = new Texture("map.png");
@@ -159,6 +160,16 @@ public final class Textures {
 		tex_textfield_focus[0][2] = new TextureRegion(tex_gui, 52, 22, 1, 1);
 		tex_textfield_focus[1][2] = new TextureRegion(tex_gui, 52, 24, 1, 1);
 		tex_textfield_focus[2][2] = new TextureRegion(tex_gui, 52, 26, 1, 1);
+		
+		tex_gui_checkers = new TextureRegion[4][2];
+		tex_gui_checkers[0][0] = new TextureRegion(tex_gui, 00, 32,  22, 22);
+		tex_gui_checkers[0][1] = new TextureRegion(tex_gui, 24, 32,  22, 22);
+		tex_gui_checkers[1][0] = new TextureRegion(tex_gui, 00, 55,  22, 22);
+		tex_gui_checkers[1][1] = new TextureRegion(tex_gui, 24, 55,  22, 22);
+		tex_gui_checkers[2][0] = new TextureRegion(tex_gui, 00, 78,  22, 22);
+		tex_gui_checkers[2][1] = new TextureRegion(tex_gui, 24, 78,  22, 22);
+		tex_gui_checkers[3][0] = new TextureRegion(tex_gui, 00, 101, 22, 22);
+		tex_gui_checkers[3][1] = new TextureRegion(tex_gui, 24, 101, 22, 22);
 	}
 
 	private static void loadSingleButtonGuiTex(int id, int ox, int oy) {

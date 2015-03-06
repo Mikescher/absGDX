@@ -35,6 +35,8 @@ public class MenuLabel extends MenuElement {
 
 	@Override
 	public void render(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
+		if (getWidth() == 0 || getHeight() == 0) return;
+		
 		doAutoScale(font);
 		
 		font.setColor(color);
@@ -80,6 +82,8 @@ public class MenuLabel extends MenuElement {
 
 	private float doAutoScale(BitmapFont font) {
 		font.setScale(1, -1);
+		
+		if (getWidth() == 0 || getHeight() == 0) return 1;
 		
 		float scaleX = getWidth() / Math.abs(font.getBounds(content).width);
 		float scaleY = getHeight() / Math.abs(font.getBounds(content + "|AMXYZ*^._").height);

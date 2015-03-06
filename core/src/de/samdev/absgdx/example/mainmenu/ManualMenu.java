@@ -15,6 +15,7 @@ import de.samdev.absgdx.framework.menu.attributes.TextAutoScaleMode;
 import de.samdev.absgdx.framework.menu.attributes.VertAlign;
 import de.samdev.absgdx.framework.menu.attributes.VisualButtonState;
 import de.samdev.absgdx.framework.menu.elements.MenuButton;
+import de.samdev.absgdx.framework.menu.elements.MenuCheckbox;
 import de.samdev.absgdx.framework.menu.elements.MenuEdit;
 import de.samdev.absgdx.framework.menu.elements.MenuElement;
 import de.samdev.absgdx.framework.menu.elements.MenuImage;
@@ -37,6 +38,9 @@ public class ManualMenu extends MenuLayer {
 		
 		prov.setMenuEditTexture(Textures.tex_textfield, false);
 		prov.setMenuEditTexture(Textures.tex_textfield_focus, true);
+		
+		prov.setMenuCheckboxTexture(Textures.tex_gui_checkers[0][0], true);
+		prov.setMenuCheckboxTexture(Textures.tex_gui_checkers[0][1], false);
 
 		GUITextureProvider prov2 = new GUITextureProvider();
 		prov2.setMenuButtonTexture(Textures.tex_buttongui[4], VisualButtonState.NORMAL);
@@ -45,10 +49,10 @@ public class ManualMenu extends MenuLayer {
 		prov2.setMenuButtonTexture(Textures.tex_buttongui[7], VisualButtonState.DISABLED);
 		
 		final MenuPanel p = new MenuPanel(prov);
-		p.setBoundaries(450, 50, 600, 310);
+		p.setBoundaries(250, 50, 600, 310);
 		
 		final MenuLabel l2 = new MenuLabel();
-		l2.setBoundaries(115, 130, 300, 40);
+		l2.setBoundaries(115, 100, 300, 40);
 		l2.setAlign(HorzAlign.LEFT, VertAlign.CENTER);
 		l2.setContent("Thank You !");
 		l2.setColor(Color.LIGHT_GRAY);
@@ -56,7 +60,7 @@ public class ManualMenu extends MenuLayer {
 		p.addChildren(l2);
 
 		final MenuButton b = new MenuButton(prov);
-		b.setBoundaries(25, 130, 80, 40);
+		b.setBoundaries(25, 100, 80, 40);
 		b.setContent("Click Me");
 		b.setColor(Color.WHITE);
 		b.addButtonListener(new MenuButtonListener() {
@@ -76,6 +80,14 @@ public class ManualMenu extends MenuLayer {
 			public void onClicked(MenuElement element, String identifier) {l2.setVisible(true);}
 		});
 		p.addChildren(b);
+		
+		final MenuCheckbox cb = new MenuCheckbox(prov);
+		cb.setBoundaries(25, 160, 400, 20);
+		cb.setAlign(HorzAlign.LEFT, VertAlign.CENTER);
+		cb.setContent("Grey Face (No Space)");
+		cb.setColor(Color.LIGHT_GRAY);
+		cb.setPadding(5, 5, 5, 0);
+		p.addChildren(cb);
 		
 		final MenuImage i1 = new MenuImage();
 		i1.setImage(Textures.tex_player_td[1][0]);
@@ -153,6 +165,17 @@ public class ManualMenu extends MenuLayer {
 		p.addChildren(b3);
 		
 		getRoot().addChildren(p);
+		
+		
+		//#######################################################
+		
+		
+
+		final MenuPanel p2 = new MenuPanel(prov);
+		p2.setBoundaries(900, 50, 300, 310);
+		
+
+		getRoot().addChildren(p2);
 	}
 
 	@Override

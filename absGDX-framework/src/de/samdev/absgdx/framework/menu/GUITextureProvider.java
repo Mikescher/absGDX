@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import de.samdev.absgdx.framework.menu.attributes.VisualButtonState;
 import de.samdev.absgdx.framework.menu.elements.MenuButton;
+import de.samdev.absgdx.framework.menu.elements.MenuCheckbox;
 import de.samdev.absgdx.framework.menu.elements.MenuEdit;
 import de.samdev.absgdx.framework.menu.elements.MenuPanel;
 
@@ -34,6 +35,10 @@ public class GUITextureProvider {
 	public final static String IDENT_TEX_GENERIC_LL = "left";
 	/** Identifier for a specific texture (??? :: Center) */
 	public final static String IDENT_TEX_GENERIC_CC = "center";
+	/** Identifier for the checkbox on|off texture */
+	public final static String IDENT_TEX_CHECKBOX_IMG = "cbimg";
+	/** Identifier for the radiobutton on|off texture */
+	public final static String IDENT_TEX_RADIOBUTTON_IMG = "rbimg";
 
 	/** Identifier for all MenuButton textures */
 	public final static String[] IDENT_TEX_GENERIC = {
@@ -59,7 +64,21 @@ public class GUITextureProvider {
 	 * @param texture the texture to use
 	 */
 	public void set(Class<?> target, String identifier, TextureRegion texture) {
-		map.put(target.getName() + ":" + identifier, texture);
+		set(target, identifier, null, texture);
+	}
+	
+	/**
+	 * Add a Texture to the provider, textures are identified by a class and an identifier
+	 * 
+	 * @param target the identifier class
+	 * @param identifier the identifier string
+	 * @param appendix an optional appendix to the identifier
+	 * @param texture the texture to use
+	 */
+	public void set(Class<?> target, String identifier, Object appendix, TextureRegion texture) {
+		String app = (appendix == null || appendix.toString().isEmpty()) ? "" : ("#" + appendix.toString());
+		
+		map.put(target.getName() + ":" + identifier + app, texture);
 	}
 
 	/**
@@ -71,8 +90,23 @@ public class GUITextureProvider {
 	 * @return the texture identified by {target + ':' + identifier}
 	 */
 	public TextureRegion get(Class<?> target, String identifier) {
-		if (map.containsKey(target.getName() + ":" + identifier)) 
-			return map.get(target.getName() + ":" + identifier);
+		return get(target, identifier, null);
+	}
+	
+	/**
+	 * Get a Texture from the provider, textures are identified by a class and an identifier
+	 * Will return NULL if texture not found
+	 * 
+	 * @param target the identifier class
+	 * @param identifier the identifier string
+	 * @param appendix an optional appendix to the identifier
+	 * @return the texture identified by {target + ':' + identifier + '#' + appendix}
+	 */
+	public TextureRegion get(Class<?> target, String identifier, Object appendix) {
+		String app = (appendix == null || appendix.toString().isEmpty()) ? "" : ("#" + appendix.toString());
+		
+		if (map.containsKey(target.getName() + ":" + identifier + app)) 
+			return map.get(target.getName() + ":" + identifier + app);
 		else 
 			return null;
 	}
@@ -137,17 +171,15 @@ public class GUITextureProvider {
 	 * @param appendix an optional appendix to the identifier
 	 */
 	public void setGeneric9SideTexture(Class<?> tclass, TextureRegion tex_TL, TextureRegion tex_TT, TextureRegion tex_TR, TextureRegion tex_RR, TextureRegion tex_BR, TextureRegion tex_BB, TextureRegion tex_BL, TextureRegion tex_LL, TextureRegion tex_CC, Object appendix) {
-		String app = (appendix == null || appendix.toString().isEmpty()) ? "" : ("#" + appendix.toString());
-		
-		set(tclass, IDENT_TEX_GENERIC_TL + app, tex_TL);
-		set(tclass, IDENT_TEX_GENERIC_TT + app, tex_TT);
-		set(tclass, IDENT_TEX_GENERIC_TR + app, tex_TR);
-		set(tclass, IDENT_TEX_GENERIC_RR + app, tex_RR);
-		set(tclass, IDENT_TEX_GENERIC_BR + app, tex_BR);
-		set(tclass, IDENT_TEX_GENERIC_BB + app, tex_BB);
-		set(tclass, IDENT_TEX_GENERIC_BL + app, tex_BL);
-		set(tclass, IDENT_TEX_GENERIC_LL + app, tex_LL);
-		set(tclass, IDENT_TEX_GENERIC_CC + app, tex_CC);
+		set(tclass, IDENT_TEX_GENERIC_TL, appendix, tex_TL);
+		set(tclass, IDENT_TEX_GENERIC_TT, appendix, tex_TT);
+		set(tclass, IDENT_TEX_GENERIC_TR, appendix, tex_TR);
+		set(tclass, IDENT_TEX_GENERIC_RR, appendix, tex_RR);
+		set(tclass, IDENT_TEX_GENERIC_BR, appendix, tex_BR);
+		set(tclass, IDENT_TEX_GENERIC_BB, appendix, tex_BB);
+		set(tclass, IDENT_TEX_GENERIC_BL, appendix, tex_BL);
+		set(tclass, IDENT_TEX_GENERIC_LL, appendix, tex_LL);
+		set(tclass, IDENT_TEX_GENERIC_CC, appendix, tex_CC);
 	}
 	
 	/**
@@ -169,17 +201,15 @@ public class GUITextureProvider {
 	 * @param appendix an optional appendix to the identifier
 	 */
 	public void setGeneric9SideTexture(Class<?> tclass, TextureRegion[][] texture, Object appendix) {
-		String app = (appendix == null || appendix.toString().isEmpty()) ? "" : ("#" + appendix.toString());
-		
-		set(tclass, IDENT_TEX_GENERIC_TL + app, texture[0][0]);
-		set(tclass, IDENT_TEX_GENERIC_TT + app, texture[0][1]);
-		set(tclass, IDENT_TEX_GENERIC_TR + app, texture[0][2]);
-		set(tclass, IDENT_TEX_GENERIC_LL + app, texture[1][0]);
-		set(tclass, IDENT_TEX_GENERIC_CC + app, texture[1][1]);
-		set(tclass, IDENT_TEX_GENERIC_RR + app, texture[1][2]);
-		set(tclass, IDENT_TEX_GENERIC_BL + app, texture[2][0]);
-		set(tclass, IDENT_TEX_GENERIC_BB + app, texture[2][1]);
-		set(tclass, IDENT_TEX_GENERIC_BR + app, texture[2][2]);
+		set(tclass, IDENT_TEX_GENERIC_TL, appendix, texture[0][0]);
+		set(tclass, IDENT_TEX_GENERIC_TT, appendix, texture[0][1]);
+		set(tclass, IDENT_TEX_GENERIC_TR, appendix, texture[0][2]);
+		set(tclass, IDENT_TEX_GENERIC_LL, appendix, texture[1][0]);
+		set(tclass, IDENT_TEX_GENERIC_CC, appendix, texture[1][1]);
+		set(tclass, IDENT_TEX_GENERIC_RR, appendix, texture[1][2]);
+		set(tclass, IDENT_TEX_GENERIC_BL, appendix, texture[2][0]);
+		set(tclass, IDENT_TEX_GENERIC_BB, appendix, texture[2][1]);
+		set(tclass, IDENT_TEX_GENERIC_BR, appendix, texture[2][2]);
 	}
 	
 	/**
@@ -209,6 +239,16 @@ public class GUITextureProvider {
 	 */
 	public void setMenuEditTexture(TextureRegion[][] texture, boolean focused) {
 		setGeneric9SideTexture(MenuEdit.class, texture, focused);
+	}
+	
+	/**
+	 * Set the textures for MenuButton
+	 * 
+	 * @param texture the texture
+	 * @param checked if it is checked
+	 */
+	public void setMenuCheckboxTexture(TextureRegion texture, boolean checked) {
+		set(MenuCheckbox.class, IDENT_TEX_CHECKBOX_IMG, checked, texture);
 	}
 
 	/**

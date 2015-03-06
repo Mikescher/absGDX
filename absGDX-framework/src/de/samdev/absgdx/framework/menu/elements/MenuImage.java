@@ -37,7 +37,9 @@ public class MenuImage extends MenuElement {
 	}
 
 	@Override
-	public void render(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {		
+	public void render(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
+		if (getWidth() == 0 || getHeight() == 0) return;
+		
 		TextureRegion image = getTexture();
 		if (image == null) return;
 		

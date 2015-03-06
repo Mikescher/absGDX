@@ -13,7 +13,6 @@ import com.badlogic.gdx.math.Rectangle;
 import de.samdev.absgdx.framework.layer.MenuLayer;
 import de.samdev.absgdx.framework.menu.GUITextureProvider;
 import de.samdev.absgdx.framework.menu.attributes.RectangleRadius;
-import de.samdev.absgdx.framework.menu.attributes.VisualButtonState;
 import de.samdev.absgdx.framework.menu.events.MenuElementListener;
 import de.samdev.absgdx.framework.util.MenuRenderHelper;
 
@@ -131,21 +130,21 @@ public abstract class MenuElement {
 		sbatch.getTransformMatrix().translate(getPositionX(), getPositionY(), 0);
 		sbatch.begin();
 		
-		// Corners
+		// ######## Corners ########
 		
 		MenuRenderHelper.drawTexture(sbatch, tex_TL, 0, 0);
 		MenuRenderHelper.drawTexture(sbatch, tex_TR, getWidth() - tex_TR.getRegionWidth(), 0);
 		MenuRenderHelper.drawTexture(sbatch, tex_BL, 0, getHeight() - tex_BL.getRegionHeight());
 		MenuRenderHelper.drawTexture(sbatch, tex_BR, getWidth() - tex_BR.getRegionWidth(), getHeight() - tex_BR.getRegionHeight());
 		
-//		// Edges
+		// ######## Edges ########
 
 		MenuRenderHelper.drawTextureStretched(sbatch, tex_TT, tex_TL.getRegionWidth(), 0, getWidth() - tex_TL.getRegionWidth() - tex_TR.getRegionWidth(), tex_TT.getRegionHeight());
 		MenuRenderHelper.drawTextureStretched(sbatch, tex_LL, 0, tex_TL.getRegionHeight(), tex_LL.getRegionWidth(), getHeight() - tex_TL.getRegionHeight() - tex_BL.getRegionHeight());
 		MenuRenderHelper.drawTextureStretched(sbatch, tex_BB, tex_TL.getRegionWidth(), getHeight() -tex_BB.getRegionHeight(), getWidth() - tex_TL.getRegionWidth() - tex_TR.getRegionWidth(), tex_BB.getRegionHeight());
 		MenuRenderHelper.drawTextureStretched(sbatch, tex_RR, getWidth() - tex_RR.getRegionWidth(), tex_TL.getRegionHeight(), tex_LL.getRegionWidth(), getHeight() - tex_TL.getRegionHeight() - tex_BL.getRegionHeight());
 
-//		// center
+		// ######## Center ########
 
 		MenuRenderHelper.drawTextureStretched(sbatch, tex_CC, tex_TL.getRegionWidth(), tex_TL.getRegionHeight(), getWidth() - tex_BR.getRegionWidth() - tex_TL.getRegionWidth(), getHeight() - tex_BR.getRegionHeight() - tex_TL.getRegionHeight());
 	

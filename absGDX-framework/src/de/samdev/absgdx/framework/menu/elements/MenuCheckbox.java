@@ -1,9 +1,9 @@
 package de.samdev.absgdx.framework.menu.elements;
 
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
@@ -12,33 +12,30 @@ import de.samdev.absgdx.framework.menu.attributes.HorzAlign;
 import de.samdev.absgdx.framework.menu.attributes.RectangleRadius;
 import de.samdev.absgdx.framework.menu.attributes.TextAutoScaleMode;
 import de.samdev.absgdx.framework.menu.attributes.VertAlign;
-import de.samdev.absgdx.framework.menu.events.MenuEditListener;
-import de.samdev.absgdx.framework.menu.events.MenuElementListener;
+import de.samdev.absgdx.framework.menu.events.MenuButtonListener;
+import de.samdev.absgdx.framework.util.MenuRenderHelper;
 
 /**
- * A edit-able Text Field
+ * A switch-able Button
  */
-public class MenuEdit extends MenuElement {
-	private final static float BLINK_DELAY = 850f;
-	
+public class MenuCheckbox extends MenuElement {
 	private final MenuLabel innerLabel;
+	private final MenuImage innerImage;
 	
+	private boolean checked = false;
 	private RectangleRadius padding = new RectangleRadius(5, 5, 5, 5);
-	
-	private String content = "";
-	private float blinkCounter = 0;
 	
 	/**
 	 * Creates a new MenuButton
 	 */
-	public MenuEdit() {
+	public MenuCheckbox() {
 		super();
 		
 		innerLabel = new MenuLabel();
-		innerLabel.setAlign(HorzAlign.LEFT, VertAlign.CENTER);
-
+		innerImage = new MenuImage();
+		
 		innerLabel.setAutoScale(TextAutoScaleMode.VERTICAL);
-		innerLabel.setContent("");
+		innerLabel.setAlign(HorzAlign.LEFT, VertAlign.CENTER);
 	}
 	
 	/**
@@ -46,17 +43,14 @@ public class MenuEdit extends MenuElement {
 	 * 
 	 * @param texprovider the texture provider for this element
 	 */
-	public MenuEdit(GUITextureProvider texprovider) {
+	public MenuCheckbox(GUITextureProvider texprovider) {
 		super(texprovider);
 		
 		innerLabel = new MenuLabel();
-		innerLabel.setAlign(HorzAlign.LEFT, VertAlign.CENTER);
-
+		innerImage = new MenuImage();
+		
 		innerLabel.setAutoScale(TextAutoScaleMode.VERTICAL);
-		innerLabel.setContent("");
-
-		if (getTextureProvider().hasGeneric9SideTextures(getClass(), false))
-			setPadding(get9SidePadding(false));
+		innerLabel.setAlign(HorzAlign.LEFT, VertAlign.CENTER);
 	}
 	
 	/**
@@ -65,77 +59,68 @@ public class MenuEdit extends MenuElement {
 	 * @param identifier the unique button identifier
 	 * @param texprovider the texture provider for this element
 	 */
-	public MenuEdit(String identifier, GUITextureProvider texprovider) {
+	public MenuCheckbox(String identifier, GUITextureProvider texprovider) {
 		super(identifier, texprovider);
 		
 		innerLabel = new MenuLabel();
-		innerLabel.setAlign(HorzAlign.LEFT, VertAlign.CENTER);
-
+		innerImage = new MenuImage();
+		
 		innerLabel.setAutoScale(TextAutoScaleMode.VERTICAL);
-		innerLabel.setContent("");
-
-		if (getTextureProvider().hasGeneric9SideTextures(getClass(), false))
-			setPadding(get9SidePadding(false));
+		innerLabel.setAlign(HorzAlign.LEFT, VertAlign.CENTER);
 	}
 
 	@Override
 	public void render(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
-		innerLabel.setPosition(getPositionX() + padding.left, getPositionY() + padding.top);
-		innerLabel.setSize(getWidth() - padding.getHorizontalSum(), getHeight() - padding.getVerticalSum());
+		TextureRegion tex = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_CHECKBOX_IMG, isChecked());
 		
-		innerLabel.setContent(content);
-		float innerScale = innerLabel.getRealFontScale(font);
-		font.setScale(innerScale, -innerScale);
-
-		float cbWidth = innerLabel.getHeight() / 9f;
+		innerImage.setPosition(getPositionX(), getPositionY());
+		innerImage.setSize(getWidth() - getHeight(), getHeight());
 		
-		String disp = content;
+		innerLabel.setPosition(getPositionX() + getHeight() + padding.left, getPositionY() + padding.top);
+		innerLabel.setSize(getWidth() - getHeight() - padding.left - padding.right, getHeight() - padding.top - padding.bottom);
 		
-		while (font.getBounds(disp).width + 2*cbWidth > innerLabel.getWidth() && disp.length() > 1) {
-			disp = disp.substring(1);
-		}
-		
-		innerLabel.setContent(disp);
-		
-		if (getTextureProvider().hasGeneric9SideTextures(getClass(), isFocused())) {
-			render9SideTexture(sbatch, isFocused());
+		if (tex != null) {
+			renderTextured(sbatch, tex);
 		} else {
-			renderSimple(srenderer);
+			renderSimple(srenderer);			
 		}
-		
-		if (blinkCounter * 2 < BLINK_DELAY && isFocused()) {
-			srenderer.begin(ShapeType.Filled);
-			
-			srenderer.setColor(getColor());
-			srenderer.rect(innerLabel.getPositionX() + font.getBounds(disp).width + cbWidth, innerLabel.getPositionY(), cbWidth, innerLabel.getHeight());
-			
-			srenderer.end();
-		}
-		
+	
 		innerLabel.render(sbatch, srenderer, font);
+	}
+
+	private void renderTextured(SpriteBatch sbatch, TextureRegion texture) {
+		sbatch.begin();
+		
+		MenuRenderHelper.drawTextureStretched(sbatch, texture, getPositionX(), getPositionY(), getHeight(), getHeight());
+		
+		sbatch.end();
 	}
 
 	private void renderSimple(ShapeRenderer srenderer) {
 		srenderer.begin(ShapeType.Filled);
 		{
-			srenderer.setColor(Color.WHITE);
-			srenderer.rect(getPositionX(), getPositionY(), getWidth(), getHeight());
+			float grayValue = 1f - (getDepth() % 16) / 15f;
+			srenderer.setColor(grayValue, grayValue, grayValue, 1f);
+			srenderer.rect(getPositionX(), getPositionY(), getHeight(), getHeight());
 		}
 		srenderer.end();
 		
 		srenderer.begin(ShapeType.Line);
 		{
 			srenderer.setColor(Color.BLACK);
-			srenderer.rect(getPositionX(), getPositionY(), getWidth(), getHeight());
+			srenderer.rect(getPositionX(), getPositionY(), getHeight(), getHeight());
+			
+			if (isChecked()) {
+				srenderer.line(getPositionX(), getPositionY(), getPositionX() + getHeight(), getPositionY() + getHeight());
+				srenderer.line(getPositionX() + getHeight(), getPositionY(), getPositionX(), getPositionY() + getHeight());
+			}
 		}
 		srenderer.end();
 	}
 
 	@Override
 	public void update(float delta) {
-		blinkCounter += delta;
-		while (blinkCounter > BLINK_DELAY)
-			blinkCounter -= BLINK_DELAY;
+		// NOP
 	}
 	
 	/**
@@ -143,7 +128,7 @@ public class MenuEdit extends MenuElement {
 	 * 
 	 * @param l the new listener
 	 */
-	public void addEditListener(MenuEditListener l) {
+	public void addButtonListener(MenuButtonListener l) {
 		super.addElementListener(l);
 	}
 
@@ -179,7 +164,7 @@ public class MenuEdit extends MenuElement {
 	 * @return the displayed content
 	 */
 	public String getContent() {
-		return content;
+		return innerLabel.getContent();
 	}
 
 	/**
@@ -188,11 +173,7 @@ public class MenuEdit extends MenuElement {
 	 * @param content the content
 	 */
 	public void setContent(String content) {
-		this.content = content;
-
-		for (MenuElementListener lst : listeners) {
-			((MenuEditListener)lst).onTextChanged(this, this.identifier, content);
-		}
+		innerLabel.setContent(content);
 	}
 
 	/**
@@ -275,33 +256,59 @@ public class MenuEdit extends MenuElement {
 		innerLabel.setColor(color);
 	}
 
+	/**
+	 * Return the Autoscale Mode
+	 * 
+	 * in autoscale mode the font scale is ignored and the text is displayed as big as possible
+	 * 
+	 * @return the current mode
+	 */
+	public TextAutoScaleMode getAutoScale() {
+		return innerLabel.getAutoScale();
+	}
+
+	/**
+	 * Set the autoscale mode
+	 * 
+	 * in autoscale mode the font scale is ignored and the text is displayed as big as possible
+	 * 
+	 * @param autoScale the desired mode
+	 */
+	public void setAutoScale(TextAutoScaleMode autoScale) {
+		innerLabel.setAutoScale(autoScale);
+	}
+
 	@Override
 	public MenuElement getElementAt(int x, int y) {
 		return this;
 	}
 
 	@Override
-	public void onKeyTyped(char key) {
-		super.onKeyTyped(key);
-		
-		if (key >= 32) {
-			content += key;
-			blinkCounter = 0;
-		}
+	public void onPointerClicked() {
+		super.onPointerClicked();
+
+		setChecked(! isChecked());
 	}
 
-	@Override
-	public void onKeyDown(int keycode) {
-		super.onKeyDown(keycode);
-		
-		if (keycode == Keys.BACKSPACE && content.length() > 0) {
-			content = content.substring(0, content.length() - 1);
-			blinkCounter = 0;
-		}
-	}
 
 	@Override
 	public int getElementCount() {
 		return 1;
+	}
+
+	/**
+	 * @return if checkbox is checked
+	 */
+	public boolean isChecked() {
+		return checked;
+	}
+
+	/**
+	 * Ckeck/Uncheck the checkbox
+	 * 
+	 * @param checked the new state
+	 */
+	public void setChecked(boolean checked) {
+		this.checked = checked;
 	}
 }

@@ -50,6 +50,8 @@ public final class Textures {
 	public static TextureRegion[][] tex_china_td;
 
 	public static TextureRegion[][][] tex_buttongui;
+	public static TextureRegion[][] tex_framegui;
+	public static TextureRegion[][] tex_panelgui;
 
 	public static void init() {
 		texmap = new Texture("map.png");
@@ -110,6 +112,28 @@ public final class Textures {
 		loadSingleButtonGuiTex(5, 12, 16);
 		loadSingleButtonGuiTex(6, 24, 16);
 		loadSingleButtonGuiTex(7, 36, 16);
+		
+		tex_panelgui = new TextureRegion[3][3];
+		tex_panelgui[0][0] = new TextureRegion(tex_gui, 48, 0, 1, 1);
+		tex_panelgui[1][0] = new TextureRegion(tex_gui, 48, 2, 1, 1);
+		tex_panelgui[2][0] = new TextureRegion(tex_gui, 48, 4, 1, 3);
+		tex_panelgui[0][1] = new TextureRegion(tex_gui, 50, 0, 1, 1);
+		tex_panelgui[1][1] = new TextureRegion(tex_gui, 50, 2, 1, 1);
+		tex_panelgui[2][1] = new TextureRegion(tex_gui, 50, 4, 1, 3);
+		tex_panelgui[0][2] = new TextureRegion(tex_gui, 52, 0, 1, 1);
+		tex_panelgui[1][2] = new TextureRegion(tex_gui, 52, 2, 1, 1);
+		tex_panelgui[2][2] = new TextureRegion(tex_gui, 52, 4, 1, 3);
+		
+//		tex_framegui = new TextureRegion[3][3];                       
+//		tex_framegui[0][0] = new TextureRegion(tex_gui, 48,  8, 1, 1); 
+//		tex_framegui[0][1] = new TextureRegion(tex_gui, 48, 10, 1, 1); 
+//		tex_framegui[0][2] = new TextureRegion(tex_gui, 48, 12, 1, 1); 
+//		tex_framegui[1][0] = new TextureRegion(tex_gui, 50,  8, 1, 1); 
+//		tex_framegui[1][1] = new TextureRegion(tex_gui, 50, 10, 1, 1); 
+//		tex_framegui[1][2] = new TextureRegion(tex_gui, 50, 12, 1, 1); 
+//		tex_framegui[2][0] = new TextureRegion(tex_gui, 52,  8, 1, 1); 
+//		tex_framegui[2][1] = new TextureRegion(tex_gui, 52, 10, 1, 1); 
+//		tex_framegui[2][2] = new TextureRegion(tex_gui, 52, 12, 1, 1);
 	}
 
 	private static void loadSingleButtonGuiTex(int id, int ox, int oy) {

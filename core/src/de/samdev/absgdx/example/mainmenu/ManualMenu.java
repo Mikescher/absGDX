@@ -28,23 +28,28 @@ public class ManualMenu extends MenuLayer {
 		super(owner, new BitmapFont(Gdx.files.internal("consolefont.fnt")));
 
 		GUITextureProvider prov = new GUITextureProvider();
-		prov.setMenuButton(Textures.tex_buttongui[0], VisualButtonState.NORMAL);
-		prov.setMenuButton(Textures.tex_buttongui[1], VisualButtonState.HOVERED);
-		prov.setMenuButton(Textures.tex_buttongui[2], VisualButtonState.PRESSED);
-		prov.setMenuButton(Textures.tex_buttongui[3], VisualButtonState.DISABLED);
+		prov.setGeneric9SideTexture(MenuButton.class, Textures.tex_buttongui[0], VisualButtonState.NORMAL);
+		prov.setGeneric9SideTexture(MenuButton.class, Textures.tex_buttongui[1], VisualButtonState.HOVERED);
+		prov.setGeneric9SideTexture(MenuButton.class, Textures.tex_buttongui[2], VisualButtonState.PRESSED);
+		prov.setGeneric9SideTexture(MenuButton.class, Textures.tex_buttongui[3], VisualButtonState.DISABLED);
+
+		prov.setGeneric9SideTexture(MenuPanel.class, Textures.tex_panelgui);
 
 		GUITextureProvider prov2 = new GUITextureProvider();
-		prov2.setMenuButton(Textures.tex_buttongui[4], VisualButtonState.NORMAL);
-		prov2.setMenuButton(Textures.tex_buttongui[5], VisualButtonState.HOVERED);
-		prov2.setMenuButton(Textures.tex_buttongui[6], VisualButtonState.PRESSED);
-		prov2.setMenuButton(Textures.tex_buttongui[7], VisualButtonState.DISABLED);
+		prov2.setGeneric9SideTexture(MenuButton.class, Textures.tex_buttongui[4], VisualButtonState.NORMAL);
+		prov2.setGeneric9SideTexture(MenuButton.class, Textures.tex_buttongui[5], VisualButtonState.HOVERED);
+		prov2.setGeneric9SideTexture(MenuButton.class, Textures.tex_buttongui[6], VisualButtonState.PRESSED);
+		prov2.setGeneric9SideTexture(MenuButton.class, Textures.tex_buttongui[7], VisualButtonState.DISABLED);
 		
-		final MenuPanel p = new MenuPanel();
+		final MenuPanel p = new MenuPanel(prov);
 		p.setBoundaries(450, 50, 600, 310);
 		
 		final MenuLabel l2 = new MenuLabel();
 		l2.setBoundaries(115, 130, 300, 40);
 		l2.setAlign(HorzAlign.LEFT, VertAlign.CENTER);
+		l2.setContent("Thank You !");
+		l2.setColor(Color.LIGHT_GRAY);
+		l2.setVisible(false);
 		p.addChildren(l2);
 
 		final MenuButton b = new MenuButton(prov);
@@ -65,7 +70,7 @@ public class ManualMenu extends MenuLayer {
 			@Override
 			public void onFocus(MenuElement element, String identifier) {/**/}
 			@Override
-			public void onClicked(MenuElement element, String identifier) {l2.setContent("Thank You !");}
+			public void onClicked(MenuElement element, String identifier) {l2.setVisible(true);}
 		});
 		p.addChildren(b);
 		

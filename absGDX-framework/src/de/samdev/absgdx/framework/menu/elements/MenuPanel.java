@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 import de.samdev.absgdx.framework.layer.MenuLayer;
+import de.samdev.absgdx.framework.menu.GUITextureProvider;
 import de.samdev.absgdx.framework.menu.events.MenuPanelListener;
 
 /**
@@ -36,6 +37,17 @@ public class MenuPanel extends MenuElement {
 		
 		this.elements = new ArrayList<MenuElement>();
 	}
+
+	/**
+	 * Creates a new Panel (with no children)
+	 * 
+	 * @param texprovider the texture provider for this element
+	 */
+	public MenuPanel(GUITextureProvider texprovider) {
+		super(texprovider);
+		
+		this.elements = new ArrayList<MenuElement>();
+	}
 	
 	@Override
 	public void renderElement(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont defaultfont, MenuLayer owner) {
@@ -54,6 +66,15 @@ public class MenuPanel extends MenuElement {
 	
 	@Override
 	public void render(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
+		if (getTextureProvider().hasGeneric9SideTextures(getClass())) {
+			render9SideTexture(sbatch);
+		} else {
+			renderSimple(srenderer);
+		}
+		
+	}
+
+	private void renderSimple(ShapeRenderer srenderer) {
 		srenderer.begin(ShapeType.Filled);
 		{
 			float grayValue = 1f - (getDepth() % 16) / 15f;

@@ -58,6 +58,8 @@ public abstract class MenuLayer extends AgdxLayer {
 		super(owner);
 		
 		this.root = layerroot;
+		this.root.setPosition(0, 0);
+		this.root.setSize(owner.getScreenWidth(), owner.getScreenHeight());
 		this.root.pack(this);
 		
 		this.font = bmpfont;

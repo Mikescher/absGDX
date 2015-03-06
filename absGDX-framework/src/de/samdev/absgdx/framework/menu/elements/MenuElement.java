@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.math.Rectangle;
 import de.samdev.absgdx.framework.layer.MenuLayer;
 import de.samdev.absgdx.framework.menu.GUITextureProvider;
 import de.samdev.absgdx.framework.menu.events.MenuElementListener;
+import de.samdev.absgdx.framework.util.MenuRenderHelper;
 
 /**
  * A single element in a Menu Layer (e.g. Buttons, Panels, Checkboxes ...)
@@ -105,6 +107,48 @@ public abstract class MenuElement {
 			}
 			srenderer.end();
 		}
+	}
+
+	protected void render9SideTexture(SpriteBatch sbatch) {
+		render9SideTexture(sbatch, null);
+	}
+	
+	protected void render9SideTexture(SpriteBatch sbatch, Object appendix) {
+		String app = (appendix == null || appendix.toString().isEmpty()) ? "" : ("#" + appendix.toString());
+		
+		TextureRegion tex_TL = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_TL + app);
+		TextureRegion tex_TT = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_TT + app);
+		TextureRegion tex_TR = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_TR + app);
+		TextureRegion tex_LL = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_LL + app);
+		TextureRegion tex_CC = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_CC + app);
+		TextureRegion tex_RR = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_RR + app);
+		TextureRegion tex_BL = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_BL + app);
+		TextureRegion tex_BB = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_BB + app);
+		TextureRegion tex_BR = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_BR + app);
+		
+		sbatch.getTransformMatrix().translate(getPositionX(), getPositionY(), 0);
+		sbatch.begin();
+		
+		// Corners
+		
+		MenuRenderHelper.drawTexture(sbatch, tex_TL, 0, 0);
+		MenuRenderHelper.drawTexture(sbatch, tex_TR, getWidth() - tex_TR.getRegionWidth(), 0);
+		MenuRenderHelper.drawTexture(sbatch, tex_BL, 0, getHeight() - tex_BL.getRegionHeight());
+		MenuRenderHelper.drawTexture(sbatch, tex_BR, getWidth() - tex_BR.getRegionWidth(), getHeight() - tex_BR.getRegionHeight());
+		
+		// Edges
+		
+		MenuRenderHelper.drawTextureRepeated(sbatch, tex_TT, tex_TL.getRegionWidth(), 0, getWidth() - tex_TL.getRegionWidth() - tex_TR.getRegionWidth(), tex_TT.getRegionHeight() + 20);
+		MenuRenderHelper.drawTextureRepeated(sbatch, tex_LL, 0, tex_TL.getRegionHeight(), tex_LL.getRegionWidth(), getHeight() - tex_TL.getRegionHeight() - tex_BL.getRegionHeight());
+		MenuRenderHelper.drawTextureRepeated(sbatch, tex_BB, tex_TL.getRegionWidth(), getHeight() -tex_BB.getRegionHeight(), getWidth() - tex_TL.getRegionWidth() - tex_TR.getRegionWidth(), tex_BB.getRegionHeight());
+		MenuRenderHelper.drawTextureRepeated(sbatch, tex_RR, getWidth() - tex_RR.getRegionWidth(), tex_TL.getRegionHeight(), tex_LL.getRegionWidth(), getHeight() - tex_TL.getRegionHeight() - tex_BL.getRegionHeight());
+
+		// center
+		
+		MenuRenderHelper.drawTextureRepeated(sbatch, tex_CC, tex_TL.getRegionWidth(), tex_TL.getRegionHeight(), getWidth() - tex_BR.getRegionWidth() - tex_TL.getRegionWidth(), getHeight() - tex_BR.getRegionHeight() - tex_TL.getRegionHeight());
+		
+		sbatch.end();
+		sbatch.getTransformMatrix().translate(-getPositionX(), -getPositionY(), 0);
 	}
 
 	/**

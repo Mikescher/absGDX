@@ -48,7 +48,7 @@ public class MenuButton extends MenuElement {
 		innerLabel.setAlign(HorzAlign.CENTER, VertAlign.CENTER);
 
 		if (getTextureProvider().hasGeneric9SideTextures(getClass(), VisualButtonState.NORMAL))
-			setPadding(get9SidePadding());
+			setPadding(get9SidePadding(VisualButtonState.NORMAL));
 	}
 	
 	/**
@@ -65,7 +65,7 @@ public class MenuButton extends MenuElement {
 		innerLabel.setAlign(HorzAlign.CENTER, VertAlign.CENTER);
 
 		if (getTextureProvider().hasGeneric9SideTextures(getClass(), VisualButtonState.NORMAL))
-			setPadding(get9SidePadding());
+			setPadding(get9SidePadding(VisualButtonState.NORMAL));
 	}
 
 	@Override

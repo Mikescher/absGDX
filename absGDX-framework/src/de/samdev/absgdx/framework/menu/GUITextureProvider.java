@@ -4,6 +4,11 @@ import java.util.HashMap;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import de.samdev.absgdx.framework.menu.attributes.VisualButtonState;
+import de.samdev.absgdx.framework.menu.elements.MenuButton;
+import de.samdev.absgdx.framework.menu.elements.MenuEdit;
+import de.samdev.absgdx.framework.menu.elements.MenuPanel;
+
 /**
  * Class that provides Textures for GUI objects
  * Textures are identified by target class + identifier
@@ -175,6 +180,35 @@ public class GUITextureProvider {
 		set(tclass, IDENT_TEX_GENERIC_BL + app, texture[2][0]);
 		set(tclass, IDENT_TEX_GENERIC_BB + app, texture[2][1]);
 		set(tclass, IDENT_TEX_GENERIC_BR + app, texture[2][2]);
+	}
+	
+	/**
+	 * Set the textures for MenuButton
+	 * 
+	 * @param texture the textures ordered in a 3x3 square ( TextureRegion[Y][X] )
+	 * @param state The button state
+	 */
+	public void setMenuButtonTexture(TextureRegion[][] texture, VisualButtonState state) {
+		setGeneric9SideTexture(MenuButton.class, texture, state);
+	}
+	
+	/**
+	 * Set the textures for MenuButton
+	 * 
+	 * @param texture the textures ordered in a 3x3 square ( TextureRegion[Y][X] )
+	 */
+	public void setMenuPanelTexture(TextureRegion[][] texture) {
+		setGeneric9SideTexture(MenuPanel.class, texture, null);
+	}
+	
+	/**
+	 * Set the textures for MenuButton
+	 * 
+	 * @param texture the textures ordered in a 3x3 square ( TextureRegion[Y][X] )
+	 * @param focused If the Edit has focus
+	 */
+	public void setMenuEditTexture(TextureRegion[][] texture, boolean focused) {
+		setGeneric9SideTexture(MenuEdit.class, texture, focused);
 	}
 
 	/**

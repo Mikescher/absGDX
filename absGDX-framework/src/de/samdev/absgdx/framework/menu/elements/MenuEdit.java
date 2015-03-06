@@ -7,10 +7,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
+import de.samdev.absgdx.framework.menu.GUITextureProvider;
 import de.samdev.absgdx.framework.menu.attributes.HorzAlign;
 import de.samdev.absgdx.framework.menu.attributes.RectangleRadius;
 import de.samdev.absgdx.framework.menu.attributes.TextAutoScaleMode;
 import de.samdev.absgdx.framework.menu.attributes.VertAlign;
+import de.samdev.absgdx.framework.menu.attributes.VisualButtonState;
 import de.samdev.absgdx.framework.menu.events.MenuEditListener;
 import de.samdev.absgdx.framework.menu.events.MenuElementListener;
 
@@ -39,6 +41,43 @@ public class MenuEdit extends MenuElement {
 		innerLabel.setAutoScale(TextAutoScaleMode.VERTICAL);
 		innerLabel.setContent("");
 	}
+	
+	/**
+	 * Creates a new MenuButton
+	 * 
+	 * @param texprovider the texture provider for this element
+	 */
+	public MenuEdit(GUITextureProvider texprovider) {
+		super(texprovider);
+		
+		innerLabel = new MenuLabel();
+		innerLabel.setAlign(HorzAlign.LEFT, VertAlign.CENTER);
+
+		innerLabel.setAutoScale(TextAutoScaleMode.VERTICAL);
+		innerLabel.setContent("");
+
+		if (getTextureProvider().hasGeneric9SideTextures(getClass(), false))
+			setPadding(get9SidePadding(false));
+	}
+	
+	/**
+	 * Creates a new MenuButton
+	 * 
+	 * @param identifier the unique button identifier
+	 * @param texprovider the texture provider for this element
+	 */
+	public MenuEdit(String identifier, GUITextureProvider texprovider) {
+		super(identifier, texprovider);
+		
+		innerLabel = new MenuLabel();
+		innerLabel.setAlign(HorzAlign.LEFT, VertAlign.CENTER);
+
+		innerLabel.setAutoScale(TextAutoScaleMode.VERTICAL);
+		innerLabel.setContent("");
+
+		if (getTextureProvider().hasGeneric9SideTextures(getClass(), false))
+			setPadding(get9SidePadding(false));
+	}
 
 	@Override
 	public void render(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
@@ -59,6 +98,25 @@ public class MenuEdit extends MenuElement {
 		
 		innerLabel.setContent(disp);
 		
+		if (getTextureProvider().hasGeneric9SideTextures(getClass(), isFocused())) {
+			render9SideTexture(sbatch, isFocused());
+		} else {
+			renderSimple(srenderer);
+		}
+		
+		if (blinkCounter * 2 < BLINK_DELAY && isFocused()) {
+			srenderer.begin(ShapeType.Filled);
+			
+			srenderer.setColor(getColor());
+			srenderer.rect(innerLabel.getPositionX() + font.getBounds(disp).width + cbWidth, innerLabel.getPositionY(), cbWidth, innerLabel.getHeight());
+			
+			srenderer.end();
+		}
+		
+		innerLabel.render(sbatch, srenderer, font);
+	}
+
+	private void renderSimple(ShapeRenderer srenderer) {
 		srenderer.begin(ShapeType.Filled);
 		{
 			srenderer.setColor(Color.WHITE);
@@ -72,17 +130,6 @@ public class MenuEdit extends MenuElement {
 			srenderer.rect(getPositionX(), getPositionY(), getWidth(), getHeight());
 		}
 		srenderer.end();
-		
-		if (blinkCounter * 2 < BLINK_DELAY && isFocused()) {
-			srenderer.begin(ShapeType.Filled);
-			
-			srenderer.setColor(Color.BLACK);
-			srenderer.rect(innerLabel.getPositionX() + font.getBounds(disp).width + cbWidth, innerLabel.getPositionY(), cbWidth, innerLabel.getHeight());
-			
-			srenderer.end();
-		}
-		
-		innerLabel.render(sbatch, srenderer, font);
 	}
 
 	@Override

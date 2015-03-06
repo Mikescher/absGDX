@@ -153,22 +153,24 @@ public abstract class MenuElement {
 		sbatch.getTransformMatrix().translate(-getPositionX(), -getPositionY(), 0);
 	}
 	
-	protected RectangleRadius get9SidePadding() {
-		int pad_top_1 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_TL + "#" + VisualButtonState.NORMAL).getRegionHeight();
-		int pad_top_2 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_TT + "#" + VisualButtonState.NORMAL).getRegionHeight();
-		int pad_top_3 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_TR + "#" + VisualButtonState.NORMAL).getRegionHeight();
-
-		int pad_lef_1 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_LL + "#" + VisualButtonState.NORMAL).getRegionWidth();
-		int pad_lef_2 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_TL + "#" + VisualButtonState.NORMAL).getRegionWidth();
-		int pad_lef_3 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_BL + "#" + VisualButtonState.NORMAL).getRegionWidth();
+	protected RectangleRadius get9SidePadding(Object appendix) {
+		String app = (appendix == null || appendix.toString().isEmpty()) ? "" : ("#" + appendix.toString());
 		
-		int pad_bot_1 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_BL + "#" + VisualButtonState.NORMAL).getRegionHeight();
-		int pad_bot_2 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_BB + "#" + VisualButtonState.NORMAL).getRegionHeight();
-		int pad_bot_3 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_BR + "#" + VisualButtonState.NORMAL).getRegionHeight();
+		int pad_top_1 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_TL + app).getRegionHeight();
+		int pad_top_2 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_TT + app).getRegionHeight();
+		int pad_top_3 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_TR + app).getRegionHeight();
 
-		int pad_rig_1 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_RR + "#" + VisualButtonState.NORMAL).getRegionWidth();
-		int pad_rig_2 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_TR + "#" + VisualButtonState.NORMAL).getRegionWidth();
-		int pad_rig_3 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_BR + "#" + VisualButtonState.NORMAL).getRegionWidth();
+		int pad_lef_1 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_LL + app).getRegionWidth();
+		int pad_lef_2 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_TL + app).getRegionWidth();
+		int pad_lef_3 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_BL + app).getRegionWidth();
+
+		int pad_bot_1 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_BL + app).getRegionHeight();
+		int pad_bot_2 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_BB + app).getRegionHeight();
+		int pad_bot_3 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_BR + app).getRegionHeight();
+
+		int pad_rig_1 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_RR + app).getRegionWidth();
+		int pad_rig_2 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_TR + app).getRegionWidth();
+		int pad_rig_3 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_BR + app).getRegionWidth();
 		
 		int pad_top = Math.max(Math.max(pad_top_1, pad_top_2), pad_top_3);
 		int pad_lef = Math.max(Math.max(pad_lef_1, pad_lef_2), pad_lef_3);

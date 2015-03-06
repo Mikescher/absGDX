@@ -28,18 +28,21 @@ public class ManualMenu extends MenuLayer {
 		super(owner, new BitmapFont(Gdx.files.internal("consolefont.fnt")));
 
 		GUITextureProvider prov = new GUITextureProvider();
-		prov.setGeneric9SideTexture(MenuButton.class, Textures.tex_buttongui[0], VisualButtonState.NORMAL);
-		prov.setGeneric9SideTexture(MenuButton.class, Textures.tex_buttongui[1], VisualButtonState.HOVERED);
-		prov.setGeneric9SideTexture(MenuButton.class, Textures.tex_buttongui[2], VisualButtonState.PRESSED);
-		prov.setGeneric9SideTexture(MenuButton.class, Textures.tex_buttongui[3], VisualButtonState.DISABLED);
+		prov.setMenuButtonTexture(Textures.tex_buttongui[0], VisualButtonState.NORMAL);
+		prov.setMenuButtonTexture(Textures.tex_buttongui[1], VisualButtonState.HOVERED);
+		prov.setMenuButtonTexture(Textures.tex_buttongui[2], VisualButtonState.PRESSED);
+		prov.setMenuButtonTexture(Textures.tex_buttongui[3], VisualButtonState.DISABLED);
 
-		prov.setGeneric9SideTexture(MenuPanel.class, Textures.tex_panelgui);
+		prov.setMenuPanelTexture(Textures.tex_panelgui);
+		
+		prov.setMenuEditTexture(Textures.tex_textfield, false);
+		prov.setMenuEditTexture(Textures.tex_textfield_focus, true);
 
 		GUITextureProvider prov2 = new GUITextureProvider();
-		prov2.setGeneric9SideTexture(MenuButton.class, Textures.tex_buttongui[4], VisualButtonState.NORMAL);
-		prov2.setGeneric9SideTexture(MenuButton.class, Textures.tex_buttongui[5], VisualButtonState.HOVERED);
-		prov2.setGeneric9SideTexture(MenuButton.class, Textures.tex_buttongui[6], VisualButtonState.PRESSED);
-		prov2.setGeneric9SideTexture(MenuButton.class, Textures.tex_buttongui[7], VisualButtonState.DISABLED);
+		prov2.setMenuButtonTexture(Textures.tex_buttongui[4], VisualButtonState.NORMAL);
+		prov2.setMenuButtonTexture(Textures.tex_buttongui[5], VisualButtonState.HOVERED);
+		prov2.setMenuButtonTexture(Textures.tex_buttongui[6], VisualButtonState.PRESSED);
+		prov2.setMenuButtonTexture(Textures.tex_buttongui[7], VisualButtonState.DISABLED);
 		
 		final MenuPanel p = new MenuPanel(prov);
 		p.setBoundaries(450, 50, 600, 310);
@@ -90,7 +93,7 @@ public class ManualMenu extends MenuLayer {
 		l.setAutoScale(TextAutoScaleMode.BOTH);
 		l.setAlign(HorzAlign.CENTER, VertAlign.CENTER);
 		l.setContent("absGDX Example Menu");
-		l.setColor(Color.MAROON);
+		l.setColor(Color.TEAL);
 		p.addChildren(l);
 
 		final MenuImage i3 = new MenuImage();
@@ -98,9 +101,11 @@ public class ManualMenu extends MenuLayer {
 		i3.setImage(Textures.tex_animation, 3500);
 		p.addChildren(i3);
 		
-		final MenuEdit e = new MenuEdit();
+		final MenuEdit e = new MenuEdit(prov);
 		e.setBoundaries(25, 200, 400, 40);
 		e.setContent("Edit Me");
+		e.setPadding(10, 10, 10, 10);
+		e.setColor(Color.WHITE);
 		p.addChildren(e);
 		
 		final MenuButton b2 = new MenuButton(prov2);

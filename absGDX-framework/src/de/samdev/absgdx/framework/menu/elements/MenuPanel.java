@@ -160,4 +160,9 @@ public class MenuPanel extends MenuElement {
 		
 		return this;
 	}
+
+	@Override
+	public int getElementCount() {
+		return 1 + elements.size();
+	}
 }

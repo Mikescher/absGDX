@@ -258,4 +258,9 @@ public class MenuLabel extends MenuElement {
 	public MenuElement getElementAt(int x, int y) {
 		return this;
 	}
+
+	@Override
+	public int getElementCount() {
+		return 1;
+	}
 }

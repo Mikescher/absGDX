@@ -7,6 +7,7 @@ import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.sun.org.apache.xpath.internal.operations.Gte;
 
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.menu.elements.MenuElement;
@@ -194,5 +195,12 @@ public abstract class MenuLayer extends AgdxLayer {
 	 */
 	public boolean isHovered(MenuElement el) {
 		return element_hovered == el;
+	}
+
+	/**
+	 * @return the count of elements in this layer
+	 */
+	public int getElementCount() {
+		return 1 + getRoot().getElementCount();
 	}
 }

@@ -150,6 +150,11 @@ public abstract class MenuElement {
 		sbatch.end();
 		sbatch.getTransformMatrix().translate(-getPositionX(), -getPositionY(), 0);
 	}
+	
+	/**
+	 * @return the element count (1 + children.count)
+	 */
+	public abstract int getElementCount();
 
 	/**
 	 * Called when the tree structure drastically changes
@@ -489,5 +494,12 @@ public abstract class MenuElement {
 	 */
 	public GUITextureProvider getTextureProvider() {
 		return textureprovider;
+	}
+	
+	/**
+	 * @return the cout of listener
+	 */
+	public int getListenerCount() {
+		return listeners.size();
 	}
 }

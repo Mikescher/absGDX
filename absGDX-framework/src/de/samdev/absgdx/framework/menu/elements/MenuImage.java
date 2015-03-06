@@ -165,4 +165,9 @@ public class MenuImage extends MenuElement {
 	public void setBehavior(ImageBehavior behavior) {
 		this.behavior = behavior;
 	}
+
+	@Override
+	public int getElementCount() {
+		return 1;
+	}
 }

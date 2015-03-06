@@ -25,6 +25,10 @@ public class GameSettings {
 	public BooleanProperty debugEnabled;
 	/** SHow Debug Text info in the top left corner */
 	public BooleanProperty debugTextInfos;
+	/** SHow Debug Text info in the top left corner (GameLayer) */
+	public BooleanProperty debugGameLayerTextInfos;
+	/** SHow Debug Text info in the top left corner (MenuLayer) */
+	public BooleanProperty debugMenuLayerTextInfos;
 	/** Show FPS */
 	public BooleanProperty debugTextFPS;
 	/** Show timing information */
@@ -71,6 +75,12 @@ public class GameSettings {
 	public BooleanProperty debugMenuBorders;
 	/** The debug border color of MenuElements  */
 	public ColorProperty debugMenuBordersColor;
+	/** Show generic MenuElement info's */
+	public BooleanProperty debugElementInfo;
+	/** Show the MenuElement dimensions */
+	public BooleanProperty debugElementBoundaries;
+	/** Show special MenuElement attributes */
+	public BooleanProperty debugElementAttributes;
 	
 	/**
 	 * Creates a new instance of GameSettings
@@ -90,15 +100,25 @@ public class GameSettings {
 				{
 					debugTextInfos = new BooleanProperty("debugTextInfos", true, debugEnabled);
 					{
-						debugTextSize = new IntegerProperty("debugTextSize", 1, debugTextInfos);
-						
-						debugTextFPS = new BooleanProperty("debugTextFPS", true, debugTextInfos);
-						debugTextTiming = new BooleanProperty("debugTextTiming", true, debugTextInfos);
-						debugTextMemory = new BooleanProperty("debugTextMemory", true, debugTextInfos);
-						debugTextMap = new BooleanProperty("debugTextMap", true, debugTextInfos);
-						debugTextEntities = new BooleanProperty("debugTextEntities", true, debugTextInfos);
-						debugTextCollisionGeometries = new BooleanProperty("debugTextCollisionGeometries", true, debugTextInfos);
-						debugTextInput = new BooleanProperty("debugTextInput", true, debugTextInfos);
+						debugGameLayerTextInfos = new BooleanProperty("debugGameLayerTextInfos", true, debugTextInfos);
+						{
+							debugTextSize = new IntegerProperty("debugTextSize", 1, debugGameLayerTextInfos);
+							
+							debugTextFPS = new BooleanProperty("debugTextFPS", true, debugGameLayerTextInfos);
+							debugTextTiming = new BooleanProperty("debugTextTiming", true, debugGameLayerTextInfos);
+							debugTextMemory = new BooleanProperty("debugTextMemory", true, debugGameLayerTextInfos);
+							debugTextMap = new BooleanProperty("debugTextMap", true, debugGameLayerTextInfos);
+							debugTextEntities = new BooleanProperty("debugTextEntities", true, debugGameLayerTextInfos);
+							debugTextCollisionGeometries = new BooleanProperty("debugTextCollisionGeometries", true, debugGameLayerTextInfos);
+							debugTextInput = new BooleanProperty("debugTextInput", true, debugGameLayerTextInfos);
+						}
+
+						debugMenuLayerTextInfos = new BooleanProperty("debugMenuLayerTextInfos", true, debugTextInfos);
+						{
+							debugElementInfo = new BooleanProperty("debugElementInfo", true, debugMenuLayerTextInfos);
+							debugElementBoundaries = new BooleanProperty("debugElementBoundaries", true, debugMenuLayerTextInfos);
+							debugElementAttributes = new BooleanProperty("debugElementAttributes", true, debugMenuLayerTextInfos);
+						}
 					}
 
 					debugVisualMap = new BooleanProperty("debugVisualMap", true, debugEnabled);

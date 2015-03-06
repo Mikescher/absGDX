@@ -3,7 +3,6 @@ package de.samdev.absgdx.framework.menu.elements;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
@@ -14,7 +13,6 @@ import de.samdev.absgdx.framework.menu.attributes.TextAutoScaleMode;
 import de.samdev.absgdx.framework.menu.attributes.VertAlign;
 import de.samdev.absgdx.framework.menu.attributes.VisualButtonState;
 import de.samdev.absgdx.framework.menu.events.MenuButtonListener;
-import de.samdev.absgdx.framework.util.MenuRenderHelper;
 
 /**
  * A click-able Button
@@ -317,5 +315,10 @@ public class MenuButton extends MenuElement {
 		super.onEndHover();
 		
 		visualState = VisualButtonState.NORMAL;
+	}
+
+	@Override
+	public int getElementCount() {
+		return 1;
 	}
 }

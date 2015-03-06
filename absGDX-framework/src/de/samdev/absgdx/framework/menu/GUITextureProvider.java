@@ -176,4 +176,11 @@ public class GUITextureProvider {
 		set(tclass, IDENT_TEX_GENERIC_BB + app, texture[2][1]);
 		set(tclass, IDENT_TEX_GENERIC_BR + app, texture[2][2]);
 	}
+
+	/**
+	 * @return the amount of included textures
+	 */
+	public int getRegisteredTexturesCount() {
+		return map.size();
+	}
 }

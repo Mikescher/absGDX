@@ -253,4 +253,9 @@ public class MenuEdit extends MenuElement {
 			blinkCounter = 0;
 		}
 	}
+
+	@Override
+	public int getElementCount() {
+		return 1;
+	}
 }

@@ -41,9 +41,14 @@ public abstract class MenuElement {
 	public final String identifier;
 	
 	/**
-	 * the owner *(can be null when not added to layer)*
+	 * the owner-layer *(can be null when not added to layer)*
 	 */
 	protected MenuLayer layer;
+	
+	/**
+	 * the owner *(can be null when not added to an owner)*
+	 */
+	protected MenuElement owner;
 	
 	/**
 	 * Creates a new MenuElement (with a random identifier)
@@ -188,10 +193,12 @@ public abstract class MenuElement {
 	 * Called when the tree structure drastically changes
 	 * (e.g. added to a MenuLayer)
 	 * 
-	 * @param owner
+	 * @param layer the parent layer
+	 * @param owner the parent element
 	 */
-	public void pack(MenuLayer owner) {
-		this.layer = owner;
+	public void pack(MenuLayer layer, MenuElement owner) {
+		this.layer = layer;
+		this.owner = owner;
 	}
 	
 	/**
@@ -236,6 +243,13 @@ public abstract class MenuElement {
 	 * @return
 	 */
 	public abstract MenuElement getElementAt(int x, int y);
+	
+	/**
+	 * @return all children of this element (normally empty - except Panel etc)
+	 */
+	public List<MenuElement> getChildren() {
+		return new ArrayList<MenuElement>();
+	}
 	
 	/**
 	 * Called on PointerDown event

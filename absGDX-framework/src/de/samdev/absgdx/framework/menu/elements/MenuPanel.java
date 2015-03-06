@@ -110,18 +110,14 @@ public class MenuPanel extends MenuElement {
 	}
 	
 	@Override
-	public void pack(MenuLayer owner) {
-		super.pack(owner);
+	public void pack(MenuLayer layer, MenuElement owner) {
+		super.pack(layer, owner);
 		
 		for (MenuElement element : elements) {
-			element.layer = this.layer;
+			element.pack(layer, this);
 		}
 		
 		setDepth(getDepth());
-		
-		for (MenuElement element : elements) {
-			element.pack(owner);
-		}
 	}
 	
 	/**
@@ -133,7 +129,7 @@ public class MenuPanel extends MenuElement {
 	public void addChildren(MenuElement element) {
 		elements.add(element);
 		
-		pack(this.layer);
+		pack(this.layer, this.owner);
 	}
 	
 	/**
@@ -145,8 +141,8 @@ public class MenuPanel extends MenuElement {
 	 */
 	public boolean removeChildren(MenuElement element) {
 		boolean success = elements.remove(element);
-		
-		pack(this.layer);
+
+		pack(this.layer, this.owner);
 		
 		return success;
 	}
@@ -159,6 +155,11 @@ public class MenuPanel extends MenuElement {
 		}
 		
 		return this;
+	}
+
+	@Override
+	public List<MenuElement> getChildren() {
+		return elements;
 	}
 
 	@Override

@@ -4,7 +4,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
+import de.samdev.absgdx.framework.layer.MenuLayer;
 import de.samdev.absgdx.framework.menu.attributes.ImageBehavior;
 import de.samdev.absgdx.framework.menu.events.MenuImageListener;
 
@@ -34,6 +36,24 @@ public class MenuImage extends MenuElement {
 	 */
 	public MenuImage(String identifier) {
 		super(identifier);
+	}
+
+	@Override
+	public void renderElement(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont defaultfont, MenuLayer owner) {
+		super.renderElement(sbatch, srenderer, defaultfont, owner);
+		
+		if (owner.owner.settings.debugMenuImageAnimation.isActive() && isAnimated()) {
+			srenderer.begin(ShapeType.Filled);
+			{
+				srenderer.setColor(owner.owner.settings.debugMenuBordersColor.get());
+				
+				srenderer.rect(getPositionX(), getPositionY(), (animationPos/animationLength) * getWidth(), 3);
+				srenderer.rect(getPositionX() + getWidth(), getPositionY() + getHeight(), -(animationPos/animationLength) * getWidth(), -4);
+				srenderer.rect(getPositionX(), getPositionY() + getHeight(), 3, -(animationPos/animationLength) * getHeight());
+				srenderer.rect(getPositionX() + getWidth(), getPositionY(), -4, (animationPos/animationLength) * getHeight());
+			}
+			srenderer.end();
+		}
 	}
 
 	@Override

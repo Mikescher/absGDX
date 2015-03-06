@@ -6,9 +6,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import de.samdev.absgdx.framework.menu.attributes.VisualButtonState;
 import de.samdev.absgdx.framework.menu.elements.MenuButton;
-import de.samdev.absgdx.framework.menu.elements.MenuCheckbox;
+import de.samdev.absgdx.framework.menu.elements.MenuCheckBox;
 import de.samdev.absgdx.framework.menu.elements.MenuEdit;
 import de.samdev.absgdx.framework.menu.elements.MenuPanel;
+import de.samdev.absgdx.framework.menu.elements.MenuRadioButton;
 
 /**
  * Class that provides Textures for GUI objects
@@ -35,10 +36,8 @@ public class GUITextureProvider {
 	public final static String IDENT_TEX_GENERIC_LL = "left";
 	/** Identifier for a specific texture (??? :: Center) */
 	public final static String IDENT_TEX_GENERIC_CC = "center";
-	/** Identifier for the checkbox on|off texture */
-	public final static String IDENT_TEX_CHECKBOX_IMG = "cbimg";
-	/** Identifier for the radiobutton on|off texture */
-	public final static String IDENT_TEX_RADIOBUTTON_IMG = "rbimg";
+	/** Identifier for the checkbox/radiobutton [on|off] texture */
+	public final static String IDENT_TEX_CHECK_IMG = "checkimg";
 
 	/** Identifier for all MenuButton textures */
 	public final static String[] IDENT_TEX_GENERIC = {
@@ -242,13 +241,23 @@ public class GUITextureProvider {
 	}
 	
 	/**
-	 * Set the textures for MenuButton
+	 * Set the textures for MenuCheckbox
 	 * 
 	 * @param texture the texture
 	 * @param checked if it is checked
 	 */
-	public void setMenuCheckboxTexture(TextureRegion texture, boolean checked) {
-		set(MenuCheckbox.class, IDENT_TEX_CHECKBOX_IMG, checked, texture);
+	public void setMenuCheckBoxTexture(TextureRegion texture, boolean checked) {
+		set(MenuCheckBox.class, IDENT_TEX_CHECK_IMG, checked, texture);
+	}
+	
+	/**
+	 * Set the textures for MenuRadioButton
+	 * 
+	 * @param texture the texture
+	 * @param checked if it is checked
+	 */
+	public void setMenuRadioButtonTexture(TextureRegion texture, boolean checked) {
+		set(MenuRadioButton.class, IDENT_TEX_CHECK_IMG, checked, texture);
 	}
 
 	/**

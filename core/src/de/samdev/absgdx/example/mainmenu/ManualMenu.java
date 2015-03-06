@@ -15,12 +15,13 @@ import de.samdev.absgdx.framework.menu.attributes.TextAutoScaleMode;
 import de.samdev.absgdx.framework.menu.attributes.VertAlign;
 import de.samdev.absgdx.framework.menu.attributes.VisualButtonState;
 import de.samdev.absgdx.framework.menu.elements.MenuButton;
-import de.samdev.absgdx.framework.menu.elements.MenuCheckbox;
+import de.samdev.absgdx.framework.menu.elements.MenuCheckBox;
 import de.samdev.absgdx.framework.menu.elements.MenuEdit;
 import de.samdev.absgdx.framework.menu.elements.MenuElement;
 import de.samdev.absgdx.framework.menu.elements.MenuImage;
 import de.samdev.absgdx.framework.menu.elements.MenuLabel;
 import de.samdev.absgdx.framework.menu.elements.MenuPanel;
+import de.samdev.absgdx.framework.menu.elements.MenuRadioButton;
 import de.samdev.absgdx.framework.menu.events.MenuButtonListener;
 
 public class ManualMenu extends MenuLayer {
@@ -39,8 +40,11 @@ public class ManualMenu extends MenuLayer {
 		prov.setMenuEditTexture(Textures.tex_textfield, false);
 		prov.setMenuEditTexture(Textures.tex_textfield_focus, true);
 		
-		prov.setMenuCheckboxTexture(Textures.tex_gui_checkers[0][0], true);
-		prov.setMenuCheckboxTexture(Textures.tex_gui_checkers[0][1], false);
+		prov.setMenuCheckBoxTexture(Textures.tex_gui_checkers[0][0], true);
+		prov.setMenuCheckBoxTexture(Textures.tex_gui_checkers[0][1], false);
+		
+		prov.setMenuRadioButtonTexture(Textures.tex_gui_checkers[3][0], true);
+		prov.setMenuRadioButtonTexture(Textures.tex_gui_checkers[3][1], false);
 
 		GUITextureProvider prov2 = new GUITextureProvider();
 		prov2.setMenuButtonTexture(Textures.tex_buttongui[4], VisualButtonState.NORMAL);
@@ -52,16 +56,16 @@ public class ManualMenu extends MenuLayer {
 		p.setBoundaries(250, 50, 600, 310);
 		
 		final MenuLabel l2 = new MenuLabel();
-		l2.setBoundaries(115, 100, 300, 40);
+		l2.setBoundaries(150, 100, 275, 40);
 		l2.setAlign(HorzAlign.LEFT, VertAlign.CENTER);
-		l2.setContent("Thank You !");
+		l2.setContent("Press F1 !");
 		l2.setColor(Color.LIGHT_GRAY);
 		l2.setVisible(false);
 		p.addChildren(l2);
 
 		final MenuButton b = new MenuButton(prov);
-		b.setBoundaries(25, 100, 80, 40);
-		b.setContent("Click Me");
+		b.setBoundaries(25, 100, 120, 40);
+		b.setContent("Debug Mode");
 		b.setColor(Color.WHITE);
 		b.addButtonListener(new MenuButtonListener() {
 			@Override
@@ -81,12 +85,11 @@ public class ManualMenu extends MenuLayer {
 		});
 		p.addChildren(b);
 		
-		final MenuCheckbox cb = new MenuCheckbox(prov);
+		final MenuCheckBox cb = new MenuCheckBox(prov);
 		cb.setBoundaries(25, 160, 400, 20);
-		cb.setAlign(HorzAlign.LEFT, VertAlign.CENTER);
 		cb.setContent("Grey Face (No Space)");
 		cb.setColor(Color.LIGHT_GRAY);
-		cb.setPadding(5, 5, 5, 0);
+		cb.setLabelPadding(5, 5, 5, 0);
 		p.addChildren(cb);
 		
 		final MenuImage i1 = new MenuImage();
@@ -174,6 +177,37 @@ public class ManualMenu extends MenuLayer {
 		final MenuPanel p2 = new MenuPanel(prov);
 		p2.setBoundaries(900, 50, 300, 310);
 		
+		final MenuRadioButton rb1 = new MenuRadioButton(prov);
+		rb1.setBoundaries(25, 25, 250, 30);
+		rb1.setContent("Easy");
+		rb1.setColor(Color.LIGHT_GRAY);
+		rb1.setImagePadding(5, 5, 5, 5);
+		rb1.setLabelPadding(5, 0, 5, 0);
+		p2.addChildren(rb1);
+		
+		final MenuRadioButton rb2 = new MenuRadioButton(prov);
+		rb2.setBoundaries(25, 65, 250, 30);
+		rb2.setContent("Normal");
+		rb2.setColor(Color.LIGHT_GRAY);
+		rb2.setImagePadding(5, 5, 5, 5);
+		rb2.setLabelPadding(5, 0, 5, 0);
+		p2.addChildren(rb2);
+		
+		final MenuRadioButton rb3 = new MenuRadioButton(prov);
+		rb3.setBoundaries(25, 105, 250, 30);
+		rb3.setContent("Hard");
+		rb3.setColor(Color.LIGHT_GRAY);
+		rb3.setImagePadding(5, 5, 5, 5);
+		rb3.setLabelPadding(5, 0, 5, 0);
+		p2.addChildren(rb3);
+		
+		final MenuRadioButton rb4 = new MenuRadioButton(prov);
+		rb4.setBoundaries(25, 145, 250, 30);
+		rb4.setContent("Kappa");
+		rb4.setColor(Color.LIGHT_GRAY);
+		rb4.setImagePadding(5, 5, 5, 5);
+		rb4.setLabelPadding(5, 0, 5, 0);
+		p2.addChildren(rb4);
 
 		getRoot().addChildren(p2);
 	}

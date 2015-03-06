@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
+import de.samdev.absgdx.framework.layer.MenuLayer;
 import de.samdev.absgdx.framework.menu.GUITextureProvider;
 import de.samdev.absgdx.framework.menu.attributes.HorzAlign;
 import de.samdev.absgdx.framework.menu.attributes.RectangleRadius;
@@ -18,17 +19,18 @@ import de.samdev.absgdx.framework.util.MenuRenderHelper;
 /**
  * A switch-able Button
  */
-public class MenuCheckbox extends MenuElement {
+public class MenuCheckBox extends MenuElement {
 	private final MenuLabel innerLabel;
 	private final MenuImage innerImage;
 	
 	private boolean checked = false;
-	private RectangleRadius padding = new RectangleRadius(5, 5, 5, 5);
+	private RectangleRadius lbl_padding = new RectangleRadius(5, 0, 0, 0);
+	private RectangleRadius img_padding = new RectangleRadius();
 	
 	/**
 	 * Creates a new MenuButton
 	 */
-	public MenuCheckbox() {
+	public MenuCheckBox() {
 		super();
 		
 		innerLabel = new MenuLabel();
@@ -43,7 +45,7 @@ public class MenuCheckbox extends MenuElement {
 	 * 
 	 * @param texprovider the texture provider for this element
 	 */
-	public MenuCheckbox(GUITextureProvider texprovider) {
+	public MenuCheckBox(GUITextureProvider texprovider) {
 		super(texprovider);
 		
 		innerLabel = new MenuLabel();
@@ -59,7 +61,7 @@ public class MenuCheckbox extends MenuElement {
 	 * @param identifier the unique button identifier
 	 * @param texprovider the texture provider for this element
 	 */
-	public MenuCheckbox(String identifier, GUITextureProvider texprovider) {
+	public MenuCheckBox(String identifier, GUITextureProvider texprovider) {
 		super(identifier, texprovider);
 		
 		innerLabel = new MenuLabel();
@@ -70,14 +72,29 @@ public class MenuCheckbox extends MenuElement {
 	}
 
 	@Override
+	public void renderElement(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont defaultfont, MenuLayer owner) {
+		super.renderElement(sbatch, srenderer, defaultfont, owner);
+		
+		if (owner.owner.settings.debugMenuBorders.isActive()) {
+			srenderer.begin(ShapeType.Line);
+			{
+				srenderer.setColor(owner.owner.settings.debugMenuBordersColorL2.get());
+				srenderer.rect(innerLabel.getPositionX(), innerLabel.getPositionY(), innerLabel.getWidth(), innerLabel.getHeight());
+				srenderer.rect(innerImage.getPositionX(), innerImage.getPositionY(), innerImage.getWidth(), innerImage.getHeight());
+			}
+			srenderer.end();
+		}
+	}
+	
+	@Override
 	public void render(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
-		TextureRegion tex = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_CHECKBOX_IMG, isChecked());
+		TextureRegion tex = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_CHECK_IMG, isChecked());
 		
-		innerImage.setPosition(getPositionX(), getPositionY());
-		innerImage.setSize(getWidth() - getHeight(), getHeight());
+		innerImage.setPosition(getPositionX() + img_padding.left, getPositionY() + img_padding.top);
+		innerImage.setSize(getHeight() - img_padding.getHorizontalSum(), getHeight() - img_padding.getVerticalSum());
 		
-		innerLabel.setPosition(getPositionX() + getHeight() + padding.left, getPositionY() + padding.top);
-		innerLabel.setSize(getWidth() - getHeight() - padding.left - padding.right, getHeight() - padding.top - padding.bottom);
+		innerLabel.setPosition(getPositionX() + getHeight() + img_padding.getHorizontalSum() + lbl_padding.left, getPositionY() + lbl_padding.top);
+		innerLabel.setSize(getWidth() - getHeight() - img_padding.getHorizontalSum() - lbl_padding.getHorizontalSum(), getHeight() - lbl_padding.getVerticalSum());
 		
 		if (tex != null) {
 			renderTextured(sbatch, tex);
@@ -91,7 +108,7 @@ public class MenuCheckbox extends MenuElement {
 	private void renderTextured(SpriteBatch sbatch, TextureRegion texture) {
 		sbatch.begin();
 		
-		MenuRenderHelper.drawTextureStretched(sbatch, texture, getPositionX(), getPositionY(), getHeight(), getHeight());
+		MenuRenderHelper.drawTextureStretched(sbatch, texture, getPositionX() + img_padding.left, getPositionY() + img_padding.top, getHeight() - img_padding.getVerticalSum(), getHeight() - img_padding.getHorizontalSum());
 		
 		sbatch.end();
 	}
@@ -135,8 +152,8 @@ public class MenuCheckbox extends MenuElement {
 	/**
 	 * @return the text padding
 	 */
-	public RectangleRadius getPadding() {
-		return padding;
+	public RectangleRadius getLabelPadding() {
+		return lbl_padding;
 	}
 
 	/**
@@ -144,20 +161,48 @@ public class MenuCheckbox extends MenuElement {
 	 * 
 	 * @param padding the new padding
 	 */
-	public void setPadding(RectangleRadius padding) {
-		this.padding = padding;
+	public void setLabelPadding(RectangleRadius padding) {
+		this.lbl_padding = padding;
 	}
 
 	/**
-	 * Set the padding of the text
+	 * Set the padding of the check image
 	 * 
 	 * @param top the top padding
 	 * @param left the left padding
 	 * @param bottom the bottom padding
 	 * @param right the right padding
 	 */
-	public void setPadding(int top, int left, int bottom, int right) {
-		this.padding = new RectangleRadius(top, left, bottom, right);
+	public void setLabelPadding(int top, int left, int bottom, int right) {
+		this.lbl_padding = new RectangleRadius(top, left, bottom, right);
+	}
+
+	/**
+	 * @return the text padding
+	 */
+	public RectangleRadius getImagePadding() {
+		return img_padding;
+	}
+
+	/**
+	 * Set the padding of the check image
+	 * 
+	 * @param padding the new padding
+	 */
+	public void setImagePadding(RectangleRadius padding) {
+		this.img_padding = padding;
+	}
+
+	/**
+	 * Set the padding of the check image
+	 * 
+	 * @param top the top padding
+	 * @param left the left padding
+	 * @param bottom the bottom padding
+	 * @param right the right padding
+	 */
+	public void setImagePadding(int top, int left, int bottom, int right) {
+		this.img_padding = new RectangleRadius(top, left, bottom, right);
 	}
 
 	/**
@@ -289,7 +334,6 @@ public class MenuCheckbox extends MenuElement {
 
 		setChecked(! isChecked());
 	}
-
 
 	@Override
 	public int getElementCount() {

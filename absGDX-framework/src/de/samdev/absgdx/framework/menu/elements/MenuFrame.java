@@ -19,12 +19,12 @@ public class MenuFrame extends MenuPanel {
 	public MenuFrame(List<MenuElement> children) {
 		super(children);
 		
-		pack(null);
+		pack(null, null);
 	}
 	
 	@Override
-	public void pack(MenuLayer owner) {
-		super.pack(owner);
+	public void pack(MenuLayer layer, MenuElement owner) {
+		super.pack(layer, owner);
 		
 		setDepth(0);
 	}

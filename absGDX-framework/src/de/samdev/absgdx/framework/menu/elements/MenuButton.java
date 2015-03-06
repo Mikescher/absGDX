@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
+import de.samdev.absgdx.framework.layer.MenuLayer;
 import de.samdev.absgdx.framework.menu.GUITextureProvider;
 import de.samdev.absgdx.framework.menu.attributes.HorzAlign;
 import de.samdev.absgdx.framework.menu.attributes.RectangleRadius;
@@ -66,6 +67,20 @@ public class MenuButton extends MenuElement {
 
 		if (getTextureProvider().hasGeneric9SideTextures(getClass(), VisualButtonState.NORMAL))
 			setPadding(get9SidePadding(VisualButtonState.NORMAL));
+	}
+
+	@Override
+	public void renderElement(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont defaultfont, MenuLayer owner) {
+		super.renderElement(sbatch, srenderer, defaultfont, owner);
+		
+		if (owner.owner.settings.debugMenuBorders.isActive()) {
+			srenderer.begin(ShapeType.Line);
+			{
+				srenderer.setColor(owner.owner.settings.debugMenuBordersColorL2.get());
+				srenderer.rect(innerLabel.getPositionX(), innerLabel.getPositionY(), innerLabel.getWidth(), innerLabel.getHeight());
+			}
+			srenderer.end();
+		}
 	}
 
 	@Override

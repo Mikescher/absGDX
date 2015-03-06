@@ -42,7 +42,7 @@ public abstract class MenuLayer extends AgdxLayer {
 		this.root = new MenuFrame(new ArrayList<MenuElement>());
 		this.root.setPosition(0, 0);
 		this.root.setSize(owner.getScreenWidth(), owner.getScreenHeight());
-		this.root.pack(this);
+		this.root.pack(this, null);
 		
 		this.font = bmpfont;
 	}
@@ -60,7 +60,7 @@ public abstract class MenuLayer extends AgdxLayer {
 		this.root = layerroot;
 		this.root.setPosition(0, 0);
 		this.root.setSize(owner.getScreenWidth(), owner.getScreenHeight());
-		this.root.pack(this);
+		this.root.pack(this, null);
 		
 		this.font = bmpfont;
 	}

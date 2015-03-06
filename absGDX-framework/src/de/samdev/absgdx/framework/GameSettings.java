@@ -75,12 +75,16 @@ public class GameSettings {
 	public BooleanProperty debugMenuBorders;
 	/** The debug border color of MenuElements  */
 	public ColorProperty debugMenuBordersColor;
+	/** The debug border color of inner MenuElements  */
+	public ColorProperty debugMenuBordersColorL2;
 	/** Show generic MenuElement info's */
 	public BooleanProperty debugElementInfo;
 	/** Show the MenuElement dimensions */
 	public BooleanProperty debugElementBoundaries;
 	/** Show special MenuElement attributes */
 	public BooleanProperty debugElementAttributes;
+	/** Show the animation progress in MenuImages */
+	public BooleanProperty debugMenuImageAnimation;
 	
 	/**
 	 * Creates a new instance of GameSettings
@@ -154,7 +158,10 @@ public class GameSettings {
 						debugMenuBorders = new BooleanProperty("debugMenuBorders", true, debugMenu);
 						{
 							debugMenuBordersColor = new ColorProperty("debugMenuBordersColor", Color.MAGENTA, debugMenuBorders);
+							debugMenuBordersColorL2 = new ColorProperty("debugMenuBordersColorL2", Color.CYAN, debugMenuBorders);
 						}
+
+						debugMenuImageAnimation = new BooleanProperty("debugMenuImageAnimation", true, debugMenu);
 					}
 				}
 			}

@@ -101,15 +101,6 @@ public class MenuSettingsTree extends MenuElement {
 			return result;
 		}
 		
-		public List<MenuElement> getTree() {
-			List<MenuElement> result = new ArrayList<MenuElement>();
-			result.add(this);
-			for (MenuSettingsTreeRow child : children) {
-				result.addAll(child.getTree());
-			}
-			return result;
-		}
-		
 		@Override
 		public void onPointerClicked() {
 			if (innerImage.getBoundaries().contains(Gdx.input.getX() - getCoordinateOffsetX(), Gdx.input.getY() - getCoordinateOffsetY())) {
@@ -431,6 +422,8 @@ public class MenuSettingsTree extends MenuElement {
 	
 	@Override
 	public List<MenuElement> getDirectInnerElements() {
-		return root.getTree();
+		List<MenuElement> result = new ArrayList<MenuElement>();
+		result.add(root);
+		return result;
 	}
 }

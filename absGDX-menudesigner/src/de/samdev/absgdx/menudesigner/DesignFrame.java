@@ -2,27 +2,26 @@ package de.samdev.absgdx.menudesigner;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 
 import javax.swing.Box;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.border.EmptyBorder;
 
+import org.apache.commons.io.IOUtils;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
-import javax.swing.JLabel;
 
 public class DesignFrame extends JFrame {
 	private static final long serialVersionUID = 5936312660450931611L;
 	
 	private JPanel contentPane;
 	private JSplitPane splitPane;
-	private JLabel lblDraw;
+	private GUIPreviewPanel lblDraw;
 	private JPanel pnlBottom;
 	private JTabbedPane pnlSettings;
 	private RSyntaxTextArea edCode;
@@ -50,7 +49,7 @@ public class DesignFrame extends JFrame {
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		contentPane.add(splitPane, BorderLayout.CENTER);
 		
-		lblDraw = new JLabel();
+		lblDraw = new GUIPreviewPanel(10, 10);
 		splitPane.setLeftComponent(lblDraw);
 		lblDraw.setLayout(null);
 		
@@ -82,5 +81,7 @@ public class DesignFrame extends JFrame {
 		
 		horizontalStrut = Box.createHorizontalStrut(200);
 		tabSettings.add(horizontalStrut);
+		
+		lblDraw.setRenderSize(350, 150);
 	}
 }

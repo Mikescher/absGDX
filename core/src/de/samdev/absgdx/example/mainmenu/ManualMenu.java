@@ -12,6 +12,7 @@ import de.samdev.absgdx.framework.layer.MenuLayer;
 import de.samdev.absgdx.framework.menu.GUITextureProvider;
 import de.samdev.absgdx.framework.menu.attributes.HorzAlign;
 import de.samdev.absgdx.framework.menu.attributes.TextAutoScaleMode;
+import de.samdev.absgdx.framework.menu.attributes.TristateBoolean;
 import de.samdev.absgdx.framework.menu.attributes.VertAlign;
 import de.samdev.absgdx.framework.menu.attributes.VisualButtonState;
 import de.samdev.absgdx.framework.menu.elements.MenuButton;
@@ -22,6 +23,7 @@ import de.samdev.absgdx.framework.menu.elements.MenuImage;
 import de.samdev.absgdx.framework.menu.elements.MenuLabel;
 import de.samdev.absgdx.framework.menu.elements.MenuPanel;
 import de.samdev.absgdx.framework.menu.elements.MenuRadioButton;
+import de.samdev.absgdx.framework.menu.elements.MenuSettingsTree;
 import de.samdev.absgdx.framework.menu.events.MenuButtonListener;
 
 public class ManualMenu extends MenuLayer {
@@ -45,6 +47,14 @@ public class ManualMenu extends MenuLayer {
 		
 		prov.setMenuRadioButtonTexture(Textures.tex_gui_checkers[3][0], true);
 		prov.setMenuRadioButtonTexture(Textures.tex_gui_checkers[3][1], false);
+		
+		prov.setMenuSettingsTreeTexture(Textures.tex_panelgui);
+		prov.setMenuSettingsTreeButtonTexture(Textures.tex_gui_checkers[2][0], true);
+		prov.setMenuSettingsTreeButtonTexture(Textures.tex_gui_checkers[2][1], false);
+		prov.setMenuSettingsTreeValueTexture(Textures.tex_gui_checkers[1][0], TristateBoolean.FALSE);
+		prov.setMenuSettingsTreeValueTexture(Textures.tex_gui_checkers[0][2], TristateBoolean.INTERMEDIATE);
+		prov.setMenuSettingsTreeValueTexture(Textures.tex_gui_checkers[0][0], TristateBoolean.TRUE);
+		prov.setMenuSettingsTreeLeafTexture(Textures.tex_gui_checkers[0][1]);
 
 		GUITextureProvider prov2 = new GUITextureProvider();
 		prov2.setMenuButtonTexture(Textures.tex_buttongui[4], VisualButtonState.NORMAL);
@@ -53,7 +63,7 @@ public class ManualMenu extends MenuLayer {
 		prov2.setMenuButtonTexture(Textures.tex_buttongui[7], VisualButtonState.DISABLED);
 		
 		final MenuPanel p = new MenuPanel(prov);
-		p.setBoundaries(250, 50, 600, 310);
+		p.setBoundaries(50, 50, 600, 310);
 		
 		final MenuLabel l2 = new MenuLabel();
 		l2.setBoundaries(150, 100, 275, 40);
@@ -67,22 +77,6 @@ public class ManualMenu extends MenuLayer {
 		b.setBoundaries(25, 100, 120, 40);
 		b.setContent("Debug Mode");
 		b.setColor(Color.WHITE);
-		b.addButtonListener(new MenuButtonListener() {
-			@Override
-			public void onPointerUp(MenuElement element, String identifier) {/**/}
-			@Override
-			public void onPointerDown(MenuElement element, String identifier) {/**/}
-			@Override
-			public void onHoverEnd(MenuElement element, String identifier) {/**/}
-			@Override
-			public void onHover(MenuElement element, String identifier) {/**/}
-			@Override
-			public void onFocusLost(MenuElement element, String identifier) {/**/}
-			@Override
-			public void onFocus(MenuElement element, String identifier) {/**/}
-			@Override
-			public void onClicked(MenuElement element, String identifier) {l2.setVisible(true);}
-		});
 		p.addChildren(b);
 		
 		final MenuCheckBox cb = new MenuCheckBox(prov);
@@ -169,13 +163,10 @@ public class ManualMenu extends MenuLayer {
 		
 		getRoot().addChildren(p);
 		
-		
 		//#######################################################
 		
-		
-
 		final MenuPanel p2 = new MenuPanel(prov);
-		p2.setBoundaries(900, 50, 300, 310);
+		p2.setBoundaries(50, 410, 300, 200);
 		
 		final MenuRadioButton rb1 = new MenuRadioButton(prov);
 		rb1.setBoundaries(25, 25, 250, 30);
@@ -210,6 +201,35 @@ public class ManualMenu extends MenuLayer {
 		p2.addChildren(rb4);
 
 		getRoot().addChildren(p2);
+		
+		//#######################################################
+		
+		final MenuSettingsTree p3 = new MenuSettingsTree(prov, owner.settings.root);
+		p3.setBoundaries(700, 50, 550, 600);
+		p3.setColor(Color.WHITE);
+		p3.setVisible(true);
+		
+		getRoot().addChildren(p3);
+		
+		//#######################################################
+		//#######################################################
+		
+		b.addButtonListener(new MenuButtonListener() {
+			@Override
+			public void onPointerUp(MenuElement element, String identifier) {/**/}
+			@Override
+			public void onPointerDown(MenuElement element, String identifier) {/**/}
+			@Override
+			public void onHoverEnd(MenuElement element, String identifier) {/**/}
+			@Override
+			public void onHover(MenuElement element, String identifier) {/**/}
+			@Override
+			public void onFocusLost(MenuElement element, String identifier) {/**/}
+			@Override
+			public void onFocus(MenuElement element, String identifier) {/**/}
+			@Override
+			public void onClicked(MenuElement element, String identifier) {l2.setVisible(true); p3.setVisible(! p3.isVisible()); b.setContent("Press again");}
+		});
 	}
 
 	@Override

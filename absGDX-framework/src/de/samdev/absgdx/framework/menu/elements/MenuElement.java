@@ -199,6 +199,10 @@ public abstract class MenuElement {
 	public void pack(MenuLayer layer, MenuElement owner) {
 		this.layer = layer;
 		this.owner = owner;
+		
+		for (MenuElement element : getChildren()) {
+			element.pack(layer, this);
+		}
 	}
 	
 	/**
@@ -539,9 +543,29 @@ public abstract class MenuElement {
 	}
 	
 	/**
-	 * @return the cout of listener
+	 * @return the count of listener
 	 */
 	public int getListenerCount() {
 		return listeners.size();
+	}
+	
+	/**
+	 * When (eg) rendering the coordinate matrix is translated by a specific amount
+	 * This method returns this amount
+	 * 
+	 * @return the absolute X coordinate system offset (relative to the layer)
+	 */
+	public int getCoordinateOffsetX() {
+		return (owner == null ? 0 : owner.getPositionX() + owner.getCoordinateOffsetX());
+	}
+	
+	/**
+	 * When (eg) rendering the coordinate matrix is translated by a specific amount
+	 * This method returns this amount
+	 * 
+	 * @return the absolute Y coordinate system offset (relative to the layer)
+	 */
+	public int getCoordinateOffsetY() {
+		return (owner == null ? 0 : owner.getPositionY() + owner.getCoordinateOffsetY());
 	}
 }

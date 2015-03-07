@@ -95,4 +95,11 @@ public abstract class DependentProperty {
 	 * @return
 	 */
 	public abstract boolean getBooleanValue();
+	
+	/**
+	 * @return all childrens of this node
+	 */
+	public List<DependentProperty> getChildren() {
+		return children;
+	}
 }

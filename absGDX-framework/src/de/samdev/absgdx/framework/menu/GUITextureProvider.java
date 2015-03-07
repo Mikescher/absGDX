@@ -4,12 +4,14 @@ import java.util.HashMap;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import de.samdev.absgdx.framework.menu.attributes.TristateBoolean;
 import de.samdev.absgdx.framework.menu.attributes.VisualButtonState;
 import de.samdev.absgdx.framework.menu.elements.MenuButton;
 import de.samdev.absgdx.framework.menu.elements.MenuCheckBox;
 import de.samdev.absgdx.framework.menu.elements.MenuEdit;
 import de.samdev.absgdx.framework.menu.elements.MenuPanel;
 import de.samdev.absgdx.framework.menu.elements.MenuRadioButton;
+import de.samdev.absgdx.framework.menu.elements.MenuSettingsTree;
 
 /**
  * Class that provides Textures for GUI objects
@@ -38,6 +40,10 @@ public class GUITextureProvider {
 	public final static String IDENT_TEX_GENERIC_CC = "center";
 	/** Identifier for the checkbox/radiobutton [on|off] texture */
 	public final static String IDENT_TEX_CHECK_IMG = "checkimg";
+	/** Identifier for the MenuSettingsTree boolean checkbox */
+	public final static String IDENT_TEX_DEPTREE_BOOL = "settingstreevalue";
+	/** Identifier for the MenuSettingsTree leaf checkbox */
+	public final static String IDENT_TEX_DEPTREE_LEAF = "settingstreeleaf";
 
 	/** Identifier for all MenuButton textures */
 	public final static String[] IDENT_TEX_GENERIC = {
@@ -258,6 +264,44 @@ public class GUITextureProvider {
 	 */
 	public void setMenuRadioButtonTexture(TextureRegion texture, boolean checked) {
 		set(MenuRadioButton.class, IDENT_TEX_CHECK_IMG, checked, texture);
+	}
+	
+	/**
+	 * Set the textures for MenuSettingsTree (check boxes)
+	 * 
+	 * @param texture the texture
+	 * @param checked if it is checked
+	 */
+	public void setMenuSettingsTreeButtonTexture(TextureRegion texture, boolean checked) {
+		set(MenuSettingsTree.class, IDENT_TEX_CHECK_IMG, checked, texture);
+	}
+	
+	/**
+	 * Set the textures for MenuSettingsTree (check boxes - values (= isActive))
+	 * 
+	 * @param texture the texture
+	 * @param state the check state
+	 */
+	public void setMenuSettingsTreeValueTexture(TextureRegion texture, TristateBoolean state) {
+		set(MenuSettingsTree.class, IDENT_TEX_DEPTREE_BOOL, state, texture);
+	}
+	
+	/**
+	 * Set the textures for MenuSettingsTree (check boxes - leafs)
+	 * 
+	 * @param texture the texture
+	 */
+	public void setMenuSettingsTreeLeafTexture(TextureRegion texture) {
+		set(MenuSettingsTree.class, IDENT_TEX_DEPTREE_LEAF, texture);
+	}
+	
+	/**
+	 * Set the textures for MenuSettingsTree
+	 * 
+	 * @param texture the textures ordered in a 3x3 square ( TextureRegion[Y][X] )
+	 */
+	public void setMenuSettingsTreeTexture(TextureRegion[][] texture) {
+		setGeneric9SideTexture(MenuSettingsTree.class, texture);
 	}
 
 	/**

@@ -13,19 +13,21 @@ import de.samdev.absgdx.framework.menu.attributes.HorzAlign;
 import de.samdev.absgdx.framework.menu.attributes.RectangleRadius;
 import de.samdev.absgdx.framework.menu.attributes.TextAutoScaleMode;
 import de.samdev.absgdx.framework.menu.attributes.VertAlign;
-import de.samdev.absgdx.framework.menu.events.MenuButtonListener;
+import de.samdev.absgdx.framework.menu.events.MenuCheckboxListener;
 import de.samdev.absgdx.framework.util.MenuRenderHelper;
 
 /**
  * A switch-able Button
  */
 public class MenuCheckBox extends MenuElement {
-	private final MenuLabel innerLabel;
-	private final MenuImage innerImage;
+	protected final MenuLabel innerLabel;
+	protected final MenuImage innerImage;
 	
 	private boolean checked = false;
 	private RectangleRadius lbl_padding = new RectangleRadius(5, 0, 0, 0);
 	private RectangleRadius img_padding = new RectangleRadius();
+	private boolean renderImage = true;
+	private boolean renderLabel = true;
 	
 	/**
 	 * Creates a new MenuButton
@@ -88,7 +90,7 @@ public class MenuCheckBox extends MenuElement {
 	
 	@Override
 	public void render(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
-		TextureRegion tex = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_CHECK_IMG, isChecked());
+		TextureRegion tex = getCheckTexture();
 		
 		innerImage.setPosition(getPositionX() + img_padding.left, getPositionY() + img_padding.top);
 		innerImage.setSize(getHeight() - img_padding.getHorizontalSum(), getHeight() - img_padding.getVerticalSum());
@@ -102,15 +104,23 @@ public class MenuCheckBox extends MenuElement {
 			renderSimple(srenderer);			
 		}
 	
-		innerLabel.render(sbatch, srenderer, font);
+		if (renderLabel) {
+			innerLabel.render(sbatch, srenderer, font);			
+		}
+	}
+
+	protected TextureRegion getCheckTexture() {
+		return getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_CHECK_IMG, isChecked());
 	}
 
 	private void renderTextured(SpriteBatch sbatch, TextureRegion texture) {
-		sbatch.begin();
-		
-		MenuRenderHelper.drawTextureStretched(sbatch, texture, getPositionX() + img_padding.left, getPositionY() + img_padding.top, getHeight() - img_padding.getVerticalSum(), getHeight() - img_padding.getHorizontalSum());
-		
-		sbatch.end();
+		if (renderImage) {
+			sbatch.begin();
+			
+			MenuRenderHelper.drawTextureStretched(sbatch, texture, getPositionX() + img_padding.left, getPositionY() + img_padding.top, getHeight() - img_padding.getVerticalSum(), getHeight() - img_padding.getHorizontalSum());
+			
+			sbatch.end();
+		}
 	}
 
 	private void renderSimple(ShapeRenderer srenderer) {
@@ -145,7 +155,7 @@ public class MenuCheckBox extends MenuElement {
 	 * 
 	 * @param l the new listener
 	 */
-	public void addButtonListener(MenuButtonListener l) {
+	public void addCheckboxListener(MenuCheckboxListener l) {
 		super.addElementListener(l);
 	}
 
@@ -354,5 +364,23 @@ public class MenuCheckBox extends MenuElement {
 	 */
 	public void setChecked(boolean checked) {
 		this.checked = checked;
+	}
+
+	/**
+	 * Set if the check image is rendered
+	 * 
+	 * @param renderImage true if image shall be rendered
+	 */
+	public void setRenderImage(boolean renderImage) {
+		this.renderImage = renderImage;
+	}
+
+	/**
+	 * Set if the label is rendered
+	 * 
+	 * @param renderLabel true if label shall be rendered
+	 */
+	public void setRenderLabel(boolean renderLabel) {
+		this.renderLabel = renderLabel;
 	}
 }

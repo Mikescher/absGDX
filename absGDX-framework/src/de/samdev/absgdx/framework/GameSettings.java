@@ -18,7 +18,8 @@ public class GameSettings {
 
 	// ########################################################
 
-	private RootProperty root;
+	/** the root node */
+	public RootProperty root;
 
 	private ConstantBooleanProperty debugmode;
 	/** Activates/Deactivates all debug features */

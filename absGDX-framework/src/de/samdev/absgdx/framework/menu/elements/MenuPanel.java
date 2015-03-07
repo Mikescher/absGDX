@@ -113,10 +113,6 @@ public class MenuPanel extends MenuElement {
 	public void pack(MenuLayer layer, MenuElement owner) {
 		super.pack(layer, owner);
 		
-		for (MenuElement element : elements) {
-			element.pack(layer, this);
-		}
-		
 		setDepth(getDepth());
 	}
 	
@@ -150,7 +146,7 @@ public class MenuPanel extends MenuElement {
 	@Override
 	public MenuElement getElementAt(int x, int y) {
 		for (MenuElement element : elements) {
-			if (element.getBoundaries().contains(x, y))
+			if (element.getBoundaries().contains(x, y) && element.isVisible())
 				return element.getElementAt(x - element.getPositionX(), y - element.getPositionY());
 		}
 		

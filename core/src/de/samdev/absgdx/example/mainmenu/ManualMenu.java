@@ -56,6 +56,12 @@ public class ManualMenu extends MenuLayer {
 		prov.setMenuSettingsTreeValueTexture(Textures.tex_gui_checkers[0][0], TristateBoolean.TRUE);
 		prov.setMenuSettingsTreeLeafTexture(Textures.tex_gui_checkers[0][1]);
 
+		prov.set(MenuProgressbar.class, "0", Textures.tex_gui_progressbar[0]);
+		prov.set(MenuProgressbar.class, "1", Textures.tex_gui_progressbar[1]);
+		prov.set(MenuProgressbar.class, "2", Textures.tex_gui_progressbar[2]);
+		prov.set(MenuProgressbar.class, "3", Textures.tex_gui_progressbar[3]);
+		prov.set(MenuProgressbar.class, "4", Textures.tex_gui_progressbar[4]);
+		
 		GUITextureProvider prov2 = new GUITextureProvider();
 		prov2.setMenuButtonTexture(Textures.tex_buttongui[4], VisualButtonState.NORMAL);
 		prov2.setMenuButtonTexture(Textures.tex_buttongui[5], VisualButtonState.HOVERED);
@@ -166,7 +172,7 @@ public class ManualMenu extends MenuLayer {
 		//#######################################################
 		
 		final MenuPanel p2 = new MenuPanel(prov);
-		p2.setBoundaries(50, 410, 300, 200);
+		p2.setBoundaries(50, 410, 600, 240);
 		
 		final MenuRadioButton rb1 = new MenuRadioButton(prov);
 		rb1.setBoundaries(25, 25, 250, 30);
@@ -199,6 +205,10 @@ public class ManualMenu extends MenuLayer {
 		rb4.setImagePadding(5, 5, 5, 5);
 		rb4.setLabelPadding(5, 0, 5, 0);
 		p2.addChildren(rb4);
+		
+		final MenuProgressbar pb = new MenuProgressbar(prov);
+		pb.setBoundaries(25, 200, 550, 30);
+		p2.addChildren(pb);
 
 		getRoot().addChildren(p2);
 		

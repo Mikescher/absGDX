@@ -1,5 +1,8 @@
 package de.samdev.absgdx.framework.menu.elements;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
@@ -264,7 +267,8 @@ public class MenuLabel extends MenuElement {
 	}
 
 	@Override
-	public int getElementCount() {
-		return 1;
+	public List<MenuElement> getDirectInnerElements() {
+		List<MenuElement> result = new ArrayList<MenuElement>();
+		return result;
 	}
 }

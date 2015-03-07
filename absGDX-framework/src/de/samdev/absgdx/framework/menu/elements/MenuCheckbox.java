@@ -1,5 +1,8 @@
 package de.samdev.absgdx.framework.menu.elements;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -345,11 +348,6 @@ public class MenuCheckBox extends MenuElement {
 		setChecked(! isChecked());
 	}
 
-	@Override
-	public int getElementCount() {
-		return 1;
-	}
-
 	/**
 	 * @return if checkbox is checked
 	 */
@@ -382,5 +380,13 @@ public class MenuCheckBox extends MenuElement {
 	 */
 	public void setRenderLabel(boolean renderLabel) {
 		this.renderLabel = renderLabel;
+	}
+
+	@Override
+	public List<MenuElement> getDirectInnerElements() {
+		List<MenuElement> result = new ArrayList<MenuElement>();
+		result.add(innerLabel);
+		result.add(innerImage);
+		return result;
 	}
 }

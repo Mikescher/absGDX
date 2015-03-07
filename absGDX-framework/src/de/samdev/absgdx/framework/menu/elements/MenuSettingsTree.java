@@ -25,12 +25,15 @@ import de.samdev.absgdx.framework.util.dependentProperties.RootProperty;
  * A click-able Button
  */
 public class MenuSettingsTree extends MenuElement {
+	/**
+	 * Class to represent a single row in the MenuSettingsTree
+	 */
 	private class MenuSettingsTreeRow extends MenuCheckBox {
 		private final List<MenuSettingsTreeRow> children;
 		private final MenuSettingsTree treeowner;
 		private final DependentProperty property;
 		
-		private MenuImage valueImage;
+		private MenuImage innerImageRight;
 		
 		public MenuSettingsTreeRow(String rootidentifier, GUITextureProvider texprovider, DependentProperty property, MenuSettingsTree owner) {
 			super(rootidentifier + "+" + property.name, texprovider);
@@ -47,7 +50,7 @@ public class MenuSettingsTree extends MenuElement {
 			setChecked(true);
 			setLabelPadding(new RectangleRadius(5, 10, 5, 0));
 			
-			valueImage = new MenuImage();
+			innerImageRight = new MenuImage();
 		}
 
 		@Override
@@ -73,18 +76,28 @@ public class MenuSettingsTree extends MenuElement {
 			
 			return null;
 		}
-
-		@Override
-		public int getElementCount() {
-			int c = 1;
-			for (MenuSettingsTreeRow child : children) c += child.getElementCount();
-			return c;
-		}
 		
 		@Override
-		public List<MenuElement> getChildren() {
+		public List<MenuElement> getDirectInnerElements() {
 			List<MenuElement> result = new ArrayList<MenuElement>();
+			result.add(innerImage);
+			result.add(innerLabel);
+			result.add(innerImageRight);
 			result.addAll(children);
+			return result;
+		}
+
+		public List<MenuElement> getAllVisibleChildren() {
+			List<MenuElement> result = new ArrayList<MenuElement>();
+			result.add(this);
+			
+			if (!isChecked())
+				return result;
+				
+			for (MenuSettingsTreeRow child : children) {
+				result.addAll(child.getAllVisibleChildren());
+			}
+			
 			return result;
 		}
 		
@@ -111,8 +124,10 @@ public class MenuSettingsTree extends MenuElement {
 		public int innerRender(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font, int positionY, int depth) {
 			setUpInnerElements(positionY, depth);
 			
-			super.render(sbatch, srenderer, font);
-			valueImage.render(sbatch, srenderer, font);
+			if (positionY >= treeowner.padding.top) {
+				super.render(sbatch, srenderer, font);
+				innerImageRight.render(sbatch, srenderer, font);
+			}
 			
 			positionY += getHeight() + treeowner.rowGap;
 			
@@ -131,12 +146,14 @@ public class MenuSettingsTree extends MenuElement {
 		public int innerDebugRender(ShapeRenderer srenderer, int positionY, int depth) {
 			setUpInnerElements(positionY, depth);
 			
-			srenderer.begin(ShapeType.Line);
-			{
-				srenderer.setColor(treeowner.layer.owner.settings.debugMenuBordersColorL2.get());
-				srenderer.rect(getPositionX(), getPositionY(), getWidth(), getHeight());
+			if (positionY >= treeowner.padding.top) {
+				srenderer.begin(ShapeType.Line);
+				{
+					srenderer.setColor(treeowner.layer.owner.settings.debugMenuBordersColorL2.get());
+					srenderer.rect(getPositionX(), getPositionY(), getWidth(), getHeight());
+				}
+				srenderer.end();
 			}
-			srenderer.end();
 
 			positionY += getHeight() + treeowner.rowGap;
 			
@@ -161,11 +178,11 @@ public class MenuSettingsTree extends MenuElement {
 			
 			setColor(treeowner.color);
 			
-			valueImage.setHeight(treeowner.rowHeight);
-			valueImage.setWidth(treeowner.rowHeight);
-			valueImage.setPositionX(treeowner.getWidth() - treeowner.padding.left - treeowner.rowHeight);
-			valueImage.setPositionY(positionY);
-			valueImage.setImage(getTextureProvider().get(treeowner.getClass(), GUITextureProvider.IDENT_TEX_DEPTREE_BOOL, property.isActive() ? TristateBoolean.TRUE : (property.getBooleanValue() ? TristateBoolean.INTERMEDIATE : TristateBoolean.FALSE)));
+			innerImageRight.setHeight(treeowner.rowHeight);
+			innerImageRight.setWidth(treeowner.rowHeight);
+			innerImageRight.setPositionX(treeowner.getWidth() - treeowner.padding.left - treeowner.rowHeight);
+			innerImageRight.setPositionY(positionY);
+			innerImageRight.setImage(getTextureProvider().get(treeowner.getClass(), GUITextureProvider.IDENT_TEX_DEPTREE_BOOL, property.isActive() ? TristateBoolean.TRUE : (property.getBooleanValue() ? TristateBoolean.INTERMEDIATE : TristateBoolean.FALSE)));
 		}
 	}
 
@@ -174,7 +191,11 @@ public class MenuSettingsTree extends MenuElement {
 	private RectangleRadius padding = new RectangleRadius(15, 15, 15, 15);
 	private int rowGap = 5;
 	private int rowHeight = 20;
-	private Color color;
+	private Color color = Color.WHITE;
+	private Color scrollbarColor = Color.LIGHT_GRAY;
+	private int scrollbarWidth = 5;
+	
+	private int scroll = 0;
 	
 	/**
 	 * Creates a new MenuButton
@@ -227,7 +248,7 @@ public class MenuSettingsTree extends MenuElement {
 		
 		if (layer != null && layer.owner.settings.debugMenuBorders.isActive()) {
 			srenderer.translate(getPositionX(), getPositionY(), 0);
-			root.innerDebugRender(srenderer, padding.top, 0);
+			root.innerDebugRender(srenderer, padding.top - scroll * (rowHeight + rowGap), 0);
 			srenderer.translate(-getPositionX(), -getPositionY(), 0);
 		}
 	}
@@ -238,14 +259,31 @@ public class MenuSettingsTree extends MenuElement {
 
 		srenderer.translate(getPositionX(), getPositionY(), 0);
 		sbatch.getTransformMatrix().translate(getPositionX(), getPositionY(), 0);
-		root.innerRender(sbatch, srenderer, font, padding.top, 0);
+		{
+			root.innerRender(sbatch, srenderer, font, padding.top - scroll * (rowHeight + rowGap), 0);
+			
+			int rows = root.getAllVisibleChildren().size();
+			int vrows = (getHeight() - padding.getVerticalSum()) / (rowHeight + rowGap);
+			
+			if (vrows < rows) {
+				float sbheight = (vrows * 1f / rows) * getHeight();
+				float sbfreespace = getHeight() - sbheight;
+				float sbperc = scroll * 1f / (rows - vrows);
+				float sby = sbperc * sbfreespace;
+				
+				srenderer.begin(ShapeType.Filled);
+				srenderer.setColor(getScrollbarColor());
+				srenderer.rect(getWidth() - 1, sby + 1, -scrollbarWidth, sbheight - 2);
+				srenderer.end();
+			}
+		}
 		sbatch.getTransformMatrix().translate(-getPositionX(), -getPositionY(), 0);
 		srenderer.translate(-getPositionX(), -getPositionY(), 0);
 	}
 
 	@Override
 	public void update(float delta) {
-		// NOP
+		onScroll(0);
 	}
 	
 	/**
@@ -287,42 +325,112 @@ public class MenuSettingsTree extends MenuElement {
 
 	@Override
 	public MenuElement getElementAt(int x, int y) {
-		MenuElement element = root.getElementAt(x, y);
-		
-		return element != null ? element : this;
+		return this;
 	}
-
+	
 	@Override
-	public int getElementCount() {
-		return 1 + root.getElementCount();
+	public void onPointerClicked() {
+		super.onPointerClicked();
+		
+		MenuElement element = root.getElementAt(Gdx.input.getX() - root.getCoordinateOffsetX(), Gdx.input.getY() - root.getCoordinateOffsetY());
+		
+		if (element != null)
+			element.onPointerClicked();
 	}
 
+	/**
+	 * @return the gap between the single rows
+	 */
 	public int getRowGap() {
 		return rowGap;
 	}
 
+	/**
+	 * Set the gap between the rows
+	 * 
+	 * @param rowGap the gap (in pixel)
+	 */
 	public void setRowGap(int rowGap) {
 		this.rowGap = rowGap;
 	}
 
+	/**
+	 * @return the font color
+	 */
 	public Color getColor() {
 		return color;
 	}
 
+	/**
+	 * Set the font color
+	 * 
+	 * @param color the new color
+	 */
 	public void setColor(Color color) {
 		this.color = color;
 	}
 
+	/**
+	 * @return the height of a single row
+	 */
 	public int getRowHeight() {
 		return rowHeight;
 	}
 
+	/**
+	 * Set the height of a single row
+	 * 
+	 * @param height the row height (in pixel)
+	 */
 	public void setRowHeight(int height) {
 		this.rowHeight = height;
 	}
+
+	/**
+	 * @return the color of the scrollbar
+	 */
+	public Color getScrollbarColor() {
+		return scrollbarColor;
+	}
+
+	/**
+	 * Set the color of the scrollbar
+	 * 
+	 * @param scrollbarColor the new color
+	 */
+	public void setScrollbarColor(Color scrollbarColor) {
+		this.scrollbarColor = scrollbarColor;
+	}
+	
+	/**
+	 * @return the width of the scrollbar
+	 */
+	public int getScrollbarWidth() {
+		return scrollbarWidth;
+	}
+
+	/**
+	 * Set the width of the scrollbar
+	 * 
+	 * @param scrollbarWidth the scrollbar width (in pixel)
+	 */
+	public void setScrollbarWidth(int scrollbarWidth) {
+		this.scrollbarWidth = scrollbarWidth;
+	}
+
+	@Override
+	public void onScroll(int amount) {
+		scroll += Math.signum(amount);
+		
+		int rows = root.getAllVisibleChildren().size();
+		int vrows = (getHeight() - padding.getVerticalSum()) / (rowHeight + rowGap);
+		
+		if (scroll + vrows > rows) scroll = rows - vrows;
+		if (scroll < 0) scroll = 0;
+	}
 	
 	@Override
-	public List<MenuElement> getChildren() {
+	public List<MenuElement> getDirectInnerElements() {
 		return root.getTree();
 	}
 }

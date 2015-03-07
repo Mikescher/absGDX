@@ -155,6 +155,19 @@ public abstract class MenuLayer extends AgdxLayer {
 	}
 	
 	@Override
+	public boolean scrolled(int amount) {
+		MenuElement mouseElement = getRoot().getElementAt(Gdx.input.getX(), Gdx.input.getY());
+		
+		if (mouseElement != null) {
+			mouseElement.onScroll(amount);
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
+	@Override
 	public boolean keyDown(int keycode) {
 		if (element_focused != null) {
 			element_focused.onKeyDown(keycode);
@@ -197,9 +210,9 @@ public abstract class MenuLayer extends AgdxLayer {
 	}
 
 	/**
-	 * @return the count of elements in this layer
+	 * @return the count of all elements in this layer
 	 */
 	public int getElementCount() {
-		return 1 + getRoot().getElementCount();
+		return 1 + root.getAllChildElements().size();
 	}
 }

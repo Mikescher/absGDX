@@ -71,7 +71,7 @@ public class GameSettings {
 	/** The color of the acceleration vector of an entity  */
 	public ColorProperty debugEntitiesPhysicAccelerationVectorColor;
 	/** Show visual information in the MenuLayers  */
-	public BooleanProperty debugMenu;
+	public BooleanProperty debugVisualMenu;
 	/** Show the actual Dimensions of MenuElements  */
 	public BooleanProperty debugMenuBorders;
 	/** The debug border color of MenuElements  */
@@ -154,15 +154,15 @@ public class GameSettings {
 						}
 					}
 
-					debugMenu = new BooleanProperty("debugMenu", true, debugEnabled);
+					debugVisualMenu = new BooleanProperty("debugVisualMenu", true, debugEnabled);
 					{
-						debugMenuBorders = new BooleanProperty("debugMenuBorders", true, debugMenu);
+						debugMenuBorders = new BooleanProperty("debugMenuBorders", true, debugVisualMenu);
 						{
 							debugMenuBordersColor = new ColorProperty("debugMenuBordersColor", Color.MAGENTA, debugMenuBorders);
 							debugMenuBordersColorL2 = new ColorProperty("debugMenuBordersColorL2", Color.CYAN, debugMenuBorders);
 						}
 
-						debugMenuImageAnimation = new BooleanProperty("debugMenuImageAnimation", true, debugMenu);
+						debugMenuImageAnimation = new BooleanProperty("debugMenuImageAnimation", true, debugVisualMenu);
 					}
 				}
 			}

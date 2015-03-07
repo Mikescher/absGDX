@@ -183,11 +183,6 @@ public abstract class MenuElement {
 		
 		return new RectangleRadius(pad_top, pad_lef, pad_bot, pad_rig);
 	}
-	
-	/**
-	 * @return the element count (1 + children.count)
-	 */
-	public abstract int getElementCount();
 
 	/**
 	 * Called when the tree structure drastically changes
@@ -200,7 +195,7 @@ public abstract class MenuElement {
 		this.layer = layer;
 		this.owner = owner;
 		
-		for (MenuElement element : getChildren()) {
+		for (MenuElement element : getDirectInnerElements()) {
 			element.pack(layer, this);
 		}
 	}
@@ -249,10 +244,44 @@ public abstract class MenuElement {
 	public abstract MenuElement getElementAt(int x, int y);
 	
 	/**
-	 * @return all children of this element (normally empty - except Panel etc)
+	 * @return all children of this element (includes composite elements, no nesting)
 	 */
-	public List<MenuElement> getChildren() {
-		return new ArrayList<MenuElement>();
+	public abstract List<MenuElement> getDirectInnerElements();
+
+	/**
+	 * @return all children of this element (includes composite elements, includes children of children)
+	 */
+	public List<MenuElement> getAllInnerElements() {
+		List<MenuElement> result = new ArrayList<MenuElement>();
+
+		for (MenuElement elem : getDirectInnerElements()) {
+			result.add(elem);
+			result.addAll(elem.getAllInnerElements());
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * @return all children of this element (excludes composite elements, no nesting)
+	 */
+	public List<MenuElement> getDirectChildElements() {
+		List<MenuElement> result = new ArrayList<MenuElement>();
+		return result;
+	}
+
+	/**
+	 * @return all children of this element (excludes composite elements, includes children of children)
+	 */
+	public List<MenuElement> getAllChildElements() {
+		List<MenuElement> result = new ArrayList<MenuElement>();
+
+		for (MenuElement elem : getDirectChildElements()) {
+			result.add(elem);
+			result.addAll(elem.getAllChildElements());
+		}
+		
+		return result;
 	}
 	
 	/**
@@ -337,6 +366,14 @@ public abstract class MenuElement {
 	 * @param keycode the key code (see libgdx:Keys)
 	 */
 	public void onKeyDown(int keycode) {
+		// NOP
+	}
+
+	/**
+	 * Called when the user scrolls
+	 * @param amount the scroll width
+	 */
+	public void onScroll(int amount) {
 		// NOP
 	}
 	

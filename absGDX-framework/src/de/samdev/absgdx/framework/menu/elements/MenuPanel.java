@@ -154,12 +154,12 @@ public class MenuPanel extends MenuElement {
 	}
 
 	@Override
-	public List<MenuElement> getChildren() {
+	public List<MenuElement> getDirectInnerElements() {
 		return elements;
 	}
-
+	
 	@Override
-	public int getElementCount() {
-		return 1 + elements.size();
+	public List<MenuElement> getDirectChildElements() {
+		return elements;
 	}
 }

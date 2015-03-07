@@ -176,27 +176,31 @@ public abstract class AgdxGame implements ApplicationListener {
 			debugTextRenderer.drawFormatted("MenuElements: Count=%d",  mlayer.getElementCount());
 			
 			if (settings.debugElementInfo.isActive()) {
-				if (melem == null)
-					debugTextRenderer.drawFormatted("   : NULL");
-				else
-					debugTextRenderer.drawFormatted("   : %s (%s)",  melem.getClass().getSimpleName(), melem.identifier);
+				if (melem != null)
+					debugTextRenderer.drawFormatted(" - %s (%s)",  melem.getClass().getSimpleName(), melem.identifier);
 			}
 
 			if (settings.debugElementBoundaries.isActive()) {
-				if (melem == null)
-					debugTextRenderer.drawFormatted("   : [NULL]");
-				else 
-					debugTextRenderer.drawFormatted("   : %s", DebugFormatter.fmtRectangle(melem.getBoundaries(), 1));
+				if (melem != null) {
+					debugTextRenderer.drawFormatted(" - Boundaries: %s", DebugFormatter.fmtRectangle(melem.getBoundaries(), 1));
+					debugTextRenderer.drawFormatted(" - Matrix Offset: %s", DebugFormatter.fmtV2(new Vector2(melem.getCoordinateOffsetX(), melem.getCoordinateOffsetY()), 1));
+					debugTextRenderer.drawFormatted(" - Tree Depth: %d", melem.getDepth());
+				}
 			}
 
 			if (settings.debugElementAttributes.isActive()) {
-				if (melem == null)
-					debugTextRenderer.drawFormatted("   : [NULL]");
-				else 
-					debugTextRenderer.drawFormatted("   : (Listener: %s | Font: %s | Provider: %s)", 
-						melem.getListenerCount(),
-						melem.getFont()==null ? "NULL" : "SET",
-						melem.getTextureProvider().getRegisteredTexturesCount()>0 ? "SET" : "EMPTY");
+				if (melem != null) {
+					debugTextRenderer.drawFormatted(" - [Focused|Hovered|Pressed|Visible]: [%s|%s|%s|%s]", 
+							melem.isFocused() ? "X":"O",
+							melem.isHovered() ? "X":"O",
+							melem.isPressed() ? "X":"O",
+							melem.isVisible() ? "X":"O");
+					debugTextRenderer.drawFormatted(" - Listener: %s; Font: %s; Provider: %s; composites: (direct := %d || all := %d)", 
+							melem.getListenerCount(), 
+							melem.getFont()==null ? "NULL" : "SET", 
+							melem.getTextureProvider().getRegisteredTexturesCount()>0 ? "SET" : "EMPTY",
+							melem.getDirectInnerElements().size(), melem.getAllInnerElements().size());
+				}
 			}
 			
 			debugTextRenderer.draw();

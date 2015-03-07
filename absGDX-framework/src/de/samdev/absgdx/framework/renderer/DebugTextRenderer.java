@@ -104,7 +104,7 @@ public class DebugTextRenderer {
 			
 			TextBounds b = renderFont.getBounds(text.get(i));
 			
-			renderShape.rect(x - 1, y + 2, b.width + 2, -(b.height + 5));
+			renderShape.rect(x - 1, y + 2, b.width + 2, -(b.height + 6));
 		}
 		renderShape.end();
 		

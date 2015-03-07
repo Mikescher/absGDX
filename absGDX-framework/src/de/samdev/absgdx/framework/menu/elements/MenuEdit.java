@@ -1,5 +1,8 @@
 package de.samdev.absgdx.framework.menu.elements;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -316,7 +319,9 @@ public class MenuEdit extends MenuElement {
 	}
 
 	@Override
-	public int getElementCount() {
-		return 1;
+	public List<MenuElement> getDirectInnerElements() {
+		List<MenuElement> result = new ArrayList<MenuElement>();
+		result.add(innerLabel);
+		return result;
 	}
 }

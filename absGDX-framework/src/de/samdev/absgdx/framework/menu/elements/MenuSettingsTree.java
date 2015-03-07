@@ -83,7 +83,6 @@ public class MenuSettingsTree extends MenuElement {
 			result.add(innerImage);
 			result.add(innerLabel);
 			result.add(innerImageRight);
-			result.addAll(children);
 			return result;
 		}
 
@@ -110,6 +109,15 @@ public class MenuSettingsTree extends MenuElement {
 					((BooleanProperty)property).set(! property.getBooleanValue());
 				}
 			}
+		}
+		
+		public List<MenuElement> getTree() {
+			List<MenuElement> result = new ArrayList<MenuElement>();
+			result.add(this);
+			for (MenuSettingsTreeRow child : children) {
+				result.addAll(child.getTree());
+			}
+			return result;
 		}
 		
 		public int innerRender(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font, int positionY, int depth) {
@@ -422,8 +430,6 @@ public class MenuSettingsTree extends MenuElement {
 	
 	@Override
 	public List<MenuElement> getDirectInnerElements() {
-		List<MenuElement> result = new ArrayList<MenuElement>();
-		result.add(root);
-		return result;
+		return root.getTree();
 	}
 }

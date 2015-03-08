@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.XmlReader.Element;
 
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.menu.GUITextureProvider;
+import de.samdev.absgdx.framework.menu.agdxml.AgdxmlGridDefinitions;
 import de.samdev.absgdx.framework.menu.elements.MenuButton;
 import de.samdev.absgdx.framework.menu.elements.MenuElement;
 import de.samdev.absgdx.framework.menu.elements.MenuPanel;
@@ -91,9 +92,9 @@ public class AgdxmlLayer extends MenuLayer {
 		
 		MenuButton elem = new MenuButton(id, tprox);
 		
-		elem.setPosition(AgdxmlParserHelper.parseVector(xmlElement, xmlElement.getAttribute("position", "0,0"), boundaries));
-		elem.setWidth((int)AgdxmlParserHelper.parseNumber(xmlElement, xmlElement.getAttribute("width", "8"), boundaries));
-		elem.setHeight((int)AgdxmlParserHelper.parseNumber(xmlElement, xmlElement.getAttribute("height", "8"), boundaries));
+		elem.setPosition(AgdxmlParserHelper.parseVector(xmlElement, xmlElement.getAttribute("position", boundaries.x + "," + boundaries.y), boundaries));
+		elem.setWidth((int)AgdxmlParserHelper.parseNumber(xmlElement, xmlElement.getAttribute("width", "" + boundaries.width), boundaries));
+		elem.setHeight((int)AgdxmlParserHelper.parseNumber(xmlElement, xmlElement.getAttribute("height", "" + boundaries.height), boundaries));
 		
 		return elem;
 	}
@@ -104,21 +105,42 @@ public class AgdxmlLayer extends MenuLayer {
 		
 		MenuPanel elem = new MenuPanel(id, tprox);
 		
-		elem.setPosition(AgdxmlParserHelper.parseVector(xmlElement, xmlElement.getAttribute("position", "0,0"), boundaries));
-		elem.setWidth((int)AgdxmlParserHelper.parseNumber(xmlElement, xmlElement.getAttribute("width", "8"), boundaries));
-		elem.setHeight((int)AgdxmlParserHelper.parseNumber(xmlElement, xmlElement.getAttribute("height", "8"), boundaries));
+		elem.setPosition(AgdxmlParserHelper.parseVector(xmlElement, xmlElement.getAttribute("position", boundaries.x + "," + boundaries.y), boundaries));
+		elem.setWidth((int)AgdxmlParserHelper.parseNumber(xmlElement, xmlElement.getAttribute("width", "" + boundaries.width), boundaries));
+		elem.setHeight((int)AgdxmlParserHelper.parseNumber(xmlElement, xmlElement.getAttribute("height", "" + boundaries.height), boundaries));
+		
+		Rectangle bd = new Rectangle(0, 0, elem.getWidth(), elem.getHeight());
 		
 		for (int i = 0; i < xmlElement.getChildCount(); i++) {
 			Element child = xmlElement.getChild(i);
 			
-			elem.addChildren(calculateGeneric(elem.getBoundaries(), child));
+			elem.addChildren(calculateGeneric(new Rectangle(bd), child));
 		}
 		
 		return elem;
 	}
 
 	private MenuElement calculateGrid(Rectangle boundaries, Element xmlElement) throws AgdxmlParsingException {
+		String id = xmlElement.getAttribute("id", "{" + java.util.UUID.randomUUID().toString() + "}");
+		GUITextureProvider tprox = new GUITextureProvider();
 		
-		return null;
+		MenuPanel elem = new MenuPanel(id, tprox);
+		
+		elem.setPosition(AgdxmlParserHelper.parseVector(xmlElement, xmlElement.getAttribute("position", boundaries.x + "," + boundaries.y), boundaries));
+		elem.setWidth((int)AgdxmlParserHelper.parseNumber(xmlElement, xmlElement.getAttribute("width", "" + boundaries.width), boundaries));
+		elem.setHeight((int)AgdxmlParserHelper.parseNumber(xmlElement, xmlElement.getAttribute("height", "" + boundaries.height), boundaries));
+		
+		AgdxmlGridDefinitions gdef = AgdxmlParserHelper.parseGridDefinitions(xmlElement);
+		
+		for (int i = 0; i < xmlElement.getChildCount(); i++) {
+			Element child = xmlElement.getChild(i);
+			
+			int childGrid_x = child.getInt("grid.row", 0);
+			int childGrid_y = child.getInt("grid.row", 0);
+			
+			elem.addChildren(calculateGeneric(gdef.getBoundaries(childGrid_x, childGrid_y, elem.getBoundaries()), child));
+		}
+		
+		return elem;
 	}
 }

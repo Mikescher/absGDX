@@ -24,7 +24,19 @@ public class AgdxmlLayer extends MenuLayer {
 		
 		try {
 			xmlRootElement = new XmlReader().parse(agdxmlFile);			
-		} catch (IOException e) {
+		} catch (Exception e) {
+			throw new AgdxmlParsingException(e);
+		}
+		
+		calculate();
+	}
+	
+	public AgdxmlLayer(AgdxGame owner, BitmapFont bmpfont, String agdxmlFileContent) throws AgdxmlParsingException {
+		super(owner, bmpfont);
+
+		try {
+			xmlRootElement = new XmlReader().parse(agdxmlFileContent);
+		} catch (Exception e) {
 			throw new AgdxmlParsingException(e);
 		}
 		
@@ -53,27 +65,27 @@ public class AgdxmlLayer extends MenuLayer {
 		for (int i = 0; i < xmlRootElement.getChildCount(); i++) {
 			Element child = xmlRootElement.getChild(i);
 			
-			getRoot().addChildren(calculateGeneric(getRoot(), getRoot().getBoundaries(), child));
+			getRoot().addChildren(calculateGeneric(getRoot().getBoundaries(), child));
 		}
 	}
 	
-	private MenuElement calculateGeneric(MenuElement parent, Rectangle boundaries, Element xmlElement) throws AgdxmlParsingException {
+	private MenuElement calculateGeneric(Rectangle boundaries, Element xmlElement) throws AgdxmlParsingException {
 		if (xmlElement.getName().equals("button")) {
-			return calculateButton(parent, boundaries, xmlElement);
+			return calculateButton(boundaries, xmlElement);
 		} 
 		
 		if (xmlElement.getName().equals("panel")) {
-			return calculatePanel(parent, boundaries, xmlElement);
+			return calculatePanel(boundaries, xmlElement);
 		} 
 		
 		if (xmlElement.getName().equals("grid")) {
-			return calculateGrid(parent, boundaries, xmlElement);
+			return calculateGrid(boundaries, xmlElement);
 		}
 		
 		throw new AgdxmlParsingException("Unknown element <" + xmlElement.getName() + ">");
 	}
 
-	private MenuElement calculateButton(MenuElement parent, Rectangle boundaries, Element xmlElement) throws AgdxmlParsingException {
+	private MenuElement calculateButton(Rectangle boundaries, Element xmlElement) throws AgdxmlParsingException {
 		String id = xmlElement.getAttribute("id", "{" + java.util.UUID.randomUUID().toString() + "}");
 		GUITextureProvider tprox = new GUITextureProvider();
 		
@@ -86,7 +98,7 @@ public class AgdxmlLayer extends MenuLayer {
 		return elem;
 	}
 
-	private MenuElement calculatePanel(MenuElement parent, Rectangle boundaries, Element xmlElement) throws AgdxmlParsingException {
+	private MenuElement calculatePanel(Rectangle boundaries, Element xmlElement) throws AgdxmlParsingException {
 		String id = xmlElement.getAttribute("id", "{" + java.util.UUID.randomUUID().toString() + "}");
 		GUITextureProvider tprox = new GUITextureProvider();
 		
@@ -96,16 +108,16 @@ public class AgdxmlLayer extends MenuLayer {
 		elem.setWidth((int)AgdxmlParserHelper.parseNumber(xmlElement, xmlElement.getAttribute("width", "8"), boundaries));
 		elem.setHeight((int)AgdxmlParserHelper.parseNumber(xmlElement, xmlElement.getAttribute("height", "8"), boundaries));
 		
-		for (int i = 0; i < xmlRootElement.getChildCount(); i++) {
-			Element child = xmlRootElement.getChild(i);
+		for (int i = 0; i < xmlElement.getChildCount(); i++) {
+			Element child = xmlElement.getChild(i);
 			
-			getRoot().addChildren(calculateGeneric(getRoot(), getRoot().getBoundaries(), child));
+			elem.addChildren(calculateGeneric(elem.getBoundaries(), child));
 		}
 		
 		return elem;
 	}
 
-	private MenuElement calculateGrid(MenuElement parent, Rectangle boundaries, Element xmlElement) throws AgdxmlParsingException {
+	private MenuElement calculateGrid(Rectangle boundaries, Element xmlElement) throws AgdxmlParsingException {
 		
 		return null;
 	}

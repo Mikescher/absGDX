@@ -1,5 +1,6 @@
 package de.samdev.absgdx.framework.menu.elements;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.samdev.absgdx.framework.layer.MenuLayer;
@@ -10,7 +11,14 @@ import de.samdev.absgdx.framework.menu.events.MenuFrameListener;
  *
  */
 public class MenuFrame extends MenuPanel {
-
+	
+	/**
+	 * Create a new (empty) MenuFrame
+	 */
+	public MenuFrame() {
+		this(new ArrayList<MenuElement>());
+	}
+	
 	/**
 	 * Create a new MenuFrame (with children)
 	 * 

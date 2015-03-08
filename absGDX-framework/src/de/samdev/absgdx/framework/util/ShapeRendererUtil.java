@@ -4,11 +4,15 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 
+import de.samdev.absgdx.framework.util.exceptions.NonInstantiableException;
+
 /**
  * Additional methods for the shape renderer
  *
  */
 public class ShapeRendererUtil {
+
+	private ShapeRendererUtil() throws NonInstantiableException { throw new NonInstantiableException(); }
 
 	/**
 	 * Renders an arrow

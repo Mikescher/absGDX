@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.framework.layer.MenuLayer;
 import de.samdev.absgdx.framework.menu.GUITextureProvider;
@@ -457,6 +458,16 @@ public abstract class MenuElement {
 	public void setPosition(int positionX, int positionY) {
 		setPositionX(positionX);
 		setPositionY(positionY);
+	}
+	
+	/**
+	 * Set the X and Y position of the component
+	 * 
+	 * @param position the position (will be rounded to int)
+	 */
+	public void setPosition(Vector2 position) {
+		setPositionX((int)position.x);
+		setPositionY((int)position.y);
 	}
 	
 	/**

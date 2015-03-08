@@ -41,6 +41,18 @@ public class MenuPanel extends MenuElement {
 	/**
 	 * Creates a new Panel (with no children)
 	 * 
+	 * @param ident the unique identifier
+	 * @param texprovider the texture provider for this element
+	 */
+	public MenuPanel(String ident, GUITextureProvider texprovider) {
+		super(ident, texprovider);
+		
+		this.elements = new ArrayList<MenuElement>();
+	}
+
+	/**
+	 * Creates a new Panel (with no children)
+	 * 
 	 * @param texprovider the texture provider for this element
 	 */
 	public MenuPanel(GUITextureProvider texprovider) {

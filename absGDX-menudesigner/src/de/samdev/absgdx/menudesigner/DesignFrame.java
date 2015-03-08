@@ -5,14 +5,12 @@ import java.awt.Component;
 
 import javax.swing.Box;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.border.EmptyBorder;
 
-import org.apache.commons.io.IOUtils;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 
@@ -58,6 +56,7 @@ public class DesignFrame extends JFrame {
 		pnlBottom.setLayout(new BorderLayout(0, 0));
 		
 		edCode = new RSyntaxTextArea();
+		edCode.setText("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<Frame>\r\n    <Grid>\r\n        <Grid.ColumnDefinitions>\r\n            <ColumnDefinition Width=\"1*\"/>\r\n            <ColumnDefinition Width=\"1*\"/>\r\n        </Grid.ColumnDefinitions>\r\n        <Grid.RowDefinitions>\r\n            <RowDefinition Height=\"1*\"/>\r\n            <RowDefinition Height=\"24\"/>\r\n        </Grid.RowDefinitions>\r\n\r\n        <TextBox id=\"txtbox\" Grid.Row=\"0\" FontFamily=\"standard\" IsReadOnly=\"True\" Grid.ColumnSpan=\"2\" />\r\n        <Button Grid.Row=\"1\" Grid.Column=\"0\" Content=\"Gen\" Click=\"Button_Click\"/>\r\n        <Button Grid.Row=\"1\" Grid.Column=\"1\" Content=\"Obf\" Click=\"Button_Click_1\"/>\r\n\r\n        <CheckBox />\r\n        <Label />\r\n        <RadioButton />\r\n    </Grid>\r\n</Frame>");
 		edCode.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_XML);
 		edCode.setCodeFoldingEnabled(true);
 		pnlBottom.add(edCode, BorderLayout.CENTER);

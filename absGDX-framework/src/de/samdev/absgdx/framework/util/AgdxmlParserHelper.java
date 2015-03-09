@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.XmlReader.Element;
 
 import de.samdev.absgdx.framework.menu.agdxml.AgdxmlGridDefinitions;
@@ -18,7 +17,7 @@ public class AgdxmlParserHelper {
 
 	private AgdxmlParserHelper() throws NonInstantiableException { throw new NonInstantiableException(); }
 
-	public static Vector2 parseVector(Element element, String parameter, Rectangle parentBound) throws AgdxmlParsingException {
+	public static Vector2 parseVectorPosition(Element element, String parameter, Rectangle parentBound) throws AgdxmlParsingException {
 		String[] parts = parameter.split(",");
 		
 		if (parts.length != 2) throw new AgdxmlParsingException(element.getName() + " must have the for of \"a,b\"");
@@ -26,22 +25,33 @@ public class AgdxmlParserHelper {
 		String p1 = parts[0].trim();
 		String p2 = parts[1].trim();
 
-		return new Vector2(parseNumber(element, parts[0].trim(), parentBound), parseNumber(element, parts[1].trim(), parentBound));
+		return new Vector2(parseNumber(element, "position[0]", parts[0].trim(), parentBound) + parentBound.x, parseNumber(element, "position[1]", parts[1].trim(), parentBound) + parentBound.y);
+	}
+
+	public static float parseNumberMax(Element element, String parametername, String parameter, Rectangle parentBound, float max) throws AgdxmlParsingException {
+		if (max < 0) return 0;
+		
+		return Math.min(max, parseNumber(element, parametername, parameter, parentBound));
 	}
 	
-	public static float parseNumber(Element element, String parameter, Rectangle parentBound) throws AgdxmlParsingException {
+	public static float parseNumber(Element element, String parametername, String parameter, Rectangle parentBound) throws AgdxmlParsingException {
 		parameter = parameter.trim();
 		
 		if (parameter.endsWith("%")) {
 			try {
-				int val = Integer.parseInt(parameter.substring(0, parameter.length() - 1));				
-				return parentBound.width * (val / 100f);
+				float val = Float.parseFloat(parameter.substring(0, parameter.length() - 1));
+				if (parametername.equals("width") || parametername.equals("position[0]"))
+					return parentBound.width * (val / 100f);
+				else if (parametername.equals("height") || parametername.equals("position[1]"))
+					return parentBound.height * (val / 100f);
+				else
+					throw new AgdxmlParsingException("Percentage value is invalid for attribute " + parametername);
 			} catch (NumberFormatException e) {
 				throw new AgdxmlParsingException("In element" + element.getName() + " "+  parameter + " is not a number");
 			}
 		} else {
 			try {
-				return Integer.parseInt(parameter);
+				return Float.parseFloat(parameter);
 			} catch (NumberFormatException e) {
 				throw new AgdxmlParsingException("In element" + element.getName() + " "+  parameter + " is not a number");
 			}
@@ -81,19 +91,19 @@ public class AgdxmlParserHelper {
 		
 		if (value.endsWith("%")) {
 			try {
-				return new AgdxmlGridDefinitionsValue(Integer.parseInt(value.substring(0, value.length() - 1)), AgdxmlGridDefinitionsUnit.PERCENTAGE);
+				return new AgdxmlGridDefinitionsValue(Float.parseFloat(value.substring(0, value.length() - 1)), AgdxmlGridDefinitionsUnit.PERCENTAGE);
 			} catch (NumberFormatException e) {
 				throw new AgdxmlParsingException("In element" + element.getName() + " "+  parametername + " is not a number");
 			}
 		} else if (value.endsWith("*")) {
 			try {
-				return new AgdxmlGridDefinitionsValue(Integer.parseInt(value.substring(0, value.length() - 1)), AgdxmlGridDefinitionsUnit.WEIGHT);
+				return new AgdxmlGridDefinitionsValue(Float.parseFloat(value.substring(0, value.length() - 1)), AgdxmlGridDefinitionsUnit.WEIGHT);
 			} catch (NumberFormatException e) {
 				throw new AgdxmlParsingException("In element" + element.getName() + " "+  parametername + " is not a number");
 			}
 		} else {
 			try {
-				return new AgdxmlGridDefinitionsValue(Integer.parseInt(value), AgdxmlGridDefinitionsUnit.PIXEL);
+				return new AgdxmlGridDefinitionsValue(Float.parseFloat(value), AgdxmlGridDefinitionsUnit.PIXEL);
 			} catch (NumberFormatException e) {
 				throw new AgdxmlParsingException("In element" + element.getName() + " "+  parametername + " is not a number");
 			}

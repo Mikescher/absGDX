@@ -6,8 +6,8 @@ import de.samdev.absgdx.framework.AgdxGame;
 
 public class AgdxPreviewGameDummy extends AgdxGame {
 
-	public int width = 10;
-	public int height = 10;
+	public int width = 900;
+	public int height = 300;
 	
 	public AgdxPreviewGameDummy() {
 		// TODO Auto-generated constructor stub

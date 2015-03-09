@@ -1,15 +1,24 @@
 package de.samdev.absgdx.menudesigner;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
+import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 
-import javax.swing.Box;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -17,20 +26,8 @@ import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 
 import de.samdev.absgdx.framework.layer.AgdxmlLayer;
-import de.samdev.absgdx.framework.layer.MenuLayer;
 import de.samdev.absgdx.framework.util.exceptions.AgdxmlParsingException;
-
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.GridLayout;
-import javax.swing.JLabel;
-import javax.swing.JSpinner;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
+import javax.swing.ScrollPaneConstants;
 
 public class DesignFrame extends JFrame {
 	private static final long serialVersionUID = 5936312660450931611L;
@@ -49,6 +46,10 @@ public class DesignFrame extends JFrame {
 	private JLabel lblWidth;
 	private JSpinner spinnerHeight;
 	private JSpinner spinnerWidth;
+	private JPanel pnlBottomLeft;
+	private JScrollPane scrollPane_0;
+	private JTextArea memoError;
+	private JScrollPane scrollPane_1;
 
 	public DesignFrame() {
 		try {
@@ -61,18 +62,18 @@ public class DesignFrame extends JFrame {
 	private void initGUI() throws AgdxmlParsingException {
 		setTitle("absGDX - Menu Designer");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 949, 724);
+		setBounds(100, 100, 949, 818);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
 		splitPane = new JSplitPane();
-		splitPane.setResizeWeight(0.5);
+		splitPane.setResizeWeight(0.99999999999);
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		contentPane.add(splitPane, BorderLayout.CENTER);
 		
-		lblDraw = new GUIPreviewPanel(1920, 1080, new AgdxmlLayer(new AgdxPreviewGameDummy(), null, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<frame><panel position=\"10,10\" height=\"80\" width=\"200\"><button position=\"50,50\" height=\"20\" width=\"80\" /></panel></frame>") {
+		lblDraw = new GUIPreviewPanel(900, 300, new AgdxmlLayer(new AgdxPreviewGameDummy(), null, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<frame><panel position=\"10,10\" height=\"80\" width=\"200\"><button position=\"50,50\" height=\"20\" width=\"80\" /></panel></frame>") {
 			@Override
 			public void onResize() {super.onResize();}
 		});
@@ -82,41 +83,6 @@ public class DesignFrame extends JFrame {
 		pnlBottom = new JPanel();
 		splitPane.setRightComponent(pnlBottom);
 		pnlBottom.setLayout(new BorderLayout(0, 0));
-		
-		edCode = new RSyntaxTextArea();
-		edCode.getDocument().addDocumentListener(new DocumentListener() {
-			
-			@Override
-			public void removeUpdate(DocumentEvent de) {
-				try {
-					lblDraw.setMenuLayer(edCode.getText());
-				} catch (AgdxmlParsingException e) {
-					e.printStackTrace();
-				}
-			}
-			
-			@Override
-			public void insertUpdate(DocumentEvent de) {
-				try {
-					lblDraw.setMenuLayer(edCode.getText());
-				} catch (AgdxmlParsingException e) {
-					e.printStackTrace();
-				}
-			}
-			
-			@Override
-			public void changedUpdate(DocumentEvent de) {
-				try {
-					lblDraw.setMenuLayer(edCode.getText());
-				} catch (AgdxmlParsingException e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		edCode.setText("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<frame>\r\n\t<panel position=\"10,10\" height=\"80\" width=\"200\">\r\n\t<button position=\"50,50\" height=\"20\" width=\"80\" />\r\n\t</panel>\r\n</frame>");
-		edCode.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_XML);
-		edCode.setCodeFoldingEnabled(true);
-		pnlBottom.add(edCode, BorderLayout.CENTER);
 		
 		pnlSettings = new JTabbedPane(JTabbedPane.TOP);
 		pnlSettings.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
@@ -157,7 +123,7 @@ public class DesignFrame extends JFrame {
 				lblDraw.setRenderSize((Integer)spinnerWidth.getValue(), (Integer)spinnerHeight.getValue());
 			}
 		});
-		spinnerHeight.setModel(new SpinnerNumberModel(new Integer(1080), null, null, new Integer(1)));
+		spinnerHeight.setModel(new SpinnerNumberModel(new Integer(300), null, null, new Integer(1)));
 		GridBagConstraints gbc_spinnerHeight = new GridBagConstraints();
 		gbc_spinnerHeight.anchor = GridBagConstraints.NORTHWEST;
 		gbc_spinnerHeight.fill = GridBagConstraints.BOTH;
@@ -181,7 +147,7 @@ public class DesignFrame extends JFrame {
 				lblDraw.setRenderSize((Integer)spinnerWidth.getValue(), (Integer)spinnerHeight.getValue());
 			}
 		});
-		spinnerWidth.setModel(new SpinnerNumberModel(new Integer(1920), null, null, new Integer(1)));
+		spinnerWidth.setModel(new SpinnerNumberModel(new Integer(900), null, null, new Integer(1)));
 		GridBagConstraints gbc_spinnerWidth = new GridBagConstraints();
 		gbc_spinnerWidth.anchor = GridBagConstraints.NORTHWEST;
 		gbc_spinnerWidth.insets = new Insets(0, 0, 5, 0);
@@ -190,6 +156,65 @@ public class DesignFrame extends JFrame {
 		gbc_spinnerWidth.gridy = 0;
 		tabSettings.add(spinnerWidth, gbc_spinnerWidth);
 		
-		lblDraw.setRenderSize(350, 150);
+		pnlBottomLeft = new JPanel();
+		pnlBottom.add(pnlBottomLeft, BorderLayout.CENTER);
+		pnlBottomLeft.setLayout(new BorderLayout(0, 0));
+		
+		scrollPane_0 = new JScrollPane();
+		scrollPane_0.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		pnlBottomLeft.add(scrollPane_0, BorderLayout.SOUTH);
+		
+		memoError = new JTextArea();
+		memoError.setLineWrap(true);
+		memoError.setForeground(Color.RED);
+		memoError.setRows(8);
+		scrollPane_0.setViewportView(memoError);
+		
+		scrollPane_1 = new JScrollPane();
+		pnlBottomLeft.add(scrollPane_1, BorderLayout.CENTER);
+		
+		edCode = new RSyntaxTextArea();
+		scrollPane_1.setViewportView(edCode);
+		edCode.getDocument().addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent de) {
+				memoError.setText("");
+				try {
+					lblDraw.setMenuLayer(edCode.getText());
+				} catch (AgdxmlParsingException e) {
+					memoError.setText(e.toString());
+
+					lblDraw.drawError();
+				}
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent de) {
+				memoError.setText("");
+				try {
+					lblDraw.setMenuLayer(edCode.getText());
+				} catch (AgdxmlParsingException e) {
+					memoError.setText(e.toString());
+
+					lblDraw.drawError();
+				}
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent de) {
+				memoError.setText("");
+				try {
+					lblDraw.setMenuLayer(edCode.getText());
+				} catch (AgdxmlParsingException e) {
+					memoError.setText(e.toString());
+
+					lblDraw.drawError();
+				}
+			}
+		});
+		edCode.setText("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<frame>\r\n\t<grid position=\"10%,10%\" height=\"80%\" width=\"80%\">\r\n\t\t<grid.columndefinitions>\r\n\t\t\t<columndefinition width=\"1*\"/>\r\n\t\t\t<columndefinition width=\"24\"/>\r\n\t\t\t<columndefinition width=\"1*\"/>\r\n\t\t</grid.columndefinitions>\r\n\t\t<grid.rowdefinitions>\r\n\t\t\t<rowdefinition height=\"24\"/>\r\n\t\t\t<rowdefinition height=\"1*\"/>\r\n\t\t</grid.rowdefinitions>\r\n\t\t\r\n\t\t<panel grid.row=\"1\" grid.column=\"0\" position=\"0,0\">\r\n\t\t\t\r\n\t\t</panel>\r\n\r\n\t\t<panel grid.row=\"1\" grid.column=\"2\">\r\n\t\t\t<button position=\"25%,21\" height=\"20\" width=\"50%\" />\r\n\t\t\t<button position=\"25%,46\" height=\"20\" width=\"50%\" />\r\n\t\t\t<button position=\"25%,71\" height=\"20\" width=\"50%\" />\r\n\t\t</panel>\r\n\t\r\n\t</grid>\r\n</frame>");
+		edCode.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_XML);
+		edCode.setCodeFoldingEnabled(true);
 	}
 }

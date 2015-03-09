@@ -40,10 +40,12 @@ public class GUIPreviewPanel extends JPanel {
 	public void setRenderSize(int renderWidth, int renderHeight) {
 		this.buffer = new BufferedImage(renderWidth, renderHeight, BufferedImage.TYPE_INT_ARGB);
 		
-		((AgdxPreviewGameDummy)layer.owner).width = renderWidth;
-		((AgdxPreviewGameDummy)layer.owner).height = renderHeight;
-		layer.onResize();
-
+		if (layer != null) {
+			((AgdxPreviewGameDummy)layer.owner).width = renderWidth;
+			((AgdxPreviewGameDummy)layer.owner).height = renderHeight;
+			layer.onResize();
+		}
+		
 		redraw();
 	}
 
@@ -55,18 +57,20 @@ public class GUIPreviewPanel extends JPanel {
 		g.setColor(col);
 		g.fillRect(0, 0, buffer.getWidth(), buffer.getHeight());
 		
-		for (MenuElement child : layer.getRoot().getAllChildElements()) {
-			Rectangle bound = new Rectangle(child.getCoordinateOffsetX() + child.getPositionX(), child.getCoordinateOffsetY() + child.getPositionY(), child.getWidth(), child.getHeight());
-			
-			int gray = Math.max(255 - child.getDepth()*32, 0);
-			g.setColor(new Color(gray, gray, gray));
-			g.fillRect((int)bound.x, (int)bound.y, (int)bound.width, (int)bound.height);
-
-			g.setColor(Color.BLACK);
-			g.drawRect((int)bound.x, (int)bound.y, (int)bound.width, (int)bound.height);
-			
-			g.setFont(new Font("Arial", Font.PLAIN, 12));
-			g.drawString(child.getClass().getSimpleName(), (int)bound.x + 3, (int)bound.y + 12);
+		if (layer != null) {
+			for (MenuElement child : layer.getRoot().getAllChildElements()) {
+				Rectangle bound = new Rectangle(child.getCoordinateOffsetX() + child.getPositionX(), child.getCoordinateOffsetY() + child.getPositionY(), child.getWidth(), child.getHeight());
+				
+				int gray = Math.max(255 - child.getDepth()*32, 0);
+				g.setColor(new Color(gray, gray, gray));
+				g.fillRect((int)bound.x, (int)bound.y, (int)bound.width, (int)bound.height);
+				
+				g.setColor(Color.BLACK);
+				g.drawRect((int)bound.x, (int)bound.y, (int)bound.width, (int)bound.height);
+				
+				g.setFont(new Font("Arial", Font.PLAIN, 12));
+				g.drawString(child.getClass().getSimpleName(), (int)bound.x + 3, (int)bound.y + 12);
+			}			
 		}
 		
 		repaint();
@@ -84,5 +88,11 @@ public class GUIPreviewPanel extends JPanel {
 		} else {
 			g.drawImage(buffer, 0, 0, (int) (getHeight() * (buffer.getWidth() * 1f / buffer.getHeight())), getHeight(), null);
 		}
+	}
+
+	public void drawError() {
+		layer = null;
+		
+		redraw();
 	}
 }

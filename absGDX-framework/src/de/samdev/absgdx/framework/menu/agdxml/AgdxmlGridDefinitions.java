@@ -48,7 +48,7 @@ public class AgdxmlGridDefinitions {
 		
 		float px = 0;
 		float pwidth = 0;
-		for (int i = 0; i < grid_x; i++) {
+		for (int i = 0; i <= grid_x; i++) {
 			px += pwidth;
 			
 			switch (columns.get(i).unit) {
@@ -59,7 +59,7 @@ public class AgdxmlGridDefinitions {
 				pwidth = (columns.get(i).value / 100f) * boundaries.width;
 				break;
 			case WEIGHT:
-				pwidth = (columns.get(i).value * 1f / weightsum_x) * usedspacesum_x;
+				pwidth = (columns.get(i).value * 1f / weightsum_x) * (boundaries.width - usedspacesum_x);
 				break;
 			default:
 				break;
@@ -68,7 +68,7 @@ public class AgdxmlGridDefinitions {
 		
 		float py = 0;
 		float pheight = 0;
-		for (int i = 0; i < grid_y; i++) {
+		for (int i = 0; i <= grid_y; i++) {
 			py += pheight;
 			
 			switch (rows.get(i).unit) {
@@ -79,7 +79,7 @@ public class AgdxmlGridDefinitions {
 				pheight = (rows.get(i).value / 100f) * boundaries.height;
 				break;
 			case WEIGHT:
-				pheight = (rows.get(i).value * 1f / weightsum_y) * usedspacesum_y;
+				pheight = (rows.get(i).value * 1f / weightsum_y) * (boundaries.height - usedspacesum_y);
 				break;
 			default:
 				break;

@@ -163,4 +163,8 @@ public class AgdxmlLayer extends MenuLayer {
 		
 		return elem;
 	}
+
+	public AgdxmlLayerBoundaryElement getBoundaryRootElement() {
+		return boundaryRootElement;
+	}
 }

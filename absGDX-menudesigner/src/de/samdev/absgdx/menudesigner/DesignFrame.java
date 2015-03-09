@@ -69,8 +69,8 @@ public class DesignFrame extends JFrame {
 		setContentPane(contentPane);
 		
 		splitPane = new JSplitPane();
-		splitPane.setResizeWeight(0.99999999999);
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		splitPane.setResizeWeight(0.565);
 		contentPane.add(splitPane, BorderLayout.CENTER);
 		
 		lblDraw = new GUIPreviewPanel(900, 300, new AgdxmlLayer(new AgdxPreviewGameDummy(), null, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<frame><panel position=\"10,10\" height=\"80\" width=\"200\"><button position=\"50,50\" height=\"20\" width=\"80\" /></panel></frame>") {
@@ -213,7 +213,7 @@ public class DesignFrame extends JFrame {
 				}
 			}
 		});
-		edCode.setText("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<frame>\r\n\t<grid position=\"10%,10%\" height=\"80%\" width=\"80%\">\r\n\t\t<grid.columndefinitions>\r\n\t\t\t<columndefinition width=\"1*\"/>\r\n\t\t\t<columndefinition width=\"24\"/>\r\n\t\t\t<columndefinition width=\"1*\"/>\r\n\t\t</grid.columndefinitions>\r\n\t\t<grid.rowdefinitions>\r\n\t\t\t<rowdefinition height=\"24\"/>\r\n\t\t\t<rowdefinition height=\"1*\"/>\r\n\t\t</grid.rowdefinitions>\r\n\t\t\r\n\t\t<panel grid.row=\"1\" grid.column=\"0\" position=\"0,0\">\r\n\t\t\t\r\n\t\t</panel>\r\n\r\n\t\t<panel grid.row=\"1\" grid.column=\"2\">\r\n\t\t\t<button position=\"25%,21\" height=\"20\" width=\"50%\" />\r\n\t\t\t<button position=\"25%,46\" height=\"20\" width=\"50%\" />\r\n\t\t\t<button position=\"25%,71\" height=\"20\" width=\"50%\" />\r\n\t\t</panel>\r\n\t\r\n\t</grid>\r\n</frame>");
+		edCode.setText("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<frame>\r\n\t<!-- content -->\r\n</frame>");
 		edCode.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_XML);
 		edCode.setCodeFoldingEnabled(true);
 	}

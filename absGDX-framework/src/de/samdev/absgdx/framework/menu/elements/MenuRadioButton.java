@@ -1,6 +1,7 @@
 package de.samdev.absgdx.framework.menu.elements;
 
 import de.samdev.absgdx.framework.menu.GUITextureProvider;
+import de.samdev.absgdx.framework.menu.events.MenuRadioButtonListener;
 
 /**
  * A switch-able Button (RadioGroup is parent element)
@@ -54,5 +55,14 @@ public class MenuRadioButton extends MenuCheckBox {
 					}
 				}
 		}
+	}
+	
+	/**
+	 * Adds a new listener
+	 * 
+	 * @param l the new listener
+	 */
+	public void addRadiobuttonListener(MenuRadioButtonListener l) {
+		super.addElementListener(l);
 	}
 }

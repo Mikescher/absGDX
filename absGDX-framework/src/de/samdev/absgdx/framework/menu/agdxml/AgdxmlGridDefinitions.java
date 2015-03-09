@@ -1,5 +1,6 @@
 package de.samdev.absgdx.framework.menu.agdxml;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.math.Rectangle;
@@ -8,14 +9,24 @@ import de.samdev.absgdx.framework.util.exceptions.AgdxmlParsingException;
 
 public class AgdxmlGridDefinitions {
 
-	public final List<AgdxmlGridDefinitionsValue> rows;
-	public final List<AgdxmlGridDefinitionsValue> columns;
+	public final List<AgdxmlValue> rows;
+	public final List<AgdxmlValue> columns;
 	
-	public AgdxmlGridDefinitions(List<AgdxmlGridDefinitionsValue> rows, List<AgdxmlGridDefinitionsValue> columns) {
+	public AgdxmlGridDefinitions(List<AgdxmlValue> rows, List<AgdxmlValue> columns) {
 		super();
 		
 		this.rows = rows;
 		this.columns = columns;
+	}
+
+	public AgdxmlGridDefinitions() {
+		super();
+		
+		this.rows = new ArrayList<AgdxmlValue>();
+		rows.add(new AgdxmlValue(1f, AgdxmlGridDefinitionsUnit.WEIGHT));
+
+		this.columns = new ArrayList<AgdxmlValue>();
+		columns.add(new AgdxmlValue(1f, AgdxmlGridDefinitionsUnit.WEIGHT));
 	}
 
 	public Rectangle getBoundaries(int grid_x, int grid_y, Rectangle boundaries) throws AgdxmlParsingException {
@@ -28,7 +39,7 @@ public class AgdxmlGridDefinitions {
 		float usedspacesum_x = 0;
 		float usedspacesum_y = 0;
 		
-		for (AgdxmlGridDefinitionsValue def_col : columns) {
+		for (AgdxmlValue def_col : columns) {
 			if (def_col.unit == AgdxmlGridDefinitionsUnit.WEIGHT)
 				weightsum_x += def_col.value;
 			else if (def_col.unit == AgdxmlGridDefinitionsUnit.PIXEL)
@@ -37,7 +48,7 @@ public class AgdxmlGridDefinitions {
 				usedspacesum_x += (def_col.value/100f) * boundaries.width;
 		}
 		
-		for (AgdxmlGridDefinitionsValue def_row : rows) {
+		for (AgdxmlValue def_row : rows) {
 			if (def_row.unit == AgdxmlGridDefinitionsUnit.WEIGHT)
 				weightsum_y += def_row.value;
 			else if (def_row.unit == AgdxmlGridDefinitionsUnit.PIXEL)

@@ -240,7 +240,6 @@ public class ManualMenu extends MenuLayer {
 		p3.setBoundaries(700, 50, 550, 600);
 		p3.setColor(Color.WHITE);
 		p3.setVisible(true);
-		
 		getRoot().addChildren(p3);
 		
 		//#######################################################

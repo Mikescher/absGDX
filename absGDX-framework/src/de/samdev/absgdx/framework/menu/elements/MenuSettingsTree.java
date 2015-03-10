@@ -158,10 +158,10 @@ public class MenuSettingsTree extends MenuElement {
 			
 			if (isChecked()) {
 				for (MenuSettingsTreeRow child : children) {
-					positionY = child.innerDebugRender(srenderer, positionY, depth+1);
-					
 					if (positionY + treeowner.rowHeight > treeowner.getHeight() - treeowner.padding.bottom)
 						return positionY;
+					
+					positionY = child.innerDebugRender(srenderer, positionY, depth+1);
 				}
 			}
 			
@@ -254,7 +254,11 @@ public class MenuSettingsTree extends MenuElement {
 
 	@Override
 	public void render(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
-		render9SideTexture(sbatch);
+		if (getTextureProvider().hasGeneric9SideTextures(getClass())) {
+			render9SideTexture(sbatch);
+		} else {
+			renderSimple(srenderer);
+		}
 
 		srenderer.translate(getPositionX(), getPositionY(), 0);
 		sbatch.getTransformMatrix().translate(getPositionX(), getPositionY(), 0);
@@ -278,6 +282,16 @@ public class MenuSettingsTree extends MenuElement {
 		}
 		sbatch.getTransformMatrix().translate(-getPositionX(), -getPositionY(), 0);
 		srenderer.translate(-getPositionX(), -getPositionY(), 0);
+	}
+
+	private void renderSimple(ShapeRenderer srenderer) {
+		srenderer.begin(ShapeType.Filled);
+		{
+			float grayValue = 1f - (getDepth() % 16) / 15f;
+			srenderer.setColor(grayValue, grayValue, grayValue, 1f);
+			srenderer.rect(getPositionX(), getPositionY(), getWidth(), getHeight());
+		}
+		srenderer.end();
 	}
 
 	@Override

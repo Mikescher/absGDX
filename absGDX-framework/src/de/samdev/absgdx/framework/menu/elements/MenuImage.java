@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 import de.samdev.absgdx.framework.layer.MenuLayer;
+import de.samdev.absgdx.framework.menu.GUITextureProvider;
 import de.samdev.absgdx.framework.menu.attributes.ImageBehavior;
 import de.samdev.absgdx.framework.menu.events.MenuImageListener;
 
@@ -40,6 +41,16 @@ public class MenuImage extends MenuElement {
 	public MenuImage(String identifier) {
 		super(identifier);
 	}
+	
+	/**
+	 * Creates a new MenuImage
+	 * 
+	 * @param identifier the unique button identifier
+	 * @param texprovider the texture provider for this element
+	 */
+	public MenuImage(String identifier, GUITextureProvider texprovider) {
+		super(identifier, texprovider);
+	}
 
 	@Override
 	public void renderElement(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont defaultfont, MenuLayer owner) {
@@ -64,7 +75,7 @@ public class MenuImage extends MenuElement {
 		if (getWidth() == 0 || getHeight() == 0) return;
 		
 		TextureRegion image = getTexture();
-		if (image == null) return;
+		if (image == null || image.getTexture() == null) return;
 		
 		sbatch.begin();
 

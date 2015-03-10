@@ -19,11 +19,10 @@ public class DemoMenu extends AgdxmlLayer {
 
 	public DemoMenu(AgdxGame owner) throws AgdxmlParsingException {
 		super(owner, new BitmapFont(Gdx.files.internal("consolefont.fnt")), Gdx.files.internal("demomenu.agdxml"));
-		
-		init();
 	}
 
-	private void init() {
+	@Override
+	public void initialize() {
 		GUITextureProvider prov = new GUITextureProvider();
 		prov.setMenuButtonTexture(Textures.tex_buttongui[0], VisualButtonState.NORMAL);
 		prov.setMenuButtonTexture(Textures.tex_buttongui[1], VisualButtonState.HOVERED);
@@ -41,7 +40,7 @@ public class DemoMenu extends AgdxmlLayer {
 		prov.setMenuRadioButtonTexture(Textures.tex_gui_checkers[3][0], true);
 		prov.setMenuRadioButtonTexture(Textures.tex_gui_checkers[3][1], false);
 		
-		prov.setMenuSettingsTreeTexture(Textures.tex_panelgui);
+//		prov.setMenuSettingsTreeTexture(Textures.tex_panelgui);
 		prov.setMenuSettingsTreeButtonTexture(Textures.tex_gui_checkers[2][0], true);
 		prov.setMenuSettingsTreeButtonTexture(Textures.tex_gui_checkers[2][1], false);
 		prov.setMenuSettingsTreeValueTexture(Textures.tex_gui_checkers[1][0], TristateBoolean.FALSE);

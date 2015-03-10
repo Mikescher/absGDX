@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<frame textures="defaultprov_01" >
+	<grid container="true">
+		<grid.columndefinitions>
+			<columndefinition width="24"/>
+			<columndefinition width="1*"/>
+			<columndefinition width="24"/>
+			<columndefinition width="1*"/>
+			<columndefinition width="24"/>
+		</grid.columndefinitions>
+		<grid.rowdefinitions>
+			<rowdefinition height="24"/>
+			<rowdefinition height="1*"/>
+			<rowdefinition height="24"/>
+		</grid.rowdefinitions>
+		
+		<grid grid.row="1" grid.column="1" position="0,0">
+			<grid.rowdefinitions>
+				<rowdefinition height="1*"/>
+				<rowdefinition height="40"/>
+			</grid.rowdefinitions>
+
+			<grid grid.row="0" grid.column="0" container="true">
+				<grid.columndefinitions>
+					<columndefinition width="24"/>
+					<columndefinition width="1*"/>
+					<columndefinition width="4"/>
+					<columndefinition width="1*"/>
+					<columndefinition width="24"/>
+				</grid.columndefinitions>
+				<grid.rowdefinitions>
+					<rowdefinition height="24"/>
+					<rowdefinition height="1*"/>
+					<rowdefinition height="24"/>
+				</grid.rowdefinitions>
+
+				<image grid.row="1" grid.column="1" texture="img_01"/>
+				<image grid.row="1" grid.column="3" texture="img_02" animation="3500" />
+			</grid>
+			
+			<grid grid.row="1" grid.column="0" container="true">
+				<grid.columndefinitions>
+					<columndefinition width="1*"/>
+					<columndefinition width="100"/>
+					<columndefinition width="20"/>
+					<columndefinition width="100"/>
+					<columndefinition width="20"/>
+					<columndefinition width="100"/>
+					<columndefinition width="1*"/>
+				</grid.columndefinitions>
+				<grid.rowdefinitions>
+					<rowdefinition height="8"/>
+					<rowdefinition height="1*"/>
+					<rowdefinition height="8"/>
+				</grid.rowdefinitions>
+				
+				<button grid.row="1" grid.column="1" />
+				<button grid.row="1" grid.column="3" />
+				<button grid.row="1" grid.column="5" />
+			</grid>
+		</grid>
+
+		<panel grid.row="1" grid.column="3">
+			<button position="10%,20" height="20" width="20%" />
+			<button position="40%,20" height="20" width="20%" />
+			<button position="70%,20" height="20" width="20%" />
+
+			<settingstree position="10%,50" height="50%" width="80%" />
+		</panel>
+	
+	</grid>
+</frame>

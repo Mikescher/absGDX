@@ -36,6 +36,15 @@ public class MenuLabel extends MenuElement {
 		super();
 	}
 
+	/**
+	 * Create a new Label
+	 * 
+	 * @param ident the unique identifier
+	 */
+	public MenuLabel(String ident) {
+		super(ident);
+	}
+
 	@Override
 	public void render(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
 		if (getWidth() == 0 || getHeight() == 0) return;

@@ -69,6 +69,7 @@ public abstract class MenuElement {
 	
 	/**
 	 * Creates a new MenuElement
+	 * 
 	 * @param ident the unique identifier
 	 */
 	public MenuElement(String ident) {

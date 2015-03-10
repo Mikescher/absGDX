@@ -25,6 +25,7 @@ import de.samdev.absgdx.framework.menu.elements.MenuPanel;
 import de.samdev.absgdx.framework.menu.elements.MenuRadioButton;
 import de.samdev.absgdx.framework.menu.elements.MenuSettingsTree;
 import de.samdev.absgdx.framework.menu.events.MenuButtonListener;
+import de.samdev.absgdx.framework.util.exceptions.AgdxmlParsingException;
 
 public class ManualMenu extends MenuLayer {
 
@@ -38,16 +39,16 @@ public class ManualMenu extends MenuLayer {
 		prov.setMenuButtonTexture(Textures.tex_buttongui[3], VisualButtonState.DISABLED);
 
 		prov.setMenuPanelTexture(Textures.tex_panelgui);
-		
+
 		prov.setMenuEditTexture(Textures.tex_textfield, false);
 		prov.setMenuEditTexture(Textures.tex_textfield_focus, true);
-		
+
 		prov.setMenuCheckBoxTexture(Textures.tex_gui_checkers[0][0], true);
 		prov.setMenuCheckBoxTexture(Textures.tex_gui_checkers[0][1], false);
-		
+
 		prov.setMenuRadioButtonTexture(Textures.tex_gui_checkers[3][0], true);
 		prov.setMenuRadioButtonTexture(Textures.tex_gui_checkers[3][1], false);
-		
+
 		prov.setMenuSettingsTreeTexture(Textures.tex_panelgui);
 		prov.setMenuSettingsTreeButtonTexture(Textures.tex_gui_checkers[2][0], true);
 		prov.setMenuSettingsTreeButtonTexture(Textures.tex_gui_checkers[2][1], false);
@@ -205,6 +206,27 @@ public class ManualMenu extends MenuLayer {
 		rb4.setImagePadding(5, 5, 5, 5);
 		rb4.setLabelPadding(5, 0, 5, 0);
 		p2.addChildren(rb4);
+		
+		final MenuButton bnext = new MenuButton(prov);
+		bnext.setBoundaries(400, 25, 175, 40);
+		bnext.setContent("AGDXML");
+		bnext.setColor(Color.WHITE);
+		bnext.addButtonListener(new MenuButtonListener() {
+			@Override
+			public void onPointerUp(MenuElement element, String identifier) {/**/}
+			@Override
+			public void onPointerDown(MenuElement element, String identifier) {/**/}
+			@Override
+			public void onHoverEnd(MenuElement element, String identifier) {/**/}
+			@Override
+			public void onHover(MenuElement element, String identifier) {/**/}
+			@Override
+			public void onFocusLost(MenuElement element, String identifier) {/**/}
+			@Override
+			public void onFocus(MenuElement element, String identifier) {/**/}
+			@Override
+			public void onClicked(MenuElement element, String identifier) { try { ManualMenu.this.owner.pushLayer(new DemoMenu(ManualMenu.this.owner)); } catch (AgdxmlParsingException e) { e.printStackTrace(); }}});
+		p2.addChildren(bnext);
 		
 		final MenuProgressbar pb = new MenuProgressbar(prov);
 		pb.setBoundaries(25, 200, 550, 30);

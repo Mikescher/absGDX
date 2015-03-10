@@ -56,9 +56,10 @@ public class DemoMenu extends AgdxmlLayer {
 		addAgdxmlGuiTextureProvider("defaultprov_01", prov);
 		
 		//#################################################################################################################################
-		
+
 		addAgdxmlImageTexture("img_01", Textures.tex_china_td[0][0]);
-		addAgdxmlImageTexture("img_02", Textures.tex_animation);
+		addAgdxmlImageTexture("img_02", Textures.tex_player_td[0][0]);
+		addAgdxmlImageTexture("img_03", Textures.tex_animation);
 		
 	}
 

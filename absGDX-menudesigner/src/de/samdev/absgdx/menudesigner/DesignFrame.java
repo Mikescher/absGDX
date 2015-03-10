@@ -73,10 +73,7 @@ public class DesignFrame extends JFrame {
 		splitPane.setResizeWeight(0.565);
 		contentPane.add(splitPane, BorderLayout.CENTER);
 		
-		lblDraw = new GUIPreviewPanel(900, 300, new AgdxmlLayer(new AgdxPreviewGameDummy(), null, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<frame><panel position=\"10,10\" height=\"80\" width=\"200\"><button position=\"50,50\" height=\"20\" width=\"80\" /></panel></frame>") {
-			@Override
-			public void onResize() {super.onResize();}
-		});
+		lblDraw = new GUIPreviewPanel(900, 300, new AgdxmlLayer(new AgdxPreviewGameDummy(), null, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<frame><panel position=\"10,10\" height=\"80\" width=\"200\"><button position=\"50,50\" height=\"20\" width=\"80\" /></panel></frame>") { @Override public void initialize() { /**/ } });
 		splitPane.setLeftComponent(lblDraw);
 		lblDraw.setLayout(null);
 		

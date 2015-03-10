@@ -13,6 +13,10 @@ import de.samdev.absgdx.framework.menu.agdxml.AgdxmlGridDefinitions;
 import de.samdev.absgdx.framework.menu.agdxml.AgdxmlGridDefinitionsUnit;
 import de.samdev.absgdx.framework.menu.agdxml.AgdxmlValue;
 import de.samdev.absgdx.framework.menu.agdxml.AgdxmlVectorValue;
+import de.samdev.absgdx.framework.menu.attributes.HorzAlign;
+import de.samdev.absgdx.framework.menu.attributes.ImageBehavior;
+import de.samdev.absgdx.framework.menu.attributes.TextAutoScaleMode;
+import de.samdev.absgdx.framework.menu.attributes.VertAlign;
 import de.samdev.absgdx.framework.util.exceptions.AgdxmlParsingException;
 import de.samdev.absgdx.framework.util.exceptions.NonInstantiableException;
 
@@ -122,9 +126,11 @@ public class AgdxmlParserHelper {
 		result.put("RED", Color.RED);
 		result.put("GREEN", Color.GREEN);
 		result.put("BLUE", Color.BLUE);
-		result.put("LIGHT_GRAY ", Color.LIGHT_GRAY);
+		result.put("LIGHT_GRAY", Color.LIGHT_GRAY);
+		result.put("LIGHTGRAY", Color.LIGHT_GRAY);
 		result.put("GRAY", Color.GRAY);
 		result.put("DARK_GRAY", Color.DARK_GRAY);
+		result.put("DARKGRAY", Color.DARK_GRAY);
 		result.put("PINK", Color.PINK);
 		result.put("ORANGE", Color.ORANGE);
 		result.put("YELLOW", Color.YELLOW);
@@ -142,9 +148,11 @@ public class AgdxmlParserHelper {
 		result.put("Red", Color.RED);
 		result.put("Green", Color.GREEN);
 		result.put("Blue", Color.BLUE);
-		result.put("Light_Gray ", Color.LIGHT_GRAY);
+		result.put("Light_Gray", Color.LIGHT_GRAY);
+		result.put("LightGray", Color.LIGHT_GRAY);
 		result.put("Gray", Color.GRAY);
 		result.put("Dark_Gray", Color.DARK_GRAY);
+		result.put("DarkGray", Color.DARK_GRAY);
 		result.put("Pink", Color.PINK);
 		result.put("Orange", Color.ORANGE);
 		result.put("Yellow", Color.YELLOW);
@@ -162,9 +170,11 @@ public class AgdxmlParserHelper {
 		result.put("red", Color.RED);
 		result.put("green", Color.GREEN);
 		result.put("blue", Color.BLUE);
-		result.put("light_gray ", Color.LIGHT_GRAY);
+		result.put("light_gray", Color.LIGHT_GRAY);
+		result.put("lightgray", Color.LIGHT_GRAY);
 		result.put("gray", Color.GRAY);
 		result.put("dark_gray", Color.DARK_GRAY);
+		result.put("darkgray", Color.DARK_GRAY);
 		result.put("pink", Color.PINK);
 		result.put("orange", Color.ORANGE);
 		result.put("yellow", Color.YELLOW);
@@ -179,7 +189,7 @@ public class AgdxmlParserHelper {
 		return result;
 	}
 	
-	public static Color getColor(String parameter) throws AgdxmlParsingException {
+	public static Color parseColor(String parameter) throws AgdxmlParsingException {
 		if (COLORS.containsKey(parameter)) 
 			return COLORS.get(parameter);
 		
@@ -189,5 +199,38 @@ public class AgdxmlParserHelper {
 		}
 		
 		throw new AgdxmlParsingException("Can't parse color: '" + parameter + "'");
+	}
+
+	public static HorzAlign parseHorizontalAlign(String parameter) throws AgdxmlParsingException {
+		if (parameter.equalsIgnoreCase("LEFT"))   return HorzAlign.LEFT;
+		if (parameter.equalsIgnoreCase("RIGHT"))  return HorzAlign.RIGHT;
+		if (parameter.equalsIgnoreCase("CENTER")) return HorzAlign.CENTER;
+
+		throw new AgdxmlParsingException("Can't parse H-ALign: '" + parameter + "'");
+	}
+
+	public static VertAlign parseVerticalAlign(String parameter) throws AgdxmlParsingException {
+		if (parameter.equalsIgnoreCase("TOP"))    return VertAlign.TOP;
+		if (parameter.equalsIgnoreCase("BOTTOM")) return VertAlign.BOTTOM;
+		if (parameter.equalsIgnoreCase("CENTER")) return VertAlign.CENTER;
+
+		throw new AgdxmlParsingException("Can't parse V-ALign: '" + parameter + "'");
+	}
+
+	public static ImageBehavior parseImageBehaviour(String parameter) throws AgdxmlParsingException {
+		if (parameter.equalsIgnoreCase("FIT"))     return ImageBehavior.FIT;
+		if (parameter.equalsIgnoreCase("NOSCALE")) return ImageBehavior.NOSCALE;
+		if (parameter.equalsIgnoreCase("STRETCH")) return ImageBehavior.STRETCH;
+
+		throw new AgdxmlParsingException("Can't parse image behaviour: '" + parameter + "'");
+	}
+
+	public static TextAutoScaleMode parseTextAutoScaleMode(String parameter) throws AgdxmlParsingException {
+		if (parameter.equalsIgnoreCase("BOTH"))       return TextAutoScaleMode.BOTH;
+		if (parameter.equalsIgnoreCase("HORIZONTAL")) return TextAutoScaleMode.HORIZONTAL;
+		if (parameter.equalsIgnoreCase("VERTICAL"))   return TextAutoScaleMode.VERTICAL;
+		if (parameter.equalsIgnoreCase("NONE"))       return TextAutoScaleMode.NONE;
+
+		throw new AgdxmlParsingException("Can't parse image behaviour: '" + parameter + "'");
 	}
 }

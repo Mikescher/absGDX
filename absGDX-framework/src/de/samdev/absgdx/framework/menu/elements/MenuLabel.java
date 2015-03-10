@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import de.samdev.absgdx.framework.menu.GUITextureProvider;
 import de.samdev.absgdx.framework.menu.attributes.HorzAlign;
 import de.samdev.absgdx.framework.menu.attributes.TextAutoScaleMode;
 import de.samdev.absgdx.framework.menu.attributes.VertAlign;
@@ -43,6 +44,16 @@ public class MenuLabel extends MenuElement {
 	 */
 	public MenuLabel(String ident) {
 		super(ident);
+	}
+
+	/**
+	 * Create a new Label
+	 * 
+	 * @param ident the unique identifier
+	 * @param texprovider the texture provider for this element
+	 */
+	public MenuLabel(String ident, GUITextureProvider texprovider) {
+		super(ident, texprovider);
 	}
 
 	@Override

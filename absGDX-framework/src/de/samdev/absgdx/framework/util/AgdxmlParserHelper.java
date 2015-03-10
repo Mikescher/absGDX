@@ -15,6 +15,7 @@ import de.samdev.absgdx.framework.menu.agdxml.AgdxmlValue;
 import de.samdev.absgdx.framework.menu.agdxml.AgdxmlVectorValue;
 import de.samdev.absgdx.framework.menu.attributes.HorzAlign;
 import de.samdev.absgdx.framework.menu.attributes.ImageBehavior;
+import de.samdev.absgdx.framework.menu.attributes.RectangleRadius;
 import de.samdev.absgdx.framework.menu.attributes.TextAutoScaleMode;
 import de.samdev.absgdx.framework.menu.attributes.VertAlign;
 import de.samdev.absgdx.framework.util.exceptions.AgdxmlParsingException;
@@ -232,5 +233,28 @@ public class AgdxmlParserHelper {
 		if (parameter.equalsIgnoreCase("NONE"))       return TextAutoScaleMode.NONE;
 
 		throw new AgdxmlParsingException("Can't parse image behaviour: '" + parameter + "'");
+	}
+
+	public static RectangleRadius parsePadding(String parameter) throws AgdxmlParsingException {
+		try {
+			String[] strelements = parameter.split(",");
+			
+			int[] elements = new int[strelements.length];
+			for (int i = 0; i < strelements.length; i++) {
+				elements[i] = Integer.parseInt(strelements[i].trim());
+			}
+
+			if (elements.length == 1) return new RectangleRadius(elements[0], elements[0], elements[0], elements[0]);
+			if (elements.length == 2) return new RectangleRadius(elements[1], elements[0], elements[1], elements[0]);
+			if (elements.length == 4) return new RectangleRadius(elements[1], elements[0], elements[3], elements[2]);
+			
+			throw new AgdxmlParsingException("Can't parse padding: " + parameter);
+			
+		} catch (NumberFormatException e) {
+			throw new AgdxmlParsingException(e);
+		}
+
+		
+		return null;
 	}
 }

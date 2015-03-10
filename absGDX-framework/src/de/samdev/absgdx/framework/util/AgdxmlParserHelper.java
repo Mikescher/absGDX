@@ -218,7 +218,7 @@ public class AgdxmlParserHelper {
 		throw new AgdxmlParsingException("Can't parse V-ALign: '" + parameter + "'");
 	}
 
-	public static ImageBehavior parseImageBehaviour(String parameter) throws AgdxmlParsingException {
+	public static ImageBehavior parseImageBehavior(String parameter) throws AgdxmlParsingException {
 		if (parameter.equalsIgnoreCase("FIT"))     return ImageBehavior.FIT;
 		if (parameter.equalsIgnoreCase("NOSCALE")) return ImageBehavior.NOSCALE;
 		if (parameter.equalsIgnoreCase("STRETCH")) return ImageBehavior.STRETCH;
@@ -253,8 +253,5 @@ public class AgdxmlParserHelper {
 		} catch (NumberFormatException e) {
 			throw new AgdxmlParsingException(e);
 		}
-
-		
-		return null;
 	}
 }

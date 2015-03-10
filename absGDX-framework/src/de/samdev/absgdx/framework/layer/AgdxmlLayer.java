@@ -212,7 +212,7 @@ public abstract class AgdxmlLayer extends MenuLayer {
 		boundelem.set(xmlElement);
 		boundelem.update(boundaries);
 		
-		if (xmlElement.getAttribute("visible", null) != null)      elem.setVisible(xmlElement.getAttribute("visible", "true").toLowerCase().equals("true"));
+		if (xmlElement.getAttribute("visible", null) != null)      elem.setVisible(xmlElement.getAttribute("visible").toLowerCase().equals("true"));
 		if (xmlElement.getAttribute("labelPadding", null) != null) elem.setLabelPadding(AgdxmlParserHelper.parsePadding(xmlElement.getAttribute("labelPadding")));
 		if (xmlElement.getAttribute("itemPadding", null) != null)  elem.setLabelPadding(AgdxmlParserHelper.parsePadding(xmlElement.getAttribute("itemPadding")));
 		if (xmlElement.getAttribute("content", null) != null)      elem.setContent(xmlElement.getAttribute("content"));
@@ -239,7 +239,7 @@ public abstract class AgdxmlLayer extends MenuLayer {
 		boundelem.set(xmlElement);
 		boundelem.update(boundaries);
 		
-		if (xmlElement.getAttribute("visible", null) != null)      elem.setVisible(xmlElement.getAttribute("visible", "true").toLowerCase().equals("true"));
+		if (xmlElement.getAttribute("visible", null) != null)      elem.setVisible(xmlElement.getAttribute("visible").toLowerCase().equals("true"));
 		if (xmlElement.getAttribute("labelPadding", null) != null) elem.setLabelPadding(AgdxmlParserHelper.parsePadding(xmlElement.getAttribute("labelPadding")));
 		if (xmlElement.getAttribute("itemPadding", null) != null)  elem.setLabelPadding(AgdxmlParserHelper.parsePadding(xmlElement.getAttribute("itemPadding")));
 		if (xmlElement.getAttribute("content", null) != null)      elem.setContent(xmlElement.getAttribute("content"));
@@ -248,8 +248,8 @@ public abstract class AgdxmlLayer extends MenuLayer {
 		if (xmlElement.getAttribute("fontScale", null) != null)    elem.setFontScale(xmlElement.getFloat("fontScale"));
 		if (xmlElement.getAttribute("fontColor", null) != null)    elem.setColor(AgdxmlParserHelper.parseColor(xmlElement.getAttribute("fontColor")));
 		if (xmlElement.getAttribute("autoScale", null) != null)    elem.setAutoScale(AgdxmlParserHelper.parseTextAutoScaleMode(xmlElement.getAttribute("autoScale")));
-		if (xmlElement.getAttribute("imageVisible", null) != null) elem.setVisible(xmlElement.getAttribute("imageVisible").toLowerCase().equals("true"));
-		if (xmlElement.getAttribute("labelVisible", null) != null) elem.setVisible(xmlElement.getAttribute("labelVisible").toLowerCase().equals("true"));
+		if (xmlElement.getAttribute("imageVisible", null) != null) elem.setRenderImage(xmlElement.getAttribute("imageVisible").toLowerCase().equals("true"));
+		if (xmlElement.getAttribute("labelVisible", null) != null) elem.setRenderLabel(xmlElement.getAttribute("labelVisible").toLowerCase().equals("true"));
 		
 		parent.children.add(boundelem);
 		
@@ -265,8 +265,15 @@ public abstract class AgdxmlLayer extends MenuLayer {
 		
 		boundelem.set(xmlElement);
 		boundelem.update(boundaries);
-		
-		if (xmlElement.getAttribute("visible", null) != null) elem.setVisible(xmlElement.getAttribute("visible", "true").toLowerCase().equals("true"));
+
+		if (xmlElement.getAttribute("visible", null) != null)      elem.setVisible(xmlElement.getAttribute("visible").toLowerCase().equals("true"));
+		if (xmlElement.getAttribute("padding", null) != null) elem.setPadding(AgdxmlParserHelper.parsePadding(xmlElement.getAttribute("padding")));
+		if (xmlElement.getAttribute("content", null) != null)      elem.setContent(xmlElement.getAttribute("content"));
+		if (xmlElement.getAttribute("halign", null) != null)       elem.setHorizontalAlign(AgdxmlParserHelper.parseHorizontalAlign(xmlElement.getAttribute("halign")));
+		if (xmlElement.getAttribute("valign", null) != null)       elem.setVerticalAlign(AgdxmlParserHelper.parseVerticalAlign(xmlElement.getAttribute("valign")));
+		if (xmlElement.getAttribute("fontScale", null) != null)    elem.setFontScale(xmlElement.getFloat("fontScale"));
+		if (xmlElement.getAttribute("fontColor", null) != null)    elem.setColor(AgdxmlParserHelper.parseColor(xmlElement.getAttribute("fontColor")));
+		if (xmlElement.getAttribute("autoScale", null) != null)    elem.setAutoScale(AgdxmlParserHelper.parseTextAutoScaleMode(xmlElement.getAttribute("autoScale")));
 		
 		parent.children.add(boundelem);
 		
@@ -283,7 +290,7 @@ public abstract class AgdxmlLayer extends MenuLayer {
 		boundelem.set(xmlElement);
 		boundelem.update(boundaries);
 		
-		if (xmlElement.getAttribute("visible", null) != null) elem.setVisible(xmlElement.getAttribute("visible", "true").toLowerCase().equals("true"));
+		if (xmlElement.getAttribute("visible", null) != null) elem.setVisible(xmlElement.getAttribute("visible").toLowerCase().equals("true"));
 		if (xmlElement.getAttribute("texture", null) != null) {
 			if (xmlElement.getIntAttribute("animation", 0) > 0) {
 				elem.setImage(getMultiImageTextureFromMap(xmlElement), xmlElement.getIntAttribute("animation", 0));
@@ -291,6 +298,7 @@ public abstract class AgdxmlLayer extends MenuLayer {
 				elem.setImage(getSingleImageTextureFromMap(xmlElement));
 			}
 		}
+		if (xmlElement.getAttribute("behavior", null) != null)  elem.setBehavior(AgdxmlParserHelper.parseImageBehavior(xmlElement.getAttribute("behavior")));
 		
 		parent.children.add(boundelem);
 		
@@ -313,7 +321,7 @@ public abstract class AgdxmlLayer extends MenuLayer {
 		boundelem.set(xmlElement);
 		boundelem.update(boundaries);
 		
-		if (xmlElement.getAttribute("visible", null) != null) elem.setVisible(xmlElement.getAttribute("visible", "true").toLowerCase().equals("true"));
+		if (xmlElement.getAttribute("visible", null) != null) elem.setVisible(xmlElement.getAttribute("visible").toLowerCase().equals("true"));
 		
 		parent.children.add(boundelem);
 		
@@ -344,7 +352,7 @@ public abstract class AgdxmlLayer extends MenuLayer {
 		boundelem.set(xmlElement);
 		boundelem.update(boundaries);
 		
-		if (xmlElement.getAttribute("visible", null) != null) elem.setVisible(xmlElement.getAttribute("visible", "true").toLowerCase().equals("true"));
+		if (xmlElement.getAttribute("visible", null) != null) elem.setVisible(xmlElement.getAttribute("visible").toLowerCase().equals("true"));
 		
 		parent.children.add(boundelem);
 		

@@ -1,8 +1,11 @@
 package de.samdev.absgdx.framework.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Pattern;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.XmlReader.Element;
 
@@ -15,8 +18,10 @@ import de.samdev.absgdx.framework.util.exceptions.NonInstantiableException;
 
 public class AgdxmlParserHelper {
 
+	private static HashMap<String, Color> COLORS = getColorMap();
+	
 	private AgdxmlParserHelper() throws NonInstantiableException { throw new NonInstantiableException(); }
-
+	
 	public static AgdxmlVectorValue parseVectorValue(Element element, String parameter) throws AgdxmlParsingException {
 		String[] parts = parameter.split(",");
 		
@@ -27,36 +32,6 @@ public class AgdxmlParserHelper {
 
 		return new AgdxmlVectorValue(parseNumberValue(element, p1), parseNumberValue(element, p2));
 	}
-
-//	public static float parseNumberMax(Element element, String parametername, String parameter, Rectangle parentBound, float max) throws AgdxmlParsingException {
-//		if (max < 0) return 0;
-//		
-//		return Math.min(max, parseNumber(element, parametername, parameter, parentBound));
-//	}
-//	
-//	public static float parseNumber(Element element, String parametername, String parameter, Rectangle parentBound) throws AgdxmlParsingException {
-//		parameter = parameter.trim();
-//		
-//		if (parameter.endsWith("%")) {
-//			try {
-//				float val = Float.parseFloat(parameter.substring(0, parameter.length() - 1));
-//				if (parametername.equals("width") || parametername.equals("position[0]"))
-//					return parentBound.width * (val / 100f);
-//				else if (parametername.equals("height") || parametername.equals("position[1]"))
-//					return parentBound.height * (val / 100f);
-//				else
-//					throw new AgdxmlParsingException("Percentage value is invalid for attribute " + parametername);
-//			} catch (NumberFormatException e) {
-//				throw new AgdxmlParsingException("In element" + element.getName() + " "+  parameter + " is not a number");
-//			}
-//		} else {
-//			try {
-//				return Float.parseFloat(parameter);
-//			} catch (NumberFormatException e) {
-//				throw new AgdxmlParsingException("In element" + element.getName() + " "+  parameter + " is not a number");
-//			}
-//		}
-//	}
 	
 	public static AgdxmlValue parseNumberValue(Element element, String parameter) throws AgdxmlParsingException {
 		parameter = parameter.trim();
@@ -134,5 +109,85 @@ public class AgdxmlParserHelper {
 				throw new AgdxmlParsingException("In element" + element.getName() + " "+  parametername + " is not a number");
 			}
 		}
+	}
+	
+	private static HashMap<String, Color> getColorMap() {
+		HashMap<String, Color> result = new HashMap<String, Color>();
+		
+		result.put("BLUE", Color.BLUE);
+		
+		result.put("CLEAR", Color.CLEAR);
+		result.put("WHITE", Color.WHITE);
+		result.put("BLACK", Color.BLACK);
+		result.put("RED", Color.RED);
+		result.put("GREEN", Color.GREEN);
+		result.put("BLUE", Color.BLUE);
+		result.put("LIGHT_GRAY ", Color.LIGHT_GRAY);
+		result.put("GRAY", Color.GRAY);
+		result.put("DARK_GRAY", Color.DARK_GRAY);
+		result.put("PINK", Color.PINK);
+		result.put("ORANGE", Color.ORANGE);
+		result.put("YELLOW", Color.YELLOW);
+		result.put("MAGENTA", Color.MAGENTA);
+		result.put("CYAN", Color.CYAN);
+		result.put("OLIVE", Color.OLIVE);
+		result.put("PURPLE", Color.PURPLE);
+		result.put("MAROON", Color.MAROON);
+		result.put("TEAL", Color.TEAL);
+		result.put("NAVY", Color.NAVY);
+		
+		result.put("Clear", Color.CLEAR);
+		result.put("White", Color.WHITE);
+		result.put("Black", Color.BLACK);
+		result.put("Red", Color.RED);
+		result.put("Green", Color.GREEN);
+		result.put("Blue", Color.BLUE);
+		result.put("Light_Gray ", Color.LIGHT_GRAY);
+		result.put("Gray", Color.GRAY);
+		result.put("Dark_Gray", Color.DARK_GRAY);
+		result.put("Pink", Color.PINK);
+		result.put("Orange", Color.ORANGE);
+		result.put("Yellow", Color.YELLOW);
+		result.put("Magenta", Color.MAGENTA);
+		result.put("Cyan", Color.CYAN);
+		result.put("Olive", Color.OLIVE);
+		result.put("Purple", Color.PURPLE);
+		result.put("Maroon", Color.MAROON);
+		result.put("Teal", Color.TEAL);
+		result.put("Navy", Color.NAVY);
+		
+		result.put("clear", Color.CLEAR);
+		result.put("white", Color.WHITE);
+		result.put("black", Color.BLACK);
+		result.put("red", Color.RED);
+		result.put("green", Color.GREEN);
+		result.put("blue", Color.BLUE);
+		result.put("light_gray ", Color.LIGHT_GRAY);
+		result.put("gray", Color.GRAY);
+		result.put("dark_gray", Color.DARK_GRAY);
+		result.put("pink", Color.PINK);
+		result.put("orange", Color.ORANGE);
+		result.put("yellow", Color.YELLOW);
+		result.put("magenta", Color.MAGENTA);
+		result.put("cyan", Color.CYAN);
+		result.put("olive", Color.OLIVE);
+		result.put("purple", Color.PURPLE);
+		result.put("maroon", Color.MAROON);
+		result.put("teal", Color.TEAL);
+		result.put("navy", Color.NAVY);
+		
+		return result;
+	}
+	
+	public static Color getColor(String parameter) throws AgdxmlParsingException {
+		if (COLORS.containsKey(parameter)) 
+			return COLORS.get(parameter);
+		
+		if (Pattern.matches("#[0-9A-F]{6}", parameter)) {
+			long v = Long.parseLong(parameter.substring(1), 16);
+			return new Color(((v >> 16) & 0xFF)/255f, ((v >> 8) & 0xFF)/255f, ((v >> 0) & 0xFF)/255f, 1f);
+		}
+		
+		throw new AgdxmlParsingException("Can't parse color: '" + parameter + "'");
 	}
 }

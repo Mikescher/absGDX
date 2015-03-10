@@ -167,6 +167,13 @@ public abstract class AgdxmlLayer extends MenuLayer {
 		boundelem.set(xmlElement);
 		boundelem.update(boundaries);
 		
+		elem.setVisible(xmlElement.getAttribute("visible", "true").toLowerCase().equals("true"));
+		if (xmlElement.getIntAttribute("rowGap", Integer.MIN_VALUE) != Integer.MIN_VALUE) elem.setRowGap(xmlElement.getIntAttribute("rowGap"));
+		if (xmlElement.getIntAttribute("rowHeight", Integer.MIN_VALUE) != Integer.MIN_VALUE) elem.setRowHeight(xmlElement.getIntAttribute("rowHeight"));
+		if (xmlElement.getAttribute("fontColor", null) != null) elem.setColor(AgdxmlParserHelper.getColor(xmlElement.getAttribute("fontColor")));
+		if (xmlElement.getAttribute("scrollbarColor", null) != null) elem.setScrollbarColor(AgdxmlParserHelper.getColor(xmlElement.getAttribute("scrollbarColor")));
+		if (xmlElement.getIntAttribute("scrollbarWidth", Integer.MIN_VALUE) != Integer.MIN_VALUE) elem.setRowGap(xmlElement.getIntAttribute("scrollbarWidth"));
+		
 		parent.children.add(boundelem);
 		
 		return elem;
@@ -180,6 +187,8 @@ public abstract class AgdxmlLayer extends MenuLayer {
 		
 		boundelem.set(xmlElement);
 		boundelem.update(boundaries);
+		
+		elem.setVisible(xmlElement.getAttribute("visible", "true").toLowerCase().equals("true"));
 		
 		parent.children.add(boundelem);
 		
@@ -196,6 +205,8 @@ public abstract class AgdxmlLayer extends MenuLayer {
 		boundelem.set(xmlElement);
 		boundelem.update(boundaries);
 		
+		elem.setVisible(xmlElement.getAttribute("visible", "true").toLowerCase().equals("true"));
+		
 		parent.children.add(boundelem);
 		
 		return elem;
@@ -210,6 +221,8 @@ public abstract class AgdxmlLayer extends MenuLayer {
 		
 		boundelem.set(xmlElement);
 		boundelem.update(boundaries);
+		
+		elem.setVisible(xmlElement.getAttribute("visible", "true").toLowerCase().equals("true"));
 		
 		parent.children.add(boundelem);
 		
@@ -226,6 +239,8 @@ public abstract class AgdxmlLayer extends MenuLayer {
 		boundelem.set(xmlElement);
 		boundelem.update(boundaries);
 		
+		elem.setVisible(xmlElement.getAttribute("visible", "true").toLowerCase().equals("true"));
+		
 		parent.children.add(boundelem);
 		
 		return elem;
@@ -241,6 +256,7 @@ public abstract class AgdxmlLayer extends MenuLayer {
 		boundelem.set(xmlElement);
 		boundelem.update(boundaries);
 		
+		elem.setVisible(xmlElement.getAttribute("visible", "true").toLowerCase().equals("true"));
 		if (xmlElement.getAttribute("texture", null) != null) {
 			if (xmlElement.getIntAttribute("animation", 0) > 0) {
 				elem.setImage(getMultiImageTextureFromMap(xmlElement), xmlElement.getIntAttribute("animation", 0));
@@ -270,10 +286,11 @@ public abstract class AgdxmlLayer extends MenuLayer {
 		boundelem.set(xmlElement);
 		boundelem.update(boundaries);
 		
+		elem.setVisible(xmlElement.getAttribute("visible", "true").toLowerCase().equals("true"));
+		
 		parent.children.add(boundelem);
 		
 		Rectangle bd = new Rectangle(0, 0, elem.getWidth(), elem.getHeight());
-		
 		for (int i = 0; i < xmlElement.getChildCount(); i++) {
 			Element child = xmlElement.getChild(i);
 			
@@ -300,10 +317,11 @@ public abstract class AgdxmlLayer extends MenuLayer {
 		boundelem.set(xmlElement);
 		boundelem.update(boundaries);
 		
+		elem.setVisible(xmlElement.getAttribute("visible", "true").toLowerCase().equals("true"));
+		
 		parent.children.add(boundelem);
 		
 		boundelem.gridDefinitions = AgdxmlParserHelper.parseGridDefinitions(xmlElement);
-		
 		for (int i = 0; i < xmlElement.getChildCount(); i++) {
 			Element child = xmlElement.getChild(i);
 			

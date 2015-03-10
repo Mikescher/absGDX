@@ -39,8 +39,7 @@ public class DemoMenu extends AgdxmlLayer {
 		
 		prov.setMenuRadioButtonTexture(Textures.tex_gui_checkers[3][0], true);
 		prov.setMenuRadioButtonTexture(Textures.tex_gui_checkers[3][1], false);
-		
-//		prov.setMenuSettingsTreeTexture(Textures.tex_panelgui);
+
 		prov.setMenuSettingsTreeButtonTexture(Textures.tex_gui_checkers[2][0], true);
 		prov.setMenuSettingsTreeButtonTexture(Textures.tex_gui_checkers[2][1], false);
 		prov.setMenuSettingsTreeValueTexture(Textures.tex_gui_checkers[1][0], TristateBoolean.FALSE);

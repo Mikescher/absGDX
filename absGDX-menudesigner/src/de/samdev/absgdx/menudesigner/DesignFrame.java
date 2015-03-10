@@ -6,6 +6,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -27,6 +28,7 @@ import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 
 import de.samdev.absgdx.framework.layer.AgdxmlLayer;
 import de.samdev.absgdx.framework.util.exceptions.AgdxmlParsingException;
+
 import javax.swing.ScrollPaneConstants;
 
 public class DesignFrame extends JFrame {
@@ -38,7 +40,8 @@ public class DesignFrame extends JFrame {
 	private JPanel pnlBottom;
 	private JTabbedPane pnlSettings;
 	private RSyntaxTextArea edCode;
-	private JList list;
+	private JList<String> list;
+	private DefaultListModel<String> listModel;
 	private JPanel tabSettings;
 	private JPanel tabComponents;
 	private JPanel pnlProperties;
@@ -89,8 +92,19 @@ public class DesignFrame extends JFrame {
 		pnlSettings.addTab("Components", null, tabComponents, null);
 		tabComponents.setLayout(new BorderLayout(0, 0));
 		
-		list = new JList();
+		list = new JList<String>();
+		listModel = new DefaultListModel<String>();
+		list.setModel(listModel);
 		tabComponents.add(list);
+		
+		listModel.addElement("<label>");
+		listModel.addElement("<checkbox>");
+		listModel.addElement("<button>");
+		listModel.addElement("<settingstree>");
+		listModel.addElement("<panel>");
+		listModel.addElement("<grid>");
+		listModel.addElement("<image>");
+		listModel.addElement("<radiobutton>");
 		
 		pnlProperties = new JPanel();
 		pnlSettings.addTab("Properties", null, pnlProperties, null);
@@ -116,6 +130,7 @@ public class DesignFrame extends JFrame {
 		
 		spinnerHeight = new JSpinner();
 		spinnerHeight.addChangeListener(new ChangeListener() {
+			@Override
 			public void stateChanged(ChangeEvent arg0) {
 				lblDraw.setRenderSize((Integer)spinnerWidth.getValue(), (Integer)spinnerHeight.getValue());
 			}
@@ -140,6 +155,7 @@ public class DesignFrame extends JFrame {
 		
 		spinnerWidth = new JSpinner();
 		spinnerWidth.addChangeListener(new ChangeListener() {
+			@Override
 			public void stateChanged(ChangeEvent e) {
 				lblDraw.setRenderSize((Integer)spinnerWidth.getValue(), (Integer)spinnerHeight.getValue());
 			}

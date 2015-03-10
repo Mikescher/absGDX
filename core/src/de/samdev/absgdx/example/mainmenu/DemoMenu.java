@@ -2,18 +2,14 @@ package de.samdev.absgdx.example.mainmenu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import de.samdev.absgdx.example.Textures;
 import de.samdev.absgdx.framework.AgdxGame;
-import de.samdev.absgdx.framework.layer.AgdxLayer;
 import de.samdev.absgdx.framework.layer.AgdxmlLayer;
 import de.samdev.absgdx.framework.menu.GUITextureProvider;
 import de.samdev.absgdx.framework.menu.attributes.TristateBoolean;
 import de.samdev.absgdx.framework.menu.attributes.VisualButtonState;
 import de.samdev.absgdx.framework.util.exceptions.AgdxmlParsingException;
-
 
 public class DemoMenu extends AgdxmlLayer {
 
@@ -57,9 +53,9 @@ public class DemoMenu extends AgdxmlLayer {
 		
 		//#################################################################################################################################
 
-		addAgdxmlImageTexture("img_01", Textures.tex_china_td[0][0]);
-		addAgdxmlImageTexture("img_02", Textures.tex_player_td[0][0]);
-		addAgdxmlImageTexture("img_03", Textures.tex_animation);
+		addAgdxmlImageTexture("img_01", Textures.tex_china_td[0]);
+		addAgdxmlImageTexture("img_02", Textures.tex_player_td[0]);
+		addAgdxmlImageTexture("img_03", Textures.tex_Anchorpoint_empty);
 		
 	}
 

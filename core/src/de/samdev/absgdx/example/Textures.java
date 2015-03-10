@@ -48,6 +48,8 @@ public final class Textures {
 
 	public static TextureRegion[][] tex_player_td;
 	public static TextureRegion[][] tex_china_td;
+	public static TextureRegion[] tex_player_still;
+	public static TextureRegion[] tex_china_still;
 
 	public static TextureRegion[][][] tex_buttongui;
 	public static TextureRegion[][] tex_framegui;
@@ -92,18 +94,26 @@ public final class Textures {
 		tex_bulletbill = TextureHelper.load1DArray("bullbill.png",  27, 14);
 		tex_animation  = TextureHelper.load1DArray("animation.png", 400, 400);
 		
-		tex_player_td = new TextureRegion[4][7];
+		tex_player_td = new TextureRegion[4][6];
 		for (int y = 0; y < 4; y++) {
-			for (int x = 0; x < 7; x++) {
-				tex_player_td[y][x] = new TextureRegion(texplayerset_td, x*150 + 30, y*117 + 25, 75, 92);
+			for (int x = 1; x < 7; x++) {
+				tex_player_td[y][x-1] = new TextureRegion(texplayerset_td, x*150 + 30, y*117 + 25, 75, 92);
 			}
 		}
-		
-		tex_china_td = new TextureRegion[4][7];
+		tex_player_still = new TextureRegion[4];
 		for (int y = 0; y < 4; y++) {
-			for (int x = 0; x < 7; x++) {
-				tex_china_td[y][x] = new TextureRegion(texchinaset_td, x*150 + 30, y*117 + 25, 75, 92);
+			tex_player_still[y] = new TextureRegion(texplayerset_td, 0*150 + 30, y*117 + 25, 75, 92);
+		}
+		
+		tex_china_td = new TextureRegion[4][6];
+		for (int y = 0; y < 4; y++) {
+			for (int x = 1; x < 7; x++) {
+				tex_china_td[y][x-1] = new TextureRegion(texchinaset_td, x*150 + 30, y*117 + 25, 75, 92);
 			}
+		}
+		tex_china_still = new TextureRegion[4];
+		for (int y = 0; y < 4; y++) {
+			tex_china_still[y] = new TextureRegion(texchinaset_td, 0*150 + 30, y*117 + 25, 75, 92);
 		}
 		
 		tex_buttongui = new TextureRegion[8][3][3];

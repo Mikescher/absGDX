@@ -6,12 +6,11 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.XmlReader.Element;
 
 import de.samdev.absgdx.framework.menu.agdxml.AgdxmlGridDefinitions;
-import de.samdev.absgdx.framework.menu.agdxml.AgdxmlGridDefinitionsUnit;
 import de.samdev.absgdx.framework.menu.agdxml.AgdxmlValue;
+import de.samdev.absgdx.framework.menu.agdxml.AgdxmlValueUnit;
 import de.samdev.absgdx.framework.menu.agdxml.AgdxmlVectorValue;
 import de.samdev.absgdx.framework.menu.attributes.HorzAlign;
 import de.samdev.absgdx.framework.menu.attributes.ImageBehavior;
@@ -21,12 +20,23 @@ import de.samdev.absgdx.framework.menu.attributes.VertAlign;
 import de.samdev.absgdx.framework.util.exceptions.AgdxmlParsingException;
 import de.samdev.absgdx.framework.util.exceptions.NonInstantiableException;
 
+/**
+ * A collection of helper methods for the AgdmxLayer
+ */
 public class AgdxmlParserHelper {
 
 	private static HashMap<String, Color> COLORS = getColorMap();
 	
 	private AgdxmlParserHelper() throws NonInstantiableException { throw new NonInstantiableException(); }
 	
+	/**
+	 * parses a 2-Tupel value
+	 * 
+	 * @param element the XML element
+	 * @param parameter the parameter value
+	 * @return the 2-tupel
+	 * @throws AgdxmlParsingException throw an exception if the value can't be parsed
+	 */
 	public static AgdxmlVectorValue parseVectorValue(Element element, String parameter) throws AgdxmlParsingException {
 		String[] parts = parameter.split(",");
 		
@@ -37,33 +47,48 @@ public class AgdxmlParserHelper {
 
 		return new AgdxmlVectorValue(parseNumberValue(element, p1), parseNumberValue(element, p2));
 	}
-	
+
+	/**
+	 * parses a single value (PIXEL | PERCENTAGE | WEIGHT)
+	 * 
+	 * @param element the XML element
+	 * @param parameter the parameter value
+	 * @return the value
+	 * @throws AgdxmlParsingException throw an exception if the value can't be parsed
+	 */
 	public static AgdxmlValue parseNumberValue(Element element, String parameter) throws AgdxmlParsingException {
 		parameter = parameter.trim();
 		
 		if (parameter.endsWith("%")) {
 			try {
 				float val = Float.parseFloat(parameter.substring(0, parameter.length() - 1));
-				return new AgdxmlValue(val, AgdxmlGridDefinitionsUnit.PERCENTAGE);
+				return new AgdxmlValue(val, AgdxmlValueUnit.PERCENTAGE);
 			} catch (NumberFormatException e) {
 				throw new AgdxmlParsingException("In element" + element.getName() + " "+  parameter + " is not a number");
 			}
 		} else if (parameter.endsWith("*")) {
 			try {
 				float val = Float.parseFloat(parameter.substring(0, parameter.length() - 1));
-				return new AgdxmlValue(val, AgdxmlGridDefinitionsUnit.WEIGHT);
+				return new AgdxmlValue(val, AgdxmlValueUnit.WEIGHT);
 			} catch (NumberFormatException e) {
 				throw new AgdxmlParsingException("In element" + element.getName() + " "+  parameter + " is not a number");
 			}
 		} else {
 			try {
-				return new AgdxmlValue( Float.parseFloat(parameter), AgdxmlGridDefinitionsUnit.PIXEL);
+				return new AgdxmlValue( Float.parseFloat(parameter), AgdxmlValueUnit.PIXEL);
 			} catch (NumberFormatException e) {
 				throw new AgdxmlParsingException("In element" + element.getName() + " "+  parameter + " is not a number");
 			}
 		}
 	}
-	
+
+	/**
+	 * parses the grid definitions of an element (the definitions are defined as child elements)
+	 * 
+	 * @param element the XML element
+	 * @return the value
+	 * @throws AgdxmlParsingException throw an exception if the value can't be parsed
+	 */
 	public static AgdxmlGridDefinitions parseGridDefinitions(Element element) throws AgdxmlParsingException {
 		Element element_cdef = element.getChildByName("grid.columndefinitions");
 		Element element_rdef = element.getChildByName("grid.rowdefinitions");
@@ -72,7 +97,7 @@ public class AgdxmlParserHelper {
 		List<AgdxmlValue> rdef = new ArrayList<AgdxmlValue>();
 		
 		if (element_cdef == null || element_cdef.getChildrenByName("columndefinition").size == 0) {
-			cdef.add(new AgdxmlValue(1, AgdxmlGridDefinitionsUnit.WEIGHT));
+			cdef.add(new AgdxmlValue(1, AgdxmlValueUnit.WEIGHT));
 		} else {
 			for (Element child : element_cdef.getChildrenByName("columndefinition")) {
 				cdef.add(parseSingleGridDefinition(child, "width"));
@@ -80,7 +105,7 @@ public class AgdxmlParserHelper {
 		}
 		
 		if (element_rdef == null || element_rdef.getChildrenByName("rowdefinition").size == 0) {
-			rdef.add(new AgdxmlValue(1, AgdxmlGridDefinitionsUnit.WEIGHT));
+			rdef.add(new AgdxmlValue(1, AgdxmlValueUnit.WEIGHT));
 		} else {
 			for (Element child : element_rdef.getChildrenByName("rowdefinition")) {
 				rdef.add(parseSingleGridDefinition(child, "height"));
@@ -97,19 +122,19 @@ public class AgdxmlParserHelper {
 		
 		if (value.endsWith("%")) {
 			try {
-				return new AgdxmlValue(Float.parseFloat(value.substring(0, value.length() - 1)), AgdxmlGridDefinitionsUnit.PERCENTAGE);
+				return new AgdxmlValue(Float.parseFloat(value.substring(0, value.length() - 1)), AgdxmlValueUnit.PERCENTAGE);
 			} catch (NumberFormatException e) {
 				throw new AgdxmlParsingException("In element" + element.getName() + " "+  parametername + " is not a number");
 			}
 		} else if (value.endsWith("*")) {
 			try {
-				return new AgdxmlValue(Float.parseFloat(value.substring(0, value.length() - 1)), AgdxmlGridDefinitionsUnit.WEIGHT);
+				return new AgdxmlValue(Float.parseFloat(value.substring(0, value.length() - 1)), AgdxmlValueUnit.WEIGHT);
 			} catch (NumberFormatException e) {
 				throw new AgdxmlParsingException("In element" + element.getName() + " "+  parametername + " is not a number");
 			}
 		} else {
 			try {
-				return new AgdxmlValue(Float.parseFloat(value), AgdxmlGridDefinitionsUnit.PIXEL);
+				return new AgdxmlValue(Float.parseFloat(value), AgdxmlValueUnit.PIXEL);
 			} catch (NumberFormatException e) {
 				throw new AgdxmlParsingException("In element" + element.getName() + " "+  parametername + " is not a number");
 			}
@@ -190,6 +215,13 @@ public class AgdxmlParserHelper {
 		return result;
 	}
 	
+	/**
+	 * Parse an Color value
+	 * 
+	 * @param parameter the parse-able string
+	 * @return the parsed color
+	 * @throws AgdxmlParsingException throw an exception if the value can't be parsed
+	 */
 	public static Color parseColor(String parameter) throws AgdxmlParsingException {
 		if (COLORS.containsKey(parameter)) 
 			return COLORS.get(parameter);
@@ -201,7 +233,14 @@ public class AgdxmlParserHelper {
 		
 		throw new AgdxmlParsingException("Can't parse color: '" + parameter + "'");
 	}
-
+	
+	/**
+	 * Parse an Horizontal-Align value
+	 * 
+	 * @param parameter the parse-able string
+	 * @return the parsed HAlign
+	 * @throws AgdxmlParsingException throw an exception if the value can't be parsed
+	 */
 	public static HorzAlign parseHorizontalAlign(String parameter) throws AgdxmlParsingException {
 		if (parameter.equalsIgnoreCase("LEFT"))   return HorzAlign.LEFT;
 		if (parameter.equalsIgnoreCase("RIGHT"))  return HorzAlign.RIGHT;
@@ -209,7 +248,14 @@ public class AgdxmlParserHelper {
 
 		throw new AgdxmlParsingException("Can't parse H-ALign: '" + parameter + "'");
 	}
-
+	
+	/**
+	 * Parse an Vertical-Align value
+	 * 
+	 * @param parameter the parse-able string
+	 * @return the parsed VAlign
+	 * @throws AgdxmlParsingException throw an exception if the value can't be parsed
+	 */
 	public static VertAlign parseVerticalAlign(String parameter) throws AgdxmlParsingException {
 		if (parameter.equalsIgnoreCase("TOP"))    return VertAlign.TOP;
 		if (parameter.equalsIgnoreCase("BOTTOM")) return VertAlign.BOTTOM;
@@ -218,6 +264,13 @@ public class AgdxmlParserHelper {
 		throw new AgdxmlParsingException("Can't parse V-ALign: '" + parameter + "'");
 	}
 
+	/**
+	 * Parse an ImageBehavior value
+	 * 
+	 * @param parameter the parse-able string
+	 * @return the parsed ImageBehavior
+	 * @throws AgdxmlParsingException throw an exception if the value can't be parsed
+	 */
 	public static ImageBehavior parseImageBehavior(String parameter) throws AgdxmlParsingException {
 		if (parameter.equalsIgnoreCase("FIT"))     return ImageBehavior.FIT;
 		if (parameter.equalsIgnoreCase("NOSCALE")) return ImageBehavior.NOSCALE;
@@ -226,6 +279,13 @@ public class AgdxmlParserHelper {
 		throw new AgdxmlParsingException("Can't parse image behaviour: '" + parameter + "'");
 	}
 
+	/**
+	 * Parse an TextAutoScaleMode value
+	 * 
+	 * @param parameter the parse-able string
+	 * @return the parsed TextAutoScaleMode
+	 * @throws AgdxmlParsingException throw an exception if the value can't be parsed
+	 */
 	public static TextAutoScaleMode parseTextAutoScaleMode(String parameter) throws AgdxmlParsingException {
 		if (parameter.equalsIgnoreCase("BOTH"))       return TextAutoScaleMode.BOTH;
 		if (parameter.equalsIgnoreCase("HORIZONTAL")) return TextAutoScaleMode.HORIZONTAL;
@@ -235,6 +295,13 @@ public class AgdxmlParserHelper {
 		throw new AgdxmlParsingException("Can't parse image behaviour: '" + parameter + "'");
 	}
 
+	/**
+	 * Parse an Padding value
+	 * 
+	 * @param parameter the parse-able string
+	 * @return the parsed RectangleRadius
+	 * @throws AgdxmlParsingException throw an exception if the value can't be parsed
+	 */
 	public static RectangleRadius parsePadding(String parameter) throws AgdxmlParsingException {
 		try {
 			String[] strelements = parameter.split(",");

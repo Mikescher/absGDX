@@ -42,12 +42,15 @@ public class Chinese extends Entity {
 		
 		if (! speed.isZero()) {
 			direction = ((int)(speed.angle() + 45 + 90) % 360) / 90;
-		}
+		} else animationPos = 0f;
 	}
 
 	@Override
 	public TextureRegion getTexture() {
-		return Textures.tex_china_td[direction][(int)animationPos];
+		if (speed.isZero())
+			return Textures.tex_china_still[direction];
+		else
+			return Textures.tex_china_td[direction][(int)animationPos];
 	}
 	
 	@Override

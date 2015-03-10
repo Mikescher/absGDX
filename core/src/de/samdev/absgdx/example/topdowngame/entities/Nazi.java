@@ -38,10 +38,12 @@ public class Nazi extends Entity {
 	public void beforeUpdate(float delta) {
 		speed.set(0,0);
 		
-		if (Gdx.input.isKeyPressed(Keys.W)) speed.y += 0.01;
-		if (Gdx.input.isKeyPressed(Keys.A)) speed.x -= 0.01;
-		if (Gdx.input.isKeyPressed(Keys.S)) speed.y -= 0.01;
-		if (Gdx.input.isKeyPressed(Keys.D)) speed.x += 0.01;
+		if (Gdx.input.isKeyPressed(Keys.W)) speed.y += 1;
+		if (Gdx.input.isKeyPressed(Keys.A)) speed.x -= 1;
+		if (Gdx.input.isKeyPressed(Keys.S)) speed.y -= 1;
+		if (Gdx.input.isKeyPressed(Keys.D)) speed.x += 1;
+		
+		speed = speed.scl(1/speed.len()).scl(0.01f);
 
 		if (Gdx.input.isKeyJustPressed(Keys.H)) setPositionY(getPositionY()+0.25f);
 		
@@ -49,7 +51,7 @@ public class Nazi extends Entity {
 		
 		if (! speed.isZero()) {
 			direction = ((int)(speed.angle() + 45 + 90) % 360) / 90;
-		}
+		} else animationPos = 0f;
 
 		if (Gdx.input.isKeyJustPressed(Keys.SPACE)) {
 			switch (direction) {
@@ -82,7 +84,10 @@ public class Nazi extends Entity {
 
 	@Override
 	public TextureRegion getTexture() {
-		return Textures.tex_player_td[direction][(int)animationPos];
+		if (speed.isZero())
+			return Textures.tex_player_still[direction];
+		else
+			return Textures.tex_player_td[direction][(int)animationPos];
 	}
 	
 	@Override

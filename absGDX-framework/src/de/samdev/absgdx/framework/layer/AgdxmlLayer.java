@@ -11,10 +11,7 @@ import com.badlogic.gdx.utils.XmlReader.Element;
 
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.menu.GUITextureProvider;
-import de.samdev.absgdx.framework.menu.agdxml.AgdxmlGridDefinitionsUnit;
 import de.samdev.absgdx.framework.menu.agdxml.AgdxmlLayerBoundaryElement;
-import de.samdev.absgdx.framework.menu.agdxml.AgdxmlValue;
-import de.samdev.absgdx.framework.menu.agdxml.AgdxmlVectorValue;
 import de.samdev.absgdx.framework.menu.elements.MenuButton;
 import de.samdev.absgdx.framework.menu.elements.MenuCheckBox;
 import de.samdev.absgdx.framework.menu.elements.MenuContainer;
@@ -27,12 +24,25 @@ import de.samdev.absgdx.framework.menu.elements.MenuSettingsTree;
 import de.samdev.absgdx.framework.util.AgdxmlParserHelper;
 import de.samdev.absgdx.framework.util.exceptions.AgdxmlParsingException;
 
+/**
+ * A MenuLayer that loads the format from an agdxml file
+ * Can dynamically react on resize Events an different screen sizes
+ *
+ */
 public abstract class AgdxmlLayer extends MenuLayer {
 	private final AgdxmlLayerBoundaryElement boundaryRootElement;
 	
 	private HashMap<String, GUITextureProvider> map_provider = new HashMap<String, GUITextureProvider>();
 	private HashMap<String, TextureRegion[]> map_imagetextures = new HashMap<String, TextureRegion[]>();
 	
+	/**
+	 * Create a new AgdxmlLayer
+	 * 
+	 * @param owner the owner of the layer
+	 * @param bmpfont The standard font to use
+	 * @param agdxmlFile the file with the AGDXML description 
+	 * @throws AgdxmlParsingException if the agdxmlFile has Errors
+	 */
 	public AgdxmlLayer(AgdxGame owner, BitmapFont bmpfont, FileHandle agdxmlFile) throws AgdxmlParsingException {
 		super(owner, bmpfont);
 
@@ -45,6 +55,14 @@ public abstract class AgdxmlLayer extends MenuLayer {
 		}
 	}
 	
+	/**
+	 * Creates a new AgdxmlLayer
+	 * 
+	 * @param owner the owner of the layer
+	 * @param bmpfont The standard font to use
+	 * @param agdxmlFileContent an XML file content with the AGDXML description 
+	 * @throws AgdxmlParsingException if the agdxmlFile has Errors
+	 */
 	public AgdxmlLayer(AgdxGame owner, BitmapFont bmpfont, String agdxmlFileContent) throws AgdxmlParsingException {
 		super(owner, bmpfont);
 
@@ -57,6 +75,10 @@ public abstract class AgdxmlLayer extends MenuLayer {
 		}
 	}
 	
+	/**
+	 * Is called before the AGDXML file is parsed
+	 * you can use this method to initialize  the different maps
+	 */
 	public abstract void initialize();
 
 	@Override
@@ -70,15 +92,15 @@ public abstract class AgdxmlLayer extends MenuLayer {
 	}
 
 	private void recalculate() throws AgdxmlParsingException {
-		getRoot().setBoundaries(0, 0, owner.getScreenWidth(), owner.getScreenHeight());
-		
-		boundaryRootElement.position = new AgdxmlVectorValue(new AgdxmlValue(0, AgdxmlGridDefinitionsUnit.PIXEL), new AgdxmlValue(0, AgdxmlGridDefinitionsUnit.PIXEL));
-		boundaryRootElement.width = new AgdxmlValue(owner.getScreenWidth(), AgdxmlGridDefinitionsUnit.PIXEL);
-		boundaryRootElement.height = new AgdxmlValue(owner.getScreenHeight(), AgdxmlGridDefinitionsUnit.PIXEL);
-		
-		boundaryRootElement.updateRoot();
+		boundaryRootElement.updateRoot(owner.getScreenWidth(), owner.getScreenHeight());
 	}
 
+	/**
+	 * add a GUITextureProvider to the map (can be access with the AGDXML-property [textures] )
+	 * 
+	 * @param key the HashMap Key
+	 * @param value the provider
+	 */
 	public void addAgdxmlGuiTextureProvider(String key, GUITextureProvider value) {
 		map_provider.put(key, value);
 	}
@@ -93,10 +115,23 @@ public abstract class AgdxmlLayer extends MenuLayer {
 		return result;
 	}
 
+	/**
+	 * Add a Texture to the map (for &lt;image&gt; elements) (can can be acessed with the AGDXML-property [texture])
+	 * 
+	 * @param key the HashMap Key
+	 * @param value the texture
+	 */
 	public void addAgdxmlImageTexture(String key, TextureRegion value) {
 		map_imagetextures.put(key, new TextureRegion[]{value});
 	}
 
+	/**
+	 * Add a Texture to the map (for &lt;image&gt; elements) (can can be accessed with the AGDXML-property [texture])
+	 * (this is the method needed for animated image tags - because you can supply multiple frames)
+	 * 
+	 * @param key the HashMap Key
+	 * @param value the texture
+	 */
 	public void addAgdxmlImageTexture(String key, TextureRegion[] value) {
 		map_imagetextures.put(key, value);
 	}
@@ -120,9 +155,6 @@ public abstract class AgdxmlLayer extends MenuLayer {
 			if (! xmlRootElement.getName().equals("frame")) throw new AgdxmlParsingException("root element must be <frame>");
 			
 			AgdxmlLayerBoundaryElement result = new AgdxmlLayerBoundaryElement(getRoot());
-			result.position = new AgdxmlVectorValue(new AgdxmlValue(0, AgdxmlGridDefinitionsUnit.PIXEL), new AgdxmlValue(0, AgdxmlGridDefinitionsUnit.PIXEL));
-			result.width = new AgdxmlValue(owner.getScreenWidth(), AgdxmlGridDefinitionsUnit.PIXEL);
-			result.height = new AgdxmlValue(owner.getScreenHeight(), AgdxmlGridDefinitionsUnit.PIXEL);
 			
 			getRoot().setBoundaries(0, 0, owner.getScreenWidth(), owner.getScreenHeight());
 			
@@ -162,9 +194,7 @@ public abstract class AgdxmlLayer extends MenuLayer {
 		GUITextureProvider tprox = getTextureProviderFromMap(xmlElement, rootProvider);
 		
 		MenuSettingsTree elem = new MenuSettingsTree(id, tprox, owner.settings.root);
-		AgdxmlLayerBoundaryElement boundelem = new AgdxmlLayerBoundaryElement(elem);
-		
-		boundelem.set(xmlElement);
+		AgdxmlLayerBoundaryElement boundelem = new AgdxmlLayerBoundaryElement(elem, xmlElement);
 		boundelem.update(boundaries);
 		
 		if (xmlElement.getAttribute("visible", null) != null)        elem.setVisible(xmlElement.getAttribute("visible").toLowerCase().equals("true"));
@@ -184,9 +214,7 @@ public abstract class AgdxmlLayer extends MenuLayer {
 		GUITextureProvider tprox = getTextureProviderFromMap(xmlElement, rootProvider);
 		
 		MenuLabel elem = new MenuLabel(id, tprox);
-		AgdxmlLayerBoundaryElement boundelem = new AgdxmlLayerBoundaryElement(elem);
-		
-		boundelem.set(xmlElement);
+		AgdxmlLayerBoundaryElement boundelem = new AgdxmlLayerBoundaryElement(elem, xmlElement);
 		boundelem.update(boundaries);
 		
 		if (xmlElement.getAttribute("visible", null) != null)   elem.setVisible(xmlElement.getAttribute("visible").toLowerCase().equals("true"));
@@ -207,9 +235,7 @@ public abstract class AgdxmlLayer extends MenuLayer {
 		GUITextureProvider tprox = getTextureProviderFromMap(xmlElement, rootProvider);
 		
 		MenuRadioButton elem = new MenuRadioButton(id, tprox);
-		AgdxmlLayerBoundaryElement boundelem = new AgdxmlLayerBoundaryElement(elem);
-		
-		boundelem.set(xmlElement);
+		AgdxmlLayerBoundaryElement boundelem = new AgdxmlLayerBoundaryElement(elem, xmlElement);
 		boundelem.update(boundaries);
 		
 		if (xmlElement.getAttribute("visible", null) != null)      elem.setVisible(xmlElement.getAttribute("visible").toLowerCase().equals("true"));
@@ -234,9 +260,7 @@ public abstract class AgdxmlLayer extends MenuLayer {
 		GUITextureProvider tprox = getTextureProviderFromMap(xmlElement, rootProvider);
 		
 		MenuCheckBox elem = new MenuCheckBox(id, tprox);
-		AgdxmlLayerBoundaryElement boundelem = new AgdxmlLayerBoundaryElement(elem);
-		
-		boundelem.set(xmlElement);
+		AgdxmlLayerBoundaryElement boundelem = new AgdxmlLayerBoundaryElement(elem, xmlElement);
 		boundelem.update(boundaries);
 		
 		if (xmlElement.getAttribute("visible", null) != null)      elem.setVisible(xmlElement.getAttribute("visible").toLowerCase().equals("true"));
@@ -261,9 +285,7 @@ public abstract class AgdxmlLayer extends MenuLayer {
 		GUITextureProvider tprox = getTextureProviderFromMap(xmlElement, rootProvider);
 		
 		MenuButton elem = new MenuButton(id, tprox);
-		AgdxmlLayerBoundaryElement boundelem = new AgdxmlLayerBoundaryElement(elem);
-		
-		boundelem.set(xmlElement);
+		AgdxmlLayerBoundaryElement boundelem = new AgdxmlLayerBoundaryElement(elem, xmlElement);
 		boundelem.update(boundaries);
 
 		if (xmlElement.getAttribute("visible", null) != null)      elem.setVisible(xmlElement.getAttribute("visible").toLowerCase().equals("true"));
@@ -285,9 +307,7 @@ public abstract class AgdxmlLayer extends MenuLayer {
 		GUITextureProvider tprox = getTextureProviderFromMap(xmlElement, rootProvider);
 		
 		MenuImage elem = new MenuImage(id, tprox);
-		AgdxmlLayerBoundaryElement boundelem = new AgdxmlLayerBoundaryElement(elem);
-		
-		boundelem.set(xmlElement);
+		AgdxmlLayerBoundaryElement boundelem = new AgdxmlLayerBoundaryElement(elem, xmlElement);
 		boundelem.update(boundaries);
 		
 		if (xmlElement.getAttribute("visible", null) != null) elem.setVisible(xmlElement.getAttribute("visible").toLowerCase().equals("true"));
@@ -316,9 +336,7 @@ public abstract class AgdxmlLayer extends MenuLayer {
 		else  
 			elem = new MenuPanel(id, tprox);
 		
-		AgdxmlLayerBoundaryElement boundelem = new AgdxmlLayerBoundaryElement(elem);
-		
-		boundelem.set(xmlElement);
+		AgdxmlLayerBoundaryElement boundelem = new AgdxmlLayerBoundaryElement(elem, xmlElement);
 		boundelem.update(boundaries);
 		
 		if (xmlElement.getAttribute("visible", null) != null) elem.setVisible(xmlElement.getAttribute("visible").toLowerCase().equals("true"));
@@ -347,16 +365,13 @@ public abstract class AgdxmlLayer extends MenuLayer {
 		else  
 			elem = new MenuPanel(id, tprox);
 		
-		AgdxmlLayerBoundaryElement boundelem = new AgdxmlLayerBoundaryElement(elem);
-		
-		boundelem.set(xmlElement);
+		AgdxmlLayerBoundaryElement boundelem = new AgdxmlLayerBoundaryElement(elem, xmlElement);
 		boundelem.update(boundaries);
 		
 		if (xmlElement.getAttribute("visible", null) != null) elem.setVisible(xmlElement.getAttribute("visible").toLowerCase().equals("true"));
 		
 		parent.children.add(boundelem);
-		
-		boundelem.gridDefinitions = AgdxmlParserHelper.parseGridDefinitions(xmlElement);
+
 		for (int i = 0; i < xmlElement.getChildCount(); i++) {
 			Element child = xmlElement.getChild(i);
 			
@@ -370,6 +385,12 @@ public abstract class AgdxmlLayer extends MenuLayer {
 		return elem;
 	}
 
+	/**
+	 * get the boundary root element of the boundary tree
+	 * in this all relative size information are stores
+	 * 
+	 * @return the root element
+	 */
 	public AgdxmlLayerBoundaryElement getBoundaryRootElement() {
 		return boundaryRootElement;
 	}

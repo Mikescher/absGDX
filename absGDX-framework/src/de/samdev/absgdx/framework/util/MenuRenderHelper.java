@@ -46,6 +46,8 @@ public class MenuRenderHelper {
 	 * Draws a texture repating
 	 * (MenuTexture need to be pre-flipped)
 	 * 
+	 * !!! WARNING !!!  This can result in A LOT of draw calls - use with care
+	 * 
 	 * @param batch the Sprite Batch to render
 	 * @param region the texture
 	 * @param x x position
@@ -53,7 +55,7 @@ public class MenuRenderHelper {
 	 * @param width the target width
 	 * @param height the target height
 	 */
-	public static void drawTextureRepeated(SpriteBatch batch, TextureRegion region, float x, float y, float width, float height) { //TODO THIS IS SLOW AS FUCK !!!
+	public static void drawTextureRepeated(SpriteBatch batch, TextureRegion region, float x, float y, float width, float height) {
 		float regionWidth = region.getRegionWidth(), regionHeight = region.getRegionHeight();
 		float remainingX = width % regionWidth, remainingY = height % regionHeight;
 		float startX = x, startY = y;

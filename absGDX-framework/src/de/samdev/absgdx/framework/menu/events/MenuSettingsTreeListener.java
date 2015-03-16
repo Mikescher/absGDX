@@ -14,5 +14,5 @@ public interface MenuSettingsTreeListener extends MenuBaseElementListener {
 	 * @param identifier the unique element identifier
 	 * @param property the changed property
 	 */
-	public void onPropertyChanged(MenuBaseElement element, String identifier, DependentProperty property);
+	public void onPropertyChanged(MenuBaseElement element, String identifier, DependentProperty property); //TODO add event (is currently not called)
 }

@@ -13,5 +13,5 @@ public interface MenuCheckboxListener extends MenuBaseElementListener {
 	 * @param identifier the unique element identifier
 	 * @param checked the new isChecked() value
 	 */
-	public void onChecked(MenuBaseElement element, String identifier, boolean checked);
+	public void onChecked(MenuBaseElement element, String identifier, boolean checked); //TODO add event (is currently not called)
 }

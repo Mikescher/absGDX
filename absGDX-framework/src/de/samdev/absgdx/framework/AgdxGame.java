@@ -270,14 +270,12 @@ public abstract class AgdxGame implements ApplicationListener {
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
-
+		// NOP
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
-
+		// NOP
 	}
 
 	@Override

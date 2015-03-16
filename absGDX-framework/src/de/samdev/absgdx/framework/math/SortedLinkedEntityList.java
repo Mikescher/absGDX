@@ -184,7 +184,7 @@ public class SortedLinkedEntityList implements List<Entity> {
 				
 				boolean succ = e.collisionOwner.removeGeometries(e.listCollisionGeometries());
 				
-				if (! succ) throw new RuntimeException("0"); //TODO REMOVE ME
+				assert succ; //TODO Remove asserts ?? 
 			}
 		}
 	}

@@ -13,5 +13,5 @@ public interface MenuEditListener extends MenuBaseElementListener {
 	 * @param identifier the unique element identifier
 	 * @param newtext the new text
 	 */
-	public void onTextChanged(MenuBaseElement element, String identifier, String newtext);
+	public void onTextChanged(MenuBaseElement element, String identifier, String newtext); //TODO add event (is currently not called)
 }

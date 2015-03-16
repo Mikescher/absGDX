@@ -258,7 +258,7 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 				
 				boolean succ = collisionOwner.moveGeometry(prevX, prevY, collgeo.geometry);
 				
-				assert succ; //TODO REMOVE ME
+				assert succ; //TODO Remove asserts ??
 			}
 			
 			checkCollisions();
@@ -374,7 +374,7 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 			
 			boolean succ = collisionOwner.moveGeometry(prevX, prevY, geometry.geometry);
 
-			assert succ; //TODO REMOVE ME
+			assert succ; //TODO Remove asserts ??
 		}
 		
 		if (passiveCollider != null) {
@@ -440,7 +440,7 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 			
 			boolean succ = collisionOwner.moveGeometry(prevX, prevY, geometry.geometry);
 
-			assert succ; //TODO REMOVE ME
+			assert succ; //TODO Remove asserts ??
 		}
 		
 		if (passiveCollider != null) {

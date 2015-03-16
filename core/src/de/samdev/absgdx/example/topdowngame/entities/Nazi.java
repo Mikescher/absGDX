@@ -43,7 +43,7 @@ public class Nazi extends Entity {
 		if (Gdx.input.isKeyPressed(Keys.S)) speed.y -= 1;
 		if (Gdx.input.isKeyPressed(Keys.D)) speed.x += 1;
 		
-		speed = speed.scl(1/speed.len()).scl(0.01f);
+		if (! speed.isZero()) speed = speed.scl(1/speed.len()).scl(0.01f);
 
 		if (Gdx.input.isKeyJustPressed(Keys.H)) setPositionY(getPositionY()+0.25f);
 		

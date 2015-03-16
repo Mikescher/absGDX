@@ -38,7 +38,7 @@ public class TextureHelper {
 	 * @return the specific tile at position [x|y]
 	 */
 	public static TextureRegion loadSingleTile(Texture tex, int x, int y, int width, int height) {
-		return new TextureRegion(tex, x*width, y*width, width, height);
+		return new TextureRegion(tex, x*width, y*height, width, height);
 	}
 	
 	/**

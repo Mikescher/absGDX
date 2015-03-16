@@ -747,7 +747,7 @@ public class AgdxmlParser {
 		if (xmlElement.getAttribute("text", null) != null)        elem.setContent(xmlElement.getAttribute("text"));
 		if (xmlElement.getAttribute("halign", null) != null)      elem.setHorizontalAlign(AgdxmlParserHelper.parseHorizontalAlign(xmlElement.getAttribute("halign")));
 		if (xmlElement.getAttribute("valign", null) != null)      elem.setVerticalAlign(AgdxmlParserHelper.parseVerticalAlign(xmlElement.getAttribute("valign")));
-		if (xmlElement.getAttribute("textColor", null) != null)   elem.setColor(AgdxmlParserHelper.parseColor(xmlElement.getAttribute("fontColor")));
+		if (xmlElement.getAttribute("textColor", null) != null)   elem.setColor(AgdxmlParserHelper.parseColor(xmlElement.getAttribute("textColor")));
 		if (xmlElement.getAttribute("textPadding", null) != null) elem.setPadding(AgdxmlParserHelper.parsePadding(xmlElement.getAttribute("textPadding")));
 		
 		final HashMap<String, Method> events = new HashMap<String, Method>();

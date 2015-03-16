@@ -103,6 +103,7 @@ public class DesignFrame extends JFrame {
 		listModel.addElement("<grid>");
 		listModel.addElement("<image>");
 		listModel.addElement("<radiobutton>");
+		listModel.addElement("<edit>");
 		
 		pnlProperties = new JPanel();
 		pnlSettings.addTab("Properties", null, pnlProperties, null);

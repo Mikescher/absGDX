@@ -96,7 +96,13 @@ public class AgdxmlParserHelper {
 		List<AgdxmlValue> cdef = new ArrayList<AgdxmlValue>();
 		List<AgdxmlValue> rdef = new ArrayList<AgdxmlValue>();
 		
-		if (element_cdef == null || element_cdef.getChildrenByName("columndefinition").size == 0) {
+		if (element_cdef == null) {
+			cdef.add(new AgdxmlValue(1, AgdxmlValueUnit.WEIGHT));
+		}else if (element_cdef.getAttribute("width", "").length() > 0) {
+			for (String def : element_cdef.getAttribute("width").split(",")) {
+				cdef.add(parseSingleGridDefinition(def.trim(), element.getName(), "width"));
+			}
+		} else if (element_cdef.getChildrenByName("columndefinition").size == 0) {
 			cdef.add(new AgdxmlValue(1, AgdxmlValueUnit.WEIGHT));
 		} else {
 			for (Element child : element_cdef.getChildrenByName("columndefinition")) {
@@ -104,7 +110,13 @@ public class AgdxmlParserHelper {
 			}
 		}
 		
-		if (element_rdef == null || element_rdef.getChildrenByName("rowdefinition").size == 0) {
+		if (element_rdef == null) {
+			rdef.add(new AgdxmlValue(1, AgdxmlValueUnit.WEIGHT));
+		}else if (element_rdef.getAttribute("height", "").length() > 0) {
+			for (String def : element_rdef.getAttribute("height").split(",")) {
+				rdef.add(parseSingleGridDefinition(def.trim(), element.getName(), "height"));
+			}
+		} else if (element_rdef.getChildrenByName("rowdefinition").size == 0) {
 			rdef.add(new AgdxmlValue(1, AgdxmlValueUnit.WEIGHT));
 		} else {
 			for (Element child : element_rdef.getChildrenByName("rowdefinition")) {
@@ -116,27 +128,29 @@ public class AgdxmlParserHelper {
 	}
 
 	private static AgdxmlValue parseSingleGridDefinition(Element element, String parametername) throws AgdxmlParsingException {
-		String value = element.getAttribute(parametername, "");
-		
-		if (value.isEmpty()) throw new AgdxmlParsingException("Element " + element.getName() + " need the attribute " + parametername);
+		return parseSingleGridDefinition(element.getAttribute(parametername, ""), element.getName(), parametername);
+	}
+	
+	private static AgdxmlValue parseSingleGridDefinition(String value, String elementname, String parametername) throws AgdxmlParsingException {
+		if (value.isEmpty()) throw new AgdxmlParsingException("Element " + elementname + " need the attribute " + parametername);
 		
 		if (value.endsWith("%")) {
 			try {
 				return new AgdxmlValue(Float.parseFloat(value.substring(0, value.length() - 1)), AgdxmlValueUnit.PERCENTAGE);
 			} catch (NumberFormatException e) {
-				throw new AgdxmlParsingException("In element" + element.getName() + " "+  parametername + " is not a number");
+				throw new AgdxmlParsingException("In element" + elementname + " "+  parametername + " is not a number");
 			}
 		} else if (value.endsWith("*")) {
 			try {
 				return new AgdxmlValue(Float.parseFloat(value.substring(0, value.length() - 1)), AgdxmlValueUnit.WEIGHT);
 			} catch (NumberFormatException e) {
-				throw new AgdxmlParsingException("In element" + element.getName() + " "+  parametername + " is not a number");
+				throw new AgdxmlParsingException("In element" + elementname + " "+  parametername + " is not a number");
 			}
 		} else {
 			try {
 				return new AgdxmlValue(Float.parseFloat(value), AgdxmlValueUnit.PIXEL);
 			} catch (NumberFormatException e) {
-				throw new AgdxmlParsingException("In element" + element.getName() + " "+  parametername + " is not a number");
+				throw new AgdxmlParsingException("In element" + elementname + " "+  parametername + " is not a number");
 			}
 		}
 	}
@@ -312,8 +326,8 @@ public class AgdxmlParserHelper {
 			}
 
 			if (elements.length == 1) return new RectangleRadius(elements[0], elements[0], elements[0], elements[0]);
-			if (elements.length == 2) return new RectangleRadius(elements[1], elements[0], elements[1], elements[0]);
-			if (elements.length == 4) return new RectangleRadius(elements[1], elements[0], elements[3], elements[2]);
+			if (elements.length == 2) return new RectangleRadius(elements[1], elements[0], elements[0], elements[1]);
+			if (elements.length == 4) return new RectangleRadius(elements[1], elements[0], elements[2], elements[3]);
 			
 			throw new AgdxmlParsingException("Can't parse padding: " + parameter);
 			

@@ -58,7 +58,6 @@ public class DemoMenu extends AgdxmlLayer {
 		addAgdxmlImageTexture("img_01", Textures.tex_china_td[0]);
 		addAgdxmlImageTexture("img_02", Textures.tex_player_td[0]);
 		addAgdxmlImageTexture("img_03", Textures.tex_Anchorpoint_empty);
-		
 	}
 
 	@SuppressWarnings("unused") // event listener
@@ -74,8 +73,8 @@ public class DemoMenu extends AgdxmlLayer {
 		MenuImage imageNazi = ((MenuImage)getElementByID("imageNazi"));
 		MenuImage imageChinese = ((MenuImage)getElementByID("imageChinese"));
 		
-		imageNazi.setImage(Textures.tex_player_td[rotationNazi = (rotationNazi + 1)%4], 750);
-		imageChinese.setImage(Textures.tex_china_td[rotationChinese = (rotationChinese + 1)%4], 750);
+		imageNazi.setImage(Textures.tex_player_td[rotationNazi =      (rotationNazi    + 3)%4], 750);
+		imageChinese.setImage(Textures.tex_china_td[rotationChinese = (rotationChinese + 3)%4], 750);
 	}
 
 	@SuppressWarnings("unused") // event listener
@@ -83,12 +82,17 @@ public class DemoMenu extends AgdxmlLayer {
 		MenuImage imageNazi = ((MenuImage)getElementByID("imageNazi"));
 		MenuImage imageChinese = ((MenuImage)getElementByID("imageChinese"));
 		
-		imageNazi.setImage(Textures.tex_player_td[rotationNazi = (rotationNazi + 3)%4], 750);
-		imageChinese.setImage(Textures.tex_china_td[rotationChinese = (rotationChinese + 3)%4], 750);
+		imageNazi.setImage(Textures.tex_player_td[rotationNazi =      (rotationNazi    + 1)%4], 750);
+		imageChinese.setImage(Textures.tex_china_td[rotationChinese = (rotationChinese + 1)%4], 750);
 	}
 
 	@SuppressWarnings("unused") // event listener
 	public void onPleh(MenuBaseElement element, String identifier) {
 		owner.popLayer();
+	}
+
+	@SuppressWarnings("unused") // event listener
+	public void playChess(MenuBaseElement element, String identifier) {
+		System.out.println(">>CHESS<<");
 	}
 }

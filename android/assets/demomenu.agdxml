@@ -74,12 +74,13 @@
 					<rowdefinition height="10"/>
 					<rowdefinition height="1*"/>
 					<rowdefinition height="10"/>
+					<rowdefinition height="40"/>
+					<rowdefinition height="10"/>
 				</grid.rowdefinitions>
 
 				<label grid.row="0" grid.column="1" content="absGDX DependentProperties" fontColor="LIGHTGRAY" halign="CENTER" valign="CENTER" autoScale="BOTH" />
-			
 				<settingstree grid.row="2" grid.column="1" content="Hello World" fontColor="BLACK" scrollbarColor="BLACK" visible="true" onClicked="settingsTreeClicked"/>
-				
+				<button grid.row="4" grid.column="1" content="Wouldn't you prefer a nice game of chess?"  fontColor="WHITE" onClicked="playChess"/>
 		</grid>
 	
 	</grid>

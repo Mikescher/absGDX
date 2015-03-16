@@ -34,7 +34,7 @@ public class GUIPreviewPanel extends JPanel {
 	}
 
 	public void setMenuLayer(String xml) throws AgdxmlParsingException {
-		layer = new AgdxmlLayer(new AgdxPreviewGameDummy(), null, xml){ @Override public void initialize() {/**/}};
+		layer = new AgdxmlPreviewLayerDummy(xml);
 
 		redraw();
 	}

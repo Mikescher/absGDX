@@ -7,16 +7,15 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlReader.Element;
-import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Method;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 
 import de.samdev.absgdx.framework.layer.AgdxmlLayer;
 import de.samdev.absgdx.framework.menu.GUITextureProvider;
+import de.samdev.absgdx.framework.menu.elements.MenuBaseElement;
 import de.samdev.absgdx.framework.menu.elements.MenuButton;
 import de.samdev.absgdx.framework.menu.elements.MenuCheckBox;
 import de.samdev.absgdx.framework.menu.elements.MenuContainer;
-import de.samdev.absgdx.framework.menu.elements.MenuBaseElement;
 import de.samdev.absgdx.framework.menu.elements.MenuFrame;
 import de.samdev.absgdx.framework.menu.elements.MenuImage;
 import de.samdev.absgdx.framework.menu.elements.MenuLabel;
@@ -200,15 +199,15 @@ public class AgdxmlParser {
 		
 		final HashMap<String, Method> events = new HashMap<String, Method>();
 		
-		if (xmlElement.getAttribute("onPointerUp", null) != null)   events.put("onPointerUp",   ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onPointerUp"),   MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onPointerDown", null) != null) events.put("onPointerDown", ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onPointerDown"), MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onHoverEnd", null) != null)    events.put("onHoverEnd",    ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onHoverEnd"),    MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onHover", null) != null)       events.put("onHover",       ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onHover"),       MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onFocusLost", null) != null)   events.put("onFocusLost",   ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onFocusLost"),   MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onFocus", null) != null)       events.put("onFocus",       ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onFocus"),       MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onClicked", null) != null)     events.put("onClicked",     ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onClicked"),     MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onPointerUp", null) != null)   events.put("onPointerUp",   layer.getDeclaredMethod(xmlElement.getAttribute("onPointerUp"),   MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onPointerDown", null) != null) events.put("onPointerDown", layer.getDeclaredMethod(xmlElement.getAttribute("onPointerDown"), MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onHoverEnd", null) != null)    events.put("onHoverEnd",    layer.getDeclaredMethod(xmlElement.getAttribute("onHoverEnd"),    MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onHover", null) != null)       events.put("onHover",       layer.getDeclaredMethod(xmlElement.getAttribute("onHover"),       MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onFocusLost", null) != null)   events.put("onFocusLost",   layer.getDeclaredMethod(xmlElement.getAttribute("onFocusLost"),   MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onFocus", null) != null)       events.put("onFocus",       layer.getDeclaredMethod(xmlElement.getAttribute("onFocus"),       MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onClicked", null) != null)     events.put("onClicked",     layer.getDeclaredMethod(xmlElement.getAttribute("onClicked"),     MenuBaseElement.class, String.class));
 		
-		if (xmlElement.getAttribute("onPropertyChanged", null) != null) events.put("onPropertyChanged", ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onPropertyChanged"), MenuBaseElement.class, String.class, DependentProperty.class));
+		if (xmlElement.getAttribute("onPropertyChanged", null) != null) events.put("onPropertyChanged", layer.getDeclaredMethod(xmlElement.getAttribute("onPropertyChanged"), MenuBaseElement.class, String.class, DependentProperty.class));
 		
 		elem.addSettingsTreeListener(new MenuSettingsTreeListener() {
 			@Override
@@ -268,15 +267,15 @@ public class AgdxmlParser {
 		
 		final HashMap<String, Method> events = new HashMap<String, Method>();
 		
-		if (xmlElement.getAttribute("onPointerUp", null) != null)   events.put("onPointerUp",   ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onPointerUp"),   MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onPointerDown", null) != null) events.put("onPointerDown", ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onPointerDown"), MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onHoverEnd", null) != null)    events.put("onHoverEnd",    ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onHoverEnd"),    MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onHover", null) != null)       events.put("onHover",       ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onHover"),       MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onFocusLost", null) != null)   events.put("onFocusLost",   ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onFocusLost"),   MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onFocus", null) != null)       events.put("onFocus",       ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onFocus"),       MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onClicked", null) != null)     events.put("onClicked",     ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onClicked"),     MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onPointerUp", null) != null)   events.put("onPointerUp",   layer.getDeclaredMethod(xmlElement.getAttribute("onPointerUp"),   MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onPointerDown", null) != null) events.put("onPointerDown", layer.getDeclaredMethod(xmlElement.getAttribute("onPointerDown"), MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onHoverEnd", null) != null)    events.put("onHoverEnd",    layer.getDeclaredMethod(xmlElement.getAttribute("onHoverEnd"),    MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onHover", null) != null)       events.put("onHover",       layer.getDeclaredMethod(xmlElement.getAttribute("onHover"),       MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onFocusLost", null) != null)   events.put("onFocusLost",   layer.getDeclaredMethod(xmlElement.getAttribute("onFocusLost"),   MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onFocus", null) != null)       events.put("onFocus",       layer.getDeclaredMethod(xmlElement.getAttribute("onFocus"),       MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onClicked", null) != null)     events.put("onClicked",     layer.getDeclaredMethod(xmlElement.getAttribute("onClicked"),     MenuBaseElement.class, String.class));
 		
-		if (xmlElement.getAttribute("onContentChanged", null) != null) events.put("onContentChanged", ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onContentChanged"), MenuBaseElement.class, String.class, String.class));
+		if (xmlElement.getAttribute("onContentChanged", null) != null) events.put("onContentChanged", layer.getDeclaredMethod(xmlElement.getAttribute("onContentChanged"), MenuBaseElement.class, String.class, String.class));
 		
 		elem.addLabelListener(new MenuLabelListener() {
 			@Override
@@ -340,15 +339,15 @@ public class AgdxmlParser {
 		
 		final HashMap<String, Method> events = new HashMap<String, Method>();
 		
-		if (xmlElement.getAttribute("onPointerUp", null) != null)   events.put("onPointerUp",   ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onPointerUp"),   MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onPointerDown", null) != null) events.put("onPointerDown", ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onPointerDown"), MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onHoverEnd", null) != null)    events.put("onHoverEnd",    ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onHoverEnd"),    MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onHover", null) != null)       events.put("onHover",       ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onHover"),       MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onFocusLost", null) != null)   events.put("onFocusLost",   ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onFocusLost"),   MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onFocus", null) != null)       events.put("onFocus",       ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onFocus"),       MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onClicked", null) != null)     events.put("onClicked",     ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onClicked"),     MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onPointerUp", null) != null)   events.put("onPointerUp",   layer.getDeclaredMethod(xmlElement.getAttribute("onPointerUp"),   MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onPointerDown", null) != null) events.put("onPointerDown", layer.getDeclaredMethod(xmlElement.getAttribute("onPointerDown"), MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onHoverEnd", null) != null)    events.put("onHoverEnd",    layer.getDeclaredMethod(xmlElement.getAttribute("onHoverEnd"),    MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onHover", null) != null)       events.put("onHover",       layer.getDeclaredMethod(xmlElement.getAttribute("onHover"),       MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onFocusLost", null) != null)   events.put("onFocusLost",   layer.getDeclaredMethod(xmlElement.getAttribute("onFocusLost"),   MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onFocus", null) != null)       events.put("onFocus",       layer.getDeclaredMethod(xmlElement.getAttribute("onFocus"),       MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onClicked", null) != null)     events.put("onClicked",     layer.getDeclaredMethod(xmlElement.getAttribute("onClicked"),     MenuBaseElement.class, String.class));
 		
-		if (xmlElement.getAttribute("onChecked", null) != null) events.put("onChecked", ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onChecked"), MenuBaseElement.class, String.class, Boolean.class));
+		if (xmlElement.getAttribute("onChecked", null) != null) events.put("onChecked", layer.getDeclaredMethod(xmlElement.getAttribute("onChecked"), MenuBaseElement.class, String.class, Boolean.class));
 		
 		elem.addRadiobuttonListener(new MenuRadioButtonListener() {
 			@Override
@@ -412,15 +411,15 @@ public class AgdxmlParser {
 		
 		final HashMap<String, Method> events = new HashMap<String, Method>();
 		
-		if (xmlElement.getAttribute("onPointerUp", null) != null)   events.put("onPointerUp",   ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onPointerUp"),   MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onPointerDown", null) != null) events.put("onPointerDown", ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onPointerDown"), MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onHoverEnd", null) != null)    events.put("onHoverEnd",    ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onHoverEnd"),    MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onHover", null) != null)       events.put("onHover",       ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onHover"),       MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onFocusLost", null) != null)   events.put("onFocusLost",   ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onFocusLost"),   MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onFocus", null) != null)       events.put("onFocus",       ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onFocus"),       MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onClicked", null) != null)     events.put("onClicked",     ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onClicked"),     MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onPointerUp", null) != null)   events.put("onPointerUp",   layer.getDeclaredMethod(xmlElement.getAttribute("onPointerUp"),   MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onPointerDown", null) != null) events.put("onPointerDown", layer.getDeclaredMethod(xmlElement.getAttribute("onPointerDown"), MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onHoverEnd", null) != null)    events.put("onHoverEnd",    layer.getDeclaredMethod(xmlElement.getAttribute("onHoverEnd"),    MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onHover", null) != null)       events.put("onHover",       layer.getDeclaredMethod(xmlElement.getAttribute("onHover"),       MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onFocusLost", null) != null)   events.put("onFocusLost",   layer.getDeclaredMethod(xmlElement.getAttribute("onFocusLost"),   MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onFocus", null) != null)       events.put("onFocus",       layer.getDeclaredMethod(xmlElement.getAttribute("onFocus"),       MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onClicked", null) != null)     events.put("onClicked",     layer.getDeclaredMethod(xmlElement.getAttribute("onClicked"),     MenuBaseElement.class, String.class));
 		
-		if (xmlElement.getAttribute("onChecked", null) != null) events.put("onChecked", ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onChecked"), MenuBaseElement.class, String.class, Boolean.class));
+		if (xmlElement.getAttribute("onChecked", null) != null) events.put("onChecked", layer.getDeclaredMethod(xmlElement.getAttribute("onChecked"), MenuBaseElement.class, String.class, Boolean.class));
 		
 		elem.addCheckboxListener(new MenuCheckboxListener() {
 			@Override
@@ -481,13 +480,13 @@ public class AgdxmlParser {
 		
 		final HashMap<String, Method> events = new HashMap<String, Method>();
 		
-		if (xmlElement.getAttribute("onPointerUp", null) != null)   events.put("onPointerUp",   ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onPointerUp"),   MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onPointerDown", null) != null) events.put("onPointerDown", ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onPointerDown"), MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onHoverEnd", null) != null)    events.put("onHoverEnd",    ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onHoverEnd"),    MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onHover", null) != null)       events.put("onHover",       ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onHover"),       MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onFocusLost", null) != null)   events.put("onFocusLost",   ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onFocusLost"),   MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onFocus", null) != null)       events.put("onFocus",       ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onFocus"),       MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onClicked", null) != null)     events.put("onClicked",     ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onClicked"),     MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onPointerUp", null) != null)   events.put("onPointerUp",   layer.getDeclaredMethod(xmlElement.getAttribute("onPointerUp"),   MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onPointerDown", null) != null) events.put("onPointerDown", layer.getDeclaredMethod(xmlElement.getAttribute("onPointerDown"), MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onHoverEnd", null) != null)    events.put("onHoverEnd",    layer.getDeclaredMethod(xmlElement.getAttribute("onHoverEnd"),    MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onHover", null) != null)       events.put("onHover",       layer.getDeclaredMethod(xmlElement.getAttribute("onHover"),       MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onFocusLost", null) != null)   events.put("onFocusLost",   layer.getDeclaredMethod(xmlElement.getAttribute("onFocusLost"),   MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onFocus", null) != null)       events.put("onFocus",       layer.getDeclaredMethod(xmlElement.getAttribute("onFocus"),       MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onClicked", null) != null)     events.put("onClicked",     layer.getDeclaredMethod(xmlElement.getAttribute("onClicked"),     MenuBaseElement.class, String.class));
 		
 		elem.addButtonListener(new MenuButtonListener() {
 			@Override
@@ -545,13 +544,13 @@ public class AgdxmlParser {
 		
 		final HashMap<String, Method> events = new HashMap<String, Method>();
 		
-		if (xmlElement.getAttribute("onPointerUp", null) != null)   events.put("onPointerUp",   ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onPointerUp"),   MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onPointerDown", null) != null) events.put("onPointerDown", ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onPointerDown"), MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onHoverEnd", null) != null)    events.put("onHoverEnd",    ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onHoverEnd"),    MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onHover", null) != null)       events.put("onHover",       ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onHover"),       MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onFocusLost", null) != null)   events.put("onFocusLost",   ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onFocusLost"),   MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onFocus", null) != null)       events.put("onFocus",       ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onFocus"),       MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onClicked", null) != null)     events.put("onClicked",     ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onClicked"),     MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onPointerUp", null) != null)   events.put("onPointerUp",   layer.getDeclaredMethod(xmlElement.getAttribute("onPointerUp"),   MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onPointerDown", null) != null) events.put("onPointerDown", layer.getDeclaredMethod(xmlElement.getAttribute("onPointerDown"), MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onHoverEnd", null) != null)    events.put("onHoverEnd",    layer.getDeclaredMethod(xmlElement.getAttribute("onHoverEnd"),    MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onHover", null) != null)       events.put("onHover",       layer.getDeclaredMethod(xmlElement.getAttribute("onHover"),       MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onFocusLost", null) != null)   events.put("onFocusLost",   layer.getDeclaredMethod(xmlElement.getAttribute("onFocusLost"),   MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onFocus", null) != null)       events.put("onFocus",       layer.getDeclaredMethod(xmlElement.getAttribute("onFocus"),       MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onClicked", null) != null)     events.put("onClicked",     layer.getDeclaredMethod(xmlElement.getAttribute("onClicked"),     MenuBaseElement.class, String.class));
 		
 		elem.addImageListener(new MenuImageListener() {
 			@Override
@@ -607,13 +606,13 @@ public class AgdxmlParser {
 		
 		final HashMap<String, Method> events = new HashMap<String, Method>();
 		
-		if (xmlElement.getAttribute("onPointerUp", null) != null)   events.put("onPointerUp",   ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onPointerUp"),   MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onPointerDown", null) != null) events.put("onPointerDown", ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onPointerDown"), MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onHoverEnd", null) != null)    events.put("onHoverEnd",    ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onHoverEnd"),    MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onHover", null) != null)       events.put("onHover",       ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onHover"),       MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onFocusLost", null) != null)   events.put("onFocusLost",   ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onFocusLost"),   MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onFocus", null) != null)       events.put("onFocus",       ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onFocus"),       MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onClicked", null) != null)     events.put("onClicked",     ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onClicked"),     MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onPointerUp", null) != null)   events.put("onPointerUp",   layer.getDeclaredMethod(xmlElement.getAttribute("onPointerUp"),   MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onPointerDown", null) != null) events.put("onPointerDown", layer.getDeclaredMethod(xmlElement.getAttribute("onPointerDown"), MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onHoverEnd", null) != null)    events.put("onHoverEnd",    layer.getDeclaredMethod(xmlElement.getAttribute("onHoverEnd"),    MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onHover", null) != null)       events.put("onHover",       layer.getDeclaredMethod(xmlElement.getAttribute("onHover"),       MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onFocusLost", null) != null)   events.put("onFocusLost",   layer.getDeclaredMethod(xmlElement.getAttribute("onFocusLost"),   MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onFocus", null) != null)       events.put("onFocus",       layer.getDeclaredMethod(xmlElement.getAttribute("onFocus"),       MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onClicked", null) != null)     events.put("onClicked",     layer.getDeclaredMethod(xmlElement.getAttribute("onClicked"),     MenuBaseElement.class, String.class));
 		
 		elem.addContainerListener(new MenuContainerListener() {
 			@Override
@@ -677,13 +676,13 @@ public class AgdxmlParser {
 		
 		final HashMap<String, Method> events = new HashMap<String, Method>();
 		
-		if (xmlElement.getAttribute("onPointerUp", null) != null)   events.put("onPointerUp",   ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onPointerUp"),   MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onPointerDown", null) != null) events.put("onPointerDown", ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onPointerDown"), MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onHoverEnd", null) != null)    events.put("onHoverEnd",    ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onHoverEnd"),    MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onHover", null) != null)       events.put("onHover",       ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onHover"),       MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onFocusLost", null) != null)   events.put("onFocusLost",   ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onFocusLost"),   MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onFocus", null) != null)       events.put("onFocus",       ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onFocus"),       MenuBaseElement.class, String.class));
-		if (xmlElement.getAttribute("onClicked", null) != null)     events.put("onClicked",     ClassReflection.getDeclaredMethod(layer.getClass(), xmlElement.getAttribute("onClicked"),     MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onPointerUp", null) != null)   events.put("onPointerUp",   layer.getDeclaredMethod(xmlElement.getAttribute("onPointerUp"),   MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onPointerDown", null) != null) events.put("onPointerDown", layer.getDeclaredMethod(xmlElement.getAttribute("onPointerDown"), MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onHoverEnd", null) != null)    events.put("onHoverEnd",    layer.getDeclaredMethod(xmlElement.getAttribute("onHoverEnd"),    MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onHover", null) != null)       events.put("onHover",       layer.getDeclaredMethod(xmlElement.getAttribute("onHover"),       MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onFocusLost", null) != null)   events.put("onFocusLost",   layer.getDeclaredMethod(xmlElement.getAttribute("onFocusLost"),   MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onFocus", null) != null)       events.put("onFocus",       layer.getDeclaredMethod(xmlElement.getAttribute("onFocus"),       MenuBaseElement.class, String.class));
+		if (xmlElement.getAttribute("onClicked", null) != null)     events.put("onClicked",     layer.getDeclaredMethod(xmlElement.getAttribute("onClicked"),     MenuBaseElement.class, String.class));
 		
 		elem.addContainerListener(new MenuContainerListener() {
 			@Override

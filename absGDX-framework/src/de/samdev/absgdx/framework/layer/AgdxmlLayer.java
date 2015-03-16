@@ -5,6 +5,9 @@ import java.util.HashMap;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.reflect.ClassReflection;
+import com.badlogic.gdx.utils.reflect.Method;
+import com.badlogic.gdx.utils.reflect.ReflectionException;
 
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.menu.GUITextureProvider;
@@ -122,5 +125,19 @@ public abstract class AgdxmlLayer extends MenuLayer {
 	 */
 	public AgdxmlLayerBoundaryElement getBoundaryRootElement() {
 		return parser.getBoundaryRootElement();
+	}
+	
+	/**
+	 * A wrapper for the getDeclaredMethod() method in LibGDX-reflection
+	 * 
+	 * @param name the method name
+	 * @param parameterTypes the method parameters
+	 * @return the method with the specific name and parameters
+	 * 
+	 * @throws ReflectionException if the method does not exist
+	 */
+	@SuppressWarnings("rawtypes")
+	public Method getDeclaredMethod(String name, Class... parameterTypes) throws ReflectionException {
+		return ClassReflection.getDeclaredMethod(this.getClass(), name, parameterTypes);
 	}
 }

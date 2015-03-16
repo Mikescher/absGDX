@@ -8,6 +8,7 @@ import de.samdev.absgdx.framework.util.TextureHelper;
 public final class Textures {
 	public static Texture texmap;
 	public static Texture texsidemap;
+	public static Texture texchess;
 	
 	public static Texture texplayerset_td;
 	public static Texture texchinaset_td;
@@ -59,11 +60,15 @@ public final class Textures {
 	public static TextureRegion[][] tex_gui_checkers;
 	public static TextureRegion[] tex_gui_progressbar;
 
+	public static TextureRegion[] tex_chess_tiles;
+	public static TextureRegion[][] tex_chess_figures;
+
 	public static void init() {
 		texmap = new Texture("map.png");
 		texsidemap = new Texture("side.png");
 		texplayerset_td = new Texture("tdplayer.png");
 		texchinaset_td = new Texture("chinese.png");
+		texchess = new Texture("chessset.png");
 		
 		texParallax_1 = new Texture("parallax_1.png");
 		texParallax_2 = new Texture("parallax_2.png");
@@ -137,18 +142,6 @@ public final class Textures {
 		tex_panelgui[0][2] = new TextureRegion(tex_gui, 52, 0, 1, 1);
 		tex_panelgui[1][2] = new TextureRegion(tex_gui, 52, 2, 1, 1);
 		tex_panelgui[2][2] = new TextureRegion(tex_gui, 52, 4, 1, 3);
-		
-//		tex_framegui = new TextureRegion[3][3];                       
-//		tex_framegui[0][0] = new TextureRegion(tex_gui, 48,  8, 1, 1); 
-//		tex_framegui[0][1] = new TextureRegion(tex_gui, 48, 10, 1, 1); 
-//		tex_framegui[0][2] = new TextureRegion(tex_gui, 48, 12, 1, 1); 
-//		tex_framegui[1][0] = new TextureRegion(tex_gui, 50,  8, 1, 1); 
-//		tex_framegui[1][1] = new TextureRegion(tex_gui, 50, 10, 1, 1); 
-//		tex_framegui[1][2] = new TextureRegion(tex_gui, 50, 12, 1, 1); 
-//		tex_framegui[2][0] = new TextureRegion(tex_gui, 52,  8, 1, 1); 
-//		tex_framegui[2][1] = new TextureRegion(tex_gui, 52, 10, 1, 1); 
-//		tex_framegui[2][2] = new TextureRegion(tex_gui, 52, 12, 1, 1);
-		
 
 		tex_textfield = new TextureRegion[3][3];
 		tex_textfield[0][0] = new TextureRegion(tex_gui, 48, 16, 1, 1);
@@ -192,6 +185,9 @@ public final class Textures {
 		tex_gui_progressbar[2] = new TextureRegion(tex_gui, 95, 64, 1, 1);
 		tex_gui_progressbar[3] = new TextureRegion(tex_gui, 98, 64, 1, 1);
 		tex_gui_progressbar[4] = new TextureRegion(tex_gui, 64, 78, 59, 30);
+		
+		tex_chess_tiles = new TextureRegion[]{TextureHelper.loadSingleTile(texchess, 7, 0, 55, 55), TextureHelper.loadSingleTile(texchess, 8, 0, 55, 55)};
+		tex_chess_figures = TextureHelper.load2DArray(texchess, 55, 110);
 	}
 
 	private static void loadSingleButtonGuiTex(int id, int ox, int oy) {

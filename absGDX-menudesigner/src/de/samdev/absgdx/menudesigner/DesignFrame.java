@@ -16,6 +16,7 @@ import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
@@ -26,10 +27,7 @@ import javax.swing.event.DocumentListener;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 
-import de.samdev.absgdx.framework.layer.AgdxmlLayer;
 import de.samdev.absgdx.framework.util.exceptions.AgdxmlParsingException;
-
-import javax.swing.ScrollPaneConstants;
 
 public class DesignFrame extends JFrame {
 	private static final long serialVersionUID = 5936312660450931611L;
@@ -76,7 +74,7 @@ public class DesignFrame extends JFrame {
 		splitPane.setResizeWeight(0.565);
 		contentPane.add(splitPane, BorderLayout.CENTER);
 		
-		lblDraw = new GUIPreviewPanel(900, 300, new AgdxmlLayer(new AgdxPreviewGameDummy(), null, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<frame><panel position=\"10,10\" height=\"80\" width=\"200\"><button position=\"50,50\" height=\"20\" width=\"80\" /></panel></frame>") { @Override public void initialize() { /**/ } });
+		lblDraw = new GUIPreviewPanel(900, 300, new AgdxmlPreviewLayerDummy("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<frame><panel position=\"10,10\" height=\"80\" width=\"200\"><button position=\"50,50\" height=\"20\" width=\"80\" /></panel></frame>") { @Override public void initialize() { /**/ } });
 		splitPane.setLeftComponent(lblDraw);
 		lblDraw.setLayout(null);
 		

@@ -17,7 +17,7 @@ import de.samdev.absgdx.framework.menu.events.MenuImageListener;
 /**
  * A simple Texture Display
  */
-public class MenuImage extends MenuElement {
+public class MenuImage extends MenuBaseElement {
 	private TextureRegion[] animation = null;
 	private int animationLength = 1;
 	private float frameDuration = 0;
@@ -153,7 +153,7 @@ public class MenuImage extends MenuElement {
 	}
 
 	@Override
-	public MenuElement getElementAt(int x, int y) {
+	public MenuBaseElement getElementAt(int x, int y) {
 		return this;
 	}
 
@@ -203,8 +203,13 @@ public class MenuImage extends MenuElement {
 	}
 
 	@Override
-	public List<MenuElement> getDirectInnerElements() {
-		List<MenuElement> result = new ArrayList<MenuElement>();
+	public List<MenuBaseElement> getDirectInnerElements() {
+		List<MenuBaseElement> result = new ArrayList<MenuBaseElement>();
 		return result;
+	}
+
+	@Override
+	public MenuBaseElement getElementByID(String id) {
+		return identifier.equals(id) ? this : null;
 	}
 }

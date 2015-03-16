@@ -24,7 +24,7 @@ import de.samdev.absgdx.framework.util.dependentProperties.RootProperty;
 /**
  * A click-able Button
  */
-public class MenuSettingsTree extends MenuElement {
+public class MenuSettingsTree extends MenuBaseElement {
 	/**
 	 * Class to represent a single row in the MenuSettingsTree
 	 */
@@ -63,7 +63,7 @@ public class MenuSettingsTree extends MenuElement {
 		}	
 		
 		@Override
-		public MenuElement getElementAt(int x, int y) {
+		public MenuBaseElement getElementAt(int x, int y) {
 			if (isChecked()) {
 				for (MenuSettingsTreeRow element : children) {
 					if (element.getElementAt(x, y) != null)
@@ -78,16 +78,16 @@ public class MenuSettingsTree extends MenuElement {
 		}
 		
 		@Override
-		public List<MenuElement> getDirectInnerElements() {
-			List<MenuElement> result = new ArrayList<MenuElement>();
+		public List<MenuBaseElement> getDirectInnerElements() {
+			List<MenuBaseElement> result = new ArrayList<MenuBaseElement>();
 			result.add(innerImage);
 			result.add(innerLabel);
 			result.add(innerImageRight);
 			return result;
 		}
 
-		public List<MenuElement> getAllVisibleChildren() {
-			List<MenuElement> result = new ArrayList<MenuElement>();
+		public List<MenuBaseElement> getAllVisibleChildren() {
+			List<MenuBaseElement> result = new ArrayList<MenuBaseElement>();
 			result.add(this);
 			
 			if (!isChecked())
@@ -111,8 +111,8 @@ public class MenuSettingsTree extends MenuElement {
 			}
 		}
 		
-		public List<MenuElement> getTree() {
-			List<MenuElement> result = new ArrayList<MenuElement>();
+		public List<MenuBaseElement> getTree() {
+			List<MenuBaseElement> result = new ArrayList<MenuBaseElement>();
 			result.add(this);
 			for (MenuSettingsTreeRow child : children) {
 				result.addAll(child.getTree());
@@ -337,7 +337,7 @@ public class MenuSettingsTree extends MenuElement {
 	}
 
 	@Override
-	public MenuElement getElementAt(int x, int y) {
+	public MenuBaseElement getElementAt(int x, int y) {
 		return this;
 	}
 	
@@ -345,7 +345,7 @@ public class MenuSettingsTree extends MenuElement {
 	public void onPointerClicked() {
 		super.onPointerClicked();
 		
-		MenuElement element = root.getElementAt(Gdx.input.getX() - root.getCoordinateOffsetX(), Gdx.input.getY() - root.getCoordinateOffsetY());
+		MenuBaseElement element = root.getElementAt(Gdx.input.getX() - root.getCoordinateOffsetX(), Gdx.input.getY() - root.getCoordinateOffsetY());
 		
 		if (element != null)
 			element.onPointerClicked();
@@ -443,7 +443,12 @@ public class MenuSettingsTree extends MenuElement {
 	}
 	
 	@Override
-	public List<MenuElement> getDirectInnerElements() {
+	public List<MenuBaseElement> getDirectInnerElements() {
 		return root.getTree();
+	}
+
+	@Override
+	public MenuBaseElement getElementByID(String id) {
+		return identifier.equals(id) ? this : null;
 	}
 }

@@ -16,7 +16,7 @@ public class MenuFrame extends MenuPanel {
 	 * Create a new (empty) MenuFrame
 	 */
 	public MenuFrame() {
-		this(new ArrayList<MenuElement>());
+		this(new ArrayList<MenuBaseElement>());
 	}
 	
 	/**
@@ -24,14 +24,14 @@ public class MenuFrame extends MenuPanel {
 	 * 
 	 * @param children the children of this frame
 	 */
-	public MenuFrame(List<MenuElement> children) {
+	public MenuFrame(List<MenuBaseElement> children) {
 		super(children);
 		
 		pack(null, null);
 	}
 	
 	@Override
-	public void pack(MenuLayer layer, MenuElement owner) {
+	public void pack(MenuLayer layer, MenuBaseElement owner) {
 		super.pack(layer, owner);
 		
 		setDepth(0);

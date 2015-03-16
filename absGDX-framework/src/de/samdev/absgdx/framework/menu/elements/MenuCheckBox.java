@@ -22,7 +22,7 @@ import de.samdev.absgdx.framework.util.MenuRenderHelper;
 /**
  * A switch-able Button
  */
-public class MenuCheckBox extends MenuElement {
+public class MenuCheckBox extends MenuBaseElement {
 	protected final MenuLabel innerLabel;
 	protected final MenuImage innerImage;
 	
@@ -337,7 +337,7 @@ public class MenuCheckBox extends MenuElement {
 	}
 
 	@Override
-	public MenuElement getElementAt(int x, int y) {
+	public MenuBaseElement getElementAt(int x, int y) {
 		return this;
 	}
 
@@ -383,10 +383,15 @@ public class MenuCheckBox extends MenuElement {
 	}
 
 	@Override
-	public List<MenuElement> getDirectInnerElements() {
-		List<MenuElement> result = new ArrayList<MenuElement>();
+	public List<MenuBaseElement> getDirectInnerElements() {
+		List<MenuBaseElement> result = new ArrayList<MenuBaseElement>();
 		result.add(innerLabel);
 		result.add(innerImage);
 		return result;
+	}
+
+	@Override
+	public MenuBaseElement getElementByID(String id) {
+		return identifier.equals(id) ? this : null;
 	}
 }

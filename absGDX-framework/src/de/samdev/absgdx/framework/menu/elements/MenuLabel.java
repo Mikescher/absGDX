@@ -13,14 +13,14 @@ import de.samdev.absgdx.framework.menu.GUITextureProvider;
 import de.samdev.absgdx.framework.menu.attributes.HorzAlign;
 import de.samdev.absgdx.framework.menu.attributes.TextAutoScaleMode;
 import de.samdev.absgdx.framework.menu.attributes.VertAlign;
-import de.samdev.absgdx.framework.menu.events.MenuElementListener;
+import de.samdev.absgdx.framework.menu.events.MenuBaseElementListener;
 import de.samdev.absgdx.framework.menu.events.MenuLabelListener;
 
 /**
  * A simple Text Display
  *
  */
-public class MenuLabel extends MenuElement {
+public class MenuLabel extends MenuBaseElement {
 	private String content = "";
 
 	private Color color = Color.BLACK;
@@ -161,7 +161,7 @@ public class MenuLabel extends MenuElement {
 	public void setContent(String content) {
 		this.content = content;
 		
-		for (MenuElementListener lst : listeners) {
+		for (MenuBaseElementListener lst : listeners) {
 			((MenuLabelListener)lst).onContentChanged(this, this.identifier, content);
 		}
 	}
@@ -282,13 +282,18 @@ public class MenuLabel extends MenuElement {
 	}
 
 	@Override
-	public MenuElement getElementAt(int x, int y) {
+	public MenuBaseElement getElementAt(int x, int y) {
 		return this;
 	}
 
 	@Override
-	public List<MenuElement> getDirectInnerElements() {
-		List<MenuElement> result = new ArrayList<MenuElement>();
+	public List<MenuBaseElement> getDirectInnerElements() {
+		List<MenuBaseElement> result = new ArrayList<MenuBaseElement>();
 		return result;
+	}
+
+	@Override
+	public MenuBaseElement getElementByID(String id) {
+		return identifier.equals(id) ? this : null;
 	}
 }

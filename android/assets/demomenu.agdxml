@@ -34,8 +34,8 @@
 					<rowdefinition height="24"/>
 				</grid.rowdefinitions>
 
-				<image grid.row="1" grid.column="1" texture="img_01" animation="750" id="imageNazi"/>
-				<image grid.row="1" grid.column="3" texture="img_02" animation="750" id="imageChinese"/>
+				<image grid.row="1" grid.column="1" texture="img_01" animation="750" id="imageChinese"/>
+				<image grid.row="1" grid.column="3" texture="img_02" animation="750" id="imageNazi"/>
 			</grid>
 			
 			<grid grid.row="1" grid.column="0" container="true">
@@ -58,7 +58,7 @@
 				
 				<button grid.row="1" grid.column="1" content="Rotate CW"  fontColor="#FF0000" onClicked="rotateRight"/>
 				<button grid.row="1" grid.column="3" content="Rotate CCW" fontColor="#00FF00" onClicked="rotateLeft" />
-				<button grid.row="1" grid.column="5" content="PLEH"       fontColor="#0000FF"/>
+				<button grid.row="1" grid.column="5" content="PLEH"       fontColor="#0000FF" onClicked="onPleh"     />
 				<image  grid.row="1" grid.column="7" texture="img_03" />
 			</grid>
 		</grid>

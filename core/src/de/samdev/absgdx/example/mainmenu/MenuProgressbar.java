@@ -14,11 +14,11 @@ import de.samdev.absgdx.framework.menu.attributes.HorzAlign;
 import de.samdev.absgdx.framework.menu.attributes.RectangleRadius;
 import de.samdev.absgdx.framework.menu.attributes.TextAutoScaleMode;
 import de.samdev.absgdx.framework.menu.attributes.VertAlign;
-import de.samdev.absgdx.framework.menu.elements.MenuElement;
+import de.samdev.absgdx.framework.menu.elements.MenuBaseElement;
 import de.samdev.absgdx.framework.menu.elements.MenuLabel;
 import de.samdev.absgdx.framework.util.MenuRenderHelper;
 
-public class MenuProgressbar extends MenuElement {
+public class MenuProgressbar extends MenuBaseElement {
 
 	private MenuLabel innerLabel = new MenuLabel();
 	
@@ -98,15 +98,20 @@ public class MenuProgressbar extends MenuElement {
 	}
 
 	@Override
-	public MenuElement getElementAt(int x, int y) {
+	public MenuBaseElement getElementAt(int x, int y) {
 		return this;
 	}
 
 	@Override
-	public List<MenuElement> getDirectInnerElements() {
-		List<MenuElement> result = new ArrayList<MenuElement>();
+	public List<MenuBaseElement> getDirectInnerElements() {
+		List<MenuBaseElement> result = new ArrayList<MenuBaseElement>();
 		result.add(innerLabel);
 		return result;
+	}
+
+	@Override
+	public MenuBaseElement getElementByID(String id) {
+		return identifier.equals(id) ? this : null;
 	}
 
 }

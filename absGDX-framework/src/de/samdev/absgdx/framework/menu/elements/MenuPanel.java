@@ -20,7 +20,7 @@ public class MenuPanel extends MenuContainer {
 	 * 
 	 * @param children the children elements
 	 */
-	public MenuPanel(List<MenuElement> children) {
+	public MenuPanel(List<MenuBaseElement> children) {
 		super(children);
 	}
 

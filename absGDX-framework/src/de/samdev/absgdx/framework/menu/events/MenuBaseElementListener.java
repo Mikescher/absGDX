@@ -1,18 +1,18 @@
 package de.samdev.absgdx.framework.menu.events;
 
-import de.samdev.absgdx.framework.menu.elements.MenuElement;
+import de.samdev.absgdx.framework.menu.elements.MenuBaseElement;
 
 /**
- * An event listener for a MenuElement
+ * An event listener for a MenuBaseElement
  */
-public abstract interface MenuElementListener {
+public abstract interface MenuBaseElementListener {
 	/**
 	 * Called when this component is clicked (down + release)
 	 * 
 	 * @param element the element of this event
 	 * @param identifier the unique element identifier
 	 */
-	public void onClicked(MenuElement element, String identifier);
+	public void onClicked(MenuBaseElement element, String identifier);
 
 	/**
 	 * Called when this component is clicked (down)
@@ -20,7 +20,7 @@ public abstract interface MenuElementListener {
 	 * @param element the element of this event
 	 * @param identifier the unique element identifier
 	 */
-	public void onPointerDown(MenuElement element, String identifier);
+	public void onPointerDown(MenuBaseElement element, String identifier);
 
 	/**
 	 * Called when this component is clicked (released)
@@ -28,7 +28,7 @@ public abstract interface MenuElementListener {
 	 * @param element the element of this event
 	 * @param identifier the unique element identifier
 	 */
-	public void onPointerUp(MenuElement element, String identifier);
+	public void onPointerUp(MenuBaseElement element, String identifier);
 
 	/**
 	 * Called when the pointer enters this component
@@ -36,7 +36,7 @@ public abstract interface MenuElementListener {
 	 * @param element the element of this event
 	 * @param identifier the unique element identifier
 	 */
-	public void onHover(MenuElement element, String identifier);
+	public void onHover(MenuBaseElement element, String identifier);
 
 	/**
 	 * Called when the pointer leaves this component
@@ -44,7 +44,7 @@ public abstract interface MenuElementListener {
 	 * @param element the element of this event
 	 * @param identifier the unique element identifier
 	 */
-	public void onHoverEnd(MenuElement element, String identifier);
+	public void onHoverEnd(MenuBaseElement element, String identifier);
 
 	/**
 	 * Called when the component gains the focus
@@ -52,7 +52,7 @@ public abstract interface MenuElementListener {
 	 * @param element the element of this event
 	 * @param identifier the unique element identifier
 	 */
-	public void onFocus(MenuElement element, String identifier);
+	public void onFocus(MenuBaseElement element, String identifier);
 
 	/**
 	 * Called when the the component looses the focus
@@ -60,5 +60,5 @@ public abstract interface MenuElementListener {
 	 * @param element the element of this event
 	 * @param identifier the unique element identifier
 	 */
-	public void onFocusLost(MenuElement element, String identifier);
+	public void onFocusLost(MenuBaseElement element, String identifier);
 }

@@ -21,7 +21,7 @@ import de.samdev.absgdx.framework.menu.events.MenuButtonListener;
 /**
  * A click-able Button
  */
-public class MenuButton extends MenuElement {
+public class MenuButton extends MenuBaseElement {
 	private final MenuLabel innerLabel;
 	
 	private RectangleRadius padding = new RectangleRadius(5, 5, 5, 5);
@@ -278,7 +278,7 @@ public class MenuButton extends MenuElement {
 	}
 
 	@Override
-	public MenuElement getElementAt(int x, int y) {
+	public MenuBaseElement getElementAt(int x, int y) {
 		return this;
 	}
 
@@ -311,9 +311,14 @@ public class MenuButton extends MenuElement {
 	}
 
 	@Override
-	public List<MenuElement> getDirectInnerElements() {
-		List<MenuElement> result = new ArrayList<MenuElement>();
+	public List<MenuBaseElement> getDirectInnerElements() {
+		List<MenuBaseElement> result = new ArrayList<MenuBaseElement>();
 		result.add(innerLabel);
 		return result;
+	}
+
+	@Override
+	public MenuBaseElement getElementByID(String id) {
+		return identifier.equals(id) ? this : null;
 	}
 }

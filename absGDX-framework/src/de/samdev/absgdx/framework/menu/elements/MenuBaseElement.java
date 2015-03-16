@@ -14,14 +14,14 @@ import com.badlogic.gdx.math.Vector2;
 import de.samdev.absgdx.framework.layer.MenuLayer;
 import de.samdev.absgdx.framework.menu.GUITextureProvider;
 import de.samdev.absgdx.framework.menu.attributes.RectangleRadius;
-import de.samdev.absgdx.framework.menu.events.MenuElementListener;
+import de.samdev.absgdx.framework.menu.events.MenuBaseElementListener;
 import de.samdev.absgdx.framework.util.MenuRenderHelper;
 
 /**
  * A single element in a Menu Layer (e.g. Buttons, Panels, Checkboxes ...)
  *
  */
-public abstract class MenuElement {
+public abstract class MenuBaseElement {
 	private int depth = -1;
 	
 	private int positionX;
@@ -34,7 +34,7 @@ public abstract class MenuElement {
 	private BitmapFont font = null;
 	
 	protected final GUITextureProvider textureprovider;
-	protected List<MenuElementListener> listeners = new ArrayList<MenuElementListener>();
+	protected List<MenuBaseElementListener> listeners = new ArrayList<MenuBaseElementListener>();
 	
 	/**
 	 * the unique identifier to identify this element
@@ -49,40 +49,40 @@ public abstract class MenuElement {
 	/**
 	 * the owner *(can be null when not added to an owner)*
 	 */
-	protected MenuElement owner;
+	protected MenuBaseElement owner;
 	
 	/**
-	 * Creates a new MenuElement (with a random identifier)
+	 * Creates a new MenuBaseElement (with a random identifier)
 	 */
-	public MenuElement() {
+	public MenuBaseElement() {
 		this("{" + java.util.UUID.randomUUID().toString() + "}");
 	}
 	
 	/**
-	 * Creates a new MenuElement (with a random identifier)
+	 * Creates a new MenuBaseElement (with a random identifier)
 	 * 
 	 * @param texprovider the texture provider for this element
 	 */
-	public MenuElement(GUITextureProvider texprovider) {
+	public MenuBaseElement(GUITextureProvider texprovider) {
 		this("{" + java.util.UUID.randomUUID().toString() + "}", texprovider);
 	}
 	
 	/**
-	 * Creates a new MenuElement
+	 * Creates a new MenuBaseElement
 	 * 
 	 * @param ident the unique identifier
 	 */
-	public MenuElement(String ident) {
+	public MenuBaseElement(String ident) {
 		this(ident, new GUITextureProvider());
 	}
 	
 	/**
-	 * Creates a new MenuElement
+	 * Creates a new MenuBaseElement
 	 * 
 	 * @param ident the unique identifier
 	 * @param texprovider the texture provider for this element
 	 */
-	public MenuElement(String ident, GUITextureProvider texprovider) {
+	public MenuBaseElement(String ident, GUITextureProvider texprovider) {
 		super();
 		
 		this.identifier = ident;
@@ -193,11 +193,11 @@ public abstract class MenuElement {
 	 * @param layer the parent layer
 	 * @param owner the parent element
 	 */
-	public void pack(MenuLayer layer, MenuElement owner) {
+	public void pack(MenuLayer layer, MenuBaseElement owner) {
 		this.layer = layer;
 		this.owner = owner;
 		
-		for (MenuElement element : getDirectInnerElements()) {
+		for (MenuBaseElement element : getDirectInnerElements()) {
 			element.pack(layer, this);
 		}
 	}
@@ -207,7 +207,7 @@ public abstract class MenuElement {
 	 * 
 	 * @param l the new listener
 	 */
-	protected void addElementListener(MenuElementListener l) {
+	protected void addElementListener(MenuBaseElementListener l) {
 		listeners.add(l);
 	}
 	
@@ -217,7 +217,7 @@ public abstract class MenuElement {
 	 * @param l the to remove listener
 	 * @return if the operation was successful
 	 */
-	public boolean removeListener(MenuElementListener l) {
+	public boolean removeListener(MenuBaseElementListener l) {
 		return listeners.remove(l);
 	}
 	
@@ -243,20 +243,20 @@ public abstract class MenuElement {
 	 * @param y the y position
 	 * @return
 	 */
-	public abstract MenuElement getElementAt(int x, int y);
+	public abstract MenuBaseElement getElementAt(int x, int y);
 	
 	/**
 	 * @return all children of this element (includes composite elements, no nesting)
 	 */
-	public abstract List<MenuElement> getDirectInnerElements();
+	public abstract List<MenuBaseElement> getDirectInnerElements();
 
 	/**
 	 * @return all children of this element (includes composite elements, includes children of children)
 	 */
-	public List<MenuElement> getAllInnerElements() {
-		List<MenuElement> result = new ArrayList<MenuElement>();
+	public List<MenuBaseElement> getAllInnerElements() {
+		List<MenuBaseElement> result = new ArrayList<MenuBaseElement>();
 
-		for (MenuElement elem : getDirectInnerElements()) {
+		for (MenuBaseElement elem : getDirectInnerElements()) {
 			result.add(elem);
 			result.addAll(elem.getAllInnerElements());
 		}
@@ -267,18 +267,18 @@ public abstract class MenuElement {
 	/**
 	 * @return all children of this element (excludes composite elements, no nesting)
 	 */
-	public List<MenuElement> getDirectChildElements() {
-		List<MenuElement> result = new ArrayList<MenuElement>();
+	public List<MenuBaseElement> getDirectChildElements() {
+		List<MenuBaseElement> result = new ArrayList<MenuBaseElement>();
 		return result;
 	}
 
 	/**
 	 * @return all children of this element (excludes composite elements, includes children of children)
 	 */
-	public List<MenuElement> getAllChildElements() {
-		List<MenuElement> result = new ArrayList<MenuElement>();
+	public List<MenuBaseElement> getAllChildElements() {
+		List<MenuBaseElement> result = new ArrayList<MenuBaseElement>();
 
-		for (MenuElement elem : getDirectChildElements()) {
+		for (MenuBaseElement elem : getDirectChildElements()) {
 			result.add(elem);
 			result.addAll(elem.getAllChildElements());
 		}
@@ -292,7 +292,7 @@ public abstract class MenuElement {
 	 * -> MouseDown on Desktop
 	 */
 	public void onPointerDown() {
-		for (MenuElementListener lst : listeners) {
+		for (MenuBaseElementListener lst : listeners) {
 			lst.onPointerDown(this, this.identifier);
 		}
 	}
@@ -303,7 +303,7 @@ public abstract class MenuElement {
 	 * -> MouseUp on Desktop
 	 */
 	public void onPointerUp() {
-		for (MenuElementListener lst : listeners) {
+		for (MenuBaseElementListener lst : listeners) {
 			lst.onPointerUp(this, this.identifier);
 		}
 	}
@@ -314,7 +314,7 @@ public abstract class MenuElement {
 	 * -> MouseClick on Desktop
 	 */
 	public void onPointerClicked() {
-		for (MenuElementListener lst : listeners) {
+		for (MenuBaseElementListener lst : listeners) {
 			lst.onClicked(this, this.identifier);
 		}
 	}
@@ -323,7 +323,7 @@ public abstract class MenuElement {
 	 * Called when this element gains focus
 	 */
 	public void onFocusGained() {
-		for (MenuElementListener lst : listeners) {
+		for (MenuBaseElementListener lst : listeners) {
 			lst.onFocus(this, this.identifier);
 		}
 	}
@@ -332,7 +332,7 @@ public abstract class MenuElement {
 	 * Called when this element looses focus
 	 */
 	public void onFocusLost() {
-		for (MenuElementListener lst : listeners) {
+		for (MenuBaseElementListener lst : listeners) {
 			lst.onFocusLost(this, this.identifier);
 		}
 	}
@@ -341,7 +341,7 @@ public abstract class MenuElement {
 	 * Called when the pointer hovers over this element
 	 */
 	public void onStartHover() {
-		for (MenuElementListener lst : listeners) {
+		for (MenuBaseElementListener lst : listeners) {
 			lst.onHover(this, this.identifier);
 		}
 	}
@@ -350,7 +350,7 @@ public abstract class MenuElement {
 	 * Called when the pointer no longer hovers over this element
 	 */
 	public void onEndHover() {
-		for (MenuElementListener lst : listeners) {
+		for (MenuBaseElementListener lst : listeners) {
 			lst.onHoverEnd(this, this.identifier);
 		}
 	}
@@ -617,4 +617,13 @@ public abstract class MenuElement {
 	public int getCoordinateOffsetY() {
 		return (owner == null ? 0 : owner.getPositionY() + owner.getCoordinateOffsetY());
 	}
+
+	/**
+	 * Get the element defined by this ID 
+	 * (or NULL if there is no element with this ID)
+	 * 
+	 * @param id the id of the element
+	 * @return the found element or NULL
+	 */
+	public abstract MenuBaseElement getElementByID(String id);
 }

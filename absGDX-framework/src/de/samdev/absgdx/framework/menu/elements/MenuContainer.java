@@ -14,15 +14,15 @@ import de.samdev.absgdx.framework.menu.events.MenuContainerListener;
 /**
  * A container containing multiple other elements (but has no visual style)
  */
-public class MenuContainer extends MenuElement {
-	private List<MenuElement> elements;
+public class MenuContainer extends MenuBaseElement {
+	private List<MenuBaseElement> elements;
 	
 	/**
 	 * Creates a new container
 	 * 
 	 * @param children the children elements
 	 */
-	public MenuContainer(List<MenuElement> children) {
+	public MenuContainer(List<MenuBaseElement> children) {
 		super();
 		
 		this.elements = children;
@@ -34,7 +34,7 @@ public class MenuContainer extends MenuElement {
 	public MenuContainer() {
 		super();
 		
-		this.elements = new ArrayList<MenuElement>();
+		this.elements = new ArrayList<MenuBaseElement>();
 	}
 
 	/**
@@ -46,7 +46,7 @@ public class MenuContainer extends MenuElement {
 	public MenuContainer(String ident, GUITextureProvider texprovider) {
 		super(ident, texprovider);
 		
-		this.elements = new ArrayList<MenuElement>();
+		this.elements = new ArrayList<MenuBaseElement>();
 	}
 
 	/**
@@ -57,7 +57,7 @@ public class MenuContainer extends MenuElement {
 	public MenuContainer(GUITextureProvider texprovider) {
 		super(texprovider);
 		
-		this.elements = new ArrayList<MenuElement>();
+		this.elements = new ArrayList<MenuBaseElement>();
 	}
 	
 	@Override
@@ -67,7 +67,7 @@ public class MenuContainer extends MenuElement {
 		srenderer.translate(getPositionX(), getPositionY(), 0);
 		sbatch.getTransformMatrix().translate(getPositionX(), getPositionY(), 0);
 		
-		for (MenuElement element : elements) {
+		for (MenuBaseElement element : elements) {
 			element.renderElement(sbatch, srenderer, defaultfont, owner);
 		}
 
@@ -82,7 +82,7 @@ public class MenuContainer extends MenuElement {
 
 	@Override
 	public void update(float delta) {
-		for (MenuElement element : elements) {
+		for (MenuBaseElement element : elements) {
 			element.update(delta);
 		}
 	}
@@ -100,13 +100,13 @@ public class MenuContainer extends MenuElement {
 	public void setDepth(int elementdepth) {
 		super.setDepth(elementdepth);
 		
-		for (MenuElement element : elements) {
+		for (MenuBaseElement element : elements) {
 			element.setDepth(elementdepth + 1);
 		}
 	}
 	
 	@Override
-	public void pack(MenuLayer layer, MenuElement owner) {
+	public void pack(MenuLayer layer, MenuBaseElement owner) {
 		super.pack(layer, owner);
 		
 		setDepth(getDepth());
@@ -118,7 +118,7 @@ public class MenuContainer extends MenuElement {
 	 * 
 	 * @param element the new child
 	 */
-	public void addChildren(MenuElement element) {
+	public void addChildren(MenuBaseElement element) {
 		elements.add(element);
 		
 		pack(this.layer, this.owner);
@@ -131,7 +131,7 @@ public class MenuContainer extends MenuElement {
 	 * @param element the child to remove
 	 * @return true if the child was a child and was removed
 	 */
-	public boolean removeChildren(MenuElement element) {
+	public boolean removeChildren(MenuBaseElement element) {
 		boolean success = elements.remove(element);
 
 		pack(this.layer, this.owner);
@@ -140,8 +140,8 @@ public class MenuContainer extends MenuElement {
 	}
 
 	@Override
-	public MenuElement getElementAt(int x, int y) {
-		for (MenuElement element : elements) {
+	public MenuBaseElement getElementAt(int x, int y) {
+		for (MenuBaseElement element : elements) {
 			if (element.getBoundaries().contains(x, y) && element.isVisible())
 				return element.getElementAt(x - element.getPositionX(), y - element.getPositionY());
 		}
@@ -150,12 +150,24 @@ public class MenuContainer extends MenuElement {
 	}
 
 	@Override
-	public List<MenuElement> getDirectInnerElements() {
+	public List<MenuBaseElement> getDirectInnerElements() {
 		return elements;
 	}
 	
 	@Override
-	public List<MenuElement> getDirectChildElements() {
+	public List<MenuBaseElement> getDirectChildElements() {
 		return elements;
+	}
+
+	@Override
+	public MenuBaseElement getElementByID(String id) {
+		if (identifier.equals(id)) return this;
+		
+		for (MenuBaseElement MenuBaseElement : elements) {
+			MenuBaseElement result = MenuBaseElement.getElementByID(id);
+			if (result != null) return result;
+		}
+		
+		return null;
 	}
 }

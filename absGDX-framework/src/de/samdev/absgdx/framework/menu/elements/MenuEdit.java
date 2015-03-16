@@ -17,12 +17,12 @@ import de.samdev.absgdx.framework.menu.attributes.RectangleRadius;
 import de.samdev.absgdx.framework.menu.attributes.TextAutoScaleMode;
 import de.samdev.absgdx.framework.menu.attributes.VertAlign;
 import de.samdev.absgdx.framework.menu.events.MenuEditListener;
-import de.samdev.absgdx.framework.menu.events.MenuElementListener;
+import de.samdev.absgdx.framework.menu.events.MenuBaseElementListener;
 
 /**
  * A edit-able Text Field
  */
-public class MenuEdit extends MenuElement {
+public class MenuEdit extends MenuBaseElement {
 	private final static float BLINK_DELAY = 850f;
 	
 	private final MenuLabel innerLabel;
@@ -208,7 +208,7 @@ public class MenuEdit extends MenuElement {
 	public void setContent(String content) {
 		this.content = content;
 
-		for (MenuElementListener lst : listeners) {
+		for (MenuBaseElementListener lst : listeners) {
 			((MenuEditListener)lst).onTextChanged(this, this.identifier, content);
 		}
 	}
@@ -294,7 +294,7 @@ public class MenuEdit extends MenuElement {
 	}
 
 	@Override
-	public MenuElement getElementAt(int x, int y) {
+	public MenuBaseElement getElementAt(int x, int y) {
 		return this;
 	}
 
@@ -319,9 +319,14 @@ public class MenuEdit extends MenuElement {
 	}
 
 	@Override
-	public List<MenuElement> getDirectInnerElements() {
-		List<MenuElement> result = new ArrayList<MenuElement>();
+	public List<MenuBaseElement> getDirectInnerElements() {
+		List<MenuBaseElement> result = new ArrayList<MenuBaseElement>();
 		result.add(innerLabel);
 		return result;
+	}
+
+	@Override
+	public MenuBaseElement getElementByID(String id) {
+		return identifier.equals(id) ? this : null;
 	}
 }

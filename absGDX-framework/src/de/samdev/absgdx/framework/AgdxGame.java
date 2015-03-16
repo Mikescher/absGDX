@@ -20,7 +20,7 @@ import de.samdev.absgdx.framework.layer.GameLayer;
 import de.samdev.absgdx.framework.layer.MenuLayer;
 import de.samdev.absgdx.framework.map.AutoTile;
 import de.samdev.absgdx.framework.map.Tile;
-import de.samdev.absgdx.framework.menu.elements.MenuElement;
+import de.samdev.absgdx.framework.menu.elements.MenuBaseElement;
 import de.samdev.absgdx.framework.renderer.DebugTextRenderer;
 import de.samdev.absgdx.framework.util.DebugFormatter;
 import de.samdev.absgdx.framework.util.DebugFrequencyMeter;
@@ -171,9 +171,9 @@ public abstract class AgdxGame implements ApplicationListener {
 
 		if (!layers.empty() && layers.peek() instanceof MenuLayer && settings.debugMenuLayerTextInfos.isActive()) {
 			MenuLayer mlayer = (MenuLayer) layers.peek();
-			MenuElement melem = mlayer.getRoot().getElementAt(Gdx.input.getX(), Gdx.input.getY());
+			MenuBaseElement melem = mlayer.getRoot().getElementAt(Gdx.input.getX(), Gdx.input.getY());
 			
-			debugTextRenderer.drawFormatted("MenuElements: Count=%d",  mlayer.getElementCount());
+			debugTextRenderer.drawFormatted("MenuBaseElements: Count=%d",  mlayer.getElementCount());
 			
 			if (settings.debugElementInfo.isActive()) {
 				if (melem != null)

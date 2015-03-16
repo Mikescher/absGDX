@@ -14,7 +14,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 import de.samdev.absgdx.framework.layer.AgdxmlLayer;
 import de.samdev.absgdx.framework.menu.agdxml.AgdxmlLayerBoundaryElement;
-import de.samdev.absgdx.framework.menu.elements.MenuElement;
+import de.samdev.absgdx.framework.menu.elements.MenuBaseElement;
 import de.samdev.absgdx.framework.util.exceptions.AgdxmlParsingException;
 
 public class GUIPreviewPanel extends JPanel {
@@ -65,7 +65,7 @@ public class GUIPreviewPanel extends JPanel {
 			
 			while (! elements.isEmpty()) {
 				AgdxmlLayerBoundaryElement childbound = elements.poll();
-				MenuElement child = childbound.target;
+				MenuBaseElement child = childbound.target;
 				
 				Rectangle bound = new Rectangle(child.getCoordinateOffsetX() + child.getPositionX(), child.getCoordinateOffsetY() + child.getPositionY(), child.getWidth(), child.getHeight());
 				

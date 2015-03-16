@@ -9,7 +9,8 @@ import de.samdev.absgdx.framework.layer.AgdxmlLayer;
 import de.samdev.absgdx.framework.menu.GUITextureProvider;
 import de.samdev.absgdx.framework.menu.attributes.TristateBoolean;
 import de.samdev.absgdx.framework.menu.attributes.VisualButtonState;
-import de.samdev.absgdx.framework.menu.elements.MenuElement;
+import de.samdev.absgdx.framework.menu.elements.MenuBaseElement;
+import de.samdev.absgdx.framework.menu.elements.MenuImage;
 import de.samdev.absgdx.framework.util.exceptions.AgdxmlParsingException;
 
 public class DemoMenu extends AgdxmlLayer {
@@ -61,17 +62,33 @@ public class DemoMenu extends AgdxmlLayer {
 	}
 
 	@SuppressWarnings("unused") // event listener
-	public void settingsTreeClicked(MenuElement element, String identifier) {
+	public void settingsTreeClicked(MenuBaseElement element, String identifier) {
 		System.out.println("settingsTreeClicked");
 	}
 
+	private int rotationNazi = 0;
+	private int rotationChinese = 0;
+	
 	@SuppressWarnings("unused") // event listener
-	public void rotateRight(MenuElement element, String identifier) {
-		System.out.println("rotateRight");
+	public void rotateRight(MenuBaseElement element, String identifier) {
+		MenuImage imageNazi = ((MenuImage)getElementByID("imageNazi"));
+		MenuImage imageChinese = ((MenuImage)getElementByID("imageChinese"));
+		
+		imageNazi.setImage(Textures.tex_player_td[rotationNazi = (rotationNazi + 1)%4], 750);
+		imageChinese.setImage(Textures.tex_china_td[rotationChinese = (rotationChinese + 1)%4], 750);
 	}
 
 	@SuppressWarnings("unused") // event listener
-	public void rotateLeft(MenuElement element, String identifier) {
-		System.out.println("rotateLeft");
+	public void rotateLeft(MenuBaseElement element, String identifier) {
+		MenuImage imageNazi = ((MenuImage)getElementByID("imageNazi"));
+		MenuImage imageChinese = ((MenuImage)getElementByID("imageChinese"));
+		
+		imageNazi.setImage(Textures.tex_player_td[rotationNazi = (rotationNazi + 3)%4], 750);
+		imageChinese.setImage(Textures.tex_china_td[rotationChinese = (rotationChinese + 3)%4], 750);
+	}
+
+	@SuppressWarnings("unused") // event listener
+	public void onPleh(MenuBaseElement element, String identifier) {
+		owner.popLayer();
 	}
 }

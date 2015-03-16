@@ -18,7 +18,7 @@ import de.samdev.absgdx.framework.menu.attributes.VisualButtonState;
 import de.samdev.absgdx.framework.menu.elements.MenuButton;
 import de.samdev.absgdx.framework.menu.elements.MenuCheckBox;
 import de.samdev.absgdx.framework.menu.elements.MenuEdit;
-import de.samdev.absgdx.framework.menu.elements.MenuElement;
+import de.samdev.absgdx.framework.menu.elements.MenuBaseElement;
 import de.samdev.absgdx.framework.menu.elements.MenuImage;
 import de.samdev.absgdx.framework.menu.elements.MenuLabel;
 import de.samdev.absgdx.framework.menu.elements.MenuPanel;
@@ -130,19 +130,19 @@ public class ManualMenu extends MenuLayer {
 		b2.setColor(Color.WHITE);
 		b2.addButtonListener(new MenuButtonListener() {
 			@Override
-			public void onPointerUp(MenuElement element, String identifier) {/**/}
+			public void onPointerUp(MenuBaseElement element, String identifier) {/**/}
 			@Override
-			public void onPointerDown(MenuElement element, String identifier) {/**/}
+			public void onPointerDown(MenuBaseElement element, String identifier) {/**/}
 			@Override
-			public void onHoverEnd(MenuElement element, String identifier) {/**/}
+			public void onHoverEnd(MenuBaseElement element, String identifier) {/**/}
 			@Override
-			public void onHover(MenuElement element, String identifier) {/**/}
+			public void onHover(MenuBaseElement element, String identifier) {/**/}
 			@Override
-			public void onFocusLost(MenuElement element, String identifier) {/**/}
+			public void onFocusLost(MenuBaseElement element, String identifier) {/**/}
 			@Override
-			public void onFocus(MenuElement element, String identifier) {/**/}
+			public void onFocus(MenuBaseElement element, String identifier) {/**/}
 			@Override
-			public void onClicked(MenuElement element, String identifier) {ManualMenu.this.owner.pushLayer(new TopDownGameLayer(ManualMenu.this.owner));}
+			public void onClicked(MenuBaseElement element, String identifier) {ManualMenu.this.owner.pushLayer(new TopDownGameLayer(ManualMenu.this.owner));}
 		});
 		p.addChildren(b2);
 
@@ -152,19 +152,19 @@ public class ManualMenu extends MenuLayer {
 		b3.setColor(Color.WHITE);
 		b3.addButtonListener(new MenuButtonListener() {
 			@Override
-			public void onPointerUp(MenuElement element, String identifier) {/**/}
+			public void onPointerUp(MenuBaseElement element, String identifier) {/**/}
 			@Override
-			public void onPointerDown(MenuElement element, String identifier) {/**/}
+			public void onPointerDown(MenuBaseElement element, String identifier) {/**/}
 			@Override
-			public void onHoverEnd(MenuElement element, String identifier) {/**/}
+			public void onHoverEnd(MenuBaseElement element, String identifier) {/**/}
 			@Override
-			public void onHover(MenuElement element, String identifier) {/**/}
+			public void onHover(MenuBaseElement element, String identifier) {/**/}
 			@Override
-			public void onFocusLost(MenuElement element, String identifier) {/**/}
+			public void onFocusLost(MenuBaseElement element, String identifier) {/**/}
 			@Override
-			public void onFocus(MenuElement element, String identifier) {/**/}
+			public void onFocus(MenuBaseElement element, String identifier) {/**/}
 			@Override
-			public void onClicked(MenuElement element, String identifier) {ManualMenu.this.owner.pushLayer(new SidescrollerGameLayer(ManualMenu.this.owner));}
+			public void onClicked(MenuBaseElement element, String identifier) {ManualMenu.this.owner.pushLayer(new SidescrollerGameLayer(ManualMenu.this.owner));}
 		});
 		p.addChildren(b3);
 		
@@ -213,19 +213,19 @@ public class ManualMenu extends MenuLayer {
 		bnext.setColor(Color.WHITE);
 		bnext.addButtonListener(new MenuButtonListener() {
 			@Override
-			public void onPointerUp(MenuElement element, String identifier) {/**/}
+			public void onPointerUp(MenuBaseElement element, String identifier) {/**/}
 			@Override
-			public void onPointerDown(MenuElement element, String identifier) {/**/}
+			public void onPointerDown(MenuBaseElement element, String identifier) {/**/}
 			@Override
-			public void onHoverEnd(MenuElement element, String identifier) {/**/}
+			public void onHoverEnd(MenuBaseElement element, String identifier) {/**/}
 			@Override
-			public void onHover(MenuElement element, String identifier) {/**/}
+			public void onHover(MenuBaseElement element, String identifier) {/**/}
 			@Override
-			public void onFocusLost(MenuElement element, String identifier) {/**/}
+			public void onFocusLost(MenuBaseElement element, String identifier) {/**/}
 			@Override
-			public void onFocus(MenuElement element, String identifier) {/**/}
+			public void onFocus(MenuBaseElement element, String identifier) {/**/}
 			@Override
-			public void onClicked(MenuElement element, String identifier) { try { ManualMenu.this.owner.pushLayer(new DemoMenu(ManualMenu.this.owner)); } catch (AgdxmlParsingException e) { e.printStackTrace(); }}});
+			public void onClicked(MenuBaseElement element, String identifier) { try { ManualMenu.this.owner.pushLayer(new DemoMenu(ManualMenu.this.owner)); } catch (AgdxmlParsingException e) { e.printStackTrace(); }}});
 		p2.addChildren(bnext);
 		
 		final MenuProgressbar pb = new MenuProgressbar(prov);
@@ -247,19 +247,19 @@ public class ManualMenu extends MenuLayer {
 		
 		b.addButtonListener(new MenuButtonListener() {
 			@Override
-			public void onPointerUp(MenuElement element, String identifier) {/**/}
+			public void onPointerUp(MenuBaseElement element, String identifier) {/**/}
 			@Override
-			public void onPointerDown(MenuElement element, String identifier) {/**/}
+			public void onPointerDown(MenuBaseElement element, String identifier) {/**/}
 			@Override
-			public void onHoverEnd(MenuElement element, String identifier) {/**/}
+			public void onHoverEnd(MenuBaseElement element, String identifier) {/**/}
 			@Override
-			public void onHover(MenuElement element, String identifier) {/**/}
+			public void onHover(MenuBaseElement element, String identifier) {/**/}
 			@Override
-			public void onFocusLost(MenuElement element, String identifier) {/**/}
+			public void onFocusLost(MenuBaseElement element, String identifier) {/**/}
 			@Override
-			public void onFocus(MenuElement element, String identifier) {/**/}
+			public void onFocus(MenuBaseElement element, String identifier) {/**/}
 			@Override
-			public void onClicked(MenuElement element, String identifier) {l2.setVisible(true); p3.setVisible(! p3.isVisible()); b.setContent("Press again");}
+			public void onClicked(MenuBaseElement element, String identifier) {l2.setVisible(true); p3.setVisible(! p3.isVisible()); b.setContent("Press again");}
 		});
 	}
 

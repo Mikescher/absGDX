@@ -9,13 +9,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import de.samdev.absgdx.framework.AgdxGame;
-import de.samdev.absgdx.framework.menu.elements.MenuElement;
+import de.samdev.absgdx.framework.menu.elements.MenuBaseElement;
 import de.samdev.absgdx.framework.menu.elements.MenuFrame;
 
 /**
  * A Menu Layer
  * 
- * Consists of multiple MenuElements
+ * Consists of multiple MenuBaseElements
  * 
  */
 public abstract class MenuLayer extends AgdxLayer {
@@ -23,9 +23,9 @@ public abstract class MenuLayer extends AgdxLayer {
 	private final MenuFrame root;
 	private final BitmapFont font;
 	
-	private MenuElement element_hovered = null;
-	private MenuElement element_pressed = null;
-	private MenuElement element_focused = null;
+	private MenuBaseElement element_hovered = null;
+	private MenuBaseElement element_pressed = null;
+	private MenuBaseElement element_focused = null;
 	private boolean last_cycle_mouse_state = false;
 	
 	/**
@@ -39,7 +39,7 @@ public abstract class MenuLayer extends AgdxLayer {
 	public MenuLayer(AgdxGame owner, BitmapFont bmpfont) {
 		super(owner);
 		
-		this.root = new MenuFrame(new ArrayList<MenuElement>());
+		this.root = new MenuFrame(new ArrayList<MenuBaseElement>());
 		this.root.setPosition(0, 0);
 		this.root.setSize(owner.getScreenWidth(), owner.getScreenHeight());
 		this.root.pack(this, null);
@@ -90,7 +90,7 @@ public abstract class MenuLayer extends AgdxLayer {
 	}
 
 	private void updateInput() {
-		MenuElement mouseElement = getRoot().getElementAt(Gdx.input.getX(), Gdx.input.getY());
+		MenuBaseElement mouseElement = getRoot().getElementAt(Gdx.input.getX(), Gdx.input.getY());
 		boolean mdown = Gdx.input.isButtonPressed(Buttons.LEFT);
 		boolean mdownflank = !last_cycle_mouse_state && mdown;
 		boolean mupflank = last_cycle_mouse_state && !mdown;
@@ -156,7 +156,7 @@ public abstract class MenuLayer extends AgdxLayer {
 	
 	@Override
 	public boolean scrolled(int amount) {
-		MenuElement mouseElement = getRoot().getElementAt(Gdx.input.getX(), Gdx.input.getY());
+		MenuBaseElement mouseElement = getRoot().getElementAt(Gdx.input.getX(), Gdx.input.getY());
 		
 		if (mouseElement != null) {
 			mouseElement.onScroll(amount);
@@ -189,7 +189,7 @@ public abstract class MenuLayer extends AgdxLayer {
 	 * @param el the to test element
 	 * @return if the element is focused
 	 */
-	public boolean isFocused(MenuElement el) {
+	public boolean isFocused(MenuBaseElement el) {
 		return element_focused == el;
 	}
 
@@ -197,7 +197,7 @@ public abstract class MenuLayer extends AgdxLayer {
 	 * @param el the to test element
 	 * @return if the element is pressed
 	 */
-	public boolean isPressed(MenuElement el) {
+	public boolean isPressed(MenuBaseElement el) {
 		return element_pressed == el;
 	}
 
@@ -205,7 +205,7 @@ public abstract class MenuLayer extends AgdxLayer {
 	 * @param el the to test element
 	 * @return if the element is hovered
 	 */
-	public boolean isHovered(MenuElement el) {
+	public boolean isHovered(MenuBaseElement el) {
 		return element_hovered == el;
 	}
 
@@ -214,5 +214,16 @@ public abstract class MenuLayer extends AgdxLayer {
 	 */
 	public int getElementCount() {
 		return 1 + root.getAllChildElements().size();
+	}
+	
+	/**
+	 * Get the element defined by this ID 
+	 * (or NULL if there is no element with this ID)
+	 * 
+	 * @param id the id of the element
+	 * @return the found element or NULL
+	 */
+	public MenuBaseElement getElementByID(String id) {
+		return root.getElementByID(id);
 	}
 }

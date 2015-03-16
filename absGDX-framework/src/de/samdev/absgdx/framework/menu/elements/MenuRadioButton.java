@@ -49,7 +49,7 @@ public class MenuRadioButton extends MenuCheckBox {
 			super.setChecked(true);
 			
 			if (owner != null)
-				for (MenuElement element : owner.getDirectInnerElements()) {
+				for (MenuBaseElement element : owner.getDirectInnerElements()) {
 					if (element != this && element instanceof MenuRadioButton) {
 						((MenuRadioButton)element).setUnchecked();
 					}
@@ -64,5 +64,10 @@ public class MenuRadioButton extends MenuCheckBox {
 	 */
 	public void addRadiobuttonListener(MenuRadioButtonListener l) {
 		super.addElementListener(l);
+	}
+
+	@Override
+	public MenuBaseElement getElementByID(String id) {
+		return identifier.equals(id) ? this : null;
 	}
 }

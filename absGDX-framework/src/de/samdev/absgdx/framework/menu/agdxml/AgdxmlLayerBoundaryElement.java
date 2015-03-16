@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.XmlReader.Element;
 
-import de.samdev.absgdx.framework.menu.elements.MenuElement;
+import de.samdev.absgdx.framework.menu.elements.MenuBaseElement;
 import de.samdev.absgdx.framework.util.AgdxmlParserHelper;
 import de.samdev.absgdx.framework.util.exceptions.AgdxmlParsingException;
 
@@ -16,7 +16,7 @@ import de.samdev.absgdx.framework.util.exceptions.AgdxmlParsingException;
  */
 public class AgdxmlLayerBoundaryElement {
 	/** the target element */
-	public final MenuElement target;
+	public final MenuBaseElement target;
 
 	/** the position */
 	public final AgdxmlVectorValue position;
@@ -43,7 +43,7 @@ public class AgdxmlLayerBoundaryElement {
 	 * @param element the target element
 	 * @throws AgdxmlParsingException if some definitions are 
 	 */
-	public AgdxmlLayerBoundaryElement(MenuElement element) throws AgdxmlParsingException {
+	public AgdxmlLayerBoundaryElement(MenuBaseElement element) throws AgdxmlParsingException {
 		super();
 		
 		this.target = element;
@@ -65,7 +65,7 @@ public class AgdxmlLayerBoundaryElement {
 	 * @param xmlElement the XMLElement with the properties for this BoundaryElement
 	 * @throws AgdxmlParsingException if some definitions have errors
 	 */
-	public AgdxmlLayerBoundaryElement(MenuElement element, Element xmlElement) throws AgdxmlParsingException {
+	public AgdxmlLayerBoundaryElement(MenuBaseElement element, Element xmlElement) throws AgdxmlParsingException {
 		super();
 		
 		this.target = element;

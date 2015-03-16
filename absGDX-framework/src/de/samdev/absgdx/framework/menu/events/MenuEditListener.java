@@ -1,11 +1,11 @@
 package de.samdev.absgdx.framework.menu.events;
 
-import de.samdev.absgdx.framework.menu.elements.MenuElement;
+import de.samdev.absgdx.framework.menu.elements.MenuBaseElement;
 
 /**
  * An event listener for MenuEdit
  */
-public interface MenuEditListener extends MenuElementListener {
+public interface MenuEditListener extends MenuBaseElementListener {
 	/**
 	 * Called when the text changes
 	 * 
@@ -13,5 +13,5 @@ public interface MenuEditListener extends MenuElementListener {
 	 * @param identifier the unique element identifier
 	 * @param newtext the new text
 	 */
-	public void onTextChanged(MenuElement element, String identifier, String newtext);
+	public void onTextChanged(MenuBaseElement element, String identifier, String newtext);
 }

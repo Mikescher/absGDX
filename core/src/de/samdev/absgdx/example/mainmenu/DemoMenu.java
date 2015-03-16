@@ -9,6 +9,7 @@ import de.samdev.absgdx.framework.layer.AgdxmlLayer;
 import de.samdev.absgdx.framework.menu.GUITextureProvider;
 import de.samdev.absgdx.framework.menu.attributes.TristateBoolean;
 import de.samdev.absgdx.framework.menu.attributes.VisualButtonState;
+import de.samdev.absgdx.framework.menu.elements.MenuElement;
 import de.samdev.absgdx.framework.util.exceptions.AgdxmlParsingException;
 
 public class DemoMenu extends AgdxmlLayer {
@@ -59,4 +60,18 @@ public class DemoMenu extends AgdxmlLayer {
 		
 	}
 
+	@SuppressWarnings("unused") // event listener
+	public void settingsTreeClicked(MenuElement element, String identifier) {
+		System.out.println("settingsTreeClicked");
+	}
+
+	@SuppressWarnings("unused") // event listener
+	public void rotateRight(MenuElement element, String identifier) {
+		System.out.println("rotateRight");
+	}
+
+	@SuppressWarnings("unused") // event listener
+	public void rotateLeft(MenuElement element, String identifier) {
+		System.out.println("rotateLeft");
+	}
 }

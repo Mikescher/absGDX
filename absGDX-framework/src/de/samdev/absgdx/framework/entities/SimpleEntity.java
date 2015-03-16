@@ -13,6 +13,8 @@ import de.samdev.absgdx.framework.layer.GameLayer;
  */
 public class SimpleEntity extends Entity {
 
+	protected GameLayer layer;
+	
 	/**
 	 * Creates a new Entity ( on position (0|0) )
 	 * 
@@ -84,7 +86,7 @@ public class SimpleEntity extends Entity {
 
 	@Override
 	public void onLayerAdd(GameLayer layer) {
-		// NOP
+		this.layer = layer;
 	}
 
 }

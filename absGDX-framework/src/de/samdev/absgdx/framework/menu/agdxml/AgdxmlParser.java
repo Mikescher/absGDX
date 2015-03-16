@@ -212,35 +212,35 @@ public class AgdxmlParser {
 		elem.addSettingsTreeListener(new MenuSettingsTreeListener() {
 			@Override
 			public void onPointerUp(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onPointerUp")) try { events.get("onPointerUp").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onPointerUp")) try { events.get("onPointerUp").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onPointerDown(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onPointerDown")) try { events.get("onPointerDown").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onPointerDown")) try { events.get("onPointerDown").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onHoverEnd(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onHoverEnd")) try { events.get("onHoverEnd").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onHoverEnd")) try { events.get("onHoverEnd").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onHover(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onHover")) try { events.get("onHover").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onHover")) try { events.get("onHover").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onFocusLost(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onFocusLost")) try { events.get("onFocusLost").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onFocusLost")) try { events.get("onFocusLost").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onFocus(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onFocus")) try { events.get("onFocus").invoke(layer, element, identifier); } catch (ReflectionException e) {/* ignore */}
+				if (events.containsKey("onFocus")) try { events.get("onFocus").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onClicked(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onClicked")) try { events.get("onClicked").invoke(layer, element, identifier); } catch (ReflectionException e) {/* ignore */}
+				if (events.containsKey("onClicked")) try { events.get("onClicked").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onPropertyChanged(MenuBaseElement element, String identifier, DependentProperty property) {
-				if (events.containsKey("onPropertyChanged")) try { events.get("onPropertyChanged").invoke(layer, element, identifier, property); } catch (ReflectionException e) {/* ignore */}
+				if (events.containsKey("onPropertyChanged")) try { events.get("onPropertyChanged").invoke(layer, element, identifier, property); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 		});
 		
@@ -280,35 +280,35 @@ public class AgdxmlParser {
 		elem.addLabelListener(new MenuLabelListener() {
 			@Override
 			public void onPointerUp(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onPointerUp")) try { events.get("onPointerUp").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onPointerUp")) try { events.get("onPointerUp").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onPointerDown(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onPointerDown")) try { events.get("onPointerDown").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onPointerDown")) try { events.get("onPointerDown").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onHoverEnd(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onHoverEnd")) try { events.get("onHoverEnd").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onHoverEnd")) try { events.get("onHoverEnd").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onHover(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onHover")) try { events.get("onHover").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onHover")) try { events.get("onHover").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onFocusLost(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onFocusLost")) try { events.get("onFocusLost").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onFocusLost")) try { events.get("onFocusLost").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onFocus(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onFocus")) try { events.get("onFocus").invoke(layer, element, identifier); } catch (ReflectionException e) {/* ignore */}
+				if (events.containsKey("onFocus")) try { events.get("onFocus").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onClicked(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onClicked")) try { events.get("onClicked").invoke(layer, element, identifier); } catch (ReflectionException e) {/* ignore */}
+				if (events.containsKey("onClicked")) try { events.get("onClicked").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onContentChanged(MenuBaseElement element, String identifier, String newtext) {
-				if (events.containsKey("onContentChanged")) try { events.get("onContentChanged").invoke(layer, element, identifier, newtext); } catch (ReflectionException e) {/* ignore */}
+				if (events.containsKey("onContentChanged")) try { events.get("onContentChanged").invoke(layer, element, identifier, newtext); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 		});
 		
@@ -352,35 +352,35 @@ public class AgdxmlParser {
 		elem.addRadiobuttonListener(new MenuRadioButtonListener() {
 			@Override
 			public void onPointerUp(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onPointerUp")) try { events.get("onPointerUp").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onPointerUp")) try { events.get("onPointerUp").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onPointerDown(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onPointerDown")) try { events.get("onPointerDown").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onPointerDown")) try { events.get("onPointerDown").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onHoverEnd(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onHoverEnd")) try { events.get("onHoverEnd").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onHoverEnd")) try { events.get("onHoverEnd").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onHover(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onHover")) try { events.get("onHover").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onHover")) try { events.get("onHover").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onFocusLost(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onFocusLost")) try { events.get("onFocusLost").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onFocusLost")) try { events.get("onFocusLost").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onFocus(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onFocus")) try { events.get("onFocus").invoke(layer, element, identifier); } catch (ReflectionException e) {/* ignore */}
+				if (events.containsKey("onFocus")) try { events.get("onFocus").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onClicked(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onClicked")) try { events.get("onClicked").invoke(layer, element, identifier); } catch (ReflectionException e) {/* ignore */}
+				if (events.containsKey("onClicked")) try { events.get("onClicked").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onChecked(MenuBaseElement element, String identifier, boolean checked) {
-				if (events.containsKey("onChecked")) try { events.get("onChecked").invoke(layer, element, identifier, checked); } catch (ReflectionException e) {/* ignore */}
+				if (events.containsKey("onChecked")) try { events.get("onChecked").invoke(layer, element, identifier, checked); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 		});
 		
@@ -424,35 +424,35 @@ public class AgdxmlParser {
 		elem.addCheckboxListener(new MenuCheckboxListener() {
 			@Override
 			public void onPointerUp(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onPointerUp")) try { events.get("onPointerUp").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onPointerUp")) try { events.get("onPointerUp").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onPointerDown(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onPointerDown")) try { events.get("onPointerDown").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onPointerDown")) try { events.get("onPointerDown").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onHoverEnd(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onHoverEnd")) try { events.get("onHoverEnd").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onHoverEnd")) try { events.get("onHoverEnd").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onHover(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onHover")) try { events.get("onHover").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onHover")) try { events.get("onHover").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onFocusLost(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onFocusLost")) try { events.get("onFocusLost").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onFocusLost")) try { events.get("onFocusLost").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onFocus(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onFocus")) try { events.get("onFocus").invoke(layer, element, identifier); } catch (ReflectionException e) {/* ignore */}
+				if (events.containsKey("onFocus")) try { events.get("onFocus").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onClicked(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onClicked")) try { events.get("onClicked").invoke(layer, element, identifier); } catch (ReflectionException e) {/* ignore */}
+				if (events.containsKey("onClicked")) try { events.get("onClicked").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onChecked(MenuBaseElement element, String identifier, boolean checked) {
-				if (events.containsKey("onChecked")) try { events.get("onChecked").invoke(layer, element, identifier, checked); } catch (ReflectionException e) {/* ignore */}
+				if (events.containsKey("onChecked")) try { events.get("onChecked").invoke(layer, element, identifier, checked); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 		});
 		
@@ -491,31 +491,31 @@ public class AgdxmlParser {
 		elem.addButtonListener(new MenuButtonListener() {
 			@Override
 			public void onPointerUp(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onPointerUp")) try { events.get("onPointerUp").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onPointerUp")) try { events.get("onPointerUp").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onPointerDown(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onPointerDown")) try { events.get("onPointerDown").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onPointerDown")) try { events.get("onPointerDown").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onHoverEnd(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onHoverEnd")) try { events.get("onHoverEnd").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onHoverEnd")) try { events.get("onHoverEnd").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onHover(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onHover")) try { events.get("onHover").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onHover")) try { events.get("onHover").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onFocusLost(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onFocusLost")) try { events.get("onFocusLost").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onFocusLost")) try { events.get("onFocusLost").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onFocus(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onFocus")) try { events.get("onFocus").invoke(layer, element, identifier); } catch (ReflectionException e) {/* ignore */}
+				if (events.containsKey("onFocus")) try { events.get("onFocus").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onClicked(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onClicked")) try { events.get("onClicked").invoke(layer, element, identifier); } catch (ReflectionException e) {/* ignore */}
+				if (events.containsKey("onClicked")) try { events.get("onClicked").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 		});
 		
@@ -555,31 +555,31 @@ public class AgdxmlParser {
 		elem.addImageListener(new MenuImageListener() {
 			@Override
 			public void onPointerUp(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onPointerUp")) try { events.get("onPointerUp").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onPointerUp")) try { events.get("onPointerUp").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onPointerDown(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onPointerDown")) try { events.get("onPointerDown").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onPointerDown")) try { events.get("onPointerDown").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onHoverEnd(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onHoverEnd")) try { events.get("onHoverEnd").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onHoverEnd")) try { events.get("onHoverEnd").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onHover(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onHover")) try { events.get("onHover").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onHover")) try { events.get("onHover").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onFocusLost(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onFocusLost")) try { events.get("onFocusLost").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onFocusLost")) try { events.get("onFocusLost").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onFocus(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onFocus")) try { events.get("onFocus").invoke(layer, element, identifier); } catch (ReflectionException e) {/* ignore */}
+				if (events.containsKey("onFocus")) try { events.get("onFocus").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onClicked(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onClicked")) try { events.get("onClicked").invoke(layer, element, identifier); } catch (ReflectionException e) {/* ignore */}
+				if (events.containsKey("onClicked")) try { events.get("onClicked").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 		});
 		
@@ -617,31 +617,31 @@ public class AgdxmlParser {
 		elem.addContainerListener(new MenuContainerListener() {
 			@Override
 			public void onPointerUp(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onPointerUp")) try { events.get("onPointerUp").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onPointerUp")) try { events.get("onPointerUp").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onPointerDown(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onPointerDown")) try { events.get("onPointerDown").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onPointerDown")) try { events.get("onPointerDown").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onHoverEnd(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onHoverEnd")) try { events.get("onHoverEnd").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onHoverEnd")) try { events.get("onHoverEnd").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onHover(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onHover")) try { events.get("onHover").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onHover")) try { events.get("onHover").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onFocusLost(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onFocusLost")) try { events.get("onFocusLost").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onFocusLost")) try { events.get("onFocusLost").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onFocus(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onFocus")) try { events.get("onFocus").invoke(layer, element, identifier); } catch (ReflectionException e) {/* ignore */}
+				if (events.containsKey("onFocus")) try { events.get("onFocus").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onClicked(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onClicked")) try { events.get("onClicked").invoke(layer, element, identifier); } catch (ReflectionException e) {/* ignore */}
+				if (events.containsKey("onClicked")) try { events.get("onClicked").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 		});
 		
@@ -687,31 +687,31 @@ public class AgdxmlParser {
 		elem.addContainerListener(new MenuContainerListener() {
 			@Override
 			public void onPointerUp(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onPointerUp")) try { events.get("onPointerUp").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onPointerUp")) try { events.get("onPointerUp").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onPointerDown(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onPointerDown")) try { events.get("onPointerDown").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onPointerDown")) try { events.get("onPointerDown").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onHoverEnd(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onHoverEnd")) try { events.get("onHoverEnd").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onHoverEnd")) try { events.get("onHoverEnd").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onHover(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onHover")) try { events.get("onHover").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onHover")) try { events.get("onHover").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onFocusLost(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onFocusLost")) try { events.get("onFocusLost").invoke(layer, element, identifier); } catch (ReflectionException e) {/*ignore*/}
+				if (events.containsKey("onFocusLost")) try { events.get("onFocusLost").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onFocus(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onFocus")) try { events.get("onFocus").invoke(layer, element, identifier); } catch (ReflectionException e) {/* ignore */}
+				if (events.containsKey("onFocus")) try { events.get("onFocus").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 			@Override
 			public void onClicked(MenuBaseElement element, String identifier) {
-				if (events.containsKey("onClicked")) try { events.get("onClicked").invoke(layer, element, identifier); } catch (ReflectionException e) {/* ignore */}
+				if (events.containsKey("onClicked")) try { events.get("onClicked").invoke(layer, element, identifier); } catch (ReflectionException e) {throw new RuntimeException(e);}
 			}
 		});
 		

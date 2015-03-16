@@ -188,11 +188,11 @@ public final class Textures {
 		
 		tex_chess_tiles = new TextureRegion[]
 		{
-			TextureHelper.loadSingleTile(texchess, 7, 0, 55, 55), 
-			TextureHelper.loadSingleTile(texchess, 8, 0, 55, 55), 
-			TextureHelper.loadSingleTile(texchess, 9, 0, 55, 55),
+			TextureHelper.loadSingleTile(texchess, 6, 0, 128, 128), 
+			TextureHelper.loadSingleTile(texchess, 7, 0, 128, 128), 
+			TextureHelper.loadSingleTile(texchess, 6, 1, 128, 128),
 		};
-		tex_chess_figures = TextureHelper.load2DArray(texchess, 55, 110);
+		tex_chess_figures = TextureHelper.load2DArray(texchess, 128, 256);
 	}
 
 	private static void loadSingleButtonGuiTex(int id, int ox, int oy) {

@@ -99,7 +99,7 @@ public class CollisionMap {
 
 		for (int x = 0; x < map.width; x++) {
 			for (int y = 0; y < map.height; y++) {
-				this.tileCollisionBoxes[x][y] = new CollisionBox(map.getTile(x, y), x + 0.5f, y + 0.5f, 1, 1);
+				this.tileCollisionBoxes[x][y] = new CollisionBox(map.getTile(x, y), x + 0.5f, y + 0.5f, 1, 1);  //TODO WHat happens when the TileMap changes (setTile() in runtime) --> the owner value of this CollisionBox must also change (or does it somehow ??)
 			}
 		}
 	}

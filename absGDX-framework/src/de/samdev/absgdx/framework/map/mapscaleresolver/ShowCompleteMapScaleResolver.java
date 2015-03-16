@@ -1,6 +1,5 @@
 package de.samdev.absgdx.framework.map.mapscaleresolver;
 
-
 /**
  * This MapScaleResolver always shows the complete map.
  * 

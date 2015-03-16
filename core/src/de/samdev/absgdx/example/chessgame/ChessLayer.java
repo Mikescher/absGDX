@@ -1,12 +1,25 @@
 package de.samdev.absgdx.example.chessgame;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
+import com.badlogic.gdx.math.Vector2;
+
 import de.samdev.absgdx.example.Textures;
+import de.samdev.absgdx.example.chessgame.piece.ChessBishop;
+import de.samdev.absgdx.example.chessgame.piece.ChessKing;
+import de.samdev.absgdx.example.chessgame.piece.ChessKnight;
+import de.samdev.absgdx.example.chessgame.piece.ChessPawn;
+import de.samdev.absgdx.example.chessgame.piece.ChessPiece;
+import de.samdev.absgdx.example.chessgame.piece.ChessQueen;
+import de.samdev.absgdx.example.chessgame.piece.ChessRook;
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.layer.GameLayer;
 import de.samdev.absgdx.framework.map.TileMap;
 import de.samdev.absgdx.framework.map.background.RepeatingBackground;
+import de.samdev.absgdx.framework.map.mapscaleresolver.ShowCompleteMapScaleResolver;
 
 public class ChessLayer extends GameLayer {
 
@@ -17,10 +30,26 @@ public class ChessLayer extends GameLayer {
 	
 	public ChessPiece[][] board = new ChessPiece[8][8];
 	
+	public List<List<ChessPiece>> pieces = new ArrayList<List<ChessPiece>>();
+	
 	public ChessLayer(AgdxGame owner) {
 		super(owner, createMap());
+
+		pieces.add(new ArrayList<ChessPiece>());
+		pieces.add(new ArrayList<ChessPiece>());
 		
 		init();
+		
+		setMapScaleResolver(new ShowCompleteMapScaleResolver());
+
+		setRawOffset(new Vector2(-(getVisibleMapBox().width - getMap().width)/2, -(getVisibleMapBox().height - getMap().height)/2));
+	}
+	
+	@Override
+	public void onResize() {
+		super.onResize();
+		
+		setRawOffset(new Vector2(-(getVisibleMapBox().width - getMap().width)/2, -(getVisibleMapBox().height - getMap().height)/2));
 	}
 
 	private static TileMap createMap() {
@@ -37,41 +66,41 @@ public class ChessLayer extends GameLayer {
 	}
 
 	private void init() {
-		addPiece(new ChessPiece(0, 0, 1, 1));
-		addPiece(new ChessPiece(0, 1, 2, 1));
-		addPiece(new ChessPiece(0, 4, 3, 1));
-		addPiece(new ChessPiece(0, 3, 4, 1));
-		addPiece(new ChessPiece(0, 2, 5, 1));
-		addPiece(new ChessPiece(0, 4, 6, 1));
-		addPiece(new ChessPiece(0, 1, 7, 1));
-		addPiece(new ChessPiece(0, 0, 8, 1));
+		addPiece(new ChessRook  (0, 0, 0));
+		addPiece(new ChessKnight(0, 1, 0));
+		addPiece(new ChessBishop(0, 2, 0));
+		addPiece(new ChessQueen (0, 3, 0));
+		addPiece(new ChessKing  (0, 4, 0));
+		addPiece(new ChessBishop(0, 5, 0));
+		addPiece(new ChessKnight(0, 6, 0));
+		addPiece(new ChessRook  (0, 7, 0));
 
-		addPiece(new ChessPiece(0, 5, 1, 2));
-		addPiece(new ChessPiece(0, 5, 2, 2));
-		addPiece(new ChessPiece(0, 5, 3, 2));
-		addPiece(new ChessPiece(0, 5, 4, 2));
-		addPiece(new ChessPiece(0, 5, 5, 2));
-		addPiece(new ChessPiece(0, 5, 6, 2));
-		addPiece(new ChessPiece(0, 5, 7, 2));
-		addPiece(new ChessPiece(0, 5, 8, 2));
+		addPiece(new ChessPawn(0, 0, 1));
+		addPiece(new ChessPawn(0, 1, 1));
+		addPiece(new ChessPawn(0, 2, 1));
+		addPiece(new ChessPawn(0, 3, 1));
+		addPiece(new ChessPawn(0, 4, 1));
+		addPiece(new ChessPawn(0, 5, 1));
+		addPiece(new ChessPawn(0, 6, 1));
+		addPiece(new ChessPawn(0, 7, 1));
 
-		addPiece(new ChessPiece(1, 0, 1, 8));
-		addPiece(new ChessPiece(1, 1, 2, 8));
-		addPiece(new ChessPiece(1, 4, 3, 8));
-		addPiece(new ChessPiece(1, 3, 4, 8));
-		addPiece(new ChessPiece(1, 2, 5, 8));
-		addPiece(new ChessPiece(1, 4, 6, 8));
-		addPiece(new ChessPiece(1, 1, 7, 8));
-		addPiece(new ChessPiece(1, 0, 8, 8));
+		addPiece(new ChessRook  (1, 0, 7));
+		addPiece(new ChessKnight(1, 1, 7));
+		addPiece(new ChessBishop(1, 2, 7));
+		addPiece(new ChessQueen (1, 3, 7));
+		addPiece(new ChessKing  (1, 4, 7));
+		addPiece(new ChessBishop(1, 5, 7));
+		addPiece(new ChessKnight(1, 6, 7));
+		addPiece(new ChessRook  (1, 7, 7));
 
-		addPiece(new ChessPiece(1, 5, 1, 7));
-		addPiece(new ChessPiece(1, 5, 2, 7));
-		addPiece(new ChessPiece(1, 5, 3, 7));
-		addPiece(new ChessPiece(1, 5, 4, 7));
-		addPiece(new ChessPiece(1, 5, 5, 7));
-		addPiece(new ChessPiece(1, 5, 6, 7));
-		addPiece(new ChessPiece(1, 5, 7, 7));
-		addPiece(new ChessPiece(1, 5, 8, 7));
+		addPiece(new ChessPawn(1, 0, 6));
+		addPiece(new ChessPawn(1, 1, 6));
+		addPiece(new ChessPawn(1, 2, 6));
+		addPiece(new ChessPawn(1, 3, 6));
+		addPiece(new ChessPawn(1, 4, 6));
+		addPiece(new ChessPawn(1, 5, 6));
+		addPiece(new ChessPawn(1, 6, 6));
+		addPiece(new ChessPawn(1, 7, 6));
 		
 		addBackground(new RepeatingBackground(Textures.tex_chess_tiles[2], 1));
 	}
@@ -79,7 +108,9 @@ public class ChessLayer extends GameLayer {
 	private void addPiece(ChessPiece chessPiece) {
 		addEntity(chessPiece);
 		
-		board[(int) chessPiece.getPositionX() - 1][(int) chessPiece.getPositionY() - 1] = chessPiece;
+		pieces.get(chessPiece.player).add(chessPiece);
+		
+		board[chessPiece.getBoardPos().x][chessPiece.getBoardPos().y] = chessPiece;
 	}
 
 	@Override
@@ -91,35 +122,22 @@ public class ChessLayer extends GameLayer {
 			targettime = random.nextInt(500)+1000;
 			targetplayer = (1-(targetplayer*2-1))/2;
 
-			int dx = random.nextInt(8);
-			int dy = random.nextInt(8);
-			
-			for (int rx = 0; rx < 8; rx++) {
-				for (int ry = 0; ry < 8; ry++) {
-					int x = (rx + dx) % 8;
-					int y = (ry + dy) % 8;
+			doPlayerMove(targetplayer);
+		}
+	}
 
-					if (board[x][y] == null) continue;
-					if (board[x][y].player != targetplayer) continue;
-					
-					int dm = 1 - board[x][y].player*2;
-					
-					if (y+dm < 8 && y+dm >= 0 && board[x][y+dm] == null) {
-						board[x][y].movePiece(+dm);
-						
-						board[x][y+dm] = board[x][y];
-						board[x][y] = null;
-						
-						return;
-					} else if (y-dm < 8 && y-dm >= 0 && board[x][y-dm] == null){
-						board[x][y].movePiece(-dm);
-						
-						board[x][y-dm] = board[x][y];
-						board[x][y] = null;
-						
-						return;
-					}
-				}
+	private void doPlayerMove(int player) {
+		Collections.shuffle(pieces.get(player));
+		
+		for (ChessPiece cp : pieces.get(player)) {
+			List<Vector2i> moves = cp.getMoves();
+			
+			Collections.shuffle(moves);
+			
+			for (Vector2i move : moves) {
+				cp.movePiece(move.x, move.y);
+				
+				return;
 			}
 		}
 	}

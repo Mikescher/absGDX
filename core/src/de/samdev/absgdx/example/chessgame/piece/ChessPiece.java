@@ -1,7 +1,10 @@
 package de.samdev.absgdx.example.chessgame.piece;
 
+import java.util.Collections;
 import java.util.List;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import de.samdev.absgdx.example.chessgame.ChessLayer;
@@ -100,4 +103,24 @@ public abstract class ChessPiece extends SimpleEntity {
 	}
 	
 	public abstract List<Vector2i> getMoves();
+	
+	@Override
+	public void onPointerUp() {
+		for (Vector2i m : getMoves()) {
+			System.out.println(getClass().getSimpleName() + ": {" + m.x + "|" + m.y + "}");
+		}
+		if (getMoves().size() == 0)
+			System.out.println(getClass().getSimpleName() + ": ---");
+		
+		if (Gdx.input.isKeyPressed(Keys.CONTROL_LEFT)) {
+			List<Vector2i> moves = getMoves();
+			Collections.shuffle(moves);
+
+			if (moves.size() > 0) {
+				movePiece(moves.get(0).x, moves.get(0).y);
+			}
+		}
+		
+		System.out.println();
+	}
 }

@@ -17,14 +17,14 @@ public class ChessKnight extends ChessPiece {
 	public List<Vector2i> getMoves() {
 		List<Vector2i> moves = new ArrayList<Vector2i>();
 		
-		if (isValidMove(new Vector2i(2, 1), ChessMoveType.ANY)) moves.add(new Vector2i(+2, +1));
-		if (isValidMove(new Vector2i(2, 1), ChessMoveType.ANY)) moves.add(new Vector2i(+1, +2));
-		if (isValidMove(new Vector2i(2, 1), ChessMoveType.ANY)) moves.add(new Vector2i(-2, +1));
-		if (isValidMove(new Vector2i(2, 1), ChessMoveType.ANY)) moves.add(new Vector2i(-1, +2));
-		if (isValidMove(new Vector2i(2, 1), ChessMoveType.ANY)) moves.add(new Vector2i(+2, -1));
-		if (isValidMove(new Vector2i(2, 1), ChessMoveType.ANY)) moves.add(new Vector2i(+1, -2));
-		if (isValidMove(new Vector2i(2, 1), ChessMoveType.ANY)) moves.add(new Vector2i(-2, -1));
-		if (isValidMove(new Vector2i(2, 1), ChessMoveType.ANY)) moves.add(new Vector2i(-1, -2));
+		if (isValidMove(new Vector2i(+2, +1), ChessMoveType.ANY)) moves.add(new Vector2i(+2, +1));
+		if (isValidMove(new Vector2i(+1, +2), ChessMoveType.ANY)) moves.add(new Vector2i(+1, +2));
+		if (isValidMove(new Vector2i(-2, +1), ChessMoveType.ANY)) moves.add(new Vector2i(-2, +1));
+		if (isValidMove(new Vector2i(-1, +2), ChessMoveType.ANY)) moves.add(new Vector2i(-1, +2));
+		if (isValidMove(new Vector2i(+2, -1), ChessMoveType.ANY)) moves.add(new Vector2i(+2, -1));
+		if (isValidMove(new Vector2i(+1, -2), ChessMoveType.ANY)) moves.add(new Vector2i(+1, -2));
+		if (isValidMove(new Vector2i(-2, -1), ChessMoveType.ANY)) moves.add(new Vector2i(-2, -1));
+		if (isValidMove(new Vector2i(-1, -2), ChessMoveType.ANY)) moves.add(new Vector2i(-1, -2));
 		
 		return moves;
 	}

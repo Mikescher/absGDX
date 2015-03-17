@@ -858,4 +858,20 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 		return result;
 	}
 
+	/**
+	 * Called when the "POINTER-UP event" happens on this entity
+	 * Feel free to override and use the event
+	 */
+	public void onPointerUp() {
+		// NOP - free to override
+	}
+
+	/**
+	 * Called when the "POINTER-DOWN event" happens on this entity
+	 * Feel free to override and use the event
+	 */
+	public void onPointerDown() {
+		// NOP - free to override
+	}
+
 }

@@ -113,4 +113,20 @@ public abstract class Tile implements CollisionListener, CollisionGeometryOwner 
 	public void onPassiveMovementCollide(CollisionGeometryOwner activeCollider, CollisionGeometry myGeo, CollisionGeometry otherGeo) {
 		// NOP - free to override
 	}
+
+	/**
+	 * Called when the "POINTER-UP event" happens on this tile
+	 * Feel free to override and use the event
+	 */
+	public void onPointerUp() {
+		// NOP - free to override
+	}
+
+	/**
+	 * Called when the "POINTER-DOWN event" happens on this tile
+	 * Feel free to override and use the event
+	 */
+	public void onPointerDown() {
+		// NOP - free to override
+	}
 }

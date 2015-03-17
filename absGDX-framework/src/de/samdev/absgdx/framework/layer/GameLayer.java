@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -51,6 +52,10 @@ public abstract class GameLayer extends AgdxLayer {
 	
 	protected int renderedEntities = 0;
 	protected final CollisionMap collisionMap;
+
+	//######## INPUT ########
+	
+	private boolean isPointerDown = false;
 	
 	/**
 	 * Creates a new GameLayer
@@ -257,7 +262,38 @@ public abstract class GameLayer extends AgdxLayer {
 		entities.removeDeadEntities();
 		addFutureEntities();
 		
+		updateInput();
+		
 		onUpdate(delta);
+	}
+
+	private void updateInput() {
+		if (isPointerDown && !Gdx.input.isButtonPressed(Buttons.LEFT)) {
+			float px = GetMouseOnMapPositionX();
+			float py = GetMouseOnMapPositionY();
+			
+			for (Entity entity : entities) {
+				if (entity.getPositionX() <= px && entity.getPositionY() <= py && entity.getPositionRightX() >= px && entity.getPositionTopY() >= py) {
+					entity.onPointerUp();
+				}
+			}
+			
+			Tile tile = map.getTileChecked((int)px, (int)py);
+			if (tile != null) tile.onPointerUp();
+		} else if (!isPointerDown && Gdx.input.isButtonPressed(Buttons.LEFT)) {
+			float px = GetMouseOnMapPositionX();
+			float py = GetMouseOnMapPositionY();
+			
+			for (Entity entity : entities) {
+				if (entity.getPositionX() <= px && entity.getPositionY() <= py && entity.getPositionRightX() >= px && entity.getPositionTopY() >= py) {
+					entity.onPointerDown();
+				}
+			}
+			
+			Tile tile = map.getTileChecked((int)px, (int)py);
+			if (tile != null) tile.onPointerDown();
+		}
+		isPointerDown = Gdx.input.isButtonPressed(Buttons.LEFT);
 	}
 
 	@Override

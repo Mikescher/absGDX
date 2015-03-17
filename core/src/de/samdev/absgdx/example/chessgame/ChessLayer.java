@@ -122,7 +122,7 @@ public class ChessLayer extends GameLayer {
 			targettime = random.nextInt(500)+1000;
 			targetplayer = (1-(targetplayer*2-1))/2;
 
-			//doPlayerMove(targetplayer);
+			doPlayerMove(targetplayer);
 		}
 	}
 

@@ -1,10 +1,7 @@
 package de.samdev.absgdx.example.chessgame.piece;
 
-import java.util.Collections;
 import java.util.List;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import de.samdev.absgdx.example.chessgame.ChessLayer;
@@ -34,7 +31,7 @@ public abstract class ChessPiece extends SimpleEntity {
 		
 		this.setPosition(x+1, y+1);
 		
-		this.setZLayer(-(int)getPositionY());
+		this.setZLayer(-boardPosY);
 	}
 
 	@Override
@@ -70,11 +67,19 @@ public abstract class ChessPiece extends SimpleEntity {
 	}
 
 	public void movePiece(int dx, int dy) {
+		ChessLayer clayer = (ChessLayer)this.layer;
+		
+		clayer.board[boardPosX][boardPosY] = null;
+		if (clayer.board[boardPosX+dx][boardPosY+dy] != null) clayer.board[boardPosX+dx][boardPosY+dy].alive = false;
+		clayer.board[boardPosX+dx][boardPosY+dy] = this;
+		
 		boardPosX += dx;
 		boardPosY += dy;
 
 		moveSignumX = Math.signum((boardPosX+1) - getPositionX());
 		moveSignumY = Math.signum((boardPosY+1) - getPositionY());
+
+		this.setZLayer(-boardPosY);
 	}
 	
 	public Vector2i getBoardPos() {
@@ -106,21 +111,21 @@ public abstract class ChessPiece extends SimpleEntity {
 	
 	@Override
 	public void onPointerUp() {
-		for (Vector2i m : getMoves()) {
-			System.out.println(getClass().getSimpleName() + ": {" + m.x + "|" + m.y + "}");
-		}
-		if (getMoves().size() == 0)
-			System.out.println(getClass().getSimpleName() + ": ---");
-		
-		if (Gdx.input.isKeyPressed(Keys.CONTROL_LEFT)) {
-			List<Vector2i> moves = getMoves();
-			Collections.shuffle(moves);
-
-			if (moves.size() > 0) {
-				movePiece(moves.get(0).x, moves.get(0).y);
-			}
-		}
-		
-		System.out.println();
+//		for (Vector2i m : getMoves()) {
+//			System.out.println(getClass().getSimpleName() + ": {" + m.x + "|" + m.y + "}");
+//		}
+//		if (getMoves().size() == 0)
+//			System.out.println(getClass().getSimpleName() + ": ---");
+//		
+//		if (Gdx.input.isKeyPressed(Keys.CONTROL_LEFT)) {
+//			List<Vector2i> moves = getMoves();
+//			Collections.shuffle(moves);
+//
+//			if (moves.size() > 0) {
+//				movePiece(moves.get(0).x, moves.get(0).y);
+//			}
+//		}
+//		
+//		System.out.println();
 	}
 }

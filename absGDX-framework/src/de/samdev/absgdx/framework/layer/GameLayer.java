@@ -256,6 +256,7 @@ public abstract class GameLayer extends AgdxLayer {
 	public void update(float delta) {
 		map.update(delta);
 
+		entities.testIntegrity();
 		for (Entity entity : entities) {
 			entity.update(delta);
 		}

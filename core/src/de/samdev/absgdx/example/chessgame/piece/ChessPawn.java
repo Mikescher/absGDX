@@ -16,13 +16,13 @@ public class ChessPawn extends ChessPiece {
 	@Override
 	public List<Vector2i> getMoves() {
 		int dir = 1 - player*2;
-		
 		List<Vector2i> moves = new ArrayList<Vector2i>();
+		boolean baseline = (boardPosY - dir)%8 == 0;
 		
 		if (isValidMove(new Vector2i(0, dir), ChessMoveType.MOVE)) 
 			moves.add(new Vector2i(0, dir));
 		
-		if ((boardPosY - 2*dir)%8 == 0 && isValidMove(new Vector2i(0, 2*dir), ChessMoveType.MOVE)) 
+		if (isValidMove(new Vector2i(0, dir), ChessMoveType.MOVE) && baseline && isValidMove(new Vector2i(0, 2*dir), ChessMoveType.MOVE)) 
 			moves.add(new Vector2i(0, 2*dir));
 		
 		if (isValidMove(new Vector2i(+1, dir), ChessMoveType.KILL)) moves.add(new Vector2i(+1, dir));

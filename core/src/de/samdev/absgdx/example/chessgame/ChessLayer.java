@@ -25,7 +25,7 @@ public class ChessLayer extends GameLayer {
 
 	float deltasum = 0;
 	float targettime = 2500;
-	int targetplayer = 0;
+	int targetplayer = 1;
 	Random random = new Random();
 	
 	public ChessPiece[][] board = new ChessPiece[8][8];
@@ -129,14 +129,36 @@ public class ChessLayer extends GameLayer {
 	private void doPlayerMove(int player) {
 		Collections.shuffle(pieces.get(player));
 		
+		// KILLING MOVES
+		
 		for (ChessPiece cp : pieces.get(player)) {
+			if (! cp.alive || cp.killProcess > 0f) continue;
+			
 			List<Vector2i> moves = cp.getMoves();
 			
 			Collections.shuffle(moves);
 			
-			if (moves.size() > 0) {
-				cp.movePiece(moves.get(0).x, moves.get(0).y);
-				
+			for (Vector2i move : moves) {
+				if (board[cp.getBoardPos().add(move).x][cp.getBoardPos().add(move).y] != null) {
+					cp.movePiece(move.x, move.y);
+					
+					return;
+				}
+			}
+		}
+
+		// NORMAL MOVES
+		
+		for (ChessPiece cp : pieces.get(player)) {
+			if (! cp.alive || cp.killProcess > 0f) continue;
+			
+			List<Vector2i> moves = cp.getMoves();
+			
+			Collections.shuffle(moves);
+			
+			for (Vector2i move : moves) {
+				cp.movePiece(move.x, move.y);
+					
 				return;
 			}
 		}

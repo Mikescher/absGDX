@@ -17,15 +17,45 @@ public class ChessQueen extends ChessPiece {
 	public List<Vector2i> getMoves() {
 		List<Vector2i> moves = new ArrayList<Vector2i>();
 		
-		for (int i = 1; isValidMove(new Vector2i(+i, +i), ChessMoveType.ANY); i++) moves.add(new Vector2i(+i, +i));
-		for (int i = 1; isValidMove(new Vector2i(-i, +i), ChessMoveType.ANY); i++) moves.add(new Vector2i(-i, +i));
-		for (int i = 1; isValidMove(new Vector2i(-i, -i), ChessMoveType.ANY); i++) moves.add(new Vector2i(-i, -i));
-		for (int i = 1; isValidMove(new Vector2i(+i, -i), ChessMoveType.ANY); i++) moves.add(new Vector2i(+i, -i));
+		for (int i = 1; isValidMove(new Vector2i(+i, +i), ChessMoveType.ANY); i++) {
+			moves.add(new Vector2i(+i, +i));
+			if (isValidMove(new Vector2i(+i, +i), ChessMoveType.KILL)) break;
+		}
+		
+		for (int i = 1; isValidMove(new Vector2i(-i, +i), ChessMoveType.ANY); i++) {
+			moves.add(new Vector2i(-i, +i));
+			if (isValidMove(new Vector2i(-i, +i), ChessMoveType.KILL)) break;
+		}
+		
+		for (int i = 1; isValidMove(new Vector2i(-i, -i), ChessMoveType.ANY); i++) {
+			moves.add(new Vector2i(-i, -i));
+			if (isValidMove(new Vector2i(-i, -i), ChessMoveType.KILL)) break;
+		}
+		
+		for (int i = 1; isValidMove(new Vector2i(+i, -i), ChessMoveType.ANY); i++) {
+			moves.add(new Vector2i(+i, -i));
+			if (isValidMove(new Vector2i(+i, -i), ChessMoveType.KILL)) break;
+		}
 
-		for (int i = 1; isValidMove(new Vector2i(+i, 00), ChessMoveType.ANY); i++) moves.add(new Vector2i(+i, 0));
-		for (int i = 1; isValidMove(new Vector2i(-i, 00), ChessMoveType.ANY); i++) moves.add(new Vector2i(-i, 0));
-		for (int i = 1; isValidMove(new Vector2i(00, +i), ChessMoveType.ANY); i++) moves.add(new Vector2i(0, +i));
-		for (int i = 1; isValidMove(new Vector2i(00, -i), ChessMoveType.ANY); i++) moves.add(new Vector2i(0, -i));
+		for (int i = 1; isValidMove(new Vector2i(+i, 00), ChessMoveType.ANY); i++) {
+			moves.add(new Vector2i(+i, 00));
+			if (isValidMove(new Vector2i(+i, 00), ChessMoveType.KILL)) break;
+		}
+		
+		for (int i = 1; isValidMove(new Vector2i(-i, 00), ChessMoveType.ANY); i++) {
+			moves.add(new Vector2i(-i, 00));
+			if (isValidMove(new Vector2i(-i, 00), ChessMoveType.KILL)) break;
+		}
+		
+		for (int i = 1; isValidMove(new Vector2i(00, +i), ChessMoveType.ANY); i++) {
+			moves.add(new Vector2i(00, +i));
+			if (isValidMove(new Vector2i(00, +i), ChessMoveType.KILL)) break;
+		}
+		
+		for (int i = 1; isValidMove(new Vector2i(00, -i), ChessMoveType.ANY); i++) {
+			moves.add(new Vector2i(00, -i));
+			if (isValidMove(new Vector2i(00, -i), ChessMoveType.KILL)) break;
+		}
 
 		return moves;
 	}

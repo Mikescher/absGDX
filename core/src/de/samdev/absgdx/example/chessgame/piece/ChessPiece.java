@@ -3,6 +3,7 @@ package de.samdev.absgdx.example.chessgame.piece;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.example.chessgame.ChessLayer;
 import de.samdev.absgdx.example.chessgame.ChessMoveType;
@@ -18,6 +19,8 @@ public abstract class ChessPiece extends SimpleEntity {
 
 	protected int boardPosX;
 	protected int boardPosY;
+	
+	public float killProcess = 0f;
 	
 	public ChessPiece(TextureRegion tex, int player, int x, int y) {
 		super(tex, 1, 2);
@@ -47,7 +50,7 @@ public abstract class ChessPiece extends SimpleEntity {
 				moveSignumY = 0;
 				speed.y = 0;
 			} else {
-				speed.y = Math.signum(targetY - getPositionY()) * 0.005f;				
+				speed.y = Math.signum(targetY - getPositionY());				
 			}
 		} else {
 			speed.y = 0;
@@ -59,18 +62,36 @@ public abstract class ChessPiece extends SimpleEntity {
 				moveSignumX = 0;
 				speed.x = 0;
 			} else {
-				speed.x = Math.signum(targetX - getPositionX()) * 0.005f;				
+				speed.x = Math.signum(targetX - getPositionX());				
 			}
 		} else {
 			speed.x = 0;
+		}
+		
+		float distance = new Vector2(targetX, targetY).sub(getPositionX(), getPositionY()).len();
+		if (distance > 0) {
+			speed.scl(0.005f / speed.len());
+			
+			speed.scl(Math.max(distance, 0.5f));
+		}
+		
+		if (killProcess > 0) {
+			killProcess -= delta;
+			
+			if (killProcess <= 0){
+				alive = false;
+				killProcess = 0;
+			}
 		}
 	}
 
 	public void movePiece(int dx, int dy) {
 		ChessLayer clayer = (ChessLayer)this.layer;
+
+		setPosition(boardPosX+1, boardPosY+1);
 		
 		clayer.board[boardPosX][boardPosY] = null;
-		if (clayer.board[boardPosX+dx][boardPosY+dy] != null) clayer.board[boardPosX+dx][boardPosY+dy].alive = false;
+		if (clayer.board[boardPosX+dx][boardPosY+dy] != null) clayer.board[boardPosX+dx][boardPosY+dy].killPiece();
 		clayer.board[boardPosX+dx][boardPosY+dy] = this;
 		
 		boardPosX += dx;
@@ -127,5 +148,34 @@ public abstract class ChessPiece extends SimpleEntity {
 //		}
 //		
 //		System.out.println();
+		
+//		killPiece();
+	}
+	
+	public void killPiece() {
+		setZLayer(-9999);
+		
+		killProcess = 1000;
+	}
+	
+	@Override
+	public float getTextureScaleX() {
+		if (killProcess == 0f) return 1;
+		
+		return Math.max(killProcess/1000, 0.01f);
+	}
+
+	@Override
+	public float getTextureScaleY() {
+		if (killProcess == 0f) return 1;
+
+		return Math.max(killProcess/1000, 0.01f);
+	}
+
+	@Override
+	public float getTextureRotation() {
+		if (killProcess == 0f) return 0;
+		
+		return (killProcess + 80)% 360;
 	}
 }

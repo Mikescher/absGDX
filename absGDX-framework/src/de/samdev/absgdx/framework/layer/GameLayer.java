@@ -269,6 +269,8 @@ public abstract class GameLayer extends AgdxLayer {
 	}
 
 	private void updateInput() {
+		if (Gdx.input == null) return;
+		
 		if (isPointerDown && !Gdx.input.isButtonPressed(Buttons.LEFT)) {
 			float px = GetMouseOnMapPositionX();
 			float py = GetMouseOnMapPositionY();

@@ -29,6 +29,8 @@ public class Chinese extends Entity {
 		addFullCollisionBox();
 		
 		this.layer = layer;
+		
+		if (getFirstHardCollider() != null) alive = false;
 	}
 
 	@Override

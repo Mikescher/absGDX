@@ -3,6 +3,7 @@ package de.samdev.absgdx.example.topdowngame.entities;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -34,14 +35,16 @@ public class Nazi extends Entity {
 		this.layer = layer;
 	}
 
+	private boolean lastLeft = true;
+	
 	@Override
 	public void beforeUpdate(float delta) {
 		speed.set(0,0);
 		
-		if (Gdx.input.isKeyPressed(Keys.W)) speed.y += 1;
-		if (Gdx.input.isKeyPressed(Keys.A)) speed.x -= 1;
-		if (Gdx.input.isKeyPressed(Keys.S)) speed.y -= 1;
-		if (Gdx.input.isKeyPressed(Keys.D)) speed.x += 1;
+		if (Gdx.input.isKeyPressed(Keys.W) || Gdx.input.getAccelerometerX() < -2) speed.y += 1;
+		if (Gdx.input.isKeyPressed(Keys.A) || Gdx.input.getAccelerometerY() < -2) speed.x -= 1;
+		if (Gdx.input.isKeyPressed(Keys.S) || Gdx.input.getAccelerometerX() > +2) speed.y -= 1;
+		if (Gdx.input.isKeyPressed(Keys.D) || Gdx.input.getAccelerometerY() > +2) speed.x += 1;
 		
 		if (! speed.isZero()) speed = speed.scl(1/speed.len()).scl(0.01f);
 
@@ -69,6 +72,28 @@ public class Nazi extends Entity {
 				break;
 			}
 		}
+		
+		if (Gdx.input.isButtonPressed(Buttons.LEFT) && !lastLeft) {
+			float angle = new Vector2(layer.GetMouseOnMapPositionX(), layer.GetMouseOnMapPositionY()).sub(getCenterX(), getCenterY()).angle();
+			int sector = (int)(((angle + 180 + 45)%360)/90);
+			
+			switch (sector) {
+			case 0:
+				layer.addEntity(new BulletBill(getCenterX(), getCenterY(), AlignEdge4.LEFT));
+				break;
+			case 1:
+				layer.addEntity(new BulletBill(getCenterX(), getCenterY(), AlignEdge4.BOTTOM));
+				break;
+			case 2:
+				layer.addEntity(new BulletBill(getCenterX(), getCenterY(), AlignEdge4.RIGHT));
+				break;
+			case 3:
+				layer.addEntity(new BulletBill(getCenterX(), getCenterY(), AlignEdge4.TOP));
+				break;
+			}
+		}
+		
+		lastLeft = Gdx.input.isButtonPressed(Buttons.LEFT);
 		
 		ctr += delta;
 		

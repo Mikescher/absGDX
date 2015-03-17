@@ -76,6 +76,7 @@ public class TopDownGameLayer extends GameLayer {
 	}
 
 	long last = 0;
+	int msr = 0;
 	
 	@Override
 	public void onUpdate(float delta) {
@@ -90,18 +91,20 @@ public class TopDownGameLayer extends GameLayer {
 		if (Gdx.input.isKeyPressed(Keys.DOWN))
 			setBoundedOffset(new Vector2(map_offset.x, map_offset.y - speed));
 		
-		if (Gdx.input.isTouched())
-			setBoundedOffset(map_offset.sub(Gdx.input.getDeltaX()  / getTileScale(), -Gdx.input.getDeltaY()  / getTileScale()));
+//		if (Gdx.input.isTouched())
+//			setBoundedOffset(map_offset.sub(Gdx.input.getDeltaX()  / getTileScale(), -Gdx.input.getDeltaY()  / getTileScale()));
 		
 		if (System.currentTimeMillis() - last > 33){
 			last = System.currentTimeMillis();
 //			addEntity(new FlowerPot_1());
 		}
 
-		if (Gdx.input.isKeyJustPressed(Keys.F10)) setMapScaleResolver(new SectionMapScaleResolver(48, 27, 0.5f, 20f));
-		if (Gdx.input.isKeyJustPressed(Keys.F11)) setMapScaleResolver(new ShowCompleteMapScaleResolver());
-		if (Gdx.input.isKeyJustPressed(Keys.F12)) setMapScaleResolver(new MaximumBoundaryMapScaleResolver(3, 3));
+		if (Gdx.input.isKeyJustPressed(Keys.F9))  {setMapScaleResolver(new SectionMapScaleResolver(32, 18, 0.5f, 20f)); msr = 0; }
+		if (Gdx.input.isKeyJustPressed(Keys.F10)) {setMapScaleResolver(new SectionMapScaleResolver(48, 27, 0.5f, 20f)); msr = 1; }
+		if (Gdx.input.isKeyJustPressed(Keys.F11)) {setMapScaleResolver(new ShowCompleteMapScaleResolver());             msr = 2; }
+		if (Gdx.input.isKeyJustPressed(Keys.F12)) {setMapScaleResolver(new MaximumBoundaryMapScaleResolver(3, 3));      msr = 3; }
 		
-		scrollMapToEntity(ap_1, 2);
+		if (msr == 3) scrollMapToEntity(ap_1, 1);
+		else          scrollMapToEntity(ap_1, 4);
 	}
 }

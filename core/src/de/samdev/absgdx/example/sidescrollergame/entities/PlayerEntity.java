@@ -1,6 +1,7 @@
 package de.samdev.absgdx.example.sidescrollergame.entities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 
@@ -59,6 +60,8 @@ public class PlayerEntity extends PhysicsEntity {
 		if (Gdx.input.isKeyPressed(Keys.D)) movement_acc.x = +0.000004f;
 		if (Gdx.input.isKeyPressed(Keys.A)) movement_acc.x = -0.000004f;
 		
+		movement_acc.x += Math.min(Math.max(Gdx.input.getAccelerometerY(), -4), 4) * 0.000001f;
+		
 		if (speed.x > 0.008 && movement_acc.x > 0) movement_acc.x = 0;
 		if (speed.x < -0.008 && movement_acc.x < 0) movement_acc.x = 0;
 		
@@ -67,7 +70,7 @@ public class PlayerEntity extends PhysicsEntity {
 		if (! Gdx.input.isKeyPressed(Keys.D) && ! Gdx.input.isKeyPressed(Keys.A)) grinding_acc.x = -0.00001f * speed.x/0.008f;
 		if (! Gdx.input.isKeyPressed(Keys.D) && ! Gdx.input.isKeyPressed(Keys.A) && Math.abs(speed.x) < 0.0001) speed.x = 0;
 		
-		if (Gdx.input.isKeyPressed(Keys.W) && (isTouchingBottom() || Gdx.input.isKeyPressed(Keys.SHIFT_LEFT))) speed.y = +0.008f;
+		if ((Gdx.input.isKeyPressed(Keys.W) || Gdx.input.isButtonPressed(Buttons.LEFT)) && (isTouchingBottom() || Gdx.input.isKeyPressed(Keys.SHIFT_LEFT))) speed.y = +0.008f;
 	}
 
 	@Override

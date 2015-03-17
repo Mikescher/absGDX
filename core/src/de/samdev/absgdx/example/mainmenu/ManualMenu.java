@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
 import de.samdev.absgdx.example.Textures;
 import de.samdev.absgdx.example.sidescrollergame.SidescrollerGameLayer;
+import de.samdev.absgdx.example.testlayer.TestLayer;
 import de.samdev.absgdx.example.topdowngame.TopDownGameLayer;
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.layer.MenuLayer;
@@ -227,6 +228,27 @@ public class ManualMenu extends MenuLayer {
 			@Override
 			public void onClicked(MenuBaseElement element, String identifier) { try { ManualMenu.this.owner.pushLayer(new DemoMenu(ManualMenu.this.owner)); } catch (AgdxmlParsingException e) { e.printStackTrace(); }}});
 		p2.addChildren(bnext);
+		
+		final MenuButton btest = new MenuButton(prov);
+		btest.setBoundaries(400, 80, 175, 40);
+		btest.setContent("<test />");
+		btest.setColor(Color.WHITE);
+		btest.addButtonListener(new MenuButtonListener() {
+			@Override
+			public void onPointerUp(MenuBaseElement element, String identifier) {/**/}
+			@Override
+			public void onPointerDown(MenuBaseElement element, String identifier) {/**/}
+			@Override
+			public void onHoverEnd(MenuBaseElement element, String identifier) {/**/}
+			@Override
+			public void onHover(MenuBaseElement element, String identifier) {/**/}
+			@Override
+			public void onFocusLost(MenuBaseElement element, String identifier) {/**/}
+			@Override
+			public void onFocus(MenuBaseElement element, String identifier) {/**/}
+			@Override
+			public void onClicked(MenuBaseElement element, String identifier) { ManualMenu.this.owner.pushLayer(new TestLayer(ManualMenu.this.owner)); }});
+		p2.addChildren(btest);
 		
 		final MenuProgressbar pb = new MenuProgressbar(prov);
 		pb.setBoundaries(25, 200, 550, 30);

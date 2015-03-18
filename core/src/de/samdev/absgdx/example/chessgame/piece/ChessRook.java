@@ -14,27 +14,27 @@ public class ChessRook extends ChessPiece {
 	}
 
 	@Override
-	public List<Vector2i> getMoves() {
+	public List<Vector2i> getMoves(boolean simple) {
 		List<Vector2i> moves = new ArrayList<Vector2i>();
 		
-		for (int i = 1; isValidMove(new Vector2i(+i, 00), ChessMoveType.ANY); i++) {
+		for (int i = 1; isValidMove(new Vector2i(+i, 00), ChessMoveType.ANY, simple); i++) {
 			moves.add(new Vector2i(+i, 00));
-			if (isValidMove(new Vector2i(+i, 00), ChessMoveType.KILL)) break;
+			if (isValidMove(new Vector2i(+i, 00), ChessMoveType.KILL, simple)) break;
 		}
 		
-		for (int i = 1; isValidMove(new Vector2i(-i, 00), ChessMoveType.ANY); i++) {
+		for (int i = 1; isValidMove(new Vector2i(-i, 00), ChessMoveType.ANY, simple); i++) {
 			moves.add(new Vector2i(-i, 00));
-			if (isValidMove(new Vector2i(-i, 00), ChessMoveType.KILL)) break;
+			if (isValidMove(new Vector2i(-i, 00), ChessMoveType.KILL, simple)) break;
 		}
 		
-		for (int i = 1; isValidMove(new Vector2i(00, +i), ChessMoveType.ANY); i++) {
+		for (int i = 1; isValidMove(new Vector2i(00, +i), ChessMoveType.ANY, simple); i++) {
 			moves.add(new Vector2i(00, +i));
-			if (isValidMove(new Vector2i(00, +i), ChessMoveType.KILL)) break;
+			if (isValidMove(new Vector2i(00, +i), ChessMoveType.KILL, simple)) break;
 		}
 		
-		for (int i = 1; isValidMove(new Vector2i(00, -i), ChessMoveType.ANY); i++) {
+		for (int i = 1; isValidMove(new Vector2i(00, -i), ChessMoveType.ANY, simple); i++) {
 			moves.add(new Vector2i(00, -i));
-			if (isValidMove(new Vector2i(00, -i), ChessMoveType.KILL)) break;
+			if (isValidMove(new Vector2i(00, -i), ChessMoveType.KILL, simple)) break;
 		}
 
 		return moves;

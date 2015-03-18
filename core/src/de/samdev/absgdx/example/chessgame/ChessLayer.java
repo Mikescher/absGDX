@@ -159,7 +159,7 @@ public class ChessLayer extends GameLayer {
 		for (ChessPiece cp : pieces.get(player)) {
 			if (! cp.alive || cp.killProcess > 0f) continue;
 			
-			List<Vector2i> moves = cp.getMoves();
+			List<Vector2i> moves = cp.getMoves(false);
 			
 			Collections.shuffle(moves);
 			
@@ -177,7 +177,7 @@ public class ChessLayer extends GameLayer {
 		for (ChessPiece cp : pieces.get(player)) {
 			if (! cp.alive || cp.killProcess > 0f) continue;
 			
-			List<Vector2i> moves = cp.getMoves();
+			List<Vector2i> moves = cp.getMoves(false);
 			
 			Collections.shuffle(moves);
 			

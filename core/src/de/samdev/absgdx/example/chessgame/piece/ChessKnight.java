@@ -14,17 +14,17 @@ public class ChessKnight extends ChessPiece {
 	}
 
 	@Override
-	public List<Vector2i> getMoves() {
+	public List<Vector2i> getMoves(boolean simple) {
 		List<Vector2i> moves = new ArrayList<Vector2i>();
 		
-		if (isValidMove(new Vector2i(+2, +1), ChessMoveType.ANY)) moves.add(new Vector2i(+2, +1));
-		if (isValidMove(new Vector2i(+1, +2), ChessMoveType.ANY)) moves.add(new Vector2i(+1, +2));
-		if (isValidMove(new Vector2i(-2, +1), ChessMoveType.ANY)) moves.add(new Vector2i(-2, +1));
-		if (isValidMove(new Vector2i(-1, +2), ChessMoveType.ANY)) moves.add(new Vector2i(-1, +2));
-		if (isValidMove(new Vector2i(+2, -1), ChessMoveType.ANY)) moves.add(new Vector2i(+2, -1));
-		if (isValidMove(new Vector2i(+1, -2), ChessMoveType.ANY)) moves.add(new Vector2i(+1, -2));
-		if (isValidMove(new Vector2i(-2, -1), ChessMoveType.ANY)) moves.add(new Vector2i(-2, -1));
-		if (isValidMove(new Vector2i(-1, -2), ChessMoveType.ANY)) moves.add(new Vector2i(-1, -2));
+		if (isValidMove(new Vector2i(+2, +1), ChessMoveType.ANY, simple)) moves.add(new Vector2i(+2, +1));
+		if (isValidMove(new Vector2i(+1, +2), ChessMoveType.ANY, simple)) moves.add(new Vector2i(+1, +2));
+		if (isValidMove(new Vector2i(-2, +1), ChessMoveType.ANY, simple)) moves.add(new Vector2i(-2, +1));
+		if (isValidMove(new Vector2i(-1, +2), ChessMoveType.ANY, simple)) moves.add(new Vector2i(-1, +2));
+		if (isValidMove(new Vector2i(+2, -1), ChessMoveType.ANY, simple)) moves.add(new Vector2i(+2, -1));
+		if (isValidMove(new Vector2i(+1, -2), ChessMoveType.ANY, simple)) moves.add(new Vector2i(+1, -2));
+		if (isValidMove(new Vector2i(-2, -1), ChessMoveType.ANY, simple)) moves.add(new Vector2i(-2, -1));
+		if (isValidMove(new Vector2i(-1, -2), ChessMoveType.ANY, simple)) moves.add(new Vector2i(-1, -2));
 		
 		return moves;
 	}

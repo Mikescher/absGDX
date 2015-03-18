@@ -22,6 +22,7 @@ public abstract class ChessPiece extends SimpleEntity {
 	protected int boardPosY;
 	
 	public float killProcess = 0f;
+	public float shake = 0;
 	
 	public ChessPiece(TextureRegion tex, int player, int x, int y) {
 		super(tex, 1, 2);
@@ -84,6 +85,16 @@ public abstract class ChessPiece extends SimpleEntity {
 				killProcess = 0;
 			}
 		}
+		
+		if (shake > 0) {
+			shake -= delta;
+			
+			if (speed.isZero()) {
+				float offset = (float) Math.sin(Math.max(0, shake/30))/8f;
+				
+				setPosition(targetX + offset, targetY);
+			}
+		}
 	}
 
 	public void movePiece(int dx, int dy) {
@@ -109,19 +120,45 @@ public abstract class ChessPiece extends SimpleEntity {
 	public Vector2i getBoardPos() {
 		return new Vector2i(boardPosX, boardPosY);
 	}
-	
-	public boolean isValidMove(Vector2i pos, ChessMoveType mtype) {
+
+	public boolean isValidMove(Vector2i pos, ChessMoveType mtype, boolean simple) {
 		ChessLayer clayer = (ChessLayer)this.layer;
 		
 		Vector2i newpos = getBoardPos().add(pos);
 		
+		boolean valid = false;
+		
 		if (isValidPosition(newpos)) {
 			ChessPiece cp = clayer.board[newpos.x][newpos.y];
 			
-			if ((mtype == ChessMoveType.ANY || mtype == ChessMoveType.MOVE) && cp == null) return true;
-			if (mtype == ChessMoveType.KILL && cp == null) return false;
+			if ((mtype == ChessMoveType.ANY || mtype == ChessMoveType.MOVE) && cp == null) valid = true;
+			else if (mtype == ChessMoveType.KILL && cp == null) valid = false;
+			else if ((mtype == ChessMoveType.ANY || mtype == ChessMoveType.KILL) && cp.player != this.player) valid = true;
+		}
+		
+		if (simple) return valid;
+		
+		if (valid) {
+			ChessPiece prev = clayer.board[boardPosX + pos.x][boardPosY + pos.y];
+			clayer.board[boardPosX + pos.x][boardPosY + pos.y] = this;
+			clayer.board[boardPosX][boardPosY] = null;
+
+			boardPosX += pos.x;
+			boardPosY += pos.y;
 			
-			if ((mtype == ChessMoveType.ANY || mtype == ChessMoveType.KILL) && cp.player != this.player && !(cp instanceof ChessKing)) return true;
+			//##########################
+			
+			boolean underAttack = getKing().isUnderAttack();
+			
+			//##########################
+
+			boardPosX -= pos.x;
+			boardPosY -= pos.y;
+			
+			clayer.board[boardPosX][boardPosY] = this;
+			clayer.board[boardPosX + pos.x][boardPosY + pos.y] = prev;
+			
+			return ! underAttack;
 		}
 		
 		return false;
@@ -131,7 +168,7 @@ public abstract class ChessPiece extends SimpleEntity {
 		return pos.x >= 0 && pos.y >= 0 && pos.x < 8 && pos.y < 8;
 	}
 	
-	public abstract List<Vector2i> getMoves();
+	public abstract List<Vector2i> getMoves(boolean simple);
 
 	public void onBaseClicked() {
 		if (isCPMoving()) return;
@@ -140,10 +177,15 @@ public abstract class ChessPiece extends SimpleEntity {
 		
 		if (clayer.isHuman[player] && clayer.currentPlayer == this.player && clayer.selection != this) {
 			clayer.selection = this;
-			List<Vector2i> moves = getMoves();
+			List<Vector2i> moves = getMoves(false);
 			
 			for (Vector2i move : moves) {
 				clayer.addEntity(new ChessMovementMarker(clayer, this, move));
+			}
+			
+			if (moves.size() == 0) {
+				shake = (float)(Math.PI * 150);
+				clayer.selection = null;
 			}
 		} else {
 			clayer.selection = null;
@@ -185,5 +227,33 @@ public abstract class ChessPiece extends SimpleEntity {
 		float targetX = (boardPosX+1);
 		
 		return (getPositionX() != targetX) || (getPositionY() != targetY);
+	}
+	
+	public boolean isUnderAttack() {
+		ChessLayer clayer = (ChessLayer)this.layer;
+		
+		for (int x = 0; x < 8; x++) {
+			for (int y = 0; y < 8; y++) {
+				if (clayer.board[x][y] != null && clayer.board[x][y] != this) {
+					for (Vector2i mv : clayer.board[x][y].getMoves(true)) {
+						Vector2i mvp = mv.add(clayer.board[x][y].getBoardPos());
+						
+						if (mvp.x == boardPosX && mvp.y == boardPosY) return true;
+					}
+				}
+			}
+		}
+		
+		return false;
+	}
+
+	public ChessKing getKing() {
+		ChessLayer clayer = (ChessLayer)this.layer;
+		
+		for (ChessPiece p : clayer.pieces.get(player)) {
+			if (p.player == this.player && p instanceof ChessKing) return (ChessKing) p;
+		}
+		
+		throw new RuntimeException("No king on field");
 	}
 }

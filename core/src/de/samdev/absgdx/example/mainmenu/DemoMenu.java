@@ -63,7 +63,7 @@ public class DemoMenu extends AgdxmlLayer {
 
 	@SuppressWarnings("unused") // event listener
 	public void settingsTreeClicked(MenuBaseElement element, String identifier) {
-		System.out.println("settingsTreeClicked");
+		//System.out.println("settingsTreeClicked");
 	}
 
 	private int rotationNazi = 0;

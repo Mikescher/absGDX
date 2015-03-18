@@ -5,19 +5,35 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
+import javax.swing.JToolBar;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -31,6 +47,8 @@ import de.samdev.absgdx.framework.util.exceptions.AgdxmlParsingException;
 
 public class DesignFrame extends JFrame {
 	private static final long serialVersionUID = 5936312660450931611L;
+	
+	private final static String EMPTYDOC = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<frame>\r\n\t<!-- content -->\r\n</frame>";
 	
 	private JPanel contentPane;
 	private JSplitPane splitPane;
@@ -51,7 +69,22 @@ public class DesignFrame extends JFrame {
 	private JScrollPane scrollPane_0;
 	private JTextArea memoError;
 	private JScrollPane scrollPane_1;
+	private JMenuBar menuBar;
+	private JMenu mnFile;
+	private JMenuItem mntmOpen;
+	private JMenuItem mntmSave;
+	private JMenuItem mntmNew;
+	private JMenuItem mntmSaveAs;
+	private JSeparator separator;
 
+	private String filename = null;
+	private JPanel rootPane;
+	private JToolBar toolBar;
+	private JButton btnNew;
+	private JButton btnOpen;
+	private JButton btnSaveAs;
+	private JButton btnSave;
+	
 	public DesignFrame() {
 		try {
 			initGUI();
@@ -61,18 +94,33 @@ public class DesignFrame extends JFrame {
 	}
 	
 	private void initGUI() throws AgdxmlParsingException {
-		setTitle("absGDX - Menu Designer");
+		updateTitle();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 949, 818);
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		listModel = new DefaultListModel<String>();
+		
+		listModel.addElement("<label>");
+		listModel.addElement("<checkbox>");
+		listModel.addElement("<button>");
+		listModel.addElement("<settingstree>");
+		listModel.addElement("<panel>");
+		listModel.addElement("<grid>");
+		listModel.addElement("<image>");
+		listModel.addElement("<radiobutton>");
+		listModel.addElement("<edit>");
+		
+		rootPane = new JPanel();
+		rootPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.add(rootPane, BorderLayout.CENTER);
+		rootPane.setLayout(new BorderLayout(0, 0));
 		
 		splitPane = new JSplitPane();
+		rootPane.add(splitPane);
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		splitPane.setResizeWeight(0.565);
-		contentPane.add(splitPane, BorderLayout.CENTER);
 		
 		lblDraw = new GUIPreviewPanel(900, 300, new AgdxmlPreviewLayerDummy("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<frame><panel position=\"10,10\" height=\"80\" width=\"200\"><button position=\"50,50\" height=\"20\" width=\"80\" /></panel></frame>") { @Override public void initialize() { /**/ } });
 		splitPane.setLeftComponent(lblDraw);
@@ -91,19 +139,8 @@ public class DesignFrame extends JFrame {
 		tabComponents.setLayout(new BorderLayout(0, 0));
 		
 		list = new JList<String>();
-		listModel = new DefaultListModel<String>();
 		list.setModel(listModel);
 		tabComponents.add(list);
-		
-		listModel.addElement("<label>");
-		listModel.addElement("<checkbox>");
-		listModel.addElement("<button>");
-		listModel.addElement("<settingstree>");
-		listModel.addElement("<panel>");
-		listModel.addElement("<grid>");
-		listModel.addElement("<image>");
-		listModel.addElement("<radiobutton>");
-		listModel.addElement("<edit>");
 		
 		pnlProperties = new JPanel();
 		pnlSettings.addTab("Properties", null, pnlProperties, null);
@@ -225,8 +262,181 @@ public class DesignFrame extends JFrame {
 				}
 			}
 		});
-		edCode.setText("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<frame>\r\n\t<!-- content -->\r\n</frame>");
+		edCode.setText(EMPTYDOC);
 		edCode.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_XML);
 		edCode.setCodeFoldingEnabled(true);
+		
+		menuBar = new JMenuBar();
+		contentPane.add(menuBar, BorderLayout.NORTH);
+		
+		mnFile = new JMenu("File");
+		menuBar.add(mnFile);
+		
+		mntmNew = new JMenuItem("New");
+		mnFile.add(mntmNew);
+		mntmNew.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				newDocument();
+			}
+		});
+		
+		mntmOpen = new JMenuItem("Open");
+		mnFile.add(mntmOpen);
+		mntmOpen.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				openDocument();
+			}
+		});
+		
+		separator = new JSeparator();
+		mnFile.add(separator);
+		
+		mntmSave = new JMenuItem("Save");
+		mnFile.add(mntmSave);
+		
+		mntmSaveAs = new JMenuItem("Save As..");
+		mnFile.add(mntmSaveAs);
+		mntmSaveAs.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				saveDocumentAs();
+			}
+		});
+		mntmSave.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				saveDocument();
+			}
+		});
+		
+		toolBar = new JToolBar();
+		toolBar.setFloatable(false);
+		toolBar.setOrientation(SwingConstants.VERTICAL);
+		contentPane.add(toolBar, BorderLayout.WEST);
+		
+		btnNew = new JButton("NEW");
+		btnNew.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				newDocument();
+			}
+		});
+		toolBar.add(btnNew);
+		
+		btnOpen = new JButton("OPEN");
+		btnOpen.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				openDocument();
+			}
+		});
+		toolBar.add(btnOpen);
+		
+		btnSave = new JButton("SAVE");
+		btnSave.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				saveDocument();
+			}
+		});
+		toolBar.add(btnSave);
+		
+		btnSaveAs = new JButton("SAVE AS");
+		btnSaveAs.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				saveDocumentAs();
+			}
+		});
+		toolBar.add(btnSaveAs);
+
+		new FileDrop(contentPane, new FileDrop.Listener() {@Override public void filesDropped(File[] files) { if (files.length > 0) openFile(files[0].getAbsolutePath()); }});
+		new FileDrop(edCode, new FileDrop.Listener() {@Override public void filesDropped(File[] files) { if (files.length > 0) openFile(files[0].getAbsolutePath()); }});
+		new FileDrop(pnlSettings, new FileDrop.Listener() {@Override public void filesDropped(File[] files) { if (files.length > 0) openFile(files[0].getAbsolutePath()); }});
+		new FileDrop(lblDraw, new FileDrop.Listener() {@Override public void filesDropped(File[] files) { if (files.length > 0) openFile(files[0].getAbsolutePath()); }});
+		new FileDrop(memoError, new FileDrop.Listener() {@Override public void filesDropped(File[] files) { if (files.length > 0) openFile(files[0].getAbsolutePath()); }});
+	}
+
+	protected void saveDocument() {
+		if (filename == null) {
+			saveDocumentAs();
+			return;
+		}
+		
+		BufferedWriter writer = null;
+        try {
+            writer = new BufferedWriter(new FileWriter(filename));
+            writer.write(edCode.getText());
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                writer.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+	}
+
+	protected void saveDocumentAs() {
+		final JFileChooser fc = new JFileChooser();
+		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		
+		if ( fc.showSaveDialog(DesignFrame.this) == JFileChooser.APPROVE_OPTION) {
+			filename = fc.getSelectedFile().getAbsolutePath();
+			saveDocument();
+		}
+	}
+
+	private void updateTitle() {
+		if (filename == null) 
+			setTitle("absGDX - Menu Designer <>");
+		else
+			setTitle("absGDX - Menu Designer <" + (new File(filename)).getName() + ">");			
+	}
+
+	private void openFile(final String path) {
+		filename = path;
+		
+		updateTitle();
+		
+		BufferedReader br;
+		try {
+			br = new BufferedReader(new FileReader(filename));
+		    try {
+		        StringBuilder sb = new StringBuilder();
+		        String line = br.readLine();
+
+		        while (line != null) {
+		            sb.append(line);
+		            sb.append(System.lineSeparator());
+		            line = br.readLine();
+		        }
+		        
+		        edCode.setText(sb.toString());
+		    } finally {
+		        br.close();
+		    }
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+	}
+
+	private void openDocument() {
+		final JFileChooser fc = new JFileChooser();
+		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		
+		if ( fc.showOpenDialog(DesignFrame.this) == JFileChooser.APPROVE_OPTION) {
+			openFile(fc.getSelectedFile().getAbsolutePath());
+		}
+	}
+
+	private void newDocument() {
+		filename = null;
+		edCode.setText(EMPTYDOC);
+		
+		updateTitle();
 	}
 }

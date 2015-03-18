@@ -23,9 +23,15 @@ public class GUIPreviewPanel extends JPanel {
 	private BufferedImage buffer;
 	private AgdxmlLayer layer;
 
+	private int innerWidth;
+	private int innerHeight;
+	
 	public GUIPreviewPanel(int renderWidth, int renderHeight, AgdxmlLayer mlayer) {
 		super();
 
+		this.innerWidth = renderWidth;
+		this.innerHeight = renderHeight;
+		
 		this.layer = mlayer;
 		this.setBackground(new java.awt.Color(255, 255, 255));
 		this.setBorder(BorderFactory.createEmptyBorder());
@@ -34,17 +40,20 @@ public class GUIPreviewPanel extends JPanel {
 	}
 
 	public void setMenuLayer(String xml) throws AgdxmlParsingException {
-		layer = new AgdxmlPreviewLayerDummy(xml);
+		layer = new AgdxmlPreviewLayerDummy(xml, innerWidth, innerHeight);
 
 		redraw();
 	}
 	
 	public void setRenderSize(int renderWidth, int renderHeight) {
 		this.buffer = new BufferedImage(renderWidth, renderHeight, BufferedImage.TYPE_INT_ARGB);
+
+		this.innerWidth = renderWidth;
+		this.innerHeight = renderHeight;
 		
 		if (layer != null) {
-			((AgdxPreviewGameDummy)layer.owner).width = renderWidth;
-			((AgdxPreviewGameDummy)layer.owner).height = renderHeight;
+			((AgdxPreviewGameDummy)layer.owner).width = innerWidth;
+			((AgdxPreviewGameDummy)layer.owner).height = innerHeight;
 			layer.onResize();
 		}
 		

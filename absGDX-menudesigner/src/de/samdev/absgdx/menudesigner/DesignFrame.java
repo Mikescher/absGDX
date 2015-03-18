@@ -2,6 +2,7 @@ package de.samdev.absgdx.menudesigner;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -14,8 +15,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -43,6 +46,9 @@ import javax.swing.event.DocumentListener;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 
+import com.badlogic.gdx.math.GridPoint2;
+
+import de.samdev.absgdx.framework.util.AndroidResolutions;
 import de.samdev.absgdx.framework.util.exceptions.AgdxmlParsingException;
 
 public class DesignFrame extends JFrame {
@@ -84,6 +90,7 @@ public class DesignFrame extends JFrame {
 	private JButton btnOpen;
 	private JButton btnSaveAs;
 	private JButton btnSave;
+	private JComboBox<GridPoint2> cbxSize;
 	
 	public DesignFrame() {
 		try {
@@ -122,7 +129,7 @@ public class DesignFrame extends JFrame {
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		splitPane.setResizeWeight(0.565);
 		
-		lblDraw = new GUIPreviewPanel(900, 300, new AgdxmlPreviewLayerDummy("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<frame><panel position=\"10,10\" height=\"80\" width=\"200\"><button position=\"50,50\" height=\"20\" width=\"80\" /></panel></frame>") { @Override public void initialize() { /**/ } });
+		lblDraw = new GUIPreviewPanel(900, 300, new AgdxmlPreviewLayerDummy(EMPTYDOC, 900, 300) { @Override public void initialize() { /**/ } });
 		splitPane.setLeftComponent(lblDraw);
 		lblDraw.setLayout(null);
 		
@@ -150,8 +157,8 @@ public class DesignFrame extends JFrame {
 		pnlSettings.setSelectedIndex(2);
 		GridBagLayout gbl_tabSettings = new GridBagLayout();
 		gbl_tabSettings.columnWidths = new int[] {100, 100};
-		gbl_tabSettings.columnWeights = new double[]{0.0, 0.0};
-		gbl_tabSettings.rowHeights = new int[] {0, 0, 0};
+		gbl_tabSettings.columnWeights = new double[]{1.0, 0.0};
+		gbl_tabSettings.rowHeights = new int[] {0, 0, 0, 0, 0};
 		gbl_tabSettings.rowWeights = new double[]{0.0, 0.0, 1.0};
 		tabSettings.setLayout(gbl_tabSettings);
 		
@@ -204,6 +211,40 @@ public class DesignFrame extends JFrame {
 		gbc_spinnerWidth.gridx = 1;
 		gbc_spinnerWidth.gridy = 0;
 		tabSettings.add(spinnerWidth, gbc_spinnerWidth);
+		
+		cbxSize = new JComboBox<GridPoint2>();
+		GridBagConstraints gbc_cbxSize = new GridBagConstraints();
+		gbc_cbxSize.gridwidth = 2;
+		gbc_cbxSize.anchor = GridBagConstraints.NORTH;
+		gbc_cbxSize.insets = new Insets(0, 0, 0, 5);
+		gbc_cbxSize.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cbxSize.gridx = 0;
+		gbc_cbxSize.gridy = 2;
+
+		cbxSize.addItem(new GridPoint2(900, 300));
+		cbxSize.addItem(new GridPoint2(1920, 1080));
+		cbxSize.addItem(new GridPoint2(960, 720));
+		for (GridPoint2 size : AndroidResolutions.RES_ALL) {
+			cbxSize.addItem(size);			
+			cbxSize.addItem(new GridPoint2(size.y, size.x));
+		}
+		cbxSize.setRenderer(new DefaultListCellRenderer() {
+			private static final long serialVersionUID = 1L;
+			@Override
+			public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+				return super.getListCellRendererComponent(list, ((GridPoint2)value).x + " - " + ((GridPoint2)value).y, index, isSelected, cellHasFocus);
+			}
+		});
+		cbxSize.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				spinnerWidth.setValue(((GridPoint2)cbxSize.getSelectedItem()).x);
+				spinnerHeight.setValue(((GridPoint2)cbxSize.getSelectedItem()).y);
+			}
+		});
+		tabSettings.add(cbxSize, gbc_cbxSize);
+		
+		
 		
 		pnlBottomLeft = new JPanel();
 		pnlBottom.add(pnlBottomLeft, BorderLayout.CENTER);

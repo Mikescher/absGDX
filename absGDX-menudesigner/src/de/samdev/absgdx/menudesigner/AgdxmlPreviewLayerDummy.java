@@ -8,8 +8,8 @@ import de.samdev.absgdx.framework.util.exceptions.AgdxmlParsingException;
 
 public class AgdxmlPreviewLayerDummy extends AgdxmlLayer {
 
-	public AgdxmlPreviewLayerDummy(String agdxmlFileContent) throws AgdxmlParsingException {
-		super(new AgdxPreviewGameDummy(), null, agdxmlFileContent);
+	public AgdxmlPreviewLayerDummy(String agdxmlFileContent, int w, int h) throws AgdxmlParsingException {
+		super(new AgdxPreviewGameDummy(w, h), null, agdxmlFileContent);
 	}
 
 	@Override

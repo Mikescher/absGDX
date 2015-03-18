@@ -44,6 +44,7 @@ public class TileMap {
 	 * 
 	 * @param x X position
 	 * @param y Y position
+	 * 
 	 * @param t The tile
 	 */
 	public void setTile(int x, int y, Tile t) {
@@ -55,6 +56,7 @@ public class TileMap {
 	 * 
 	 * @param x the X position
 	 * @param y the Y position
+	 * 
 	 * @return the tile
 	 */
 	public Tile getTile(int x, int y) {
@@ -66,6 +68,7 @@ public class TileMap {
 	 * 
 	 * @param x the X position
 	 * @param y the Y position
+	 * 
 	 * @return the tile or NULL
 	 */
 	public Tile getTileChecked(int x, int y) {
@@ -78,7 +81,7 @@ public class TileMap {
 	/**
 	 * Gets the map width & height as an Vector2 (creates a new Vector2)
 	 * 
-	 * @return
+	 * @return the map size
 	 */
 	public Vector2 getDimensions() {
 		return new Vector2(width, height);
@@ -102,7 +105,8 @@ public class TileMap {
 	 * 
 	 * @param w width
 	 * @param h height
-	 * @return 
+	 * 
+	 * @return a new empty map
 	 */
 	public static TileMap createEmptyMap(int w, int h) {
 		return new TileMap(w, h);

@@ -42,7 +42,7 @@ public abstract class DependentProperty {
 	/**
 	 * Gets if this Property is enabled (the property and all parents must be "on")
 	 * 
-	 * @return
+	 * @return if the property is enabled
 	 */
 	public boolean isActive() {
 		if (getBooleanValue()) return dependsOn == null || dependsOn.isActive();
@@ -78,26 +78,26 @@ public abstract class DependentProperty {
 	/**
 	 * Returns a string representation of this value
 	 * 
-	 * @return
+	 * @return the property serialized
 	 */
 	public abstract String serialize();
 	
 	/**
 	 * Deserializes the value from a string representation
 	 * 
-	 * @param rawvalue
+	 * @param rawvalue the serialization string
 	 */
 	public abstract void deserialize(String rawvalue);
 	
 	/**
-	 * GEts the current value as an true/false value ( for isActive() )
+	 * Gets the current value as an true/false value ( for isActive() )
 	 * 
-	 * @return
+	 * @return the value of this property
 	 */
 	public abstract boolean getBooleanValue();
 	
 	/**
-	 * @return all childrens of this node
+	 * @return all children of this node
 	 */
 	public List<DependentProperty> getChildren() {
 		return children;

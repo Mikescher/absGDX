@@ -46,7 +46,7 @@ public class StringProperty extends DependentProperty {
 	/**
 	 * Gets the current value
 	 * 
-	 * @return
+	 * @return the value of this property
 	 */
 	public String get() {
 		return this.value;

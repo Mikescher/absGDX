@@ -535,7 +535,7 @@ public class CollisionMap {
 	/**
 	 * Get the amount of registered CollisionGeometries
 	 * 
-	 * @return
+	 * @return geometries.count
 	 */
 	public int getGeometryCount() {
 		return geometryCount;
@@ -562,7 +562,7 @@ public class CollisionMap {
 	/**
 	 * Gets the current scaling in the representation x:y (e.g. 1:4)
 	 * 
-	 * @return
+	 * @return scale ratio
 	 */
 	public String getScaleString() {
 		return (expTileScale < 0) ? ((int)Math.pow(2, -expTileScale) + ":1") : ("1:" + (int)Math.pow(2, expTileScale));
@@ -571,7 +571,7 @@ public class CollisionMap {
 	/**
 	 * Get the map dimensions (width x height)
 	 * 
-	 * @return
+	 * @return size [w,h]
 	 */
 	public Vector2 getDimensions() {
 		return new Vector2(width, height);

@@ -32,7 +32,7 @@ public class ConstantBooleanProperty extends DependentProperty {
 	/**
 	 * Gets the current value
 	 * 
-	 * @return
+	 * @return the value of this property
 	 */
 	public boolean get() {
 		return this.value;

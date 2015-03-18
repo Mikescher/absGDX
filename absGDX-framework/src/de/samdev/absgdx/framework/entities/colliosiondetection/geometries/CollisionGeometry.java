@@ -40,7 +40,7 @@ public abstract class CollisionGeometry {
 	/**
 	 * Gets the center X coordinate
 	 * 
-	 * @return
+	 * @return position.center[x]
 	 */
 	public float getCenterX() {
 		return center.x;
@@ -49,7 +49,7 @@ public abstract class CollisionGeometry {
 	/**
 	 * Gets the center Y coordinate
 	 * 
-	 * @return
+	 * @return position.center[y]
 	 */
 	public float getCenterY() {
 		return center.y;
@@ -58,7 +58,7 @@ public abstract class CollisionGeometry {
 	/**
 	 * Gets the a copy of the center vector
 	 * 
-	 * @return
+	 * @return center
 	 */
 	public Vector2 getCenter() {
 		return new Vector2(center);
@@ -77,14 +77,14 @@ public abstract class CollisionGeometry {
 	/**
 	 * The surrounding radius of this geometry
 	 * 
-	 * @return
+	 * @return radius (surrounding)
 	 */
 	public abstract float getRadius();
 	
 	/**
 	 * Calculates and returns the area of the geometry 
 	 * 
-	 * @return
+	 * @return area in square-units
 	 */
 	public abstract float area();
 	
@@ -253,7 +253,7 @@ public abstract class CollisionGeometry {
 	/**
 	 *Creates an exact copy of this geometry
 	 * 
-	 * @return
+	 * @return a copy of this geometry
 	 */
 	public abstract CollisionGeometry copy();
 }

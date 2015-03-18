@@ -51,7 +51,7 @@ public class BooleanProperty extends DependentProperty {
 	/**
 	 * Gets the current value
 	 * 
-	 * @return
+	 * @return the value
 	 */
 	public boolean get() {
 		return this.value;
@@ -60,7 +60,7 @@ public class BooleanProperty extends DependentProperty {
 	/**
 	 * Switched the current value (true <-> false)
 	 * 
-	 * @return
+	 * @return the new value
 	 */
 	public boolean doSwitch() {
 		set(! get());

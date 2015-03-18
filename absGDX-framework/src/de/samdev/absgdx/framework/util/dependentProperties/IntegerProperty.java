@@ -41,7 +41,7 @@ public class IntegerProperty extends DependentProperty{
 	/**
 	 * Sets the value
 	 * 
-	 * @param newvalue
+	 * @param newvalue the new value
 	 */
 	public void set(int newvalue) {
 		this.value = newvalue;
@@ -50,7 +50,7 @@ public class IntegerProperty extends DependentProperty{
 	/**
 	 * Gets the current value
 	 * 
-	 * @return
+	 * @return the value of this property
 	 */
 	public int get() {
 		return this.value;

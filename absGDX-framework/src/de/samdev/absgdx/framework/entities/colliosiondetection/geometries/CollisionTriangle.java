@@ -115,52 +115,52 @@ public class CollisionTriangle extends CollisionGeometry {
 	/**
 	 * Get point1 X coordinate
 	 * 
-	 * @return
+	 * @return position[0].x
 	 */
 	public float getPoint1_X() {
 		return center.x + point1_x;
 	}
 
 	/**
-	 * Get point1 X coordinate
+	 * Get point1 Y coordinate
 	 * 
-	 * @return
+	 * @return position[1].y
 	 */
 	public float getPoint1_Y() {
 		return center.y + point1_y;
 	}
 
 	/**
-	 * Get point1 X coordinate
+	 * Get point2 X coordinate
 	 * 
-	 * @return
+	 * @return position[2].x
 	 */
 	public float getPoint2_X() {
 		return center.x + point2_x;
 	}
 
 	/**
-	 * Get point1 X coordinate
+	 * Get point2 Y coordinate
 	 * 
-	 * @return
+	 * @return position[2].y
 	 */
 	public float getPoint2_Y() {
 		return center.y + point2_y;
 	}
 
 	/**
-	 * Get point1 X coordinate
+	 * Get point3 X coordinate
 	 * 
-	 * @return
+	 * @return position[3].x
 	 */
 	public float getPoint3_X() {
 		return center.x + point3_x;
 	}
 
 	/**
-	 * Get point1 X coordinate
+	 * Get point3 Y coordinate
 	 * 
-	 * @return
+	 * @return position[3].y
 	 */
 	public float getPoint3_Y() {
 		return center.y + point3_y;

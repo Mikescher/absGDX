@@ -67,7 +67,7 @@ public class DebugFrequencyMeter {
 	}
 
 	/**
-	 * Create sa new DebugFrequencyMeter with TargetFPS=60
+	 * Create a new DebugFrequencyMeter with TargetFPS (=60)
 	 */
 	public DebugFrequencyMeter() {
 		this(60);
@@ -149,7 +149,7 @@ public class DebugFrequencyMeter {
 	/**
 	 * Get the percentage that the rendering takes (compared to the maximum amount of time, a cycle can take, to still reach the targetFPS)
 	 * 
-	 * @return
+	 * @return the render percentage
 	 */
 	public double getRenderPercentage() {
 		return renderTime / (10000000d / targetFPS);
@@ -158,7 +158,7 @@ public class DebugFrequencyMeter {
 	/**
 	 * Get the percentage that the updating takes (compared to the maximum amount of time, a cycle can take, to still reach the targetFPS)
 	 * 
-	 * @return
+	 * @return the update percentage
 	 */
 	public double getUpdatePercentage() {
 		return updateTime / (10000000d / targetFPS);
@@ -167,7 +167,7 @@ public class DebugFrequencyMeter {
 	/**
 	 * Get the percentage that the (rendering+updating) takes (compared to the maximum amount of time, a cycle can take, to still reach the targetFPS)
 	 * 
-	 * @return
+	 * @return the total percentage
 	 */
 	public double getTotalPercentage() {
 		return (renderTime + updateTime) / (10000000d / targetFPS);

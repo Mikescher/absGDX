@@ -29,7 +29,7 @@ public enum AlignEdge4 {
 	/**
 	 * Gets the direction as an normalized Vector
 	 * 
-	 * @return
+	 * @return the direction as an vector
 	 */
 	public Vector2 getDirectionVector()
 	{

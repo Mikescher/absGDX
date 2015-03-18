@@ -372,7 +372,7 @@ public abstract class GameLayer extends AgdxLayer {
 	/**
 	 * return the map offset (in tile coordinates) (offset=1 :=> 1 tile offset)
 	 * 
-	 * @return
+	 * @return the map offset
 	 */
 	public Vector2 getMapOffset() {
 		return map_offset;
@@ -381,7 +381,7 @@ public abstract class GameLayer extends AgdxLayer {
 	/**
 	 * return the tile scale (= tile size)
 	 * 
-	 * @return
+	 * @return the tile scale
 	 */
 	public float getTileScale() {
 		return mapScaleResolver.getTileSize(owner.getScreenWidth(), owner.getScreenHeight(), map.height, map.width);
@@ -397,7 +397,7 @@ public abstract class GameLayer extends AgdxLayer {
 	/**
 	 * return the (tiled) map
 	 * 
-	 * @return
+	 * @return the map
 	 */
 	public TileMap getMap() {
 		return map;
@@ -426,7 +426,7 @@ public abstract class GameLayer extends AgdxLayer {
 	/**
 	 * Gets an List of entities to iterate through (DONT CHANGE THE LIST !)
 	 * 
-	 * @return
+	 * @return an iterator over all entities
 	 */
 	public List<Entity> iterateEntities() {
 		return entities;
@@ -435,7 +435,7 @@ public abstract class GameLayer extends AgdxLayer {
 	/**
 	 * Gets the amount of currently registered Entities
 	 * 
-	 * @return
+	 * @return entities.count
 	 */
 	public int getEntityCount() {
 		return entities.size();
@@ -444,7 +444,7 @@ public abstract class GameLayer extends AgdxLayer {
 	/**
 	 * Get the collisionMap
 	 * 
-	 * @return
+	 * @return the collision map
 	 */
 	public CollisionMap getCollisionMap() {
 		return collisionMap;
@@ -453,7 +453,7 @@ public abstract class GameLayer extends AgdxLayer {
 	/**
 	 * Get the amount of Entities that where rendered last cycle
 	 * 
-	 * @return
+	 * @return amount of rendered entities
 	 */
 	public int getRenderingEntitiesCount() {
 		return renderedEntities;
@@ -462,7 +462,7 @@ public abstract class GameLayer extends AgdxLayer {
 	/**
 	 * Get the X position of the cursor (in map coordinates)
 	 * 
-	 * @return
+	 * @return the X cursor position
 	 */
 	public float GetMouseOnMapPositionX() {
 		Rectangle visible = getVisibleMapBox();
@@ -472,7 +472,7 @@ public abstract class GameLayer extends AgdxLayer {
 	/**
 	 * Get the Y position of the cursor (in map coordinates)
 	 * 
-	 * @return
+	 * @return the Y cursor position
 	 */
 	public float GetMouseOnMapPositionY() {
 		Rectangle visible = getVisibleMapBox();

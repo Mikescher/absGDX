@@ -18,7 +18,7 @@ public class RootProperty extends MetaProperty {
 	/**
 	 * Gets a debug representation of the whole property-tree
 	 * 
-	 * @return
+	 * @return the subtree as debug string
 	 */
 	public String getTreeDebugString() {
 		StringBuilder sb = new StringBuilder();

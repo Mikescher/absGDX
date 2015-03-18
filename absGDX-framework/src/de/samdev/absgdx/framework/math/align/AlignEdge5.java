@@ -34,7 +34,7 @@ public enum AlignEdge5 {
 	/**
 	 * Gets the direction as an normalized Vector
 	 * 
-	 * @return
+	 * @return the direction as an vector
 	 */
 	public Vector2 getDirectionVector()
 	{

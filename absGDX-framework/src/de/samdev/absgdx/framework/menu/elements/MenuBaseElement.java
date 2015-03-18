@@ -241,7 +241,8 @@ public abstract class MenuBaseElement {
 	 * 
 	 * @param x the x position
 	 * @param y the y position
-	 * @return
+	 * 
+	 * @return the element as [x|y]
 	 */
 	public abstract MenuBaseElement getElementAt(int x, int y);
 	
@@ -357,6 +358,7 @@ public abstract class MenuBaseElement {
 
 	/**
 	 * Called when a Keyboard character is typed
+	 * 
 	 * @param key the character
 	 */
 	public void onKeyTyped(char key) {
@@ -365,6 +367,7 @@ public abstract class MenuBaseElement {
 
 	/**
 	 * Called when a Keyboard key is pressed down
+	 * 
 	 * @param keycode the key code (see libgdx:Keys)
 	 */
 	public void onKeyDown(int keycode) {
@@ -373,6 +376,7 @@ public abstract class MenuBaseElement {
 
 	/**
 	 * Called when the user scrolls
+	 * 
 	 * @param amount the scroll width
 	 */
 	public void onScroll(int amount) {
@@ -623,6 +627,7 @@ public abstract class MenuBaseElement {
 	 * (or NULL if there is no element with this ID)
 	 * 
 	 * @param id the id of the element
+	 * 
 	 * @return the found element or NULL
 	 */
 	public abstract MenuBaseElement getElementByID(String id);

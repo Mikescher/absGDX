@@ -57,7 +57,7 @@ public class CollisionBox extends CollisionGeometry {
 	/**
 	 * The BottomLeft X position
 	 * 
-	 * @return
+	 * @return position.bottomleft
 	 */
 	public float getX() {
 		return center.x - width/2;
@@ -66,7 +66,7 @@ public class CollisionBox extends CollisionGeometry {
 	/**
 	 * The TopRight X position
 	 * 
-	 * @return
+	 * @return position.topright
 	 */
 	public float getRightX() {
 		return center.x + width/2;
@@ -75,7 +75,7 @@ public class CollisionBox extends CollisionGeometry {
 	/**
 	 * The BottomLeft Y Position
 	 * 
-	 * @return
+	 * @return position.bottomleft
 	 */
 	public float getY() {
 		return center.y - height/2;
@@ -84,7 +84,7 @@ public class CollisionBox extends CollisionGeometry {
 	/**
 	 * The TopRight Y Position
 	 * 
-	 * @return
+	 * @return position.topright
 	 */
 	public float getTopY() {
 		return center.y + height/2;

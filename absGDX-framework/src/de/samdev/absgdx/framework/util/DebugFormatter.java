@@ -20,7 +20,8 @@ public class DebugFormatter {
 	 * 
 	 * @param r the rectangle
 	 * @param decimalPointsPot the amount of decimal places
-	 * @return
+	 * 
+	 * @return the rectangle formatted as an debug string
 	 */
 	public static String fmtRectangle(Rectangle r, int decimalPointsPot) {
 		if (r == null) return "NULL";
@@ -65,7 +66,8 @@ public class DebugFormatter {
 	 * 
 	 * @param r the Vector
 	 * @param decimalPointsPot the amount of decimal places
-	 * @return
+
+	 * @return the vector formatted as an debug string
 	 */
 	public static String fmtV2(Vector2 r, int decimalPointsPot) {
 		if (r == null) return "NULL";
@@ -96,7 +98,8 @@ public class DebugFormatter {
 	 * 
 	 * @param r the Vector
 	 * @param decimalPointsPot the amount of decimal places
-	 * @return
+
+	 * @return the vector formatted as an debug string
 	 */
 	public static String fmtV3(Vector3 r, int decimalPointsPot) {
 		if (r == null) return "NULL";
@@ -134,7 +137,8 @@ public class DebugFormatter {
 	 * 
 	 * @param r the number
 	 * @param decimalPointsPot the amount of decimal places
-	 * @return
+
+	 * @return the float formatted as an debug string
 	 */
 	public static String fmtF(float r, int decimalPointsPot) {
 		if (r == (long)r || decimalPointsPot == 1)
@@ -148,7 +152,8 @@ public class DebugFormatter {
 	 * 
 	 * @param r the number
 	 * @param decimalPointsPot the amount of decimal places
-	 * @return
+
+	 * @return the double formatted as an debug string
 	 */
 	public static String fmtD(double r, int decimalPointsPot) {
 		if (r == (long)r || decimalPointsPot == 1)
@@ -162,7 +167,8 @@ public class DebugFormatter {
 	 * 
 	 * @param properties the map
 	 * @param limit the max amount of properties in the output
-	 * @return
+
+	 * @return the map formatted as an debug string
 	 */
 	public static String fmtPropertiesMap(HashMap<String, String> properties, int limit) {
 		if (properties == null) return "NULL";

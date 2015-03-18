@@ -140,7 +140,7 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	/**
 	 * Get the boundary box
 	 * 
-	 * @return
+	 * @return the boundary of this entity
 	 */
 	public Rectangle getBoundings() {
 		return new Rectangle(x, y, width, height);
@@ -149,7 +149,7 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	/**
 	 * Get the width
 	 * 
-	 * @return
+	 * @return width
 	 */
 	public float getWidth() {
 		return width;
@@ -158,7 +158,7 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	/**
 	 * Get the height
 	 * 
-	 * @return
+	 * @return height
 	 */
 	public float getHeight() {
 		return height;
@@ -167,7 +167,7 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	/**
 	 * Get the X - bottom position
 	 * 
-	 * @return
+	 * @return position.bottom
 	 */
 	public float getPositionX() {
 		return x;
@@ -176,7 +176,7 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	/**
 	 * Get the Y - left position
 	 * 
-	 * @return
+	 * @return position.left
 	 */
 	public float getPositionY() {
 		return y;
@@ -185,7 +185,7 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	/**
 	 * Get the X - right position
 	 * 
-	 * @return
+	 * @return position.right
 	 */
 	public float getPositionRightX() {
 		return x + width;
@@ -194,7 +194,7 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	/**
 	 * Get the Y - top position
 	 * 
-	 * @return
+	 * @return position.top
 	 */
 	public float getPositionTopY() {
 		return y + height;
@@ -203,7 +203,7 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	/**
 	 * Get the center X position
 	 * 
-	 * @return
+	 * @return position.center_horz
 	 */
 	public float getCenterX() {
 		return x + width/2;
@@ -213,7 +213,7 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	/**
 	 * Get the center Y position
 	 * 
-	 * @return
+	 * @return position.center_vert
 	 */
 	public float getCenterY() {
 		return y + height/2;
@@ -222,7 +222,7 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	/**
 	 * Get the position as an Vector (must create a new Vector instance)
 	 * 
-	 * @return
+	 * @return position (bottom - left)
 	 */
 	public Vector2 getPosition() {
 		return new Vector2(x, y);
@@ -231,7 +231,7 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	/**
 	 * Gets the middle
 	 * 
-	 * @return the middle of the bounding box
+	 * @return position (center)
 	 */
 	public Vector2 getMiddle() {
 		return new Vector2(x + width/2, y + height/2);
@@ -549,7 +549,7 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	 * Get the acceleration including 
 	 *  - the gravitational force
 	 * 
-	 * @return
+	 * @return the sum of all accelerations
 	 */
 	public Vector2 getRealAcceleration() {
 		Vector2 result = new Vector2();

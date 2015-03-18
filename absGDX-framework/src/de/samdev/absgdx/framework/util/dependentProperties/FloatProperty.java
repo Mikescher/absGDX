@@ -41,7 +41,7 @@ public class FloatProperty extends DependentProperty{
 	/**
 	 * Sets the value
 	 * 
-	 * @param newvalue
+	 * @param newvalue the new value
 	 */
 	public void set(float newvalue) {
 		this.value = newvalue;
@@ -50,7 +50,7 @@ public class FloatProperty extends DependentProperty{
 	/**
 	 * Gets the current value
 	 * 
-	 * @return
+	 * @return the value of this property
 	 */
 	public float get() {
 		return this.value;

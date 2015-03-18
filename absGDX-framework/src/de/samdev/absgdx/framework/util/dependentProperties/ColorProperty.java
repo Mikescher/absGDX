@@ -53,7 +53,7 @@ public class ColorProperty extends DependentProperty {
 	/**
 	 * Gets the current value
 	 * 
-	 * @return
+	 * @return the value of this property
 	 */
 	public Color get() {
 		return this.value;

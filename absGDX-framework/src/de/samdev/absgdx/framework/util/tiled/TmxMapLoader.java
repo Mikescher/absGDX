@@ -85,7 +85,7 @@ public class TmxMapLoader extends TmxParser {
 	 * 
 	 * Throws TmxMapParsingException if the constructor is not found or an other parsing problem occured
 	 * 
-	 * @return
+	 * @return the parsed TileMap
 	 * @throws TmxMapParsingException
 	 */
 	public TileMap start() throws TmxMapParsingException {

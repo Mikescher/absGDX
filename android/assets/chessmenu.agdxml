@@ -28,9 +28,11 @@
 		</grid>
 		
 		<grid grid.row="3" grid.column="1" iscontainer="true">
-			<grid.columndefinitions width="5%, 1*, 5%" />
+			<grid.columndefinitions width="5%, 10%, 2%, 1*, 5%" />
 			
-			<button grid.column="1" content="Global thermonuclear war." halign="CENTER" valign="CENTER" onClicked="startGame"/>
+			<button grid.column="1" content="<back>" halign="CENTER" valign="CENTER" onClicked="back" onClicked="menuBack"/>
+
+			<button grid.column="3" content="Global thermonuclear war." halign="CENTER" valign="CENTER" onClicked="startGame"/>
 		</grid>
 	</grid>
 </frame>

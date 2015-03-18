@@ -17,7 +17,7 @@ import de.samdev.absgdx.framework.util.exceptions.AgdxmlParsingException;
 public class ChessMenu extends AgdxmlLayer {
 
 	public ChessMenu(AgdxGame owner) throws AgdxmlParsingException {
-		super(owner, new BitmapFont(Gdx.files.internal("consolefont.fnt")), Gdx.files.internal("chessMenu.agdxml"));
+		super(owner, new BitmapFont(Gdx.files.internal("consolefont.fnt")), Gdx.files.internal("chessmenu.agdxml"));
 	}
 
 	@Override
@@ -58,6 +58,11 @@ public class ChessMenu extends AgdxmlLayer {
 		boolean isP2Human = ((MenuRadioButton)getElementByID("rbP2Human")).isChecked();
 
 		owner.pushLayer(new ChessLayer(owner, isP1Human, isP2Human));
+	}
+
+	@SuppressWarnings("unused") // event listener
+	public void menuBack(MenuBaseElement element, String identifier) {
+		owner.popLayer();
 	}
 
 }

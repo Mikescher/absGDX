@@ -319,8 +319,13 @@ public abstract class AgdxGame implements ApplicationListener {
 	 * @param layer
 	 */
 	public void pushLayer(AgdxLayer layer) {
+		if (! layers.isEmpty()) {
+			layers.peek().onDeactivate();
+		}
+		
 		layers.push(layer);
 		Gdx.input.setInputProcessor(layers.peek());
+		layers.peek().onActivate();
 	}
 
 	/**
@@ -329,19 +334,32 @@ public abstract class AgdxGame implements ApplicationListener {
 	 * @param layer
 	 */
 	public void setLayer(AgdxLayer layer) {
-		while (! layers.isEmpty()) 
-			popLayer();
-		
-		pushLayer(layer);
+		while (! layers.isEmpty()) {
+			layers.peek().onDeactivate();
+			layers.pop();
+		}
+
+		layers.push(layer);
+		Gdx.input.setInputProcessor(layers.peek());
+		layers.peek().onActivate();
 	}
 
 	/**
 	 * pops one layer of the stack
 	 */
 	public void popLayer() {
+		if (! layers.isEmpty()) {
+			layers.peek().onDeactivate();
+		}
+		
 		layers.pop();
 
-		Gdx.input.setInputProcessor(layers.peek());
+		if (! layers.isEmpty()) {
+			Gdx.input.setInputProcessor(layers.peek());
+			layers.peek().onActivate();
+		} else {
+			Gdx.input.setInputProcessor(null);
+		}
 	}
 
 	/**

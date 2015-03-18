@@ -78,6 +78,10 @@ public abstract class AgdxmlLayer extends MenuLayer {
 
 	@Override
 	public void onResize() {
+		updateLayout();
+	}
+
+	private void updateLayout() {
 		try {
 			parser.update();
 		} catch (AgdxmlParsingException e) {
@@ -139,5 +143,12 @@ public abstract class AgdxmlLayer extends MenuLayer {
 	@SuppressWarnings("rawtypes")
 	public Method getDeclaredMethod(String name, Class... parameterTypes) throws ReflectionException {
 		return ClassReflection.getDeclaredMethod(this.getClass(), name, parameterTypes);
+	}
+	
+	@Override
+	public void onActivate() {
+		super.onActivate();
+
+		updateLayout();
 	}
 }

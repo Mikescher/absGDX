@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.example.Textures;
@@ -138,14 +140,15 @@ public class ChessLayer extends GameLayer {
 		} else {
 			deltasum = 0;
 		}
+		
+		if (Gdx.input.isKeyJustPressed(Keys.ESCAPE) || Gdx.input.isKeyJustPressed(Keys.BACKSPACE))
+			owner.popLayer();
 	}
 
 	public void changePlayer() {
 		deltasum = 0;
 		targettime = random.nextInt(500)+1000;
 		currentPlayer = (1-(currentPlayer*2-1))/2;
-		
-		
 	}
 
 	private void doPlayerMove(int player) {

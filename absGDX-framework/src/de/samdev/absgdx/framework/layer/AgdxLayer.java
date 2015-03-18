@@ -82,6 +82,24 @@ public abstract class AgdxLayer implements InputProcessor {
 	public boolean scrolled(int amount) {
 		return false;
 	}
+
+	/**
+	 * Called when this layer becomes the  active layer
+	 * 
+	 * (override if this event is needed)
+	 */
+	public void onActivate() {
+		// NOP - override
+	}
+
+	/**
+	 * Called when this layer is no longer the active layer
+	 * 
+	 * (override if this event is needed)
+	 */
+	public void onDeactivate() {
+		// NOP - override
+	}
 	
 	
 }

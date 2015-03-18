@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
 import de.samdev.absgdx.example.Textures;
-import de.samdev.absgdx.example.chessgame.ChessLayer;
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.layer.AgdxmlLayer;
 import de.samdev.absgdx.framework.menu.GUITextureProvider;
@@ -94,6 +93,10 @@ public class DemoMenu extends AgdxmlLayer {
 
 	@SuppressWarnings("unused") // event listener
 	public void playChess(MenuBaseElement element, String identifier) {
-		owner.pushLayer(new ChessLayer(owner));
+		try {
+			owner.pushLayer(new ChessMenu(owner));
+		} catch (AgdxmlParsingException e) {
+			throw new RuntimeException(e);
+		}
 	}
 }

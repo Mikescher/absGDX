@@ -17,7 +17,7 @@ public class ChessPawn extends ChessPiece {
 	public List<Vector2i> getMoves() {
 		int dir = 1 - player*2;
 		List<Vector2i> moves = new ArrayList<Vector2i>();
-		boolean baseline = (boardPosY - dir)%8 == 0;
+		boolean baseline = (boardPosY - dir)%7 == 0;
 		
 		if (isValidMove(new Vector2i(0, dir), ChessMoveType.MOVE)) 
 			moves.add(new Vector2i(0, dir));

@@ -341,6 +341,7 @@ public class AgdxmlParser {
 		if (xmlElement.getAttribute("autoScale", null) != null)    elem.setAutoScale(AgdxmlParserHelper.parseTextAutoScaleMode(xmlElement.getAttribute("autoScale")));
 		if (xmlElement.getAttribute("imageVisible", null) != null) elem.setVisible(xmlElement.getAttribute("imageVisible").toLowerCase().equals("true"));
 		if (xmlElement.getAttribute("labelVisible", null) != null) elem.setVisible(xmlElement.getAttribute("labelVisible").toLowerCase().equals("true"));
+		if (xmlElement.getAttribute("checked", null) != null)      elem.setChecked(xmlElement.getAttribute("checked").toLowerCase().equals("true"));
 		
 		final HashMap<String, Method> events = new HashMap<String, Method>();
 		
@@ -413,6 +414,7 @@ public class AgdxmlParser {
 		if (xmlElement.getAttribute("autoScale", null) != null)    elem.setAutoScale(AgdxmlParserHelper.parseTextAutoScaleMode(xmlElement.getAttribute("autoScale")));
 		if (xmlElement.getAttribute("imageVisible", null) != null) elem.setRenderImage(xmlElement.getAttribute("imageVisible").toLowerCase().equals("true"));
 		if (xmlElement.getAttribute("labelVisible", null) != null) elem.setRenderLabel(xmlElement.getAttribute("labelVisible").toLowerCase().equals("true"));
+		if (xmlElement.getAttribute("checked", null) != null)      elem.setChecked(xmlElement.getAttribute("checked").toLowerCase().equals("true"));
 		
 		final HashMap<String, Method> events = new HashMap<String, Method>();
 		
@@ -597,7 +599,7 @@ public class AgdxmlParser {
 		String id = xmlElement.getAttribute("id", "{" + java.util.UUID.randomUUID().toString() + "}");
 		GUITextureProvider tprox = getTextureProviderFromMap(xmlElement, rootProvider);
 
-		boolean iscontainer = xmlElement.getAttribute("container", "false").toLowerCase().equals("true");
+		boolean iscontainer = xmlElement.getAttribute("iscontainer", "false").toLowerCase().equals("true");
 		MenuContainer elem;
 		if (iscontainer) 
 			elem = new MenuContainer(id, tprox);
@@ -667,7 +669,7 @@ public class AgdxmlParser {
 		String id = xmlElement.getAttribute("id", "{" + java.util.UUID.randomUUID().toString() + "}");
 		GUITextureProvider tprox = getTextureProviderFromMap(xmlElement, rootProvider);
 
-		boolean iscontainer = xmlElement.getAttribute("container", "false").toLowerCase().equals("true");
+		boolean iscontainer = xmlElement.getAttribute("iscontainer", "false").toLowerCase().equals("true");
 		MenuContainer elem;
 		if (iscontainer) 
 			elem = new MenuContainer(id, tprox);

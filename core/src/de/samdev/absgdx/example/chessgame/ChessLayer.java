@@ -23,18 +23,24 @@ import de.samdev.absgdx.framework.map.mapscaleresolver.ShowCompleteMapScaleResol
 
 public class ChessLayer extends GameLayer {
 
-	float deltasum = 0;
-	float targettime = 2500;
-	int targetplayer = 1;
-	Random random = new Random();
+	private float deltasum = 0;
+	private float targettime = 2500;
+	public int currentPlayer = 0;
+	private Random random = new Random();
 	
 	public ChessPiece[][] board = new ChessPiece[8][8];
 	
 	public List<List<ChessPiece>> pieces = new ArrayList<List<ChessPiece>>();
+		
+	public final Boolean[] isHuman;
 	
-	public ChessLayer(AgdxGame owner) {
+	public ChessPiece selection = null;
+	
+	public ChessLayer(AgdxGame owner, boolean p1human, boolean p2human) {
 		super(owner, createMap());
 
+		this.isHuman = new Boolean[] {p1human, p2human};
+		
 		pieces.add(new ArrayList<ChessPiece>());
 		pieces.add(new ArrayList<ChessPiece>());
 		
@@ -57,8 +63,8 @@ public class ChessLayer extends GameLayer {
 		
 		for (int x = 0; x < 10; x++) {
 			for (int y = 0; y < 10; y++) {
-				if ((x%9) * (y%9) == 0) tm.setTile(x, y, new ChessTile(2));
-				else tm.setTile(x, y, new ChessTile((x%2) ^ (y%2)));
+				if ((x%9) * (y%9) == 0) tm.setTile(x, y, new ChessTile(2, x-1, y-1));
+				else tm.setTile(x, y, new ChessTile((x%2) ^ (y%2), x-1, y-1));
 			}
 		}
 		
@@ -66,6 +72,12 @@ public class ChessLayer extends GameLayer {
 	}
 
 	private void init() {
+		for (int x = 1; x < 9; x++) {
+			for (int y = 1; y < 9; y++) {
+				((ChessTile)getMap().getTile(x, y)).clayer = this;
+			}
+		}
+		
 		addPiece(new ChessRook  (0, 0, 0));
 		addPiece(new ChessKnight(0, 1, 0));
 		addPiece(new ChessBishop(0, 2, 0));
@@ -115,15 +127,25 @@ public class ChessLayer extends GameLayer {
 
 	@Override
 	public void onUpdate(float delta) {
-		deltasum += delta;
-		
-		if (deltasum > targettime) {
+		if (! isHuman[currentPlayer]) {
+			deltasum += delta;
+			
+			if (deltasum > targettime) {
+				doPlayerMove(currentPlayer);
+				
+				changePlayer();				
+			}
+		} else {
 			deltasum = 0;
-			targettime = random.nextInt(500)+1000;
-			targetplayer = (1-(targetplayer*2-1))/2;
-
-			doPlayerMove(targetplayer);
 		}
+	}
+
+	public void changePlayer() {
+		deltasum = 0;
+		targettime = random.nextInt(500)+1000;
+		currentPlayer = (1-(currentPlayer*2-1))/2;
+		
+		
 	}
 
 	private void doPlayerMove(int player) {

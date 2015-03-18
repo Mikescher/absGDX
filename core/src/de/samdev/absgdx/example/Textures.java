@@ -191,6 +191,8 @@ public final class Textures {
 			TextureHelper.loadSingleTile(texchess, 6, 0, 128, 128), 
 			TextureHelper.loadSingleTile(texchess, 7, 0, 128, 128), 
 			TextureHelper.loadSingleTile(texchess, 6, 1, 128, 128),
+			TextureHelper.loadSingleTile(texchess, 7, 1, 128, 128),
+			TextureHelper.loadSingleTile(texchess, 7, 2, 128, 128),
 		};
 		tex_chess_figures = TextureHelper.load2DArray(texchess, 128, 256);
 	}

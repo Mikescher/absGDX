@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.example.chessgame.ChessLayer;
 import de.samdev.absgdx.example.chessgame.ChessMoveType;
+import de.samdev.absgdx.example.chessgame.ChessMovementMarker;
 import de.samdev.absgdx.example.chessgame.Vector2i;
 import de.samdev.absgdx.framework.entities.SimpleEntity;
 
@@ -88,6 +89,8 @@ public abstract class ChessPiece extends SimpleEntity {
 	public void movePiece(int dx, int dy) {
 		ChessLayer clayer = (ChessLayer)this.layer;
 
+		clayer.selection = null;
+		
 		setPosition(boardPosX+1, boardPosY+1);
 		
 		clayer.board[boardPosX][boardPosY] = null;
@@ -129,30 +132,28 @@ public abstract class ChessPiece extends SimpleEntity {
 	}
 	
 	public abstract List<Vector2i> getMoves();
-	
-	@Override
-	public void onPointerUp() {
-//		for (Vector2i m : getMoves()) {
-//			System.out.println(getClass().getSimpleName() + ": {" + m.x + "|" + m.y + "}");
-//		}
-//		if (getMoves().size() == 0)
-//			System.out.println(getClass().getSimpleName() + ": ---");
-//		
-//		if (Gdx.input.isKeyPressed(Keys.CONTROL_LEFT)) {
-//			List<Vector2i> moves = getMoves();
-//			Collections.shuffle(moves);
-//
-//			if (moves.size() > 0) {
-//				movePiece(moves.get(0).x, moves.get(0).y);
-//			}
-//		}
-//		
-//		System.out.println();
+
+	public void onBaseClicked() {
+		if (isCPMoving()) return;
 		
-//		killPiece();
+		ChessLayer clayer = (ChessLayer)this.layer;
+		
+		if (clayer.isHuman[player] && clayer.currentPlayer == this.player && clayer.selection != this) {
+			clayer.selection = this;
+			List<Vector2i> moves = getMoves();
+			
+			for (Vector2i move : moves) {
+				clayer.addEntity(new ChessMovementMarker(clayer, this, move));
+			}
+		} else {
+			clayer.selection = null;
+		}
 	}
 	
 	public void killPiece() {
+		ChessLayer clayer = (ChessLayer)this.layer;
+		clayer.selection = null;
+		
 		setZLayer(-9999);
 		
 		killProcess = 1000;
@@ -177,5 +178,12 @@ public abstract class ChessPiece extends SimpleEntity {
 		if (killProcess == 0f) return 0;
 		
 		return (killProcess + 80)% 360;
+	}
+
+	public boolean isCPMoving() {
+		float targetY = (boardPosY+1);
+		float targetX = (boardPosX+1);
+		
+		return (getPositionX() != targetX) || (getPositionY() != targetY);
 	}
 }

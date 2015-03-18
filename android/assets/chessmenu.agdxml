@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<frame textures="defaultprov_01">
+	<grid iscontainer="true">
+		<grid.rowdefinitions height="5%, 1*, 2%, 15%, 5%" />
+		<grid.columndefinitions width="5%, 1*, 5%" />
+		
+		<grid grid.row="1" grid.column="1" iscontainer="true">
+			<grid.rowdefinitions height="5%, 1*, 5%" />
+			<grid.columndefinitions width="5%, 1*, 2%, 1*, 5%" />
+
+			<grid grid.row="1" grid.column="1" iscontainer="false">
+				<grid.rowdefinitions height="5%, 20%, 15%, 15%, 5%, 15%" />
+				<grid.columndefinitions width="2%, 1*, 2%" />
+
+				<label       grid.row="1" grid.column="1" content="White Player" halign="CENTER"   fontColor="WHITE" autoScale="BOTH" />
+				<radiobutton grid.row="3" grid.column="1" content="Human"        id="rbP1Human"    fontColor="WHITE" checked="false"  />
+				<radiobutton grid.row="5" grid.column="1" content="Computer"     id="rbP1Computer" fontColor="WHITE" checked="true"   />
+			</grid>
+			
+			<grid grid.row="1" grid.column="3" iscontainer="false">
+				<grid.rowdefinitions height="5%, 20%, 15%, 15%, 5%, 15%" />
+				<grid.columndefinitions width="2%, 1*, 2%" />
+			
+				<label       grid.row="1" grid.column="1" content="Black Player" halign="CENTER"   fontColor="WHITE" autoScale="BOTH" />
+				<radiobutton grid.row="3" grid.column="1" content="Human"        id="rbP2Human"    fontColor="WHITE" checked="false"  />
+				<radiobutton grid.row="5" grid.column="1" content="Computer"     id="rbP2Computer" fontColor="WHITE" checked="true"   />
+			</grid>
+		</grid>
+		
+		<grid grid.row="3" grid.column="1" iscontainer="true">
+			<grid.columndefinitions width="5%, 1*, 5%" />
+			
+			<button grid.column="1" content="Global thermonuclear war." halign="CENTER" valign="CENTER" onClicked="startGame"/>
+		</grid>
+	</grid>
+</frame>

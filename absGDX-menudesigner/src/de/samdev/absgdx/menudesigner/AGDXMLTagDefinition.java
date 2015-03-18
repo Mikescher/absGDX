@@ -119,6 +119,7 @@ public class AGDXMLTagDefinition {
 			new TagAttribute("autoScale", "enum"),
 			new TagAttribute("imageVisible", "bool"),
 			new TagAttribute("labelVisible", "bool"),
+			new TagAttribute("checked", "bool"),
 			
 			new TagAttribute("onChecked", "event"),
 	
@@ -148,6 +149,7 @@ public class AGDXMLTagDefinition {
 			new TagAttribute("autoScale", "enum"),
 			new TagAttribute("imageVisible", "bool"),
 			new TagAttribute("labelVisible", "bool"),
+			new TagAttribute("checked", "bool"),
 			
 			new TagAttribute("onChecked", "event"),
 	

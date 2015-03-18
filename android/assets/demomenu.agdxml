@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <frame textures="defaultprov_01" >
-	<grid container="true">
+	<grid iscontainer="true">
 		<grid.columndefinitions>
 			<columndefinition width="24"/>
 			<columndefinition width="1*"/>
@@ -20,7 +20,7 @@
 				<rowdefinition height="51"/>
 			</grid.rowdefinitions>
 
-			<grid grid.row="0" grid.column="0" container="true">
+			<grid grid.row="0" grid.column="0" iscontainer="true">
 				<grid.columndefinitions>
 					<columndefinition width="24"/>
 					<columndefinition width="1*"/>
@@ -38,7 +38,7 @@
 				<image grid.row="1" grid.column="3" texture="img_02" animation="750" id="imageNazi"/>
 			</grid>
 			
-			<grid grid.row="1" grid.column="0" container="true">
+			<grid grid.row="1" grid.column="0" iscontainer="true">
 				<grid.columndefinitions>
 					<columndefinition width="10"/>
 					<columndefinition width="2*"/>

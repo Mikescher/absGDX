@@ -8,12 +8,16 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
@@ -38,6 +42,8 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
@@ -50,6 +56,7 @@ import com.badlogic.gdx.math.GridPoint2;
 
 import de.samdev.absgdx.framework.util.AndroidResolutions;
 import de.samdev.absgdx.framework.util.exceptions.AgdxmlParsingException;
+import javax.swing.ListSelectionModel;
 
 public class DesignFrame extends JFrame {
 	private static final long serialVersionUID = 5936312660450931611L;
@@ -62,8 +69,8 @@ public class DesignFrame extends JFrame {
 	private JPanel pnlBottom;
 	private JTabbedPane pnlSettings;
 	private RSyntaxTextArea edCode;
-	private JList<String> list;
-	private DefaultListModel<String> listModel;
+	private JList<AGDXMLTagDefinition> lstComponents;
+	private DefaultListModel<AGDXMLTagDefinition> listModel;
 	private JPanel tabSettings;
 	private JPanel tabComponents;
 	private JPanel pnlProperties;
@@ -91,6 +98,7 @@ public class DesignFrame extends JFrame {
 	private JButton btnSaveAs;
 	private JButton btnSave;
 	private JComboBox<GridPoint2> cbxSize;
+	private JList<AGDXMLTagDefinition.TagAttribute> lstAttributes;
 	
 	public DesignFrame() {
 		try {
@@ -107,17 +115,9 @@ public class DesignFrame extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-		listModel = new DefaultListModel<String>();
+		listModel = new DefaultListModel<AGDXMLTagDefinition>();
 		
-		listModel.addElement("<label>");
-		listModel.addElement("<checkbox>");
-		listModel.addElement("<button>");
-		listModel.addElement("<settingstree>");
-		listModel.addElement("<panel>");
-		listModel.addElement("<grid>");
-		listModel.addElement("<image>");
-		listModel.addElement("<radiobutton>");
-		listModel.addElement("<edit>");
+		for (AGDXMLTagDefinition tag : AGDXMLTagDefinition.TAGS) listModel.addElement(tag);
 		
 		rootPane = new JPanel();
 		rootPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -145,12 +145,37 @@ public class DesignFrame extends JFrame {
 		pnlSettings.addTab("Components", null, tabComponents, null);
 		tabComponents.setLayout(new BorderLayout(0, 0));
 		
-		list = new JList<String>();
-		list.setModel(listModel);
-		tabComponents.add(list);
+		lstComponents = new JList<AGDXMLTagDefinition>();
+		lstComponents.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					int caretPos = edCode.getLineEndOffsetOfCurrentLine();
+					String line = edCode.getText().substring(edCode.getLineStartOffsetOfCurrentLine(), edCode.getLineEndOffsetOfCurrentLine());
+					
+					String start = edCode.getText().substring(0, caretPos);
+					String end = edCode.getText().substring(caretPos);
+					
+					String mid = "<" + lstComponents.getSelectedValue().tag + " />\r\n";
+					
+					Matcher mt = Pattern.compile("^[\\t ]*").matcher(line);
+					if (mt.find()) mid = mt.group() + mid;
+					
+					edCode.setText(start + mid + end);
+					edCode.setCaretPosition(start.length() + mid.length() - 4);
+				}
+			}
+		});
+		lstComponents.setModel(listModel);
+		tabComponents.add(lstComponents);
 		
 		pnlProperties = new JPanel();
 		pnlSettings.addTab("Properties", null, pnlProperties, null);
+		pnlProperties.setLayout(new BorderLayout(0, 0));
+		
+		lstAttributes = new JList<AGDXMLTagDefinition.TagAttribute>();
+		lstAttributes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		pnlProperties.add(lstAttributes);
 		
 		tabSettings = new JPanel();
 		pnlSettings.addTab("Settings", null, tabSettings, null);
@@ -301,6 +326,30 @@ public class DesignFrame extends JFrame {
 
 					lblDraw.drawError();
 				}
+			}
+		});
+		edCode.addCaretListener(new CaretListener() {
+			@Override
+			public void caretUpdate(CaretEvent e) {
+				DefaultListModel<AGDXMLTagDefinition.TagAttribute> model = new DefaultListModel<AGDXMLTagDefinition.TagAttribute>();
+				
+				String line = edCode.getText().substring(edCode.getLineStartOffsetOfCurrentLine(), edCode.getLineEndOffsetOfCurrentLine());
+				
+
+				Matcher mt = Pattern.compile("<([a-z\\.]*)").matcher(line);
+				if (mt.find()) {
+					String tag = mt.group(1);
+					
+					for (AGDXMLTagDefinition tagdef : AGDXMLTagDefinition.TAGS) {
+						if (tagdef.tag.equals(tag)) {
+							for (AGDXMLTagDefinition.TagAttribute attr : tagdef.attributes) {
+								model.addElement(attr);
+							}
+						}
+					}
+				}
+				
+				lstAttributes.setModel(model);
 			}
 		});
 		edCode.setText(EMPTYDOC);

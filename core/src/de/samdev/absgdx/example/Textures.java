@@ -185,14 +185,17 @@ public final class Textures {
 		tex_gui_progressbar[2] = new TextureRegion(tex_gui, 95, 64, 1, 1);
 		tex_gui_progressbar[3] = new TextureRegion(tex_gui, 98, 64, 1, 1);
 		tex_gui_progressbar[4] = new TextureRegion(tex_gui, 64, 78, 59, 30);
-		
+
 		tex_chess_tiles = new TextureRegion[]
 		{
 			TextureHelper.loadSingleTile(texchess, 6, 0, 128, 128), 
 			TextureHelper.loadSingleTile(texchess, 7, 0, 128, 128), 
 			TextureHelper.loadSingleTile(texchess, 6, 1, 128, 128),
 			TextureHelper.loadSingleTile(texchess, 7, 1, 128, 128),
+			TextureHelper.loadSingleTile(texchess, 6, 2, 128, 128),
 			TextureHelper.loadSingleTile(texchess, 7, 2, 128, 128),
+			TextureHelper.loadSingleTile(texchess, 6, 3, 128, 128),
+			TextureHelper.loadSingleTile(texchess, 7, 3, 128, 128),
 		};
 		tex_chess_figures = TextureHelper.load2DArray(texchess, 128, 256);
 	}

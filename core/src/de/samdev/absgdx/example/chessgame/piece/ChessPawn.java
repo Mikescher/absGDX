@@ -23,7 +23,7 @@ public class ChessPawn extends ChessPiece {
 		if (isValidMove(new Vector2i(0, dir), ChessMoveType.MOVE, simple)) 
 			moves.add(new Vector2i(0, dir));
 		
-		if (isValidMove(new Vector2i(0, dir), ChessMoveType.MOVE, simple) && baseline && isValidMove(new Vector2i(0, 2*dir), ChessMoveType.MOVE, simple)) 
+		if (isValidMove(new Vector2i(0, dir), ChessMoveType.MOVE, true) && baseline && isValidMove(new Vector2i(0, 2*dir), ChessMoveType.MOVE, simple)) 
 			moves.add(new Vector2i(0, 2*dir));
 		
 		if (isValidMove(new Vector2i(+1, dir), ChessMoveType.KILL, simple)) moves.add(new Vector2i(+1, dir));

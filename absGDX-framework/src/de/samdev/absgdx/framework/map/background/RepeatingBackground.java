@@ -41,9 +41,12 @@ public class RepeatingBackground extends MapBackground {
 
 	@Override
 	public void draw(SpriteBatch sbatch, Vector2 map_offset, TileMap map, Rectangle visible) {
-		for (int x = (int)map_offset.x - 1; x < map.width; x+= texture.getRegionWidth() / scale) {
-			for (int y = (int)map_offset.y - 1; y < map.height; y+= texture.getRegionHeight() / scale) {
-				sbatch.draw(texture, x, y, texture.getRegionWidth() / scale, texture.getRegionHeight() / scale);
+		float w = texture.getRegionWidth() / scale;
+		float h = texture.getRegionHeight() / scale;
+		
+		for (int x = (int)(visible.x - 1); x < visible.x + visible.width + w; x += w) {
+			for (int y = (int)(visible.y - 1); y < visible.y + visible.height + h ; y += h) {
+				sbatch.draw(texture, x, y, w, h);
 			}
 		}
 	}

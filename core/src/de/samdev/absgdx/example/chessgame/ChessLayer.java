@@ -65,7 +65,7 @@ public class ChessLayer extends GameLayer {
 		
 		for (int x = 0; x < 10; x++) {
 			for (int y = 0; y < 10; y++) {
-				if ((x%9) * (y%9) == 0) tm.setTile(x, y, new ChessTile(2, x-1, y-1));
+				if ((x%9) * (y%9) == 0) tm.setTile(x, y, new ChessTile((x%9 == y%9)?6:7, x-1, y-1));
 				else tm.setTile(x, y, new ChessTile((x%2) ^ (y%2), x-1, y-1));
 			}
 		}
@@ -116,7 +116,7 @@ public class ChessLayer extends GameLayer {
 		addPiece(new ChessPawn(1, 6, 6));
 		addPiece(new ChessPawn(1, 7, 6));
 		
-		addBackground(new RepeatingBackground(Textures.tex_chess_tiles[2], 1));
+		addBackground(new RepeatingBackground(Textures.tex_chess_tiles[4], 128));
 	}
 
 	private void addPiece(ChessPiece chessPiece) {
@@ -187,6 +187,8 @@ public class ChessLayer extends GameLayer {
 				return;
 			}
 		}
+		
+		System.out.println("CHECKMATE");
 	}
 
 }

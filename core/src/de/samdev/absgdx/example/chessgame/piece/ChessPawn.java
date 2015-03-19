@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.samdev.absgdx.example.Textures;
+import de.samdev.absgdx.example.chessgame.ChessLayer;
 import de.samdev.absgdx.example.chessgame.ChessMoveType;
 import de.samdev.absgdx.example.chessgame.Vector2i;
 
@@ -30,5 +31,20 @@ public class ChessPawn extends ChessPiece {
 		if (isValidMove(new Vector2i(-1, dir), ChessMoveType.KILL, simple)) moves.add(new Vector2i(-1, dir));
 
 		return moves;
+	}
+	
+
+	@Override
+	public void beforeUpdate(float delta) {
+		super.beforeUpdate(delta);
+		
+		if (speed.isZero() && boardPosY%7 == 0) {
+			ChessLayer clayer = (ChessLayer)this.layer;
+			
+			killProcess = -1;
+			alive = false;
+			
+			clayer.addPiece(new ChessQueen(player, boardPosX, boardPosY));
+		}
 	}
 }

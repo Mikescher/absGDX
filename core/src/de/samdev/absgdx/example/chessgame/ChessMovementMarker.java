@@ -30,7 +30,7 @@ public class ChessMovementMarker extends SimpleEntity {
 		ChessPiece target = layer.board[chessPiece.getBoardPos().x + move.x][chessPiece.getBoardPos().y + move.y];
 		
 		if (target == null) return Textures.tex_chess_tiles[3];
-		return Textures.tex_chess_tiles[4];
+		return Textures.tex_chess_tiles[5];
 	}
 
 	@Override

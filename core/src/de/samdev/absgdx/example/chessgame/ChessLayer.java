@@ -119,7 +119,7 @@ public class ChessLayer extends GameLayer {
 		addBackground(new RepeatingBackground(Textures.tex_chess_tiles[4], 128));
 	}
 
-	private void addPiece(ChessPiece chessPiece) {
+	public void addPiece(ChessPiece chessPiece) {
 		addEntity(chessPiece);
 		
 		pieces.get(chessPiece.player).add(chessPiece);

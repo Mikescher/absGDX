@@ -6,8 +6,13 @@ import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.example.Textures;
 import de.samdev.absgdx.example.sidescrollergame.entities.PlayerEntity;
+import de.samdev.absgdx.example.sidescrollergame.tiles.DoorBottomTile;
+import de.samdev.absgdx.example.sidescrollergame.tiles.DoorTopTile;
+import de.samdev.absgdx.example.sidescrollergame.tiles.JumpPadTile;
+import de.samdev.absgdx.example.sidescrollergame.tiles.LadderTile;
+import de.samdev.absgdx.example.sidescrollergame.tiles.LadderTopTile;
+import de.samdev.absgdx.example.sidescrollergame.tiles.LeverTile;
 import de.samdev.absgdx.example.sidescrollergame.tiles.SidescrollerAutoTile;
-import de.samdev.absgdx.example.sidescrollergame.tiles.SpawnTile;
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.layer.GameLayer;
 import de.samdev.absgdx.framework.map.TileMap;
@@ -24,11 +29,8 @@ public class SidescrollerGameLayer extends GameLayer {
 		super(owner, loadMap());
 
 		setMapScaleResolver(new MaximumBoundaryMapScaleResolver(20, 15));
-//		setMapScaleResolver(new ShowCompleteMapScaleResolver());
 		
 		addEntity(pe = new PlayerEntity(1, 9));
-//		addBackground(new ParallaxBackground(Textures.texParallax_1, 24));
-//		addBackground(new ParallaxBackground(Textures.texParallax_2, 16));
 
 		addBackground(new ParallaxBackground(Textures.texParallax_1, 24));
 		addBackground(new ParallaxBackground(Textures.texParallax_2, 16));
@@ -39,7 +41,13 @@ public class SidescrollerGameLayer extends GameLayer {
 	private static TileMap loadMap() {
 		TmxMapLoader loader = new TmxMapLoader(Gdx.files.internal("demosidemap.tmx"));
 		
-		loader.addMapping(208, SpawnTile.class);
+		loader.addMapping(208, DoorBottomTile.class);
+		loader.addMapping(236, DoorTopTile.class);
+		loader.addMapping(236, DoorTopTile.class);
+		loader.addMapping(8,   LeverTile.class);
+		loader.addMapping(211, LadderTile.class);
+		loader.addMapping(264, LadderTopTile.class);
+		loader.addMapping(151, JumpPadTile.class);
 		
 		loader.addDefaultMapping(SidescrollerAutoTile.class);
 		

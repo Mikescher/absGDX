@@ -4,10 +4,10 @@ import de.samdev.absgdx.example.Textures;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
 import de.samdev.absgdx.framework.map.Tile;
 
-public class SpawnTile extends Tile {
+public class DoorBottomTile extends Tile {
 
-	public SpawnTile() {
-		super(Textures.texSpawnTile);
+	public DoorBottomTile() {
+		super(Textures.texDoorBottomTile);
 	}
 
 	@Override
@@ -17,8 +17,7 @@ public class SpawnTile extends Tile {
 
 	@Override
 	public void update(float delta) {
-		// TODO Auto-generated method stub
-
+		// NOP
 	}
 
 }

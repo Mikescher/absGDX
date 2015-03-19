@@ -6,15 +6,25 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.example.Textures;
+import de.samdev.absgdx.example.sidescrollergame.SidescrollerGameLayer;
+import de.samdev.absgdx.example.sidescrollergame.tiles.JumpPadTile;
+import de.samdev.absgdx.example.sidescrollergame.tiles.LadderTile;
+import de.samdev.absgdx.example.sidescrollergame.tiles.LadderTopTile;
 import de.samdev.absgdx.framework.entities.PhysicsEntity;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
 import de.samdev.absgdx.framework.layer.GameLayer;
+import de.samdev.absgdx.framework.map.Tile;
+import de.samdev.absgdx.framework.math.FloatMath;
 
 public class PlayerEntity extends PhysicsEntity {
 
 	private Vector2 movement_acc = addNewAcceleration();
 	private Vector2 grinding_acc = addNewAcceleration();
+	
+	private boolean doCatapult = false;
+	
+	private SidescrollerGameLayer slayer;
 	
 	public PlayerEntity(float x, float y) {
 		super(Textures.tex_player, 1000, 1, 92/70f);
@@ -34,7 +44,10 @@ public class PlayerEntity extends PhysicsEntity {
 
 	@Override
 	public void onActiveMovementCollide(CollisionGeometryOwner passiveCollider, CollisionGeometry myGeo, CollisionGeometry otherGeo) {
-		// 
+		if (passiveCollider instanceof JumpPadTile && otherGeo.getCenterY() + 0.99f < myGeo.getCenterY() && ((JumpPadTile)passiveCollider).ascend <= 0) {
+			doCatapult = true;
+			((JumpPadTile)passiveCollider).ascend();
+		}
 	}
 
 	@Override
@@ -71,13 +84,32 @@ public class PlayerEntity extends PhysicsEntity {
 		if (! Gdx.input.isKeyPressed(Keys.D) && ! Gdx.input.isKeyPressed(Keys.A) && Math.abs(speed.x) < 0.0001) speed.x = 0;
 		
 		if ((Gdx.input.isKeyPressed(Keys.W) || Gdx.input.isButtonPressed(Buttons.LEFT)) && (isTouchingBottom() || Gdx.input.isKeyPressed(Keys.SHIFT_LEFT))) speed.y = +0.008f;
+		
+		Tile tile = slayer.getMap().getTile((int)getCenterX(), (int)getCenterY());
+		if (tile instanceof LadderTile || tile instanceof LadderTopTile) {
+			if (Gdx.input.isKeyPressed(Keys.W) || Gdx.input.isButtonPressed(Buttons.LEFT)) {
+				speed.y = 0.003f;
+			}
+		}
+		
+		if (doCatapult) {
+			doCatapult = false;
+			
+			speed.y = +0.014f;
+		}
 	}
 
 	@Override
-	public void onLayerAdd(GameLayer layer) {		
+	public void onLayerAdd(GameLayer layer) {
+		slayer = (SidescrollerGameLayer) layer;		
+		
 		addFullCollisionBox();
 		
 		setMass(10);
 	}
 
+	@Override
+	public float getTextureScaleX() {
+		return (speed.x == 0) ? 1 : FloatMath.fsignum(speed.x);
+	}
 }

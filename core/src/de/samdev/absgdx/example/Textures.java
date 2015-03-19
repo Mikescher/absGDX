@@ -39,8 +39,17 @@ public final class Textures {
 	public static TextureRegion tex_Angel;
 
 	public static TextureRegion tex_AbyssTile;
-	public static TextureRegion texSpawnTile;
+	public static TextureRegion texDoorBottomTile;
+	public static TextureRegion texDoorTopTile;
 	public static TextureRegion texSlideTile;
+	public static TextureRegion texSpike;
+	public static TextureRegion texBush;
+	public static TextureRegion texLever;
+	public static TextureRegion texCactus;
+	public static TextureRegion texLadder;
+	public static TextureRegion texLadderTop;
+	public static TextureRegion texJumpPad;
+	public static TextureRegion texJumpPadEx;
 
 	public static TextureRegion[] tex_player;
 	
@@ -81,8 +90,17 @@ public final class Textures {
 		tex_GroundTile_BR = TextureHelper.loadSingleTile(texmap,  1,  7, 16, 16);
 		tex_AbyssTile     = TextureHelper.loadSingleTile(texmap, 10, 40, 16, 16);
 
-		texSpawnTile = TextureHelper.loadSingleTile(texsidemap,  4,  7, 70, 70);
-		texSlideTile = TextureHelper.loadSingleTile(texsidemap,  2, 11, 70, 70);
+		texDoorBottomTile = TextureHelper.loadSingleTile(texsidemap,  4,  7, 70, 70);
+		texDoorTopTile    = TextureHelper.loadSingleTile(texsidemap,  3,  8, 70, 70);
+		texSlideTile      = TextureHelper.loadSingleTile(texsidemap,  2, 11, 70, 70);
+		texSpike          = TextureHelper.loadSingleTile(texsidemap,  6,  4, 70, 70);
+		texBush           = TextureHelper.loadSingleTile(texsidemap,  2,  0, 70, 70);
+		texLever          = TextureHelper.loadSingleTile(texsidemap,  6,  5, 70, 70);
+		texCactus         = TextureHelper.loadSingleTile(texsidemap,  4,  0, 70, 70);
+		texLadder         = TextureHelper.loadSingleTile(texsidemap,  7,  7, 70, 70);
+		texLadderTop      = TextureHelper.loadSingleTile(texsidemap,  2,  9, 70, 70);
+		texJumpPad        = TextureHelper.loadSingleTile(texsidemap,  5,  5, 70, 70);
+		texJumpPadEx      = TextureHelper.loadSingleTile(texsidemap,  4,  6, 70, 70);
 		
 		tex_Bucket_empty      = TextureHelper.loadSingleTile(texmap, 10, 24, 32, 32);
 		tex_Bucket_full       = TextureHelper.loadSingleTile(texmap, 11, 24, 32, 32);

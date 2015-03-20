@@ -50,6 +50,8 @@ public final class Textures {
 	public static TextureRegion texLadderTop;
 	public static TextureRegion texJumpPad;
 	public static TextureRegion texJumpPadEx;
+	public static TextureRegion texTorch1;
+	public static TextureRegion texTorch2;
 
 	public static TextureRegion[] tex_player;
 	
@@ -101,6 +103,8 @@ public final class Textures {
 		texLadderTop      = TextureHelper.loadSingleTile(texsidemap,  2,  9, 70, 70);
 		texJumpPad        = TextureHelper.loadSingleTile(texsidemap,  5,  5, 70, 70);
 		texJumpPadEx      = TextureHelper.loadSingleTile(texsidemap,  4,  6, 70, 70);
+		texTorch1         = TextureHelper.loadSingleTile(texsidemap, 17,  3, 70, 70);
+		texTorch2         = TextureHelper.loadSingleTile(texsidemap, 20,  0, 70, 70);
 		
 		tex_Bucket_empty      = TextureHelper.loadSingleTile(texmap, 10, 24, 32, 32);
 		tex_Bucket_full       = TextureHelper.loadSingleTile(texmap, 11, 24, 32, 32);

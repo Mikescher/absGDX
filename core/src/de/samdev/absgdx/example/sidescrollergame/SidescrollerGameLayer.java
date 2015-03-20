@@ -13,6 +13,8 @@ import de.samdev.absgdx.example.sidescrollergame.tiles.LadderTile;
 import de.samdev.absgdx.example.sidescrollergame.tiles.LadderTopTile;
 import de.samdev.absgdx.example.sidescrollergame.tiles.LeverTile;
 import de.samdev.absgdx.example.sidescrollergame.tiles.SidescrollerAutoTile;
+import de.samdev.absgdx.example.sidescrollergame.tiles.SpikeTile;
+import de.samdev.absgdx.example.sidescrollergame.tiles.TorchTile;
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.layer.GameLayer;
 import de.samdev.absgdx.framework.map.TileMap;
@@ -41,13 +43,14 @@ public class SidescrollerGameLayer extends GameLayer {
 	private static TileMap loadMap() {
 		TmxMapLoader loader = new TmxMapLoader(Gdx.files.internal("demosidemap.tmx"));
 		
-		loader.addMapping(208, DoorBottomTile.class);
-		loader.addMapping(236, DoorTopTile.class);
-		loader.addMapping(236, DoorTopTile.class);
 		loader.addMapping(8,   LeverTile.class);
-		loader.addMapping(211, LadderTile.class);
-		loader.addMapping(264, LadderTopTile.class);
+		loader.addMapping(123, SpikeTile.class);
 		loader.addMapping(151, JumpPadTile.class);
+		loader.addMapping(208, DoorBottomTile.class);
+		loader.addMapping(211, LadderTile.class);
+		loader.addMapping(236, DoorTopTile.class);
+		loader.addMapping(264, LadderTopTile.class);
+		loader.addMapping(105, TorchTile.class);
 		
 		loader.addDefaultMapping(SidescrollerAutoTile.class);
 		
@@ -73,6 +76,8 @@ public class SidescrollerGameLayer extends GameLayer {
 			setRawOffset(new Vector2(map_offset.x, map_offset.y - speed));
 		
 		scrollMapToEntity(pe, 5f, 2f);
+		
+		if (Gdx.input.isKeyPressed(Keys.BACK) || Gdx.input.isKeyPressed(Keys.ESCAPE)) owner.popLayer();
 	}
 
 }

@@ -74,7 +74,7 @@ public class Nazi extends Entity {
 		}
 		
 		if (Gdx.input.isButtonPressed(Buttons.LEFT) && !lastLeft) {
-			float angle = new Vector2(layer.GetMouseOnMapPositionX(), layer.GetMouseOnMapPositionY()).sub(getCenterX(), getCenterY()).angle();
+			float angle = new Vector2(layer.getMouseOnMapPositionX(), layer.getMouseOnMapPositionY()).sub(getCenterX(), getCenterY()).angle();
 			int sector = (int)(((angle + 180 + 45)%360)/90);
 			
 			switch (sector) {

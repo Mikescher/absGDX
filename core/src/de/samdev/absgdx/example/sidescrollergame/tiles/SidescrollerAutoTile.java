@@ -22,9 +22,13 @@ public class SidescrollerAutoTile extends AutoTile {
 		if (gid ==   4) return false; // Yellow push button
 		if (gid ==   5) return false; // Cactus
 		if (gid ==  94) return false; // rock
-		if (gid == 105) return false; // torch
+		if (gid == 150) return false; // Grass
 		if (gid == 246) return false; // Arrow left
 		if (gid == 329) return false; // Exit sign
+		if (gid == 274) return false; // Tunnel Background
+		if (gid == 213) return false; // Water Top
+		if (gid == 268) return false; // Water Base
+		if (gid == 180) return false; // Star
 		
 		return true;
 	}

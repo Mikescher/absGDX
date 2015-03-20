@@ -70,15 +70,12 @@ public class PlayerEntity extends PhysicsEntity {
 		pauseAnimation(speed.isZero());
 		
 		movement_acc.x = 0;
-		if (Gdx.input.isKeyPressed(Keys.D)) movement_acc.x = +0.000004f;
-		if (Gdx.input.isKeyPressed(Keys.A)) movement_acc.x = -0.000004f;
-		
-		movement_acc.x += Math.min(Math.max(Gdx.input.getAccelerometerY(), -4), 4) * 0.000001f;
+		if (Gdx.input.isKeyPressed(Keys.D) || Gdx.input.getAccelerometerY() > +1) movement_acc.x = +0.000004f;
+		if (Gdx.input.isKeyPressed(Keys.A) || Gdx.input.getAccelerometerY() < -1) movement_acc.x = -0.000004f;
 		
 		if (speed.x > 0.008 && movement_acc.x > 0) movement_acc.x = 0;
 		if (speed.x < -0.008 && movement_acc.x < 0) movement_acc.x = 0;
-		
-		
+
 		grinding_acc.x = 0;
 		if (! Gdx.input.isKeyPressed(Keys.D) && ! Gdx.input.isKeyPressed(Keys.A)) grinding_acc.x = -0.00001f * speed.x/0.008f;
 		if (! Gdx.input.isKeyPressed(Keys.D) && ! Gdx.input.isKeyPressed(Keys.A) && Math.abs(speed.x) < 0.0001) speed.x = 0;
@@ -90,6 +87,10 @@ public class PlayerEntity extends PhysicsEntity {
 			if (Gdx.input.isKeyPressed(Keys.W) || Gdx.input.isButtonPressed(Buttons.LEFT)) {
 				speed.y = 0.003f;
 			}
+		}
+		
+		if (Math.abs(speed.x) < 0.0001f) {
+			this.animationPos = 7f;
 		}
 		
 		if (doCatapult) {
@@ -108,8 +109,10 @@ public class PlayerEntity extends PhysicsEntity {
 		setMass(10);
 	}
 
+	private float lastTextureScaleX = 1;
+	
 	@Override
 	public float getTextureScaleX() {
-		return (speed.x == 0) ? 1 : FloatMath.fsignum(speed.x);
+		return lastTextureScaleX = ((Math.abs(speed.x) < 0.0001f) ? lastTextureScaleX : FloatMath.fsignum(speed.x));
 	}
 }

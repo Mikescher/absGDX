@@ -14,7 +14,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
+import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionListener;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionMap;
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
 import de.samdev.absgdx.framework.layer.AgdxLayer;
 import de.samdev.absgdx.framework.layer.GameLayer;
 import de.samdev.absgdx.framework.layer.MenuLayer;
@@ -133,6 +135,7 @@ public abstract class AgdxGame implements ApplicationListener {
 			
 			if (settings.debugTextMap.isActive()) {
 				Tile tile = glayer.getTileUnderMouse();
+				CollisionGeometry tileGeo = glayer.getCollisionMap().getTileCollisionGeometry((int)glayer.getMouseOnMapPositionX(), (int)glayer.getMouseOnMapPositionY());
 	
 				debugTextRenderer.drawFormatted("Map: Scale=%s   Offset=%s   Visible=%s   Size=%s",
 						DebugFormatter.fmtF(glayer.getTileScale(), 2),
@@ -148,6 +151,20 @@ public abstract class AgdxGame implements ApplicationListener {
 				if (tile instanceof AutoTile)
 					debugTextRenderer.drawFormatted("AutoTile: %s", DebugFormatter.fmtPropertiesMap(((AutoTile)tile).properties, 5));
 	
+				if (tileGeo != null) {
+					StringBuilder b = new StringBuilder();
+					b.append("[");
+					boolean first = true;
+					for (CollisionListener lst : tileGeo.listener) {
+						if (! first) b.append(", ");
+						first = false;
+						b.append(lst.getClass().getSimpleName());
+					}
+					b.append("]");
+					
+					debugTextRenderer.drawFormatted("CollisionGeometry: %s   Listener=%s", DebugFormatter.fmtGeometry(tileGeo, 1), b.toString());
+				}
+				
 				debugTextRenderer.draw();
 			}
 	

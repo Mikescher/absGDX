@@ -272,8 +272,8 @@ public abstract class GameLayer extends AgdxLayer {
 		if (Gdx.input == null) return;
 		
 		if (isPointerDown && !Gdx.input.isButtonPressed(Buttons.LEFT)) {
-			float px = GetMouseOnMapPositionX();
-			float py = GetMouseOnMapPositionY();
+			float px = getMouseOnMapPositionX();
+			float py = getMouseOnMapPositionY();
 			
 			for (Entity entity : entities) {
 				if (entity.getPositionX() <= px && entity.getPositionY() <= py && entity.getPositionRightX() >= px && entity.getPositionTopY() >= py) {
@@ -284,8 +284,8 @@ public abstract class GameLayer extends AgdxLayer {
 			Tile tile = map.getTileChecked((int)px, (int)py);
 			if (tile != null) tile.onPointerUp();
 		} else if (!isPointerDown && Gdx.input.isButtonPressed(Buttons.LEFT)) {
-			float px = GetMouseOnMapPositionX();
-			float py = GetMouseOnMapPositionY();
+			float px = getMouseOnMapPositionX();
+			float py = getMouseOnMapPositionY();
 			
 			for (Entity entity : entities) {
 				if (entity.getPositionX() <= px && entity.getPositionY() <= py && entity.getPositionRightX() >= px && entity.getPositionTopY() >= py) {
@@ -464,7 +464,7 @@ public abstract class GameLayer extends AgdxLayer {
 	 * 
 	 * @return the X cursor position
 	 */
-	public float GetMouseOnMapPositionX() {
+	public float getMouseOnMapPositionX() {
 		Rectangle visible = getVisibleMapBox();
 		return visible.x +  (Gdx.input.getX() * visible.width * 1f) / Gdx.graphics.getWidth();
 	}
@@ -474,7 +474,7 @@ public abstract class GameLayer extends AgdxLayer {
 	 * 
 	 * @return the Y cursor position
 	 */
-	public float GetMouseOnMapPositionY() {
+	public float getMouseOnMapPositionY() {
 		Rectangle visible = getVisibleMapBox();
 		return visible.y +  ((Gdx.graphics.getHeight() - Gdx.input.getY()) * visible.height * 1f) / Gdx.graphics.getHeight();
 	}
@@ -485,7 +485,7 @@ public abstract class GameLayer extends AgdxLayer {
 	 * @return the tile under the mouse or NULL
 	 */
 	public Tile getTileUnderMouse() {
-		return map.getTileChecked((int)GetMouseOnMapPositionX(), (int) GetMouseOnMapPositionY());
+		return map.getTileChecked((int)getMouseOnMapPositionX(), (int) getMouseOnMapPositionY());
 	}
 	
 	/**

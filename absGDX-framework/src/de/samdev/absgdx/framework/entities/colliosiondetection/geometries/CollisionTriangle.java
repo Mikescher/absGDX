@@ -165,6 +165,33 @@ public class CollisionTriangle extends CollisionGeometry {
 	public float getPoint3_Y() {
 		return center.y + point3_y;
 	}
+	
+	/**
+	 * Get point1
+	 * 
+	 * @return position[1]
+	 */
+	public Vector2 getPoint1() {
+		return new Vector2(getPoint1_X(), getPoint1_Y());
+	}
+	
+	/**
+	 * Get point2
+	 * 
+	 * @return position[2]
+	 */
+	public Vector2 getPoint2() {
+		return new Vector2(getPoint2_X(), getPoint2_Y());
+	}
+	
+	/**
+	 * Get point3
+	 * 
+	 * @return position[3]
+	 */
+	public Vector2 getPoint3() {
+		return new Vector2(getPoint3_X(), getPoint3_Y());
+	}
 
 	@Override
 	public float getXTouchDistance(CollisionBox other) {

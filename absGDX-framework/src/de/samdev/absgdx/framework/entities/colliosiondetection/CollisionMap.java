@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionBox;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
+import de.samdev.absgdx.framework.map.Tile;
 import de.samdev.absgdx.framework.map.TileMap;
 
 /**
@@ -99,7 +100,10 @@ public class CollisionMap {
 
 		for (int x = 0; x < map.width; x++) {
 			for (int y = 0; y < map.height; y++) {
-				this.tileCollisionBoxes[x][y] = new CollisionBox(map.getTile(x, y), x + 0.5f, y + 0.5f, 1, 1);  //TODO WHat happens when the TileMap changes (setTile() in runtime) --> the owner value of this CollisionBox must also change (or does it somehow ??)
+				Tile tile = map.getTile(x, y);
+				this.tileCollisionBoxes[x][y] = new CollisionBox(tile, x + 0.5f, y + 0.5f, 1, 1);  //TODO WHat happens when the TileMap changes (setTile() in runtime) --> the owner value of this CollisionBox must also change (or does it somehow ??)
+				
+				if (tile != null) this.tileCollisionBoxes[x][y].listener.add(tile);
 			}
 		}
 	}
@@ -575,5 +579,17 @@ public class CollisionMap {
 	 */
 	public Vector2 getDimensions() {
 		return new Vector2(width, height);
+	}
+
+	/**
+	 * Get the Collision Geometry of tile (x|y) - or null if the coordinates are out of bounds
+	 * 
+	 * @param x tile x position
+	 * @param y tile y position
+	 * @return the geometry
+	 */
+	public CollisionGeometry getTileCollisionGeometry(int x, int y) {
+		if (x >= 0 || y >= 0 || x < width && y < height) return tileCollisionBoxes[x][y];
+		else return null;
 	}
 }

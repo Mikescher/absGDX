@@ -7,6 +7,10 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionBox;
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionCircle;
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionTriangle;
 import de.samdev.absgdx.framework.util.tiled.TmxMapLoader;
 
 /**
@@ -196,5 +200,28 @@ public class DebugFormatter {
 		}
 		
 		return b.toString();
+	}
+
+	/**
+	 * Formats an CollisionGeometry
+	 * 
+	 * @param tileGeo the geometry
+	 * @param decimalPointsPot the amount of decimal places
+
+	 * @return the geometry formatted as an debug string
+	 */
+	public static String fmtGeometry(CollisionGeometry tileGeo, int decimalPointsPot) {
+		if (tileGeo instanceof CollisionBox) {
+			CollisionBox g = (CollisionBox) tileGeo;
+			return fmtRectangle(new Rectangle(g.getX(), g.getY(), g.width, g.height), decimalPointsPot);
+		} else if (tileGeo instanceof CollisionCircle) {
+			CollisionCircle g = (CollisionCircle) tileGeo;
+			return fmtV2(g.getCenter(), decimalPointsPot) + ": " +  fmtF(g.radius, decimalPointsPot);
+		} else if (tileGeo instanceof CollisionTriangle) {
+			CollisionTriangle g = (CollisionTriangle) tileGeo;
+			return "{" + fmtV2(g.getPoint1(), decimalPointsPot) + "," + fmtV2(g.getPoint2(), decimalPointsPot) + "," +fmtV2(g.getPoint3(), decimalPointsPot) + "}";
+		} else {
+			return "{ #UNDEFINIED# }";
+		}
 	}
 }

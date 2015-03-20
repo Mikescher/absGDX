@@ -322,7 +322,12 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	 * @return true if a collision has happened
 	 */
 	public boolean movePosition(float dx, float dy) {
-		return movePositionX(dx) | movePositionY(dy);
+		boolean collided_X = movePositionX(dx);
+		boolean collided_Y = movePositionY(dy);
+		
+		checkCollisions();
+		
+		return collided_X || collided_Y;
 	}
 	
 	private boolean movePositionX(float dx) {
@@ -543,6 +548,8 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 			
 			speed.y = 0;
 		}
+		
+		checkCollisions();
 	}
 	
 	/**

@@ -32,4 +32,9 @@ public class SidescrollerAutoTile extends AutoTile {
 		
 		return true;
 	}
+
+	@Override
+	public void update(float delta) {
+		// NOP
+	}
 }

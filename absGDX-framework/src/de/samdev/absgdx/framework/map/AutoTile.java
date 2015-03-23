@@ -5,7 +5,6 @@ import java.util.HashMap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
 import de.samdev.absgdx.framework.util.tiled.TmxMapLoader;
 
 /**
@@ -61,15 +60,5 @@ public abstract class AutoTile extends Tile {
 		int py = ((gid-1) / tilesetwidth) * (tileH + gapY) + offsetY;
 		
 		return new TextureRegion(tileset, px, py, tileW, tileH);
-	}
-
-	@Override
-	public void update(float delta) {
-		// NOP
-	}
-
-	@Override
-	public boolean canMoveCollideWith(CollisionGeometryOwner other) {
-		return false;
 	}
 }

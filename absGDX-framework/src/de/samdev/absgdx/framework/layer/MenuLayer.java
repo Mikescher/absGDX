@@ -118,4 +118,9 @@ public abstract class MenuLayer extends AgdxLayer implements MenuOwner {
 	public int getElementCount() {
 		return getMenuRoot().getElementCount();
 	}
+
+	@Override
+	public AgdxGame getAgdxGame() {
+		return owner;
+	}
 }

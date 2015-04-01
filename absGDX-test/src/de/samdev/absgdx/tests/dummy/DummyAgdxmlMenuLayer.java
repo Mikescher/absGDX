@@ -20,5 +20,4 @@ public class DummyAgdxmlMenuLayer extends AgdxmlLayer {
 		// TODO Auto-generated method stub
 		
 	}
-
 }

@@ -17,7 +17,7 @@ public class AgdxmlMenuLayerTest extends BaseUnitTest {
 
     @Test
     public void testConstructor() throws AgdxmlParsingException, IOException {
-    	AgdxmlLayer layer = new DummyAgdxmlMenuLayer(1024, 768, readTextFileFromResource("/testLayout.agdxml", this.getClass()));
+    	AgdxmlLayer layer = new DummyAgdxmlMenuLayer(1024, 768, readTextFileFromResource("/testlayout.agdxml", this.getClass()));
 		
 		assertTrue(layer.getMenuRoot() != null);
 		

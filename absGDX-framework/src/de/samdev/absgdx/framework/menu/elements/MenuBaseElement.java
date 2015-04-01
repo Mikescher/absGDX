@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.framework.layer.MenuLayer;
 import de.samdev.absgdx.framework.menu.GUITextureProvider;
+import de.samdev.absgdx.framework.menu.MenuOwner;
 import de.samdev.absgdx.framework.menu.attributes.RectangleRadius;
 import de.samdev.absgdx.framework.menu.events.MenuBaseElementListener;
 import de.samdev.absgdx.framework.util.MenuRenderHelper;
@@ -44,12 +45,12 @@ public abstract class MenuBaseElement {
 	/**
 	 * the owner-layer *(can be null when not added to layer)*
 	 */
-	protected MenuLayer layer;
+	protected MenuOwner owner;
 	
 	/**
 	 * the owner *(can be null when not added to an owner)*
 	 */
-	protected MenuBaseElement owner;
+	protected MenuBaseElement parent;
 	
 	/**
 	 * Creates a new MenuBaseElement (with a random identifier)
@@ -190,12 +191,12 @@ public abstract class MenuBaseElement {
 	 * Called when the tree structure drastically changes
 	 * (e.g. added to a MenuLayer)
 	 * 
-	 * @param layer the parent layer
+	 * @param layer the owner of the menutree
 	 * @param owner the parent element
 	 */
-	public void pack(MenuLayer layer, MenuBaseElement owner) {
-		this.layer = layer;
-		this.owner = owner;
+	public void pack(MenuOwner layer, MenuBaseElement owner) {
+		this.owner = layer;
+		this.parent = owner;
 		
 		for (MenuBaseElement element : getDirectInnerElements()) {
 			element.pack(layer, this);
@@ -543,9 +544,9 @@ public abstract class MenuBaseElement {
 	 * @return if this element is hovered
 	 */
 	public boolean isHovered() {
-		if (layer == null) return false;
+		if (owner == null) return false;
 		
-		return layer.isHovered(this);
+		return owner.getMenuRoot().isHovered(this);
 	}
 
 	/**
@@ -555,9 +556,9 @@ public abstract class MenuBaseElement {
 	 * @return if this element is pressed
 	 */
 	public boolean isPressed() {
-		if (layer == null) return false;
+		if (owner == null) return false;
 		
-		return layer.isPressed(this);
+		return owner.getMenuRoot().isPressed(this);
 	}
 	
 	/**
@@ -567,9 +568,9 @@ public abstract class MenuBaseElement {
 	 * @return if this element is focused
 	 */
 	public boolean isFocused() {
-		if (layer == null) return false;
+		if (owner == null) return false;
 		
-		return layer.isFocused(this);
+		return owner.getMenuRoot().isFocused(this);
 	}
 
 	/**
@@ -609,7 +610,7 @@ public abstract class MenuBaseElement {
 	 * @return the absolute X coordinate system offset (relative to the layer)
 	 */
 	public int getCoordinateOffsetX() {
-		return (owner == null ? 0 : owner.getPositionX() + owner.getCoordinateOffsetX());
+		return (parent == null ? 0 : parent.getPositionX() + parent.getCoordinateOffsetX());
 	}
 	
 	/**
@@ -619,7 +620,7 @@ public abstract class MenuBaseElement {
 	 * @return the absolute Y coordinate system offset (relative to the layer)
 	 */
 	public int getCoordinateOffsetY() {
-		return (owner == null ? 0 : owner.getPositionY() + owner.getCoordinateOffsetY());
+		return (parent == null ? 0 : parent.getPositionY() + parent.getCoordinateOffsetY());
 	}
 
 	/**

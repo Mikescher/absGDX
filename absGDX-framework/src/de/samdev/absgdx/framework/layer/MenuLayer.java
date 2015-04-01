@@ -2,13 +2,12 @@ package de.samdev.absgdx.framework.layer;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import de.samdev.absgdx.framework.AgdxGame;
+import de.samdev.absgdx.framework.menu.MenuOwner;
 import de.samdev.absgdx.framework.menu.elements.MenuBaseElement;
 import de.samdev.absgdx.framework.menu.elements.MenuFrame;
 
@@ -18,15 +17,10 @@ import de.samdev.absgdx.framework.menu.elements.MenuFrame;
  * Consists of multiple MenuBaseElements
  * 
  */
-public abstract class MenuLayer extends AgdxLayer {
+public abstract class MenuLayer extends AgdxLayer implements MenuOwner {
 
 	private final MenuFrame root;
 	private final BitmapFont font;
-	
-	private MenuBaseElement element_hovered = null;
-	private MenuBaseElement element_pressed = null;
-	private MenuBaseElement element_focused = null;
-	private boolean last_cycle_mouse_state = false;
 	
 	/**
 	 * Creates a new (empty) MenuLayer
@@ -84,138 +78,29 @@ public abstract class MenuLayer extends AgdxLayer {
 
 	@Override
 	public void update(float delta) {
-		updateInput();
-		
-		root.update(delta);
-	}
-
-	private void updateInput() {
-		MenuBaseElement mouseElement = getRoot().getElementAt(Gdx.input.getX(), Gdx.input.getY());
-		boolean mdown = Gdx.input.isButtonPressed(Buttons.LEFT);
-		boolean mdownflank = !last_cycle_mouse_state && mdown;
-		boolean mupflank = last_cycle_mouse_state && !mdown;
-		
-		//########### HOVERING ###########
-		
-		if (mouseElement != element_hovered) {
-			if (element_hovered != null) element_hovered.onEndHover();
-			if (mouseElement != null) mouseElement.onStartHover();
-			
-			element_hovered = mouseElement;
-		}
-		
-		//########### FOCUSING ###########
-		
-		if (mdownflank) {
-			if (element_focused != null) element_focused.onFocusLost();
-			if (mouseElement != null) mouseElement.onFocusGained();
-
-			element_focused = mouseElement;
-		}
-
-		//########### CLICKING ###########
-		
-		if (mupflank && element_pressed != null) {
-			element_pressed.onPointerUp();
-			
-			if (element_pressed == mouseElement)
-				element_pressed.onPointerClicked();
-			
-			element_pressed = null;
-		}
-		
-		if (mdownflank) {
-			if (element_pressed != null) element_pressed.onPointerUp();
-			
-			if (mouseElement != null) {
-				mouseElement.onPointerDown();
-				
-				element_pressed = mouseElement;
-			}
-		}
-		
-		if (mdown && element_pressed != mouseElement) {
-			if (element_pressed != null) element_pressed.onPointerUp();
-			
-			element_pressed = null;
-		}
-		
-		last_cycle_mouse_state = mdown;
+		root.updateRoot(delta);
 	}
 	
 	@Override
 	public boolean keyTyped(char character) {
-		if (element_focused != null) {
-			element_focused.onKeyTyped(character);
-			
-			return true;
-		}
-		
-		return false;
+		return getMenuRoot().keyTyped(character);
 	}
 	
 	@Override
 	public boolean scrolled(int amount) {
-		MenuBaseElement mouseElement = getRoot().getElementAt(Gdx.input.getX(), Gdx.input.getY());
-		
-		if (mouseElement != null) {
-			mouseElement.onScroll(amount);
-			
-			return true;
-		}
-		
-		return false;
+		return getMenuRoot().scrolled(amount);
 	}
 	
 	@Override
 	public boolean keyDown(int keycode) {
-		if (element_focused != null) {
-			element_focused.onKeyDown(keycode);
-			
-			return true;
-		}
-		
-		return false;
+		return getMenuRoot().keyDown(keycode);
 	}
 	
-	/**
-	 * @return the root element (a MenuFrame)
-	 */
-	public MenuFrame getRoot() {
+	@Override
+	public MenuFrame getMenuRoot() {
 		return root;
 	}
-	
-	/**
-	 * @param el the to test element
-	 * @return if the element is focused
-	 */
-	public boolean isFocused(MenuBaseElement el) {
-		return element_focused == el;
-	}
 
-	/**
-	 * @param el the to test element
-	 * @return if the element is pressed
-	 */
-	public boolean isPressed(MenuBaseElement el) {
-		return element_pressed == el;
-	}
-
-	/**
-	 * @param el the to test element
-	 * @return if the element is hovered
-	 */
-	public boolean isHovered(MenuBaseElement el) {
-		return element_hovered == el;
-	}
-
-	/**
-	 * @return the count of all elements in this layer
-	 */
-	public int getElementCount() {
-		return 1 + root.getAllChildElements().size();
-	}
-	
 	/**
 	 * Get the element defined by this ID 
 	 * (or NULL if there is no element with this ID)
@@ -225,5 +110,12 @@ public abstract class MenuLayer extends AgdxLayer {
 	 */
 	public MenuBaseElement getElementByID(String id) {
 		return root.getElementByID(id);
+	}
+
+	/**
+	 * @return the count of all elements in this layer
+	 */
+	public int getElementCount() {
+		return getMenuRoot().getElementCount();
 	}
 }

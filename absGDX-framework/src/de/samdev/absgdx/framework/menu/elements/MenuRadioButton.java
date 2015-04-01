@@ -48,8 +48,8 @@ public class MenuRadioButton extends MenuCheckBox {
 		if (checked) {
 			super.setChecked(true);
 			
-			if (owner != null)
-				for (MenuBaseElement element : owner.getDirectInnerElements()) {
+			if (parent != null)
+				for (MenuBaseElement element : parent.getDirectInnerElements()) {
 					if (element != this && element instanceof MenuRadioButton) {
 						((MenuRadioButton)element).setUnchecked();
 					}

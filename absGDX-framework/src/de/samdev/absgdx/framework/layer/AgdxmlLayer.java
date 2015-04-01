@@ -42,7 +42,7 @@ public abstract class AgdxmlLayer extends MenuLayer {
 		try {
 			parser = new AgdxmlParser(agdxmlFile, this, map_provider, map_imagetextures);
 			
-			parser.parse(getRoot());
+			parser.parse(getMenuRoot());
 		} catch (Exception e) {
 			throw new AgdxmlParsingException(e);
 		}
@@ -64,7 +64,7 @@ public abstract class AgdxmlLayer extends MenuLayer {
 		try {
 			parser = new AgdxmlParser(agdxmlFileContent, this, map_provider, map_imagetextures);
 			
-			parser.parse(getRoot());
+			parser.parse(getMenuRoot());
 		} catch (Exception e) {
 			throw new AgdxmlParsingException(e);
 		}

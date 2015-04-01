@@ -148,7 +148,7 @@ public class MenuSettingsTree extends MenuBaseElement {
 			if (positionY >= treeowner.padding.top) {
 				srenderer.begin(ShapeType.Line);
 				{
-					srenderer.setColor(treeowner.layer.owner.settings.debugMenuBordersColorL2.get());
+					srenderer.setColor(treeowner.owner.getAgdxGame().settings.debugMenuBordersColorL2.get());
 					srenderer.rect(getPositionX(), getPositionY(), getWidth(), getHeight());
 				}
 				srenderer.end();
@@ -245,7 +245,7 @@ public class MenuSettingsTree extends MenuBaseElement {
 	public void renderElement(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont defaultfont, MenuLayer owner) {
 		super.renderElement(sbatch, srenderer, defaultfont, owner);
 		
-		if (layer != null && layer.owner.settings.debugMenuBorders.isActive()) {
+		if (owner != null && owner.owner.settings.debugMenuBorders.isActive()) {
 			srenderer.translate(getPositionX(), getPositionY(), 0);
 			root.innerDebugRender(srenderer, padding.top - scroll * (rowHeight + rowGap), 0);
 			srenderer.translate(-getPositionX(), -getPositionY(), 0);

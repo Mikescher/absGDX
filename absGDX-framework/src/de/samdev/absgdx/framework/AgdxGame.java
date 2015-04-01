@@ -188,7 +188,7 @@ public abstract class AgdxGame implements ApplicationListener {
 
 		if (!layers.empty() && layers.peek() instanceof MenuLayer && settings.debugMenuLayerTextInfos.isActive()) {
 			MenuLayer mlayer = (MenuLayer) layers.peek();
-			MenuBaseElement melem = mlayer.getRoot().getElementAt(Gdx.input.getX(), Gdx.input.getY());
+			MenuBaseElement melem = mlayer.getMenuRoot().getElementAt(Gdx.input.getX(), Gdx.input.getY());
 			
 			debugTextRenderer.drawFormatted("MenuBaseElements: Count=%d",  mlayer.getElementCount());
 			

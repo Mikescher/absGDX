@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import de.samdev.absgdx.framework.layer.MenuLayer;
 import de.samdev.absgdx.framework.menu.GUITextureProvider;
+import de.samdev.absgdx.framework.menu.MenuOwner;
 import de.samdev.absgdx.framework.menu.events.MenuContainerListener;
 
 /**
@@ -106,8 +107,8 @@ public class MenuContainer extends MenuBaseElement {
 	}
 	
 	@Override
-	public void pack(MenuLayer layer, MenuBaseElement owner) {
-		super.pack(layer, owner);
+	public void pack(MenuOwner owner, MenuBaseElement parent) {
+		super.pack(owner, parent);
 		
 		setDepth(getDepth());
 	}
@@ -121,7 +122,7 @@ public class MenuContainer extends MenuBaseElement {
 	public void addChildren(MenuBaseElement element) {
 		elements.add(element);
 		
-		pack(this.layer, this.owner);
+		pack(this.owner, this.parent);
 	}
 	
 	/**
@@ -134,7 +135,7 @@ public class MenuContainer extends MenuBaseElement {
 	public boolean removeChildren(MenuBaseElement element) {
 		boolean success = elements.remove(element);
 
-		pack(this.layer, this.owner);
+		pack(this.owner, this.parent);
 		
 		return success;
 	}

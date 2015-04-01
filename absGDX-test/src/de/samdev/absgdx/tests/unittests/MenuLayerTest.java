@@ -15,7 +15,7 @@ public class MenuLayerTest extends BaseUnitTest {
     public void testConstructor() {
     	MenuLayer layer = new DummyMenuLayer(1024, 768);
 		
-		assertTrue(layer.getRoot() != null);
+		assertTrue(layer.getMenuRoot() != null);
 		
 		assertEquals(1, layer.getElementCount());
     }

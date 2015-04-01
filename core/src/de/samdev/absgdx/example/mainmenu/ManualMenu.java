@@ -295,19 +295,19 @@ public class ManualMenu extends MenuLayer {
 			public void onClicked(MenuBaseElement element, String identifier) {l2.setVisible(true); p3.setVisible(! p3.isVisible()); b.setContent("Press again");}
 		});
 
-		getRoot().setWidth(owner.getScreenWidth());
-		getRoot().setHeight(owner.getScreenHeight());
-		root.setPosition((getRoot().getWidth() - root.getWidth())/2, (getRoot().getHeight() - root.getHeight())/2);
+		getMenuRoot().setWidth(owner.getScreenWidth());
+		getMenuRoot().setHeight(owner.getScreenHeight());
+		root.setPosition((getMenuRoot().getWidth() - root.getWidth())/2, (getMenuRoot().getHeight() - root.getHeight())/2);
 		
-		getRoot().addChildren(root);
+		getMenuRoot().addChildren(root);
 	}
 
 	@Override
 	public void onResize() {
-		getRoot().setWidth(owner.getScreenWidth());
-		getRoot().setHeight(owner.getScreenHeight());
+		getMenuRoot().setWidth(owner.getScreenWidth());
+		getMenuRoot().setHeight(owner.getScreenHeight());
 		
-		root.setPosition((getRoot().getWidth() - root.getWidth())/2, (getRoot().getHeight() - root.getHeight())/2);
+		root.setPosition((getMenuRoot().getWidth() - root.getWidth())/2, (getMenuRoot().getHeight() - root.getHeight())/2);
 	}
 
 }

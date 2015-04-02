@@ -80,6 +80,8 @@ public class MenuFrame extends MenuPanel {
 	}
 
 	private void updateInput() {
+		if (Gdx.input == null) return;
+		
 		MenuBaseElement mouseElement = getElementAt(Gdx.input.getX(), Gdx.input.getY());
 		boolean mdown = Gdx.input.isButtonPressed(Buttons.LEFT);
 		boolean mdownflank = !last_cycle_mouse_state && mdown;

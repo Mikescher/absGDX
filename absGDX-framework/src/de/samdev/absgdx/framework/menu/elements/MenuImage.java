@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
-import de.samdev.absgdx.framework.layer.MenuLayer;
+import de.samdev.absgdx.framework.GameSettings;
 import de.samdev.absgdx.framework.menu.GUITextureProvider;
 import de.samdev.absgdx.framework.menu.attributes.ImageBehavior;
 import de.samdev.absgdx.framework.menu.events.MenuImageListener;
@@ -53,13 +53,13 @@ public class MenuImage extends MenuBaseElement {
 	}
 
 	@Override
-	public void renderElement(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont defaultfont, MenuLayer owner) {
-		super.renderElement(sbatch, srenderer, defaultfont, owner);
+	public void renderDebugGridLines(ShapeRenderer srenderer, GameSettings settings) {
+		super.renderDebugGridLines(srenderer, settings);
 		
-		if (owner.owner.settings.debugMenuImageAnimation.isActive() && isAnimated()) {
+		if (settings.debugMenuImageAnimation.isActive() && isAnimated()) {
 			srenderer.begin(ShapeType.Filled);
 			{
-				srenderer.setColor(owner.owner.settings.debugMenuBordersColor.get());
+				srenderer.setColor(settings.debugMenuBordersColor.get());
 				
 				srenderer.rect(getPositionX(), getPositionY(), (animationPos/animationLength) * getWidth(), 3);
 				srenderer.rect(getPositionX() + getWidth(), getPositionY() + getHeight(), -(animationPos/animationLength) * getWidth(), -4);

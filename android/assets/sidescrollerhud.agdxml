@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<frame textures="default_provider">
+	<grid iscontainer="true">
+		<grid.columndefinitions>
+			<columndefinition width="10"/>
+			<columndefinition width="100"/>
+			<columndefinition width="1*"/>
+			<columndefinition width="100"/>
+			<columndefinition width="10"/>
+		</grid.columndefinitions>
+		<grid.rowdefinitions>
+			<rowdefinition height="10"/>
+			<rowdefinition height="30"/>
+			<rowdefinition height="1*"/>
+		</grid.rowdefinitions>
+
+		<button grid.row="1" grid.column="1" content="PAUSE" />
+		<button grid.row="1" grid.column="3" content="EXIT" onClicked="onHUDExit"/>
+	</grid>
+</frame>

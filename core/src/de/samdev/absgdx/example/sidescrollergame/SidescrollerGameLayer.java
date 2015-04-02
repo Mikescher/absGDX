@@ -2,6 +2,7 @@ package de.samdev.absgdx.example.sidescrollergame;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.example.Textures;
@@ -20,6 +21,10 @@ import de.samdev.absgdx.framework.layer.GameLayer;
 import de.samdev.absgdx.framework.map.TileMap;
 import de.samdev.absgdx.framework.map.background.ParallaxBackground;
 import de.samdev.absgdx.framework.map.mapscaleresolver.MaximumBoundaryMapScaleResolver;
+import de.samdev.absgdx.framework.menu.GUITextureProvider;
+import de.samdev.absgdx.framework.menu.agdxml.AgdxmlTextureProviderIDMap;
+import de.samdev.absgdx.framework.menu.elements.MenuBaseElement;
+import de.samdev.absgdx.framework.util.exceptions.AgdxmlParsingException;
 import de.samdev.absgdx.framework.util.exceptions.TmxMapParsingException;
 import de.samdev.absgdx.framework.util.tiled.TmxMapLoader;
 
@@ -38,6 +43,25 @@ public class SidescrollerGameLayer extends GameLayer {
 		addBackground(new ParallaxBackground(Textures.texParallax_2, 16));
 		
 		addOuterMapCollisionBoxes();
+		
+		try {
+			GUITextureProvider prov = new GUITextureProvider();
+			{
+//				prov.setMenuButtonTexture(Textures.tex_buttongui[0], VisualButtonState.NORMAL);
+//				prov.setMenuButtonTexture(Textures.tex_buttongui[1], VisualButtonState.HOVERED);
+//				prov.setMenuButtonTexture(Textures.tex_buttongui[2], VisualButtonState.PRESSED);
+//				prov.setMenuButtonTexture(Textures.tex_buttongui[3], VisualButtonState.DISABLED);
+			}
+			
+			AgdxmlTextureProviderIDMap provmap = new AgdxmlTextureProviderIDMap();
+			{
+				provmap.putGUITextureProvider("default_provider", prov);
+			}
+			
+			setHUDFromAgdxml(Gdx.files.internal("sidescrollerhud.agdxml"), provmap, new BitmapFont(Gdx.files.internal("consolefont.fnt")));
+		} catch (AgdxmlParsingException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private static TileMap loadMap() {
@@ -80,4 +104,8 @@ public class SidescrollerGameLayer extends GameLayer {
 		if (Gdx.input.isKeyPressed(Keys.BACK) || Gdx.input.isKeyPressed(Keys.ESCAPE)) owner.popLayer();
 	}
 
+	@SuppressWarnings("unused") // event listener
+	public void onHUDExit(MenuBaseElement element, String identifier) {
+		owner.popLayer();
+	}
 }

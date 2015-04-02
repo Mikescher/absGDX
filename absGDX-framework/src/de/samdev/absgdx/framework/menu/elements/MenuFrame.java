@@ -5,6 +5,9 @@ import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import de.samdev.absgdx.framework.menu.MenuOwner;
 import de.samdev.absgdx.framework.menu.events.MenuFrameListener;
@@ -19,6 +22,8 @@ public class MenuFrame extends MenuPanel {
 	private MenuBaseElement element_pressed = null;
 	private MenuBaseElement element_focused = null;
 	private boolean last_cycle_mouse_state = false;
+	
+	private boolean renderTexture = false;
 	
 	/**
 	 * Create a new (empty) MenuFrame
@@ -43,6 +48,15 @@ public class MenuFrame extends MenuPanel {
 		super.pack(owner, parent);
 		
 		setDepth(0);
+	}
+	
+	@Override
+	public void render(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
+		if (isRenderTexture()) {
+			super.render(sbatch, srenderer, font);
+		}
+		
+		renderChildren(sbatch, srenderer, font);
 	}
 	
 	/**
@@ -198,5 +212,26 @@ public class MenuFrame extends MenuPanel {
 	 */
 	public int getElementCount() {
 		return 1 + getAllChildElements().size();
+	}
+
+	/**
+	 * return if this component has its texture rendered
+	 * 
+	 * @return true if the texture has to be rendered
+	 */
+	public boolean isRenderTexture() {
+		return renderTexture;
+	}
+
+	/**
+	 * Set if this component has its texture rendered
+	 * 
+	 * Set this to true and its the equivalent to an MenuPanel
+	 * Set this to false and its the equivalent to an MenuContainer
+	 * 
+	 * @param renderTexture true if the texture has to be rendered
+	 */
+	public void setRenderTexture(boolean renderTexture) {
+		this.renderTexture = renderTexture;
 	}
 }

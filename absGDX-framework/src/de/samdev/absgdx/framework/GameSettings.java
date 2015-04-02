@@ -160,9 +160,8 @@ public class GameSettings {
 						{
 							debugMenuBordersColor = new ColorProperty("debugMenuBordersColor", Color.MAGENTA, debugMenuBorders);
 							debugMenuBordersColorL2 = new ColorProperty("debugMenuBordersColorL2", Color.CYAN, debugMenuBorders);
+							debugMenuImageAnimation = new BooleanProperty("debugMenuImageAnimation", true, debugMenuBorders);
 						}
-
-						debugMenuImageAnimation = new BooleanProperty("debugMenuImageAnimation", true, debugVisualMenu);
 					}
 				}
 			}

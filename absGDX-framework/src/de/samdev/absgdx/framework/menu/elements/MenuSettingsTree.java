@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
-import de.samdev.absgdx.framework.layer.MenuLayer;
+import de.samdev.absgdx.framework.GameSettings;
 import de.samdev.absgdx.framework.menu.GUITextureProvider;
 import de.samdev.absgdx.framework.menu.attributes.RectangleRadius;
 import de.samdev.absgdx.framework.menu.attributes.TristateBoolean;
@@ -242,14 +242,14 @@ public class MenuSettingsTree extends MenuBaseElement {
 	}
 
 	@Override
-	public void renderElement(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont defaultfont, MenuLayer owner) {
-		super.renderElement(sbatch, srenderer, defaultfont, owner);
+	public void renderDebugGridLines(ShapeRenderer srenderer, GameSettings settings) {
+		super.renderDebugGridLines(srenderer, settings);
 		
-		if (owner != null && owner.owner.settings.debugMenuBorders.isActive()) {
-			srenderer.translate(getPositionX(), getPositionY(), 0);
+		srenderer.translate(getPositionX(), getPositionY(), 0);
+		{
 			root.innerDebugRender(srenderer, padding.top - scroll * (rowHeight + rowGap), 0);
-			srenderer.translate(-getPositionX(), -getPositionY(), 0);
 		}
+		srenderer.translate(-getPositionX(), -getPositionY(), 0);
 	}
 
 	@Override

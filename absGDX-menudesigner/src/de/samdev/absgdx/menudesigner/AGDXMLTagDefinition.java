@@ -50,7 +50,8 @@ public class AGDXMLTagDefinition {
 
 	public final static AGDXMLTagDefinition TAG_FRAME = new AGDXMLTagDefinition("frame", 
 			new TagAttribute("visible", "bool"), 
-			new TagAttribute("textures", "id"));
+			new TagAttribute("textures", "id"),
+			new TagAttribute("renderTexture", "bool"));
 
 	public final static AGDXMLTagDefinition TAG_EDIT = new AGDXMLTagDefinition("edit", 
 			new TagAttribute("position", "vector"), 

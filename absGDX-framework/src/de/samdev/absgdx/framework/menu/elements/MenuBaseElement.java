@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-import de.samdev.absgdx.framework.layer.MenuLayer;
+import de.samdev.absgdx.framework.GameSettings;
 import de.samdev.absgdx.framework.menu.GUITextureProvider;
 import de.samdev.absgdx.framework.menu.MenuOwner;
 import de.samdev.absgdx.framework.menu.attributes.RectangleRadius;
@@ -88,34 +88,6 @@ public abstract class MenuBaseElement {
 		
 		this.identifier = ident;
 		this.textureprovider = texprovider;
-	}
-
-	/**
-	 * Renders the element (always call this function instead of directly calling render )
-	 * Performs preparation needed before rendering
-	 * 
-	 * @param sbatch the BatchRenderer (from LibGDX)
-	 * @param srenderer the ShapeRenderer (from LibGDX)
-	 * @param defaultfont the default font to use
-	 * @param owner the Menu in which this element exists
-	 */
-	public void renderElement(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont defaultfont, MenuLayer owner) {
-		if (visible) {
-			if (font != null) {
-				render(sbatch, srenderer, font);
-			} else {
-				render(sbatch, srenderer, defaultfont);
-			}
-		}
-		
-		if (owner.owner.settings.debugMenuBorders.isActive()) {
-			srenderer.begin(ShapeType.Line);
-			{
-				srenderer.setColor(owner.owner.settings.debugMenuBordersColor.get());
-				srenderer.rect(getPositionX(), getPositionY(), getWidth(), getHeight());
-			}
-			srenderer.end();
-		}
 	}
 
 	protected void render9SideTexture(SpriteBatch sbatch) {
@@ -220,6 +192,38 @@ public abstract class MenuBaseElement {
 	 */
 	public boolean removeListener(MenuBaseElementListener l) {
 		return listeners.remove(l);
+	}
+
+	/**
+	 * Renders the element (always call this function instead of directly calling render )
+	 * Performs preparation needed before rendering
+	 * 
+	 * @param sbatch the BatchRenderer (from LibGDX)
+	 * @param srenderer the ShapeRenderer (from LibGDX)
+	 * @param defaultfont the default font to use
+	 * @param owner the Menu in which this element exists
+	 */
+	public final void renderElement(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont defaultfont, MenuOwner owner) {
+		if (visible) {
+			if (font != null) {
+				render(sbatch, srenderer, font);
+			} else {
+				render(sbatch, srenderer, defaultfont);
+			}
+		}
+		
+		if (owner != null && owner.getAgdxGame().settings.debugMenuBorders.isActive()) {
+			renderDebugGridLines(srenderer, owner.getAgdxGame().settings);
+		}
+	}
+
+	protected void renderDebugGridLines(ShapeRenderer srenderer, GameSettings settings) {
+		srenderer.begin(ShapeType.Line);
+		{
+			srenderer.setColor(settings.debugMenuBordersColor.get());
+			srenderer.rect(getPositionX(), getPositionY(), getWidth(), getHeight());
+		}
+		srenderer.end();
 	}
 	
 	/**

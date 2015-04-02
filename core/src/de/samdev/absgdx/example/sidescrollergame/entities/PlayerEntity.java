@@ -69,22 +69,26 @@ public class PlayerEntity extends PhysicsEntity {
 	public void beforeUpdate(float delta) {
 		pauseAnimation(speed.isZero());
 		
+		boolean accLeft = (Gdx.input.isKeyPressed(Keys.A) || Gdx.input.getAccelerometerY() < -1);
+		boolean accRight = (Gdx.input.isKeyPressed(Keys.D) || Gdx.input.getAccelerometerY() > +1);
+		boolean accJump = (Gdx.input.isKeyPressed(Keys.W) || Gdx.input.isButtonPressed(Buttons.LEFT));
+		
 		movement_acc.x = 0;
-		if (Gdx.input.isKeyPressed(Keys.D) || Gdx.input.getAccelerometerY() > +1) movement_acc.x = +0.000004f;
-		if (Gdx.input.isKeyPressed(Keys.A) || Gdx.input.getAccelerometerY() < -1) movement_acc.x = -0.000004f;
+		if (accRight) movement_acc.x = +0.000004f;
+		if (accLeft) movement_acc.x = -0.000004f;
 		
 		if (speed.x > 0.008 && movement_acc.x > 0) movement_acc.x = 0;
 		if (speed.x < -0.008 && movement_acc.x < 0) movement_acc.x = 0;
 
 		grinding_acc.x = 0;
-		if (! Gdx.input.isKeyPressed(Keys.D) && ! Gdx.input.isKeyPressed(Keys.A)) grinding_acc.x = -0.00001f * speed.x/0.008f;
-		if (! Gdx.input.isKeyPressed(Keys.D) && ! Gdx.input.isKeyPressed(Keys.A) && Math.abs(speed.x) < 0.0001) speed.x = 0;
+		if (! accLeft && ! accRight) grinding_acc.x = -0.00001f * speed.x/0.008f;
+		if (! accLeft && ! accRight && Math.abs(speed.x) < 0.0001) speed.x = 0;
 		
-		if ((Gdx.input.isKeyPressed(Keys.W) || Gdx.input.isButtonPressed(Buttons.LEFT)) && (isTouchingBottom() || Gdx.input.isKeyPressed(Keys.SHIFT_LEFT))) speed.y = +0.008f;
+		if (accJump && (isTouchingBottom() || Gdx.input.isKeyPressed(Keys.SHIFT_LEFT))) speed.y = +0.008f;
 		
 		Tile tile = slayer.getMap().getTile((int)getCenterX(), (int)getCenterY());
 		if (tile instanceof LadderTile || tile instanceof LadderTopTile) {
-			if (Gdx.input.isKeyPressed(Keys.W) || Gdx.input.isButtonPressed(Buttons.LEFT)) {
+			if (accJump) {
 				speed.y = 0.003f;
 			}
 		}

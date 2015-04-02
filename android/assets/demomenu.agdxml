@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<frame textures="defaultprov_01" >
+<frame textures="defaultprov_01" renderTexture="true">
 	<grid iscontainer="true">
 		<grid.columndefinitions>
 			<columndefinition width="24"/>

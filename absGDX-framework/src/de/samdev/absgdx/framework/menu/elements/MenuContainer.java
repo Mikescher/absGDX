@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-import de.samdev.absgdx.framework.layer.MenuLayer;
 import de.samdev.absgdx.framework.menu.GUITextureProvider;
 import de.samdev.absgdx.framework.menu.MenuOwner;
 import de.samdev.absgdx.framework.menu.events.MenuContainerListener;
@@ -62,23 +61,20 @@ public class MenuContainer extends MenuBaseElement {
 	}
 	
 	@Override
-	public void renderElement(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont defaultfont, MenuLayer owner) {
-		super.renderElement(sbatch, srenderer, defaultfont, owner);
-		
+	public void render(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
+		renderChildren(sbatch, srenderer, font);
+	}
+
+	protected void renderChildren(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
 		srenderer.translate(getPositionX(), getPositionY(), 0);
 		sbatch.getTransformMatrix().translate(getPositionX(), getPositionY(), 0);
 		
 		for (MenuBaseElement element : elements) {
-			element.renderElement(sbatch, srenderer, defaultfont, owner);
+			element.renderElement(sbatch, srenderer, font, owner);
 		}
 
 		sbatch.getTransformMatrix().translate(-getPositionX(), -getPositionY(), 0);
 		srenderer.translate(-getPositionX(), -getPositionY(), 0);
-	}
-	
-	@Override
-	public void render(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
-		// DO NOTHING
 	}
 
 	@Override

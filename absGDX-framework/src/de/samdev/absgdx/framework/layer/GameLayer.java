@@ -6,12 +6,17 @@ import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.reflect.ClassReflection;
+import com.badlogic.gdx.utils.reflect.Method;
+import com.badlogic.gdx.utils.reflect.ReflectionException;
 
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.entities.Entity;
@@ -28,13 +33,18 @@ import de.samdev.absgdx.framework.map.background.MapBackground;
 import de.samdev.absgdx.framework.map.mapscaleresolver.AbstractMapScaleResolver;
 import de.samdev.absgdx.framework.map.mapscaleresolver.ShowCompleteMapScaleResolver;
 import de.samdev.absgdx.framework.math.SortedLinkedEntityList;
+import de.samdev.absgdx.framework.menu.MenuOwner;
+import de.samdev.absgdx.framework.menu.agdxml.AgdxmlParser;
+import de.samdev.absgdx.framework.menu.agdxml.AgdxmlTextureProviderIDMap;
+import de.samdev.absgdx.framework.menu.elements.MenuFrame;
 import de.samdev.absgdx.framework.util.ShapeRendererUtil;
+import de.samdev.absgdx.framework.util.exceptions.AgdxmlParsingException;
 
 /**
  * Game layer represents a level or the whole game.
  * It contains the TileMap and the Entities
  */
-public abstract class GameLayer extends AgdxLayer {
+public abstract class GameLayer extends AgdxLayer implements MenuOwner {
 	
 	//######## MAP ########
 	
@@ -56,6 +66,12 @@ public abstract class GameLayer extends AgdxLayer {
 	//######## INPUT ########
 	
 	private boolean isPointerDown = false;
+
+	//######## HUD ########
+
+	private MenuFrame hudRoot;
+	private AgdxmlParser agdxmlParser = null;
+	private BitmapFont hudFont = null;
 	
 	/**
 	 * Creates a new GameLayer
@@ -68,6 +84,7 @@ public abstract class GameLayer extends AgdxLayer {
 
 		this.map = map;
 		this.collisionMap = new CollisionMap(map);
+		this.setHUD(new MenuFrame(), null);
 	}
 
 	/**
@@ -89,10 +106,35 @@ public abstract class GameLayer extends AgdxLayer {
 
 		this.map = map;
 		this.collisionMap = new CollisionMap(map, expCollisionTileScale);
+		this.setHUD(new MenuFrame(), null);
 	}
 	
 	@Override
 	public void render(SpriteBatch sbatch, ShapeRenderer srenderer) {
+		renderGame(sbatch, srenderer);
+		
+		renderHUD(sbatch, srenderer);
+	}
+
+	private void renderHUD(SpriteBatch sbatch, ShapeRenderer srenderer) {
+		srenderer.identity();
+		sbatch.getTransformMatrix().idt();
+		
+		srenderer.translate(0, owner.getScreenHeight(), 0);
+		srenderer.scale(1, -1, 1);
+
+		sbatch.getTransformMatrix().translate(0, owner.getScreenHeight(), 0);
+		sbatch.getTransformMatrix().scale(1, -1, 1);
+		
+		sbatch.enableBlending();
+		srenderer.setAutoShapeType(true);
+		
+		//#####################################################################
+		
+		getHUDRoot().renderElement(sbatch, srenderer, hudFont, this);
+	}
+
+	private void renderGame(SpriteBatch sbatch, ShapeRenderer srenderer) {
 		float tilesize = mapScaleResolver.getTileSize(owner.getScreenWidth(), owner.getScreenHeight(), map.height, map.width);
 
 		Rectangle visible = getVisibleMapBox();
@@ -104,6 +146,9 @@ public abstract class GameLayer extends AgdxLayer {
 		sbatch.getTransformMatrix().idt();
 		sbatch.getTransformMatrix().scale(tilesize, tilesize, 1);
 		sbatch.getTransformMatrix().translate(-map_offset.x, -map_offset.y, 0);
+
+		sbatch.disableBlending();
+		srenderer.setAutoShapeType(false);
 		
 		//#####################################################################
 		
@@ -111,7 +156,7 @@ public abstract class GameLayer extends AgdxLayer {
 		
 		renderEntities(sbatch, srenderer, visible);
 	}
-
+	
 	private void renderMap(SpriteBatch sbatch, ShapeRenderer srenderer, Rectangle visible) {
 		sbatch.enableBlending();
 		sbatch.begin();
@@ -143,7 +188,6 @@ public abstract class GameLayer extends AgdxLayer {
 		sbatch.begin();
 		for( Iterator<Entity> it = entities.descendingIterator(); it.hasNext();) { // Iterate reverse (so z order is correct)
 		    Entity entity = it.next();
-		    //TODO only draw visible entities
 			if (visible.overlaps(entity.getBoundings())) {
 				sbatch.draw(
 						entity.getTexture(), 
@@ -254,6 +298,8 @@ public abstract class GameLayer extends AgdxLayer {
 
 	@Override
 	public void update(float delta) {
+		getMenuRoot().updateRoot(delta);
+		
 		map.update(delta);
 
 		entities.testIntegrity();
@@ -302,12 +348,36 @@ public abstract class GameLayer extends AgdxLayer {
 	@Override
 	public void onResize() {
 		setBoundedOffset(map_offset);
+		
+		if (agdxmlParser != null) {
+			try {
+				agdxmlParser.update();
+			} catch (AgdxmlParsingException e) {
+				// Can not happen - because this XML element was already parsed in setHUD()
+				e.printStackTrace();
+			}			
+		}
+	}
+	
+	@Override
+	public boolean keyTyped(char character) {
+		return getMenuRoot().keyTyped(character);
+	}
+	
+	@Override
+	public boolean scrolled(int amount) {
+		return getMenuRoot().scrolled(amount);
+	}
+	
+	@Override
+	public boolean keyDown(int keycode) {
+		return getMenuRoot().keyDown(keycode);
 	}
 
 	/**
 	 * @return the currently visible tiles (in tile-coordinates : 1 tile = 1 unit)
 	 */
-	public Rectangle getVisibleMapBox() { //TODO this is called often - cache it ?
+	public Rectangle getVisibleMapBox() {
 		float tilesize = mapScaleResolver.getTileSize(owner.getScreenWidth(), owner.getScreenHeight(), map.height, map.width);
 		
 		Rectangle view = new Rectangle(map_offset.x, map_offset.y, owner.getScreenWidth() / tilesize, owner.getScreenHeight() / tilesize);
@@ -584,4 +654,126 @@ public abstract class GameLayer extends AgdxLayer {
 			collisionMap.addGeometry(new CollisionBox(owner, map.width+0.5f, y, 1, 1));
 		}
 	}
+	
+	@Override
+	@SuppressWarnings("rawtypes")
+	public Method getDeclaredMethod(String name, Class... parameterTypes) throws ReflectionException {
+		return ClassReflection.getDeclaredMethod(this.getClass(), name, parameterTypes);
+	}
+
+	@Override
+	public MenuFrame getMenuRoot() {
+		return hudRoot;
+	}
+
+	@Override
+	public AgdxGame getAgdxGame() {
+		return owner;
+	}
+
+	/**
+	 * Get the HUD font
+	 * 
+	 * @return the font used in the HUD
+	 */
+	public BitmapFont getHUDFont() {
+		return hudFont;
+	}
+
+	/**
+	 * Set the font used in the HUD
+	 * 
+	 * @param font the new font
+	 */
+	public void setHUDFont(BitmapFont font) {
+		this.hudFont = font;
+	}
+	
+	/**
+	 * Get the root Element of the HUD/Menu
+	 * (can be NULL if no HUD is defined)
+	 * 
+	 * @return the HUD root node (=MenuFrame)
+	 */
+	public MenuFrame getHUDRoot() {
+		return hudRoot;
+	}
+	
+	/**
+	 * Set the HUD to an static Layout
+	 * 
+	 * @param root the root node of the menu tree
+	 * @param font the font used by the HUD elements
+	 */
+	public void setHUD(MenuFrame root, BitmapFont font) {
+		this.hudRoot = root;
+		this.hudRoot.setPosition(0, 0);
+		this.hudRoot.setSize(owner.getScreenWidth(), owner.getScreenHeight());
+		this.hudRoot.pack(this, null);
+		
+		this.hudFont = font;
+		this.agdxmlParser = null;
+	}
+	
+	/**
+	 * Set the HUD from n AGDXML layout definition
+	 * 
+	 * @param agdxmlFile the AGDXML file
+	 * @param mapAgdxmlIDs the ID map for the AGDXML file
+	 * @param font the font used by the HUD element
+	 * 
+	 * @throws AgdxmlParsingException if the agdxmlFile has Errors
+	 */
+	public void setHUDFromAgdxml(FileHandle agdxmlFile, AgdxmlTextureProviderIDMap mapAgdxmlIDs, BitmapFont font) throws AgdxmlParsingException {
+		try {
+			this.agdxmlParser = new AgdxmlParser(agdxmlFile, this, mapAgdxmlIDs);
+			
+			this.hudRoot = new MenuFrame();
+			this.hudRoot.setPosition(0, 0);
+			this.hudRoot.setSize(owner.getScreenWidth(), owner.getScreenHeight());
+			this.hudRoot.pack(this, null);
+			
+			this.agdxmlParser.parse(hudRoot);
+			
+			this.hudFont = font;
+		} catch (Exception e) {
+			this.agdxmlParser = null;
+			this.hudRoot = null;
+			this.hudFont = null;
+			
+			throw new AgdxmlParsingException(e);
+		}
+	}
+	
+	/**
+	 * Set the HUD from n AGDXML layout definition
+	 * 
+	 * @param agdxmlFileContent the AGDXML definition
+	 * @param mapAgdxmlIDs the ID map for the AGDXML file
+	 * @param font the font used by the HUD element
+	 * 
+	 * @throws AgdxmlParsingException if the agdxmlFile has Errors
+	 */
+	public void setHUDFromAgdxml(String agdxmlFileContent, AgdxmlTextureProviderIDMap mapAgdxmlIDs, BitmapFont font) throws AgdxmlParsingException {
+		try {
+			this.agdxmlParser = new AgdxmlParser(agdxmlFileContent, this, mapAgdxmlIDs);
+			
+			this.hudRoot = new MenuFrame();
+			this.hudRoot.setPosition(0, 0);
+			this.hudRoot.setSize(owner.getScreenWidth(), owner.getScreenHeight());
+			this.hudRoot.pack(this, null);
+			
+			this.agdxmlParser.parse(hudRoot);
+			
+			this.hudFont = font;
+		} catch (Exception e) {
+			this.agdxmlParser = null;
+			this.hudRoot = null;
+			this.hudFont = null;
+			
+			throw new AgdxmlParsingException(e);
+		}
+	}
+	
+	
 }

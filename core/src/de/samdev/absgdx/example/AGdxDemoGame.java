@@ -22,7 +22,8 @@ public class AGdxDemoGame extends AgdxGame {
 		if (Gdx.input.isKeyJustPressed(Keys.F1)) settings.debugEnabled.doSwitch();
 		if (Gdx.input.isKeyJustPressed(Keys.F2)) settings.debugVisualEntities.doSwitch();
 		if (Gdx.input.isKeyJustPressed(Keys.F3)) settings.debugVisualMap.doSwitch();
-		if (Gdx.input.isKeyJustPressed(Keys.F4)) settings.debugTextInfos.doSwitch();
-		if (Gdx.input.isKeyJustPressed(Keys.F5)) settings.debugEntitiesPhysicVectors.doSwitch();
+		if (Gdx.input.isKeyJustPressed(Keys.F4)) settings.debugVisualMenu.doSwitch();
+		if (Gdx.input.isKeyJustPressed(Keys.F5)) settings.debugTextInfos.doSwitch();
+		if (Gdx.input.isKeyJustPressed(Keys.F6)) settings.debugEntitiesPhysicVectors.doSwitch();
 	}
 }

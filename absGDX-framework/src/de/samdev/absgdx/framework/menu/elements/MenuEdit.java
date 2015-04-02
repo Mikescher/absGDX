@@ -10,19 +10,19 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
-import de.samdev.absgdx.framework.layer.MenuLayer;
+import de.samdev.absgdx.framework.GameSettings;
 import de.samdev.absgdx.framework.menu.GUITextureProvider;
 import de.samdev.absgdx.framework.menu.attributes.HorzAlign;
 import de.samdev.absgdx.framework.menu.attributes.RectangleRadius;
 import de.samdev.absgdx.framework.menu.attributes.TextAutoScaleMode;
 import de.samdev.absgdx.framework.menu.attributes.VertAlign;
-import de.samdev.absgdx.framework.menu.events.MenuEditListener;
 import de.samdev.absgdx.framework.menu.events.MenuBaseElementListener;
+import de.samdev.absgdx.framework.menu.events.MenuEditListener;
 
 /**
  * A edit-able Text Field
  */
-public class MenuEdit extends MenuBaseElement {
+public class MenuEdit extends MenuBaseElement { //TODO Does not work on mobile - missing on screen keyboard
 	private final static float BLINK_DELAY = 850f;
 	
 	private final MenuLabel innerLabel;
@@ -83,17 +83,15 @@ public class MenuEdit extends MenuBaseElement {
 	}
 
 	@Override
-	public void renderElement(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont defaultfont, MenuLayer owner) {
-		super.renderElement(sbatch, srenderer, defaultfont, owner);
+	public void renderDebugGridLines(ShapeRenderer srenderer, GameSettings settings) {
+		super.renderDebugGridLines(srenderer, settings);
 		
-		if (owner.owner.settings.debugMenuBorders.isActive()) {
-			srenderer.begin(ShapeType.Line);
-			{
-				srenderer.setColor(owner.owner.settings.debugMenuBordersColorL2.get());
-				srenderer.rect(innerLabel.getPositionX(), innerLabel.getPositionY(), innerLabel.getWidth(), innerLabel.getHeight());
-			}
-			srenderer.end();
+		srenderer.begin(ShapeType.Line);
+		{
+			srenderer.setColor(settings.debugMenuBordersColorL2.get());
+			srenderer.rect(innerLabel.getPositionX(), innerLabel.getPositionY(), innerLabel.getWidth(), innerLabel.getHeight());
 		}
+		srenderer.end();
 	}
 
 	@Override

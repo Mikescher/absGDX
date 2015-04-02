@@ -16,11 +16,11 @@ import de.samdev.absgdx.framework.menu.attributes.TextAutoScaleMode;
 import de.samdev.absgdx.framework.menu.attributes.TristateBoolean;
 import de.samdev.absgdx.framework.menu.attributes.VertAlign;
 import de.samdev.absgdx.framework.menu.attributes.VisualButtonState;
+import de.samdev.absgdx.framework.menu.elements.MenuBaseElement;
 import de.samdev.absgdx.framework.menu.elements.MenuButton;
 import de.samdev.absgdx.framework.menu.elements.MenuCheckBox;
 import de.samdev.absgdx.framework.menu.elements.MenuContainer;
 import de.samdev.absgdx.framework.menu.elements.MenuEdit;
-import de.samdev.absgdx.framework.menu.elements.MenuBaseElement;
 import de.samdev.absgdx.framework.menu.elements.MenuImage;
 import de.samdev.absgdx.framework.menu.elements.MenuLabel;
 import de.samdev.absgdx.framework.menu.elements.MenuPanel;
@@ -300,6 +300,7 @@ public class ManualMenu extends MenuLayer {
 		root.setPosition((getMenuRoot().getWidth() - root.getWidth())/2, (getMenuRoot().getHeight() - root.getHeight())/2);
 		
 		getMenuRoot().addChildren(root);
+		getMenuRoot().setRenderTexture(true);
 	}
 
 	@Override
@@ -309,5 +310,4 @@ public class ManualMenu extends MenuLayer {
 		
 		root.setPosition((getMenuRoot().getWidth() - root.getWidth())/2, (getMenuRoot().getHeight() - root.getHeight())/2);
 	}
-
 }

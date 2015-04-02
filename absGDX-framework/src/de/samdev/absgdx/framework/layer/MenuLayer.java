@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.utils.reflect.ClassReflection;
+import com.badlogic.gdx.utils.reflect.Method;
+import com.badlogic.gdx.utils.reflect.ReflectionException;
 
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.menu.MenuOwner;
@@ -94,6 +97,12 @@ public abstract class MenuLayer extends AgdxLayer implements MenuOwner {
 	@Override
 	public boolean keyDown(int keycode) {
 		return getMenuRoot().keyDown(keycode);
+	}
+	
+	@Override
+	@SuppressWarnings("rawtypes")
+	public Method getDeclaredMethod(String name, Class... parameterTypes) throws ReflectionException {
+		return ClassReflection.getDeclaredMethod(this.getClass(), name, parameterTypes);
 	}
 	
 	@Override

@@ -10,8 +10,8 @@ import com.badlogic.gdx.utils.XmlReader.Element;
 import com.badlogic.gdx.utils.reflect.Method;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 
-import de.samdev.absgdx.framework.layer.AgdxmlLayer;
 import de.samdev.absgdx.framework.menu.GUITextureProvider;
+import de.samdev.absgdx.framework.menu.MenuOwner;
 import de.samdev.absgdx.framework.menu.elements.MenuBaseElement;
 import de.samdev.absgdx.framework.menu.elements.MenuButton;
 import de.samdev.absgdx.framework.menu.elements.MenuCheckBox;
@@ -47,30 +47,27 @@ public class AgdxmlParser {
 	private AgdxmlLayerBoundaryElement boundaryRootElement = null;
 	
 	private final Element xmlRootElement;
-	private final AgdxmlLayer layer;
+	private final MenuOwner layer;
 	
-	private final HashMap<String, GUITextureProvider> map_provider;
-	private final HashMap<String, TextureRegion[]> map_imagetextures;
+	private final AgdxmlTextureProviderIDMap mapAgdxmlIDs;
 	
 	/**
 	 * Create an new AGDXML parser
 	 * 
 	 * @param agdxmlFile the file handle to the AGDXML file
-	 * @param layer the layer for the new layout
+	 * @param layer the owner for the new layout (GameLayer, MenuLayer, ...)
 	 * @param map_provider the map of used Texture Providers
-	 * @param map_imagetextures the map of used Image-Texture Providers
 	 * 
 	 * @throws AgdxmlParsingException if the AGDXML file cannot be opened or is not well formed
 	 */
-	public AgdxmlParser(FileHandle agdxmlFile, AgdxmlLayer layer, HashMap<String, GUITextureProvider> map_provider, HashMap<String, TextureRegion[]> map_imagetextures) throws AgdxmlParsingException {
+	public AgdxmlParser(FileHandle agdxmlFile, MenuOwner layer, AgdxmlTextureProviderIDMap map_provider) throws AgdxmlParsingException {
 		super();
 		
 		try {
 			this.xmlRootElement = new XmlReader().parse(agdxmlFile);
 			this.layer = layer;
 			
-			this.map_provider = map_provider;
-			this.map_imagetextures = map_imagetextures;			
+			this.mapAgdxmlIDs = map_provider;	
 		} catch (Exception e) {
 			throw new AgdxmlParsingException(e);
 		}
@@ -80,21 +77,19 @@ public class AgdxmlParser {
 	 * Create an new AGDXML parser
 	 * 
 	 * @param agdxmlFileContent the content of the AGDXML file
-	 * @param layer the layer for the new layout
+	 * @param layer the owner for the new layout (GameLayer, MenuLayer, ...)
 	 * @param map_provider the map of used Texture Providers
-	 * @param map_imagetextures the map of used Image-Texture Providers
 	 * 
 	 * @throws AgdxmlParsingException if the AGDXML file content is not well formed
 	 */
-	public AgdxmlParser(String agdxmlFileContent, AgdxmlLayer layer, HashMap<String, GUITextureProvider> map_provider, HashMap<String, TextureRegion[]> map_imagetextures) throws AgdxmlParsingException {
+	public AgdxmlParser(String agdxmlFileContent, MenuOwner layer, AgdxmlTextureProviderIDMap map_provider) throws AgdxmlParsingException {
 		super();
 		
 		try {
 			this.xmlRootElement = new XmlReader().parse(agdxmlFileContent);
 			this.layer = layer;
 			
-			this.map_provider = map_provider;
-			this.map_imagetextures = map_imagetextures;			
+			this.mapAgdxmlIDs = map_provider;		
 		} catch (Exception e) {
 			throw new AgdxmlParsingException(e);
 		}
@@ -114,9 +109,10 @@ public class AgdxmlParser {
 			
 			AgdxmlLayerBoundaryElement result = new AgdxmlLayerBoundaryElement(root);
 			
-			root.setBoundaries(0, 0, layer.owner.getScreenWidth(), layer.owner.getScreenHeight());
-			
+			root.setBoundaries(0, 0, layer.getAgdxGame().getScreenWidth(), layer.getAgdxGame().getScreenHeight());
+
 			if (xmlRootElement.getAttribute("visible", null) != null) root.setVisible(xmlRootElement.getAttribute("visible").toLowerCase().equals("true"));
+			if (xmlRootElement.getAttribute("renderTexture", null) != null) root.setRenderTexture(xmlRootElement.getAttribute("renderTexture").toLowerCase().equals("true"));
 			
 			GUITextureProvider rootProvider = getTextureProviderFromMap(xmlRootElement, new GUITextureProvider());
 			
@@ -140,18 +136,18 @@ public class AgdxmlParser {
 	 * @throws AgdxmlParsingException if there are errors in the AGDXML file (should almost never happen - because the file was already parsed once)
 	 */
 	public void update() throws AgdxmlParsingException {
-		boundaryRootElement.updateRoot(layer.owner.getScreenWidth(), layer.owner.getScreenHeight());
+		boundaryRootElement.updateRoot(layer.getAgdxGame().getScreenWidth(), layer.getAgdxGame().getScreenHeight());
 	}
 	
 	private TextureRegion getSingleImageTextureFromMap(Element xmlElement) {
-		TextureRegion[] result = map_imagetextures.get(xmlElement.getAttribute("texture", null));
+		TextureRegion[] result = mapAgdxmlIDs.getImageTexture(xmlElement.getAttribute("texture", null));
 		if (result == null) return new TextureRegion();
 		if (result.length < 1) return new TextureRegion();
 		return result[0];
 	}
 	
 	private TextureRegion[] getMultiImageTextureFromMap(Element xmlElement) {
-		TextureRegion[] result = map_imagetextures.get(xmlElement.getAttribute("texture", null));
+		TextureRegion[] result = mapAgdxmlIDs.getImageTexture(xmlElement.getAttribute("texture", null));
 		if (result == null) result = new TextureRegion[]{ new TextureRegion() };
 		return result;
 	}
@@ -160,7 +156,7 @@ public class AgdxmlParser {
 		String attr = xmlElement.getAttribute("textures", null);
 		if (attr == null) return defaultProvider;
 		
-		GUITextureProvider result = map_provider.get(attr);
+		GUITextureProvider result = mapAgdxmlIDs.getGUITextureProvider(attr);
 		if (result == null) return new GUITextureProvider();
 		
 		return result;
@@ -191,7 +187,7 @@ public class AgdxmlParser {
 		String id = xmlElement.getAttribute("id", "{" + java.util.UUID.randomUUID().toString() + "}");
 		GUITextureProvider tprox = getTextureProviderFromMap(xmlElement, rootProvider);
 		
-		MenuSettingsTree elem = new MenuSettingsTree(id, tprox, layer.owner.settings.root);
+		MenuSettingsTree elem = new MenuSettingsTree(id, tprox, layer.getAgdxGame().settings.root);
 		AgdxmlLayerBoundaryElement boundelem = new AgdxmlLayerBoundaryElement(elem, xmlElement);
 		boundelem.update(boundaries);
 		

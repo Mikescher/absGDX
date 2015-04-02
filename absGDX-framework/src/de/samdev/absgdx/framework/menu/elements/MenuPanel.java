@@ -57,6 +57,8 @@ public class MenuPanel extends MenuContainer {
 		} else {
 			renderSimple(srenderer);
 		}
+		
+		renderChildren(sbatch, srenderer, font);
 	}
 
 	private void renderSimple(ShapeRenderer srenderer) {

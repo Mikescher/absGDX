@@ -1,18 +1,14 @@
 package de.samdev.absgdx.framework.layer;
 
-import java.util.HashMap;
-
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.utils.reflect.ClassReflection;
-import com.badlogic.gdx.utils.reflect.Method;
-import com.badlogic.gdx.utils.reflect.ReflectionException;
 
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.menu.GUITextureProvider;
 import de.samdev.absgdx.framework.menu.agdxml.AgdxmlLayerBoundaryElement;
 import de.samdev.absgdx.framework.menu.agdxml.AgdxmlParser;
+import de.samdev.absgdx.framework.menu.agdxml.AgdxmlTextureProviderIDMap;
 import de.samdev.absgdx.framework.util.exceptions.AgdxmlParsingException;
 
 /**
@@ -23,8 +19,7 @@ import de.samdev.absgdx.framework.util.exceptions.AgdxmlParsingException;
 public abstract class AgdxmlLayer extends MenuLayer {
 	private final AgdxmlParser parser;
 	
-	private HashMap<String, GUITextureProvider> map_provider = new HashMap<String, GUITextureProvider>();
-	private HashMap<String, TextureRegion[]> map_imagetextures = new HashMap<String, TextureRegion[]>();
+	private AgdxmlTextureProviderIDMap mapAgdxmlIDs = new AgdxmlTextureProviderIDMap();
 	
 	/**
 	 * Create a new AgdxmlLayer
@@ -32,6 +27,7 @@ public abstract class AgdxmlLayer extends MenuLayer {
 	 * @param owner the owner of the layer
 	 * @param bmpfont The standard font to use
 	 * @param agdxmlFile the file with the AGDXML description 
+	 * 
 	 * @throws AgdxmlParsingException if the agdxmlFile has Errors
 	 */
 	public AgdxmlLayer(AgdxGame owner, BitmapFont bmpfont, FileHandle agdxmlFile) throws AgdxmlParsingException {
@@ -40,7 +36,7 @@ public abstract class AgdxmlLayer extends MenuLayer {
 		initialize();
 		
 		try {
-			parser = new AgdxmlParser(agdxmlFile, this, map_provider, map_imagetextures);
+			parser = new AgdxmlParser(agdxmlFile, this, mapAgdxmlIDs);
 			
 			parser.parse(getMenuRoot());
 		} catch (Exception e) {
@@ -62,7 +58,7 @@ public abstract class AgdxmlLayer extends MenuLayer {
 		initialize();
 		
 		try {
-			parser = new AgdxmlParser(agdxmlFileContent, this, map_provider, map_imagetextures);
+			parser = new AgdxmlParser(agdxmlFileContent, this, mapAgdxmlIDs);
 			
 			parser.parse(getMenuRoot());
 		} catch (Exception e) {
@@ -97,7 +93,7 @@ public abstract class AgdxmlLayer extends MenuLayer {
 	 * @param value the provider
 	 */
 	public void addAgdxmlGuiTextureProvider(String key, GUITextureProvider value) {
-		map_provider.put(key, value);
+		mapAgdxmlIDs.putGUITextureProvider(key, value);
 	}
 
 	/**
@@ -107,7 +103,7 @@ public abstract class AgdxmlLayer extends MenuLayer {
 	 * @param value the texture
 	 */
 	public void addAgdxmlImageTexture(String key, TextureRegion value) {
-		map_imagetextures.put(key, new TextureRegion[]{value});
+		mapAgdxmlIDs.putImageTexture(key, value);
 	}
 
 	/**
@@ -118,7 +114,7 @@ public abstract class AgdxmlLayer extends MenuLayer {
 	 * @param value the texture
 	 */
 	public void addAgdxmlImageTexture(String key, TextureRegion[] value) {
-		map_imagetextures.put(key, value);
+		mapAgdxmlIDs.putImageTexture(key, value);
 	}
 
 	/**
@@ -129,20 +125,6 @@ public abstract class AgdxmlLayer extends MenuLayer {
 	 */
 	public AgdxmlLayerBoundaryElement getBoundaryRootElement() {
 		return parser.getBoundaryRootElement();
-	}
-	
-	/**
-	 * A wrapper for the getDeclaredMethod() method in LibGDX-reflection
-	 * 
-	 * @param name the method name
-	 * @param parameterTypes the method parameters
-	 * @return the method with the specific name and parameters
-	 * 
-	 * @throws ReflectionException if the method does not exist
-	 */
-	@SuppressWarnings("rawtypes")
-	public Method getDeclaredMethod(String name, Class... parameterTypes) throws ReflectionException {
-		return ClassReflection.getDeclaredMethod(this.getClass(), name, parameterTypes);
 	}
 	
 	@Override

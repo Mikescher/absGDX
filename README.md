@@ -1,4 +1,4 @@
-The absGDX game framework  [![Build Status](https://api.travis-ci.org/Mikescher/absGDX.svg)](https://travis-ci.org/Mikescher/absGDX)
+The absGDX game framework  [![Build Status](https://api.travis-ci.org/Mikescher/absGDX.svg)](https://travis-ci.org/Mikescher/absGDX) [![Build Status latex](https://www.sharelatex.com/github/repos/Mikescher/DHBW-Studienarbeit-absGDX/builds/latest/badge.svg)](https://www.sharelatex.com/github/repos/Mikescher/DHBW-Studienarbeit-absGDX)
 =======
 
 An **2D Tiled Multi-plattform Game Framework** *based on LibGDX*

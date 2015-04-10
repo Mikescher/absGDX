@@ -25,6 +25,8 @@ It is made to create two-dimensional games that consist of an (tiled) map and mu
 
 [![wercker status](https://app.wercker.com/status/91f3088dcb06f3d5e1d114aef291e80c/m "wercker status")](https://app.wercker.com/project/bykey/91f3088dcb06f3d5e1d114aef291e80c)
 
+###[> Download](https://github.com/Mikescher/absGDX/tree/master/manual-demo-builds)
+
 ###[> Written thesis (version 1.0)](https://github.com/Mikescher/DHBW-Studienarbeit-absGDX)
 
 <sup><sup>*more info coming soon-ish*</sup></sup>

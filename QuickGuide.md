@@ -21,12 +21,12 @@ project(":core") {
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
-    	compile files("lib/absGDX-framework-??.??.jar")
+    	compile files("../lib/absGDX-framework-??.??.jar")
     }
 }
 ~~~
 
-Now execute `gradlew cleanEclipse eclipse` to generate the new eclipse project files or `gradlew cleanIdea idea` to generate IntelliJ Idea project files.
+Now execute `gradlew cleanEclipse eclipse afterEclipseImport` to generate the new eclipse project files or `gradlew cleanIdea idea` to generate IntelliJ Idea project files.
 
 You can now program your project on the desktop (and also execute it there). If you want to build it for android run `gradlew android:assembleRelease`
 

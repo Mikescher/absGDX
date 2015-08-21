@@ -8,7 +8,3 @@ sourceSets.main.java.srcDirs = [ "src/" ]
 eclipse.project {
     name = appName + "-core"
 }
-
-dependencies {
-    compile files("../lib/absGDX-framework-1.0.jar")
-}

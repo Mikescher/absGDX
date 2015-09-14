@@ -30,6 +30,8 @@ public class GameSettings {
 	public BooleanProperty debugGameLayerTextInfos;
 	/** SHow Debug Text info in the top left corner (MenuLayer) */
 	public BooleanProperty debugMenuLayerTextInfos;
+	/** SHow Debug Text info in the top left corner (GameLayerMenu) */
+	public BooleanProperty debugGameLayerMenuTextInfos;
 	/** Show FPS */
 	public BooleanProperty debugTextFPS;
 	/** Show timing information */
@@ -78,12 +80,18 @@ public class GameSettings {
 	public ColorProperty debugMenuBordersColor;
 	/** The debug border color of inner MenuElements  */
 	public ColorProperty debugMenuBordersColorL2;
-	/** Show generic MenuElement info's */
-	public BooleanProperty debugElementInfo;
-	/** Show the MenuElement dimensions */
-	public BooleanProperty debugElementBoundaries;
-	/** Show special MenuElement attributes */
-	public BooleanProperty debugElementAttributes;
+	/** Show MenuLayers MenuElement info's */
+	public BooleanProperty debugMenuLayerElementInfo;
+	/** Show MenuLayers MenuElement dimensions */
+	public BooleanProperty debugMenuLayerElementBoundaries;
+	/** Show MenuLayers MenuElement special attributes */
+	public BooleanProperty debugGameLayerMenuElementAttributes;
+	/** Show MenuLayers GameLayerMenu info's */
+	public BooleanProperty debugGameLayerMenuElementInfo;
+	/** Show MenuLayers GameLayerMenu dimensions */
+	public BooleanProperty debugGameLayerMenuElementBoundaries;
+	/** Show MenuLayers GameLayerMenu special attributes */
+	public BooleanProperty debugMenuLayerElementAttributes;
 	/** Show the animation progress in MenuImages */
 	public BooleanProperty debugMenuImageAnimation;
 	
@@ -120,9 +128,16 @@ public class GameSettings {
 
 						debugMenuLayerTextInfos = new BooleanProperty("debugMenuLayerTextInfos", true, debugTextInfos);
 						{
-							debugElementInfo = new BooleanProperty("debugElementInfo", true, debugMenuLayerTextInfos);
-							debugElementBoundaries = new BooleanProperty("debugElementBoundaries", true, debugMenuLayerTextInfos);
-							debugElementAttributes = new BooleanProperty("debugElementAttributes", true, debugMenuLayerTextInfos);
+							debugMenuLayerElementInfo = new BooleanProperty("debugMenuLayerElementInfo", true, debugMenuLayerTextInfos);
+							debugMenuLayerElementBoundaries = new BooleanProperty("debugMenuLayerElementBoundaries", true, debugMenuLayerTextInfos);
+							debugMenuLayerElementAttributes = new BooleanProperty("debugMenuLayerElementAttributes", true, debugMenuLayerTextInfos);
+						}
+
+						debugGameLayerMenuTextInfos = new BooleanProperty("debugGameLayerMenuTextInfos", true, debugTextInfos);
+						{
+							debugGameLayerMenuElementInfo = new BooleanProperty("debugGameLayerMenuElementInfo", true, debugGameLayerMenuTextInfos);
+							debugGameLayerMenuElementBoundaries = new BooleanProperty("debugGameLayerMenuElementBoundaries", true, debugGameLayerMenuTextInfos);
+							debugGameLayerMenuElementAttributes = new BooleanProperty("debugGameLayerMenuElementAttributes", true, debugGameLayerMenuTextInfos);
 						}
 					}
 

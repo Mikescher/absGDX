@@ -19,6 +19,7 @@ import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionMap;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
 import de.samdev.absgdx.framework.layer.AgdxLayer;
 import de.samdev.absgdx.framework.layer.GameLayer;
+import de.samdev.absgdx.framework.layer.MenuLayer;
 import de.samdev.absgdx.framework.map.AutoTile;
 import de.samdev.absgdx.framework.map.Tile;
 import de.samdev.absgdx.framework.menu.MenuOwner;
@@ -185,19 +186,18 @@ public abstract class AgdxGame implements ApplicationListener {
 			}
 		}
 		
-
-		if (!layers.empty() && layers.peek() instanceof MenuOwner && settings.debugMenuLayerTextInfos.isActive()) {
+		if (!layers.empty() && layers.peek() instanceof MenuLayer && settings.debugMenuLayerTextInfos.isActive()) {
 			MenuOwner mlayer = (MenuOwner) layers.peek();
 			MenuBaseElement melem = mlayer.getMenuRoot().getElementAt(Gdx.input.getX(), Gdx.input.getY());
 			
 			debugTextRenderer.drawFormatted("MenuBaseElements: Count=%d",  mlayer.getMenuRoot().getElementCount());
 			
-			if (settings.debugElementInfo.isActive()) {
+			if (settings.debugMenuLayerElementInfo.isActive()) {
 				if (melem != null)
 					debugTextRenderer.drawFormatted(" - %s (%s)",  melem.getClass().getSimpleName(), melem.identifier);
 			}
 
-			if (settings.debugElementBoundaries.isActive()) {
+			if (settings.debugMenuLayerElementBoundaries.isActive()) {
 				if (melem != null) {
 					debugTextRenderer.drawFormatted(" - Boundaries: %s", DebugFormatter.fmtRectangle(melem.getBoundaries(), 1));
 					debugTextRenderer.drawFormatted(" - Matrix Offset: %s", DebugFormatter.fmtV2(new Vector2(melem.getCoordinateOffsetX(), melem.getCoordinateOffsetY()), 1));
@@ -205,7 +205,44 @@ public abstract class AgdxGame implements ApplicationListener {
 				}
 			}
 
-			if (settings.debugElementAttributes.isActive()) {
+			if (settings.debugMenuLayerElementAttributes.isActive()) {
+				if (melem != null) {
+					debugTextRenderer.drawFormatted(" - [Focused|Hovered|Pressed|Visible]: [%s|%s|%s|%s]", 
+							melem.isFocused() ? "X":"O",
+							melem.isHovered() ? "X":"O",
+							melem.isPressed() ? "X":"O",
+							melem.isVisible() ? "X":"O");
+					debugTextRenderer.drawFormatted(" - Listener: %s; Font: %s; Provider: %s; composites: (direct := %d || all := %d)", 
+							melem.getListenerCount(), 
+							melem.getFont()==null ? "NULL" : "SET", 
+							melem.getTextureProvider().getRegisteredTexturesCount()>0 ? "SET" : "EMPTY",
+							melem.getDirectInnerElements().size(), melem.getAllInnerElements().size());
+				}
+			}
+			
+			debugTextRenderer.draw();
+		}
+
+		if (!layers.empty() && layers.peek() instanceof GameLayer && settings.debugGameLayerMenuTextInfos.isActive()) {
+			MenuOwner mlayer = (MenuOwner) layers.peek();
+			MenuBaseElement melem = mlayer.getMenuRoot().getElementAt(Gdx.input.getX(), Gdx.input.getY());
+			
+			debugTextRenderer.drawFormatted("MenuBaseElements: Count=%d",  mlayer.getMenuRoot().getElementCount());
+			
+			if (settings.debugGameLayerMenuElementInfo.isActive()) {
+				if (melem != null)
+					debugTextRenderer.drawFormatted(" - %s (%s)",  melem.getClass().getSimpleName(), melem.identifier);
+			}
+
+			if (settings.debugGameLayerMenuElementBoundaries.isActive()) {
+				if (melem != null) {
+					debugTextRenderer.drawFormatted(" - Boundaries: %s", DebugFormatter.fmtRectangle(melem.getBoundaries(), 1));
+					debugTextRenderer.drawFormatted(" - Matrix Offset: %s", DebugFormatter.fmtV2(new Vector2(melem.getCoordinateOffsetX(), melem.getCoordinateOffsetY()), 1));
+					debugTextRenderer.drawFormatted(" - Tree Depth: %d", melem.getDepth());
+				}
+			}
+
+			if (settings.debugGameLayerMenuElementAttributes.isActive()) {
 				if (melem != null) {
 					debugTextRenderer.drawFormatted(" - [Focused|Hovered|Pressed|Visible]: [%s|%s|%s|%s]", 
 							melem.isFocused() ? "X":"O",

@@ -589,7 +589,7 @@ public class CollisionMap {
 	 * @return the geometry
 	 */
 	public CollisionGeometry getTileCollisionGeometry(int x, int y) {
-		if (x >= 0 || y >= 0 || x < width && y < height) return tileCollisionBoxes[x][y];
+		if (x >= 0 && y >= 0 && x < width && y < height) return tileCollisionBoxes[x][y];
 		else return null;
 	}
 }

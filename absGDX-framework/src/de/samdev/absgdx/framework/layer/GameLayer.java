@@ -135,7 +135,7 @@ public abstract class GameLayer extends AgdxLayer implements MenuOwner {
 	}
 
 	private void renderGame(SpriteBatch sbatch, ShapeRenderer srenderer) {
-		float tilesize = mapScaleResolver.getTileSize(owner.getScreenWidth(), owner.getScreenHeight(), map.height, map.width);
+		float tilesize = getTileScale();
 
 		Rectangle visible = getVisibleMapBox();
 		
@@ -378,7 +378,7 @@ public abstract class GameLayer extends AgdxLayer implements MenuOwner {
 	 * @return the currently visible tiles (in tile-coordinates : 1 tile = 1 unit)
 	 */
 	public Rectangle getVisibleMapBox() {
-		float tilesize = mapScaleResolver.getTileSize(owner.getScreenWidth(), owner.getScreenHeight(), map.height, map.width);
+		float tilesize = getTileScale();
 		
 		Rectangle view = new Rectangle(map_offset.x, map_offset.y, owner.getScreenWidth() / tilesize, owner.getScreenHeight() / tilesize);
 		
@@ -454,7 +454,7 @@ public abstract class GameLayer extends AgdxLayer implements MenuOwner {
 	 * @return the tile scale
 	 */
 	public float getTileScale() {
-		return mapScaleResolver.getTileSize(owner.getScreenWidth(), owner.getScreenHeight(), map.height, map.width);
+		return mapScaleResolver.getTileSize(owner.getScreenWidth(), owner.getScreenHeight(), map.width, map.height);
 	}
 	
 	/**

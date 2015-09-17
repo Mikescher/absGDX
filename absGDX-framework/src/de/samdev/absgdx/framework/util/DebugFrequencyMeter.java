@@ -19,15 +19,18 @@ public class DebugFrequencyMeter {
 	private int intervalCounter = 0;
 
 	private int renderIntervalCounter = 0;
+	private int debugRenderIntervalCounter = 0;
 	private int updateIntervalCounter = 0;
 
 	// #########################################################################
 
 	private long startRenderTime;
 	private long startUpdateTime;
+	private long startDebugRenderTime;
 
 	private long totalRenderTime;
 	private long totalUpdateTime;
+	private long totalDebugRenderTime;
 
 	// #########################################################################
 
@@ -40,8 +43,12 @@ public class DebugFrequencyMeter {
 	public double renderTime;
 	/** The current time per update process */
 	public double updateTime;
-	/** The current time per (render + update) process */
+	/** The current time per debug render process */
+	public double debugRenderTime;
+	/** The current time per (render + debugrender + update) process */
 	public double totalTime;
+	/** The current time per (render + update) process */
+	public double effectivetotalTime;
 
 	// #########################################################################
 
@@ -89,13 +96,17 @@ public class DebugFrequencyMeter {
 
 			renderTime = totalRenderTime * 1d / renderIntervalCounter;
 			updateTime = totalUpdateTime * 1d / updateIntervalCounter;
+			debugRenderTime = totalDebugRenderTime * 1d / debugRenderIntervalCounter;
 
-			totalTime = renderTime + updateTime;
+			totalTime = renderTime + debugRenderTime + updateTime;
+			effectivetotalTime = renderTime + updateTime;
 
 			totalRenderTime = 0;
 			renderIntervalCounter = 0;
 			totalUpdateTime = 0;
 			updateIntervalCounter = 0;
+			totalDebugRenderTime = 0;
+			debugRenderIntervalCounter = 0;
 		}
 
 		intervalCounter++;
@@ -128,6 +139,22 @@ public class DebugFrequencyMeter {
 		totalRenderTime += System.nanoTime() - startRenderTime;
 
 		renderIntervalCounter++;
+	}
+	
+	/**
+	 * Call this at the start of the rendering (Debug Output)
+	 */
+	public void startDebugRender() {
+		startDebugRenderTime = System.nanoTime();
+	}
+
+	/**
+	 * Call this at the end of the rendering (Debug Output)
+	 */
+	public void endDebugRender() {
+		totalDebugRenderTime += System.nanoTime() - startDebugRenderTime;
+
+		debugRenderIntervalCounter++;
 	}
 
 	/**

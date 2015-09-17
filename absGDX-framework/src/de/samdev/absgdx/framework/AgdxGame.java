@@ -94,6 +94,10 @@ public abstract class AgdxGame implements ApplicationListener {
 			freqMeter.startRender();
 			doRender();
 			freqMeter.endRender();
+			
+			freqMeter.startDebugRender();
+			doRender_DebugOverlay();
+			freqMeter.endDebugRender();
 		} else {
 			doUpdate();
 
@@ -117,7 +121,9 @@ public abstract class AgdxGame implements ApplicationListener {
 		if (!layers.empty()) {
 			layers.peek().render(layerSpriteRenderer, layerShapeRenderer);
 		}
-
+	}
+	
+	private void doRender_DebugOverlay() {
 		if (settings.debugTextInfos.isActive()) {
 			renderDebugTextOverlay();
 		}
@@ -261,9 +267,9 @@ public abstract class AgdxGame implements ApplicationListener {
 		}
 
 		if (settings.debugTextTiming.isActive()) {
-			debugTextRenderer.drawFormatted("RenderTime: %sms (%d%%)", DebugFormatter.fmtD(freqMeter.renderTime / 1000000d, 100), (int)freqMeter.getRenderPercentage());
+			debugTextRenderer.drawFormatted("RenderTime: %sms (%d%%) (+ %sms)", DebugFormatter.fmtD(freqMeter.renderTime / 1000000d, 100), (int)freqMeter.getRenderPercentage(), DebugFormatter.fmtD(freqMeter.debugRenderTime / 1000000d, 100));
 			debugTextRenderer.drawFormatted("UpdateTime: %sms (%d%%)", DebugFormatter.fmtD(freqMeter.updateTime / 1000000d, 100), (int)freqMeter.getUpdatePercentage());
-			debugTextRenderer.drawFormatted("TotalTime:  %sms (%d%%)", DebugFormatter.fmtD(freqMeter.totalTime / 1000000d, 100), (int)freqMeter.getTotalPercentage());
+			debugTextRenderer.drawFormatted("TotalTime:  %sms (%d%%) (real: %sms)", DebugFormatter.fmtD(freqMeter.effectivetotalTime / 1000000d, 100), (int)freqMeter.getTotalPercentage(), DebugFormatter.fmtD(freqMeter.totalTime / 1000000d, 100));
 			debugTextRenderer.drawFormatted("GDX-DeltaTime:  %sms", DebugFormatter.fmtF(Gdx.graphics.getDeltaTime()*1000f, 10));
 			debugTextRenderer.draw();
 		}

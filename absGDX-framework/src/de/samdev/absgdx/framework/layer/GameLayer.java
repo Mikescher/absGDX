@@ -483,14 +483,18 @@ public abstract class GameLayer extends AgdxLayer implements MenuOwner {
 	}
 	
 	protected void addFutureEntities() {
-		for (Entity e : futureEntities) {
+		if (futureEntities.isEmpty()) return;
+		
+		List<Entity> work = new ArrayList<Entity>(futureEntities);
+		futureEntities.clear();
+		
+		for (Entity e : work) {
 			entities.add(e);
 			
 			e.collisionOwner = collisionMap;
 			
 			e.onLayerAdd(this);			
 		}
-		futureEntities.clear();
 	}
 	
 	/**

@@ -487,7 +487,7 @@ public abstract class GameLayer extends AgdxLayer implements MenuOwner {
 			
 			e.collisionOwner = collisionMap;
 			
-			e.onLayerAdd(this);			
+			e.addToLayer(this);			
 		}
 	}
 	

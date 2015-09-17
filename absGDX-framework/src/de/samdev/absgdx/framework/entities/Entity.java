@@ -49,6 +49,9 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	private float width;
 	private float height;
 	
+	/** the owning GameLayer (NULL until added to an layer) */
+	protected GameLayer owner = null;
+	
 	/** The (physical) acceleration forces (! plural - add new ones with addNewAcceleration() ) */
 	public List<Vector2> accelerations = new ArrayList<Vector2>();
 	
@@ -579,11 +582,22 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	public abstract void beforeUpdate(float delta);
 	
 	/**
-	 * This method is called when the Entity is added to a GameLayer
+	 * This method is called after the Entity is added to a GameLayer
 	 * 
 	 * @param layer the owner
 	 */
 	public abstract void onLayerAdd(GameLayer layer);
+	
+	/**
+	 * This method is called to add the Entity to a GameLayer
+	 * 
+	 * @param layer the owner
+	 */
+	public void addToLayer(GameLayer layer) {
+		owner = layer;
+		
+		onLayerAdd(layer);
+	}
 	
 	/**
 	 * Set the Z layer
@@ -945,5 +959,19 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 				getWidth(), getHeight(), 
 				getTextureScaleX(), getTextureScaleY(), 
 				getTextureRotation());
+	}
+	
+	/**
+	 * Return true if the mouse is currently hovering over this entity
+	 * 
+	 * @return if mouse is over this entity
+	 */
+	public boolean isMouseOverEntity() {
+		if (owner == null) return false;
+
+		float mx = owner.getMouseOnMapPositionX();
+		float my = owner.getMouseOnMapPositionY();
+		
+		return x <= mx && y <= my && x + width > mx && y + height > my;
 	}
 }

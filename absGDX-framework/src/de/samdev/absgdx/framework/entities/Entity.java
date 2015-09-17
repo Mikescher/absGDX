@@ -5,8 +5,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -34,6 +37,8 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	private final TextureRegion[] animation;
 	private final int animationLength;
 	private final float frameDuration;
+	
+	private Color colorTint = null;
 	
 	protected float animationPos = 0f;
 	protected boolean isAnimationPaused = false;
@@ -881,4 +886,64 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 		// NOP - free to override
 	}
 
+	/**
+	 * Return the used ColorTint (NULL means no tint used)
+	 * 
+	 * When rendered WHITE becomes TINT and BLACK stays BLACK
+	 * The rest gets mixed
+	 * 
+	 * @return the OpenGL Tint Color
+	 */
+	public Color getColorTint() {
+		return colorTint;
+	}
+
+	/**
+	 * Set the used ColorTint (NULL means no tint used)
+	 * 
+	 * When rendered WHITE becomes TINT and BLACK stays BLACK
+	 * The rest gets mixed
+	 * 
+	 * @param colorTint the OpenGL Tint Color
+	 */
+	public void setColorTint(Color colorTint) {
+		this.colorTint = colorTint;
+	}
+
+	/**
+	 * Called by the GameLayer to render this entity.
+	 * 
+	 * Is only called when this entity is visible
+	 * 
+	 * @param sbatch the BatchRenderer (from LibGDX)
+	 * @param srenderer the ShapeRenderer (from LibGDX) - mostly used in Debug display
+	 */
+	public void render(SpriteBatch sbatch, ShapeRenderer srenderer) {
+		Color tint = getColorTint();
+		
+		if (tint != null) sbatch.setColor(tint);
+			
+		renderTexture(sbatch, getTexture(), 0, 0);
+
+		if (tint != null) sbatch.setColor(Color.WHITE);
+	}
+
+	/**
+	 * Renders a single Texture
+	 * You can use this method when you override render() to draw multiple textures for a single entity
+	 * 
+	 * @param sbatch the BatchRenderer (from LibGDX)
+	 * @param tex the texture you want to render
+	 * @param offsetX the X offset of the texture (default is zero)
+	 * @param offsetY the Y offset of the texture (default is zero)
+	 */
+	protected void renderTexture(SpriteBatch sbatch, TextureRegion tex, float offsetX, float offsetY) {
+		sbatch.draw(
+				tex, 
+				getPositionX() + offsetX, getPositionY() + offsetY, 
+				getWidth()/2f, getHeight()/2f, 
+				getWidth(), getHeight(), 
+				getTextureScaleX(), getTextureScaleY(), 
+				getTextureRotation());
+	}
 }

@@ -186,16 +186,10 @@ public abstract class GameLayer extends AgdxLayer implements MenuOwner {
 
 		sbatch.enableBlending();
 		sbatch.begin();
-		for( Iterator<Entity> it = entities.descendingIterator(); it.hasNext();) { // Iterate reverse (so z order is correct)
+		for(Iterator<Entity> it = entities.descendingIterator(); it.hasNext();) { // Iterate reverse (so z order is correct)
 		    Entity entity = it.next();
 			if (visible.overlaps(entity.getBoundings())) {
-				sbatch.draw(
-						entity.getTexture(), 
-						entity.getPositionX(), entity.getPositionY(), 
-						entity.getWidth()/2f, entity.getHeight()/2f, 
-						entity.getWidth(), entity.getHeight(), 
-						entity.getTextureScaleX(), entity.getTextureScaleY(), 
-						entity.getTextureRotation());
+				entity.render(sbatch, srenderer);
 
 				renderedEntities++;
 			}

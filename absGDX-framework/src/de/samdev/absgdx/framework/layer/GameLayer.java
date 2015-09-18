@@ -55,6 +55,8 @@ public abstract class GameLayer extends AgdxLayer implements MenuOwner {
 	
 	private AbstractMapScaleResolver mapScaleResolver = new ShowCompleteMapScaleResolver();
 
+	private VisibileMapBoxCache mapBoxCache = new VisibileMapBoxCache();
+	
 	//######## ENTITIES ########
 	
 	protected final SortedLinkedEntityList entities = new SortedLinkedEntityList();
@@ -369,14 +371,18 @@ public abstract class GameLayer extends AgdxLayer implements MenuOwner {
 	}
 
 	/**
+	 * Get a rectangle with the currently visible tiles (sub-tile precision)
+	 * This rectangle can contain tiles not in the map (depends on the MapScaleResolver)
+	 * 
+	 * The return value is cached and (until recalculation) always the same instance
+	 * 
+	 * Its is advised _NOT_ to manipulate the returned instance
+	 * (the cache will recalculate on manipulations, but still its probably not a good idea)
+	 * 
 	 * @return the currently visible tiles (in tile-coordinates : 1 tile = 1 unit)
 	 */
 	public Rectangle getVisibleMapBox() {
-		float tilesize = getTileScale();
-		
-		Rectangle view = new Rectangle(map_offset.x, map_offset.y, owner.getScreenWidth() / tilesize, owner.getScreenHeight() / tilesize);
-		
-		return view;
+		return mapBoxCache.getCached(map_offset, getTileScale(), owner.getScreenWidth(), owner.getScreenHeight());
 	}
 	
 	/**

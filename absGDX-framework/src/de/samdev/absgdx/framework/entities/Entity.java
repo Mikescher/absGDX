@@ -658,7 +658,7 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	 * @return A wrapper object - needed to remove the geometry again
 	 */
 	public EntityCollisionGeometry addFullCollisionCircle() {
-		return addCollisionGeo(width/2, height/2, new CollisionCircle(this, FloatMath.fmin(width, height)));
+		return addCollisionGeo(width/2, height/2, new CollisionCircle(this, FloatMath.fmin(width, height)/2f));
 	}
 	
 	/**

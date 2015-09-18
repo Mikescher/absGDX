@@ -1,5 +1,10 @@
 package de.samdev.absgdx.framework.map;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
+import org.apache.commons.lang3.reflect.ConstructorUtils;
+
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -110,5 +115,56 @@ public class TileMap {
 	 */
 	public static TileMap createEmptyMap(int w, int h) {
 		return new TileMap(w, h);
+	}
+	
+	/**
+	 * Loads a new map filled with an simple Tile
+	 * 
+	 * @param w width
+	 * @param h height
+	 * @param tileclass the tile to use for the map (needs an default constructor)
+	 * 
+	 * @return a new empty map
+	 * @throws InvocationTargetException if the tile class throws an exception in its constructor
+	 * @throws IllegalArgumentException if the tile class cannot be instantiated
+	 * @throws IllegalAccessException if the tile class cannot be instantiated
+	 * @throws InstantiationException if the tile class cannot be instantiated
+	 */
+	public static TileMap createEmptyMap(int w, int h, Class<? extends Tile> tileclass) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		TileMap t = new TileMap(w, h);
+		
+		Constructor<? extends Tile> tileConstructor = ConstructorUtils.getAccessibleConstructor(tileclass);
+		
+		for (int x = 0; x < w; x++) {
+			for (int y = 0; y < h; y++) {
+				t.setTile(x, y, tileConstructor.newInstance());
+			}
+		}
+		
+		return t;
+	}
+	
+	/**
+	 * Loads a new map filled with an simple Tile
+	 * (Returns NULL on error)
+	 * 
+	 * @param w width
+	 * @param h height
+	 * @param tileclass the tile to use for the map (needs an default constructor)
+	 * 
+	 * @return a new empty map
+	 */
+	public static TileMap createEmptyMapUnsafe(int w, int h, Class<? extends Tile> tileclass) {
+		try {
+			return createEmptyMap(w, h, tileclass);
+		} catch (InstantiationException e) {
+			return null;
+		} catch (IllegalAccessException e) {
+			return null;
+		} catch (IllegalArgumentException e) {
+			return null;
+		} catch (InvocationTargetException e) {
+			return null;
+		}
 	}
 }

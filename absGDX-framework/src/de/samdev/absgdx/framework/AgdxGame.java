@@ -63,6 +63,8 @@ public abstract class AgdxGame implements ApplicationListener {
 	/** the game settings */
 	public final GameSettings settings = new GameSettings();
 
+	private float currentDeltaSum = 0f;
+	
 	@Override
 	public void create() {
 		layerSpriteRenderer = new SpriteBatch();
@@ -296,6 +298,8 @@ public abstract class AgdxGame implements ApplicationListener {
 		float delta = Gdx.graphics.getDeltaTime() * 1000f;
 		delta = Math.min(delta, MAX_UPDATE_DELTA); // TODO What do when delta > MAX_UPDATE_DELTA (Warning / abort / nothing  ???)
 
+		currentDeltaSum += delta;
+		
 		onUpdate(delta);
 
 		if (!layers.empty()) {
@@ -426,4 +430,19 @@ public abstract class AgdxGame implements ApplicationListener {
 	 * Gets called after the initialization
 	 */
 	public abstract void onCreate();
+
+	/**
+	 * Gets the time in milliseconds since app execution
+	 * 
+	 * THIS TIME IS NOT EXACT !!
+	 * 
+	 * It is the sum of all delta times and should only used to get delta-dependent time differences (over a rather short time frame)
+	 * 
+	 * This value is vulnerable to a lot of float value precision loss ....
+	 * 
+	 * @return inaccurate time since app start in milliseconds
+	 */
+	public float getCurrentGameTimeMillis() {
+		return currentDeltaSum;
+	}
 }

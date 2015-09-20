@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import de.samdev.absgdx.framework.util.dependentProperties.BooleanProperty;
 import de.samdev.absgdx.framework.util.dependentProperties.ColorProperty;
 import de.samdev.absgdx.framework.util.dependentProperties.ConstantBooleanProperty;
+import de.samdev.absgdx.framework.util.dependentProperties.ConstantStringProperty;
 import de.samdev.absgdx.framework.util.dependentProperties.IntegerProperty;
 import de.samdev.absgdx.framework.util.dependentProperties.RootProperty;
 
@@ -20,6 +21,9 @@ public class GameSettings {
 
 	/** the root node */
 	public RootProperty root;
+
+	/** the framework version */
+	public ConstantStringProperty versionNumber;
 
 	private ConstantBooleanProperty debugmode;
 	/** Activates/Deactivates all debug features */
@@ -123,6 +127,8 @@ public class GameSettings {
 	private void init() {
 		root = new RootProperty("absGDX");
 		{
+			versionNumber = new ConstantStringProperty("versionNumber", "1.0", root);
+			
 			debugmode = new ConstantBooleanProperty("debugmode", DEBUG_ENABLED, root);
 			{
 				debugBackgroundFPSCapture = new BooleanProperty("backgroundFPSCapture", true, debugmode);

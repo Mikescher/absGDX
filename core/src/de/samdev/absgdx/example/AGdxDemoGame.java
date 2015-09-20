@@ -19,7 +19,7 @@ public class AGdxDemoGame extends AgdxGame {
 
 	@Override
 	public void onUpdate(float delta) {
-		if (Gdx.input.isKeyJustPressed(Keys.F1)) settings.debugEnabled.doSwitch();
+		if (Gdx.input.isKeyJustPressed(Keys.F1) || Gdx.input.isKeyJustPressed(Keys.MENU)) settings.debugEnabled.doSwitch();
 		if (Gdx.input.isKeyJustPressed(Keys.F2)) settings.debugVisualEntities.doSwitch();
 		if (Gdx.input.isKeyJustPressed(Keys.F3)) settings.debugVisualMap.doSwitch();
 		if (Gdx.input.isKeyJustPressed(Keys.F4)) settings.debugVisualMenu.doSwitch();

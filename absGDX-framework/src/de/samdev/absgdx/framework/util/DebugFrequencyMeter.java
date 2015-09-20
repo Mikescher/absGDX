@@ -24,6 +24,9 @@ public class DebugFrequencyMeter {
 
 	// #########################################################################
 
+	private boolean renderIsDebug = false;
+	private boolean cycleIsDebug = false;
+	
 	private long startRenderTime;
 	private long startUpdateTime;
 	private long startDebugRenderTime;
@@ -40,15 +43,17 @@ public class DebugFrequencyMeter {
 	// #########################################################################
 
 	/** The current time per render process */
-	public double renderTime;
+	public double renderTime = -1;
+	/** last renderTime where every run had no debug running */
+	public double lastNoDebugRenderTime = -1;
 	/** The current time per update process */
-	public double updateTime;
+	public double updateTime = -1;
 	/** The current time per debug render process */
-	public double debugRenderTime;
+	public double debugRenderTime = -1;
 	/** The current time per (render + debugrender + update) process */
-	public double totalTime;
+	public double totalTime = -1;
 	/** The current time per (render + update) process */
-	public double effectivetotalTime;
+	public double effectivetotalTime = -1;
 
 	// #########################################################################
 
@@ -98,6 +103,8 @@ public class DebugFrequencyMeter {
 			updateTime = totalUpdateTime * 1d / updateIntervalCounter;
 			debugRenderTime = totalDebugRenderTime * 1d / debugRenderIntervalCounter;
 
+			if (! cycleIsDebug) lastNoDebugRenderTime = renderTime + debugRenderTime;
+			
 			totalTime = renderTime + debugRenderTime + updateTime;
 			effectivetotalTime = renderTime + updateTime;
 
@@ -107,6 +114,8 @@ public class DebugFrequencyMeter {
 			updateIntervalCounter = 0;
 			totalDebugRenderTime = 0;
 			debugRenderIntervalCounter = 0;
+			
+			cycleIsDebug = false;
 		}
 
 		intervalCounter++;
@@ -127,8 +136,11 @@ public class DebugFrequencyMeter {
 
 	/**
 	 * Call this at the start of the rendering
+	 * 
+	 * @param isDebugMode this run is influenced by debug artifacts
 	 */
-	public void startRender() {
+	public void startRender(boolean isDebugMode) {
+		renderIsDebug = isDebugMode;
 		startRenderTime = System.nanoTime();
 	}
 
@@ -137,7 +149,8 @@ public class DebugFrequencyMeter {
 	 */
 	public void endRender() {
 		totalRenderTime += System.nanoTime() - startRenderTime;
-
+		cycleIsDebug |= renderIsDebug;
+		
 		renderIntervalCounter++;
 	}
 	
@@ -180,6 +193,16 @@ public class DebugFrequencyMeter {
 	 */
 	public double getRenderPercentage() {
 		return renderTime / (10000000d / targetFPS);
+	}
+
+	/**
+	 * Get the percentage that the rendering takes (compared to the maximum amount of time, a cycle can take, to still reach the targetFPS)
+	 * The renderTime is the renderTime of the last cycle debug was turned off
+	 * 
+	 * @return the render percentage
+	 */
+	public double getLastNoDebugRenderPercentage() {
+		return lastNoDebugRenderTime / (10000000d / targetFPS);
 	}
 
 	/**

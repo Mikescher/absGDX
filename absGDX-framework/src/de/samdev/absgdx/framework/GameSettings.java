@@ -108,6 +108,8 @@ public class GameSettings {
 	public BooleanProperty debugEntitiesSpeed;
 	/** The color of the entity speed */
 	public ColorProperty debugEntitiesSpeedColor;
+	/** Track FPS, RenderTime, UpdateTime etc when debugEnabled = false */
+	public BooleanProperty debugBackgroundFPSCapture;
 	
 	/**
 	 * Creates a new instance of GameSettings
@@ -123,6 +125,8 @@ public class GameSettings {
 		{
 			debugmode = new ConstantBooleanProperty("debugmode", DEBUG_ENABLED, root);
 			{
+				debugBackgroundFPSCapture = new BooleanProperty("backgroundFPSCapture", true, debugmode);
+				
 				debugEnabled = new BooleanProperty("debugEnabled", DEBUG_ACTIVE, debugmode);
 				{
 					debugTextInfos = new BooleanProperty("debugTextInfos", true, debugEnabled);

@@ -277,14 +277,14 @@ public abstract class GameLayer extends AgdxLayer implements MenuOwner {
 			    
 			    if (owner.settings.debugEntitiesSpeed.isActive()) {
 			    	trenderer.renderDirect(sbatch, 
-			    			String.format("\r\n<%s, %s>", DebugFormatter.fmtF(entity.speed.x, 10000), DebugFormatter.fmtF(entity.speed.y, 10000)),
+			    			String.format("\r\n<%s, %s>", DebugFormatter.fmtF(entity.speed.x, 4, true), DebugFormatter.fmtF(entity.speed.y, 4, true)),
 			    			entity.getPositionX(), entity.getPositionY(), 
 			    			1, owner.settings.debugEntitiesSpeedColor.get(), DebugTextOrientation.RIGHT);
 			    }
 			    
 			    if (owner.settings.debugEntitiesPosition.isActive()) {
 			    	trenderer.renderDirect(sbatch, 
-			    			String.format("\r\n[%s|%s]", DebugFormatter.fmtF(entity.getPositionX(), 10), DebugFormatter.fmtF(entity.getPositionY(), 10)),
+			    			String.format("\r\n[%s|%s]", DebugFormatter.fmtF(entity.getPositionX(), 1, true), DebugFormatter.fmtF(entity.getPositionY(), 1, true)),
 			    			entity.getPositionRightX(), entity.getPositionY(), 
 			    			1, owner.settings.debugEntitiesPositionColor.get(), DebugTextOrientation.LEFT);
 			    }

@@ -133,7 +133,7 @@ public abstract class AgdxGame implements ApplicationListener {
 		debugTextRenderer.begin(settings.debugTextSize.get());
 
 		if (settings.debugTextFPS.isActive()) {
-			debugTextRenderer.drawFormatted("FPS: %s / %s (%s v%s)", DebugFormatter.fmtF(freqMeter.fps, 100), freqMeter.targetFPS, Gdx.app.getType(), Gdx.app.getVersion());
+			debugTextRenderer.drawFormatted("FPS: %s / %s (%s v%s)", DebugFormatter.fmtF(freqMeter.fps, 2), freqMeter.targetFPS, Gdx.app.getType(), Gdx.app.getVersion());
 			debugTextRenderer.draw();
 		}
 
@@ -145,10 +145,10 @@ public abstract class AgdxGame implements ApplicationListener {
 				CollisionGeometry tileGeo = glayer.getCollisionMap().getTileCollisionGeometry((int)glayer.getMouseOnMapPositionX(), (int)glayer.getMouseOnMapPositionY());
 	
 				debugTextRenderer.drawFormatted("Map: Scale=%s   Offset=%s   Visible=%s   Size=%s",
-						DebugFormatter.fmtF(glayer.getTileScale(), 2),
-						DebugFormatter.fmtV2(glayer.getMapOffset(), 10),
-						DebugFormatter.fmtRectangle(glayer.getVisibleMapBox(), 10),
-						DebugFormatter.fmtV2(glayer.getMap().getDimensions(), 1));
+						DebugFormatter.fmtF(glayer.getTileScale(), 1),
+						DebugFormatter.fmtV2(glayer.getMapOffset(), 1),
+						DebugFormatter.fmtRectangle(glayer.getVisibleMapBox(), 1),
+						DebugFormatter.fmtV2(glayer.getMap().getDimensions(), 0));
 	
 				if (tile == null)
 					debugTextRenderer.drawFormatted("Tile: NULL");
@@ -169,7 +169,7 @@ public abstract class AgdxGame implements ApplicationListener {
 					}
 					b.append("]");
 					
-					debugTextRenderer.drawFormatted("CollisionGeometry: %s   Listener=%s", DebugFormatter.fmtGeometry(tileGeo, 1), b.toString());
+					debugTextRenderer.drawFormatted("CollisionGeometry: %s   Listener=%s", DebugFormatter.fmtGeometry(tileGeo, 0), b.toString());
 				}
 				
 				debugTextRenderer.draw();
@@ -187,7 +187,7 @@ public abstract class AgdxGame implements ApplicationListener {
 				CollisionMap cmap = glayer.getCollisionMap();
 	
 				debugTextRenderer.drawFormatted("CollisionGeos: Count=%d",  cmap.getGeometryCount());
-				debugTextRenderer.drawFormatted("CollisionMap: Scale=%s   Size=%s", cmap.getScaleString(), DebugFormatter.fmtV2(cmap.getDimensions(), 1));
+				debugTextRenderer.drawFormatted("CollisionMap: Scale=%s   Size=%s", cmap.getScaleString(), DebugFormatter.fmtV2(cmap.getDimensions(), 0));
 				debugTextRenderer.draw();
 			}
 		}
@@ -205,8 +205,8 @@ public abstract class AgdxGame implements ApplicationListener {
 
 			if (settings.debugMenuLayerElementBoundaries.isActive()) {
 				if (melem != null) {
-					debugTextRenderer.drawFormatted(" - Boundaries: %s", DebugFormatter.fmtRectangle(melem.getBoundaries(), 1));
-					debugTextRenderer.drawFormatted(" - Matrix Offset: %s", DebugFormatter.fmtV2(new Vector2(melem.getCoordinateOffsetX(), melem.getCoordinateOffsetY()), 1));
+					debugTextRenderer.drawFormatted(" - Boundaries: %s", DebugFormatter.fmtRectangle(melem.getBoundaries(), 0));
+					debugTextRenderer.drawFormatted(" - Matrix Offset: %s", DebugFormatter.fmtV2(new Vector2(melem.getCoordinateOffsetX(), melem.getCoordinateOffsetY()), 0));
 					debugTextRenderer.drawFormatted(" - Tree Depth: %d", melem.getDepth());
 				}
 			}
@@ -242,8 +242,8 @@ public abstract class AgdxGame implements ApplicationListener {
 
 			if (settings.debugGameLayerMenuElementBoundaries.isActive()) {
 				if (melem != null) {
-					debugTextRenderer.drawFormatted(" - Boundaries: %s", DebugFormatter.fmtRectangle(melem.getBoundaries(), 1));
-					debugTextRenderer.drawFormatted(" - Matrix Offset: %s", DebugFormatter.fmtV2(new Vector2(melem.getCoordinateOffsetX(), melem.getCoordinateOffsetY()), 1));
+					debugTextRenderer.drawFormatted(" - Boundaries: %s", DebugFormatter.fmtRectangle(melem.getBoundaries(), 0));
+					debugTextRenderer.drawFormatted(" - Matrix Offset: %s", DebugFormatter.fmtV2(new Vector2(melem.getCoordinateOffsetX(), melem.getCoordinateOffsetY()), 0));
 					debugTextRenderer.drawFormatted(" - Tree Depth: %d", melem.getDepth());
 				}
 			}
@@ -267,10 +267,10 @@ public abstract class AgdxGame implements ApplicationListener {
 		}
 
 		if (settings.debugTextTiming.isActive()) {
-			debugTextRenderer.drawFormatted("RenderTime: %sms (%d%%) (+ %sms)", DebugFormatter.fmtD(freqMeter.renderTime / 1000000d, 100), (int)freqMeter.getRenderPercentage(), DebugFormatter.fmtD(freqMeter.debugRenderTime / 1000000d, 100));
-			debugTextRenderer.drawFormatted("UpdateTime: %sms (%d%%)", DebugFormatter.fmtD(freqMeter.updateTime / 1000000d, 100), (int)freqMeter.getUpdatePercentage());
-			debugTextRenderer.drawFormatted("TotalTime:  %sms (%d%%) (real: %sms)", DebugFormatter.fmtD(freqMeter.effectivetotalTime / 1000000d, 100), (int)freqMeter.getTotalPercentage(), DebugFormatter.fmtD(freqMeter.totalTime / 1000000d, 100));
-			debugTextRenderer.drawFormatted("GDX-DeltaTime:  %sms", DebugFormatter.fmtF(Gdx.graphics.getDeltaTime()*1000f, 10));
+			debugTextRenderer.drawFormatted("RenderTime: %sms (%d%%) (+ %sms)", DebugFormatter.fmtD(freqMeter.renderTime / 1000000d, 2), (int)freqMeter.getRenderPercentage(), DebugFormatter.fmtD(freqMeter.debugRenderTime / 1000000d, 2));
+			debugTextRenderer.drawFormatted("UpdateTime: %sms (%d%%)", DebugFormatter.fmtD(freqMeter.updateTime / 1000000d, 2), (int)freqMeter.getUpdatePercentage());
+			debugTextRenderer.drawFormatted("TotalTime:  %sms (%d%%) (real: %sms)", DebugFormatter.fmtD(freqMeter.effectivetotalTime / 1000000d, 2), (int)freqMeter.getTotalPercentage(), DebugFormatter.fmtD(freqMeter.totalTime / 1000000d, 2));
+			debugTextRenderer.drawFormatted("GDX-DeltaTime:  %sms", DebugFormatter.fmtF(Gdx.graphics.getDeltaTime()*1000f, 1));
 			debugTextRenderer.draw();
 		}
 
@@ -282,9 +282,9 @@ public abstract class AgdxGame implements ApplicationListener {
 		}
 
 		if (settings.debugTextInput.isActive()) {
-			debugTextRenderer.drawFormatted("Pointer: %s (delta: %s)", DebugFormatter.fmtV2(new Vector2(Gdx.input.getX(), Gdx.input.getY()), 10), DebugFormatter.fmtV2(new Vector2(Gdx.input.getDeltaX(), Gdx.input.getDeltaY()), 10));
-			debugTextRenderer.drawFormatted("Accelerometer: %s", DebugFormatter.fmtV3(new Vector3(Gdx.input.getAccelerometerX(), Gdx.input.getAccelerometerY(), Gdx.input.getAccelerometerZ()), 100));
-			debugTextRenderer.drawFormatted("(Azimuth, Pitch, Roll, Rotation): %s , %s", DebugFormatter.fmtV3(new Vector3(Gdx.input.getAzimuth(), Gdx.input.getPitch(), Gdx.input.getRoll()), 100), DebugFormatter.fmtF(Gdx.input.getRotation(), 100));
+			debugTextRenderer.drawFormatted("Pointer: %s (delta: %s)", DebugFormatter.fmtV2(new Vector2(Gdx.input.getX(), Gdx.input.getY()), 1), DebugFormatter.fmtV2(new Vector2(Gdx.input.getDeltaX(), Gdx.input.getDeltaY()), 1));
+			debugTextRenderer.drawFormatted("Accelerometer: %s", DebugFormatter.fmtV3(new Vector3(Gdx.input.getAccelerometerX(), Gdx.input.getAccelerometerY(), Gdx.input.getAccelerometerZ()), 2));
+			debugTextRenderer.drawFormatted("(Azimuth, Pitch, Roll, Rotation): %s , %s", DebugFormatter.fmtV3(new Vector3(Gdx.input.getAzimuth(), Gdx.input.getPitch(), Gdx.input.getRoll()), 2), DebugFormatter.fmtF(Gdx.input.getRotation(), 2));
 			debugTextRenderer.drawFormatted("Touched: %s (Just Touched: %s)", Gdx.input.isTouched(), Gdx.input.justTouched());
 			debugTextRenderer.draw();
 		}

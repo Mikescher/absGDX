@@ -130,8 +130,9 @@ public class DebugTextRenderer {
 	 * @param y y position of the text
 	 * @param size the font size scaling
 	 * @param c the font color
+	 * @param orientation the text orientation
 	 */
-	public void renderDirect(SpriteBatch transformbatch, String text, float x, float y, float size, Color c) {
+	public void renderDirect(SpriteBatch transformbatch, String text, float x, float y, float size, Color c, DebugTextOrientation orientation) {
 		Color color_pop = renderFont.getColor();
 		float size_x_pop = renderFont.getScaleX();
 		float size_y_pop = renderFont.getScaleY();
@@ -145,7 +146,20 @@ public class DebugTextRenderer {
 			String[] lines = text.split("\n");
 			int offset = 0;
 			for (String line : lines) {
-				renderFont.draw(renderBatch, line, pos.x, pos.y + renderFont.getLineHeight() + offset);
+				switch (orientation) {
+				case LEFT :
+					renderFont.draw(renderBatch, line, pos.x, pos.y + renderFont.getLineHeight() - offset);
+					break;
+				case CENTER :
+					renderFont.draw(renderBatch, line, pos.x - renderFont.getBounds(line).width/2f, pos.y + renderFont.getLineHeight() - offset);
+					break;
+				case RIGHT :
+					renderFont.draw(renderBatch, line, pos.x - renderFont.getBounds(line).width, pos.y + renderFont.getLineHeight() - offset);
+					break;
+				default:
+					// y u do dis 2 me
+					break;
+				}
 				offset += renderFont.getLineHeight();
 			}
 			renderBatch.end();

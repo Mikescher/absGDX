@@ -24,13 +24,13 @@ public class GameSettings {
 	private ConstantBooleanProperty debugmode;
 	/** Activates/Deactivates all debug features */
 	public BooleanProperty debugEnabled;
-	/** SHow Debug Text info in the top left corner */
+	/** Show Debug Text info in the top left corner */
 	public BooleanProperty debugTextInfos;
-	/** SHow Debug Text info in the top left corner (GameLayer) */
+	/** Show Debug Text info in the top left corner (GameLayer) */
 	public BooleanProperty debugGameLayerTextInfos;
-	/** SHow Debug Text info in the top left corner (MenuLayer) */
+	/** Show Debug Text info in the top left corner (MenuLayer) */
 	public BooleanProperty debugMenuLayerTextInfos;
-	/** SHow Debug Text info in the top left corner (GameLayerMenu) */
+	/** Show Debug Text info in the top left corner (GameLayerMenu) */
 	public BooleanProperty debugGameLayerMenuTextInfos;
 	/** Show FPS */
 	public BooleanProperty debugTextFPS;
@@ -50,10 +50,6 @@ public class GameSettings {
 	public BooleanProperty debugVisualEntities;
 	/** Show boundary boxes for Entities */
 	public BooleanProperty debugEntitiesBoundingBoxes;
-	/** Show the UUID for Entities */
-	public BooleanProperty debugEntitiesUniqueID;
-	/** The Color of the ENtities UUID */
-	public ColorProperty debugEntitiesUniqueIDColor;
 	/** Show the collision Geometries */
 	public BooleanProperty debugEntitiesCollisionGeometries;
 	/** Show textual information about the entities */
@@ -98,6 +94,20 @@ public class GameSettings {
 	public BooleanProperty debugMenuLayerElementAttributes;
 	/** Show the animation progress in MenuImages */
 	public BooleanProperty debugMenuImageAnimation;
+	/** Show Entity informations directly on the entity */
+	public BooleanProperty debugInlineEntityInformation;
+	/** Show the UUID for entities */
+	public BooleanProperty debugEntitiesUniqueID;
+	/** The Color of the entities UUID */
+	public ColorProperty debugEntitiesUniqueIDColor;
+	/** Show the entity position */
+	public BooleanProperty debugEntitiesPosition;
+	/** The color of the entity position */
+	public ColorProperty debugEntitiesPositionColor;
+	/** Show the entity speed */
+	public BooleanProperty debugEntitiesSpeed;
+	/** The color of the entity speed */
+	public ColorProperty debugEntitiesSpeedColor;
 	
 	/**
 	 * Creates a new instance of GameSettings
@@ -172,9 +182,22 @@ public class GameSettings {
 							debugEntitiesPhysicAccelerationVectorColor = new ColorProperty("debugEntitiesPhysicAccelerationVectorColor", Color.BLUE, debugEntitiesPhysicVectors);
 						}
 
-						debugEntitiesUniqueID = new BooleanProperty("debugEntitiesUniqueID", true, debugVisualEntities);
+						debugInlineEntityInformation = new BooleanProperty("debugInlineEntityInformation", true, debugVisualEntities);
 						{
-							debugEntitiesUniqueIDColor = new ColorProperty("debugEntitiesUniqueIDColor", Color.BLUE, debugEntitiesUniqueID);
+							debugEntitiesUniqueID = new BooleanProperty("debugEntitiesUniqueID", true, debugInlineEntityInformation);
+							{
+								debugEntitiesUniqueIDColor = new ColorProperty("debugEntitiesUniqueIDColor", Color.BLUE, debugEntitiesUniqueID);
+							}
+
+							debugEntitiesPosition = new BooleanProperty("debugEntitiesPosition", true, debugInlineEntityInformation);
+							{
+								debugEntitiesPositionColor = new ColorProperty("debugEntitiesPositionColor", Color.TEAL, debugEntitiesPosition);
+							}
+
+							debugEntitiesSpeed = new BooleanProperty("debugEntitiesSpeed", true, debugInlineEntityInformation);
+							{
+								debugEntitiesSpeedColor = new ColorProperty("debugEntitiesSpeedColor", Color.RED, debugEntitiesSpeed);
+							}
 						}
 					}
 

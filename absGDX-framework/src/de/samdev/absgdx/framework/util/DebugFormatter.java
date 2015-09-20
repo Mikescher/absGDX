@@ -14,7 +14,7 @@ import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.Collis
 import de.samdev.absgdx.framework.util.tiled.TmxMapLoader;
 
 /**
- * An util class for formatting values (used for debugging)
+ * An utility class for formatting values (used for debugging)
  *
  */
 public class DebugFormatter {
@@ -164,6 +164,16 @@ public class DebugFormatter {
 			return "" + (long)r;
 		else
 			return "" + ((int)(r * decimalPointsPot) * 1d / decimalPointsPot);
+	}
+
+	/**
+	 * Simply return the integer as string 
+	 * 
+	 * @param  r the number
+	 * @return the integer formatted as an base-10 string
+	 */
+	public static String fmtI(int r) {
+		return "" + r;
 	}
 	
 	/**

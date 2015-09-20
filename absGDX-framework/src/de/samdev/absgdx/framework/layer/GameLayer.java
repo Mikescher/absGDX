@@ -37,7 +37,9 @@ import de.samdev.absgdx.framework.menu.MenuOwner;
 import de.samdev.absgdx.framework.menu.agdxml.AgdxmlParser;
 import de.samdev.absgdx.framework.menu.agdxml.AgdxmlTextureProviderIDMap;
 import de.samdev.absgdx.framework.menu.elements.MenuFrame;
+import de.samdev.absgdx.framework.renderer.DebugTextOrientation;
 import de.samdev.absgdx.framework.renderer.DebugTextRenderer;
+import de.samdev.absgdx.framework.util.DebugFormatter;
 import de.samdev.absgdx.framework.util.ShapeRendererUtil;
 import de.samdev.absgdx.framework.util.exceptions.AgdxmlParsingException;
 
@@ -267,7 +269,24 @@ public abstract class GameLayer extends AgdxLayer implements MenuOwner {
 			    }
 			    
 			    if (owner.settings.debugEntitiesUniqueID.isActive()) {
-			    	trenderer.renderDirect(sbatch, "{" + entity.getUID() + "}", entity.getPositionRightX(), entity.getPositionTopY(), 1, owner.settings.debugEntitiesUniqueIDColor.get());
+			    	trenderer.renderDirect(sbatch, 
+			    			String.format("{%s}", DebugFormatter.fmtI(entity.getUID())),
+			    			entity.getPositionRightX(), entity.getPositionTopY(), 
+			    			1, owner.settings.debugEntitiesUniqueIDColor.get(), DebugTextOrientation.LEFT);
+			    }
+			    
+			    if (owner.settings.debugEntitiesSpeed.isActive()) {
+			    	trenderer.renderDirect(sbatch, 
+			    			String.format("\r\n<%s, %s>", DebugFormatter.fmtF(entity.speed.x, 10000), DebugFormatter.fmtF(entity.speed.y, 10000)),
+			    			entity.getPositionX(), entity.getPositionY(), 
+			    			1, owner.settings.debugEntitiesSpeedColor.get(), DebugTextOrientation.RIGHT);
+			    }
+			    
+			    if (owner.settings.debugEntitiesPosition.isActive()) {
+			    	trenderer.renderDirect(sbatch, 
+			    			String.format("\r\n[%s|%s]", DebugFormatter.fmtF(entity.getPositionX(), 10), DebugFormatter.fmtF(entity.getPositionY(), 10)),
+			    			entity.getPositionRightX(), entity.getPositionY(), 
+			    			1, owner.settings.debugEntitiesPositionColor.get(), DebugTextOrientation.LEFT);
 			    }
 			    
 			    if (owner.settings.debugEntitiesPhysicVectors.isActive()) {

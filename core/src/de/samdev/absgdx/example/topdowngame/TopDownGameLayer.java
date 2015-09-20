@@ -21,7 +21,6 @@ import de.samdev.absgdx.framework.map.TileMap;
 import de.samdev.absgdx.framework.map.mapscaleresolver.MaximumBoundaryMapScaleResolver;
 import de.samdev.absgdx.framework.map.mapscaleresolver.SectionMapScaleResolver;
 import de.samdev.absgdx.framework.map.mapscaleresolver.ShowCompleteMapScaleResolver;
-import de.samdev.absgdx.framework.menu.elements.MenuFrame;
 import de.samdev.absgdx.framework.util.exceptions.TmxMapParsingException;
 import de.samdev.absgdx.framework.util.tiled.TmxMapLoader;
 
@@ -107,17 +106,5 @@ public class TopDownGameLayer extends GameLayer {
 		
 		if (msr == 3) scrollMapToEntity(ap_1, 1);
 		else          scrollMapToEntity(ap_1, 4);
-	}
-
-	@Override
-	public MenuFrame getMenuRoot() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public AgdxGame getAgdxGame() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import de.samdev.absgdx.framework.AgdxGame;
+import de.samdev.absgdx.framework.renderer.DebugTextRenderer;
 
 /**
  *  A layer is the current state of the game
@@ -30,8 +31,9 @@ public abstract class AgdxLayer implements InputProcessor {
 	 * 
 	 * @param sbatch the BatchRenderer (from LibGDX)
 	 * @param srenderer the ShapeRenderer (from LibGDX) - mostly used in Debug display
+	 * @param trenderer the debugTextRenderer - only used in Debug display
 	 */
-	public abstract void render(SpriteBatch sbatch, ShapeRenderer srenderer);
+	public abstract void render(SpriteBatch sbatch, ShapeRenderer srenderer, DebugTextRenderer trenderer);
 	
 	/**
 	 * @param delta the time since the last update (in ms) - can be averaged over he last few cycles

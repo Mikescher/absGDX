@@ -13,6 +13,7 @@ import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.menu.MenuOwner;
 import de.samdev.absgdx.framework.menu.elements.MenuBaseElement;
 import de.samdev.absgdx.framework.menu.elements.MenuFrame;
+import de.samdev.absgdx.framework.renderer.DebugTextRenderer;
 
 /**
  * A Menu Layer
@@ -63,7 +64,7 @@ public abstract class MenuLayer extends AgdxLayer implements MenuOwner {
 	}
 
 	@Override
-	public void render(SpriteBatch sbatch, ShapeRenderer srenderer) {
+	public void render(SpriteBatch sbatch, ShapeRenderer srenderer, DebugTextRenderer tRenderer) {
 		srenderer.identity();
 		sbatch.getTransformMatrix().idt();
 		

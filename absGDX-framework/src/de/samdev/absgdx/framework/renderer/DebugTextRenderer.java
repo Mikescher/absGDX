@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Vector3;
 
 import de.samdev.absgdx.framework.AgdxGame;
 
@@ -118,5 +119,38 @@ public class DebugTextRenderer {
 			renderFont.draw(renderBatch, text.get(i), x, y);
 		}
 		renderBatch.end();
+	}
+	
+	/**
+	 * Directly renders one or multiple lines of text
+	 * 
+	 * @param transformbatch The spriteBatch (not used for rendering but for determining the transformations)
+	 * @param text the rendered text (can be multi-line)
+	 * @param x x position of the baseline of the first line
+	 * @param y y position of the text
+	 * @param size the font size scaling
+	 * @param c the font color
+	 */
+	public void renderDirect(SpriteBatch transformbatch, String text, float x, float y, float size, Color c) {
+		Color color_pop = renderFont.getColor();
+		float size_x_pop = renderFont.getScaleX();
+		float size_y_pop = renderFont.getScaleY();
+		{
+			renderFont.setColor(c);
+			renderFont.setScale(size);
+			
+			Vector3 pos = (new Vector3(x, y, 0)).mul(transformbatch.getTransformMatrix());
+			
+			renderBatch.begin();
+			String[] lines = text.split("\n");
+			int offset = 0;
+			for (String line : lines) {
+				renderFont.draw(renderBatch, line, pos.x, pos.y + renderFont.getLineHeight() + offset);
+				offset += renderFont.getLineHeight();
+			}
+			renderBatch.end();
+		}
+		renderFont.setScale(size_x_pop, size_y_pop);
+		renderFont.setColor(color_pop);
 	}
 }

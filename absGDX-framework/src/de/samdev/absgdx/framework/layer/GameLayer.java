@@ -37,6 +37,7 @@ import de.samdev.absgdx.framework.menu.MenuOwner;
 import de.samdev.absgdx.framework.menu.agdxml.AgdxmlParser;
 import de.samdev.absgdx.framework.menu.agdxml.AgdxmlTextureProviderIDMap;
 import de.samdev.absgdx.framework.menu.elements.MenuFrame;
+import de.samdev.absgdx.framework.renderer.DebugTextRenderer;
 import de.samdev.absgdx.framework.util.ShapeRendererUtil;
 import de.samdev.absgdx.framework.util.exceptions.AgdxmlParsingException;
 
@@ -112,8 +113,8 @@ public abstract class GameLayer extends AgdxLayer implements MenuOwner {
 	}
 	
 	@Override
-	public void render(SpriteBatch sbatch, ShapeRenderer srenderer) {
-		renderGame(sbatch, srenderer);
+	public void render(SpriteBatch sbatch, ShapeRenderer srenderer, DebugTextRenderer trenderer) {
+		renderGame(sbatch, srenderer, trenderer);
 		
 		renderHUD(sbatch, srenderer);
 	}
@@ -136,7 +137,7 @@ public abstract class GameLayer extends AgdxLayer implements MenuOwner {
 		getHUDRoot().renderElement(sbatch, srenderer, hudFont, this);
 	}
 
-	private void renderGame(SpriteBatch sbatch, ShapeRenderer srenderer) {
+	private void renderGame(SpriteBatch sbatch, ShapeRenderer srenderer, DebugTextRenderer trenderer) {
 		float tilesize = getTileScale();
 
 		Rectangle visible = getVisibleMapBox();
@@ -156,7 +157,7 @@ public abstract class GameLayer extends AgdxLayer implements MenuOwner {
 		
 		renderMap(sbatch, srenderer, visible);
 		
-		renderEntities(sbatch, srenderer, visible);
+		renderEntities(sbatch, srenderer, trenderer, visible);
 	}
 	
 	private void renderMap(SpriteBatch sbatch, ShapeRenderer srenderer, Rectangle visible) {
@@ -183,7 +184,7 @@ public abstract class GameLayer extends AgdxLayer implements MenuOwner {
 		}
 	}
 
-	private void renderEntities(SpriteBatch sbatch, ShapeRenderer srenderer, Rectangle visible) {
+	private void renderEntities(SpriteBatch sbatch, ShapeRenderer srenderer, DebugTextRenderer trenderer, Rectangle visible) {
 		renderedEntities = 0;
 
 		sbatch.enableBlending();
@@ -199,7 +200,7 @@ public abstract class GameLayer extends AgdxLayer implements MenuOwner {
 		sbatch.end();
 		
 		if (owner.settings.debugVisualEntities.isActive()) {
-			renderEntities_debug(srenderer, visible);
+			renderEntities_debug(sbatch, srenderer, trenderer, visible);
 		}
 	}
 
@@ -234,7 +235,7 @@ public abstract class GameLayer extends AgdxLayer implements MenuOwner {
 		}
 	}
 
-	private void renderEntities_debug(ShapeRenderer srenderer, Rectangle visible) {
+	private void renderEntities_debug(SpriteBatch sbatch, ShapeRenderer srenderer, DebugTextRenderer trenderer, Rectangle visible) {
 		srenderer.setAutoShapeType(true);
 		srenderer.begin(ShapeType.Line);
 		
@@ -252,7 +253,7 @@ public abstract class GameLayer extends AgdxLayer implements MenuOwner {
 			    		CollisionGeometry collGeo = itc.next();
 	
 						srenderer.setColor(owner.settings.debugEntitiesCollisionGeometriesColor.get());
-//						srenderer.circle(collGeo.getCenterX(), collGeo.getCenterY(), collGeo.getRadius(), 16);
+
 						if (collGeo instanceof CollisionCircle) {
 							srenderer.circle(collGeo.getCenterX(), collGeo.getCenterY(), collGeo.getRadius(), 16);
 						} else if (collGeo instanceof CollisionBox) {
@@ -263,6 +264,10 @@ public abstract class GameLayer extends AgdxLayer implements MenuOwner {
 							srenderer.triangle(collT.getPoint1_X(), collT.getPoint1_Y(), collT.getPoint2_X(), collT.getPoint2_Y(), collT.getPoint3_X(), collT.getPoint3_Y());
 						}
 			    	}
+			    }
+			    
+			    if (owner.settings.debugEntitiesUniqueID.isActive()) {
+			    	trenderer.renderDirect(sbatch, "{" + entity.getUID() + "}", entity.getPositionRightX(), entity.getPositionTopY(), 1, owner.settings.debugEntitiesUniqueIDColor.get());
 			    }
 			    
 			    if (owner.settings.debugEntitiesPhysicVectors.isActive()) {

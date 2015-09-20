@@ -13,7 +13,7 @@ import de.samdev.absgdx.framework.util.dependentProperties.RootProperty;
  *
  */
 public class GameSettings {
-	private final static boolean DEBUG_ENABLED = true; // TODO debugmode ( ON | OFF )
+	private final static boolean DEBUG_ENABLED = true; // DEBUGMODE GLOBAL ( ON | OFF )
 	private final static boolean DEBUG_ACTIVE = false;
 
 	// ########################################################
@@ -50,6 +50,10 @@ public class GameSettings {
 	public BooleanProperty debugVisualEntities;
 	/** Show boundary boxes for Entities */
 	public BooleanProperty debugEntitiesBoundingBoxes;
+	/** Show the UUID for Entities */
+	public BooleanProperty debugEntitiesUniqueID;
+	/** The Color of the ENtities UUID */
+	public ColorProperty debugEntitiesUniqueIDColor;
 	/** Show the collision Geometries */
 	public BooleanProperty debugEntitiesCollisionGeometries;
 	/** Show textual information about the entities */
@@ -166,6 +170,11 @@ public class GameSettings {
 						{
 							debugEntitiesPhysicSpeedVectorColor = new ColorProperty("debugEntitiesPhysicSpeedVectorColor", Color.RED, debugEntitiesPhysicVectors);
 							debugEntitiesPhysicAccelerationVectorColor = new ColorProperty("debugEntitiesPhysicAccelerationVectorColor", Color.BLUE, debugEntitiesPhysicVectors);
+						}
+
+						debugEntitiesUniqueID = new BooleanProperty("debugEntitiesUniqueID", true, debugVisualEntities);
+						{
+							debugEntitiesUniqueIDColor = new ColorProperty("debugEntitiesUniqueIDColor", Color.BLUE, debugEntitiesUniqueID);
 						}
 					}
 

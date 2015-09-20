@@ -119,7 +119,7 @@ public abstract class AgdxGame implements ApplicationListener {
 		debugSpriteRenderer.enableBlending();
 
 		if (!layers.empty()) {
-			layers.peek().render(layerSpriteRenderer, layerShapeRenderer);
+			layers.peek().render(layerSpriteRenderer, layerShapeRenderer, debugTextRenderer);
 		}
 	}
 	

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -84,6 +85,10 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	/** The collision map - is set by the GameLayer when this Entity is added to it */
 	public CollisionMap collisionOwner = null;
 	
+	/** the unique identifier of this entity */
+	public final int entityID;
+	private static final AtomicInteger idCounter = new AtomicInteger(1000);
+	
 	/**
 	 * Creates a new Entity ( on position (0|0) )
 	 * 
@@ -100,6 +105,8 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 		this.animation = new TextureRegion[]{new TextureRegion(texture)};
 		this.animationLength = 1;
 		this.frameDuration = 0;
+
+		this.entityID = generateUniqueEntityID();
 
 		this.collisionGeometriesWrapper = new CollisionGeometryListWrapper(collisionGeometries);
 	}
@@ -121,6 +128,8 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 		this.animationLength = 1;
 		this.frameDuration = 0;
 
+		this.entityID = generateUniqueEntityID();
+
 		this.collisionGeometriesWrapper = new CollisionGeometryListWrapper(collisionGeometries);
 	}
 
@@ -141,6 +150,8 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 		this.animation = textures;
 		this.animationLength = textures.length;
 		this.frameDuration = animationDuration / animationLength;
+
+		this.entityID = generateUniqueEntityID();
 
 		this.collisionGeometriesWrapper = new CollisionGeometryListWrapper(collisionGeometries);
 	}
@@ -476,7 +487,7 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	 * @return the texture
 	 */
 	public TextureRegion getTexture() {
-		return animation[(int)animationPos]; //TODO Some kind of possibility to add custom rendering or at least multiple textures (layers with transparency ?) - otherwise this will become the next absCanv
+		return animation[(int)animationPos];
 	}
 	
 	/**
@@ -899,6 +910,10 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 	public void onPointerDown() {
 		// NOP - free to override
 	}
+	
+	private static int generateUniqueEntityID() {
+		return idCounter.getAndIncrement(); // even threadsafe
+	}
 
 	/**
 	 * Return the used ColorTint (NULL means no tint used)
@@ -973,5 +988,19 @@ public abstract class Entity implements CollisionListener, CollisionGeometryOwne
 		float my = owner.getMouseOnMapPositionY();
 		
 		return x <= mx && y <= my && x + width > mx && y + height > my;
+	}
+	
+	/**
+	 * Get the unique identifier of this entity
+	 * 
+	 * @return unique entity identifier
+	 */
+	public int getUID() {
+		return entityID;
+	}
+	
+	@Override
+	public int hashCode() {
+		return entityID;
 	}
 }

@@ -308,8 +308,6 @@ public abstract class AgdxGame implements ApplicationListener {
 		} else {
 			deltaExplodeCounter = 0;
 		}
-
-		currentDeltaSum += delta;
 		
 		onUpdate(delta);
 

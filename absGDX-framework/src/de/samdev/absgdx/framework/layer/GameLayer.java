@@ -80,7 +80,9 @@ public abstract class GameLayer extends AgdxLayer implements MenuOwner {
 
 	//######## OTHER ########
 	
-	private int timeMultiplier = 4;
+	private int timeMultiplier = 1;
+
+	private float currentDeltaSum = 0f;
 	
 	/**
 	 * Creates a new GameLayer
@@ -337,6 +339,8 @@ public abstract class GameLayer extends AgdxLayer implements MenuOwner {
 			updateInput();
 			
 			onUpdate(delta);
+			
+			currentDeltaSum += delta;
 		}
 	}
 
@@ -844,5 +848,21 @@ public abstract class GameLayer extends AgdxLayer implements MenuOwner {
 	public void resetTimeMultiplier() {
 		setTimeMultiplier(1);
 	}
-	
+
+	/**
+	 * Gets the time in milliseconds this layer is running
+	 * 
+	 * THIS TIME IS NOT EXACT !!
+	 * It is the sum of all delta times and should only used to get delta-dependent time differences (over a rather short time frame)
+	 * This value is vulnerable to a lot of float value precision loss ....
+	 * 
+	 * Different to AgdxGame.getCurrentGameTimeMillis() this factors in the gameMultiplier and stops running when the layer is suspended.
+	 * So when you have a gameMultiplier != 1 this differs from AgdxGame.getCurrentGameTimeMillis() AND from the real time
+	 * It's basically a sum of all delta times for this layer
+	 * 
+	 * @return inaccurate time since layer launch start in milliseconds
+	 */
+	public float getCurrentLayerTimeMillis() {
+		return currentDeltaSum;
+	}
 }

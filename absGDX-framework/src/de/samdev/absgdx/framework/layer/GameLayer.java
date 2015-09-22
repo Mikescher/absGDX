@@ -77,6 +77,10 @@ public abstract class GameLayer extends AgdxLayer implements MenuOwner {
 	private MenuFrame hudRoot;
 	private AgdxmlParser agdxmlParser = null;
 	private BitmapFont hudFont = null;
+
+	//######## OTHER ########
+	
+	private int timeMultiplier = 4;
 	
 	/**
 	 * Creates a new GameLayer
@@ -318,20 +322,22 @@ public abstract class GameLayer extends AgdxLayer implements MenuOwner {
 
 	@Override
 	public void update(float delta) {
-		getMenuRoot().updateRoot(delta);
-		
-		map.update(delta);
-
-		entities.testIntegrity();
-		for (Entity entity : entities) {
-			entity.update(delta);
+		for (int i = 0; i < timeMultiplier; i++) {
+			getMenuRoot().updateRoot(delta);
+			
+			map.update(delta);
+	
+			entities.testIntegrity();
+			for (Entity entity : entities) {
+				entity.update(delta);
+			}
+			entities.removeDeadEntities();
+			addFutureEntities();
+			
+			updateInput();
+			
+			onUpdate(delta);
 		}
-		entities.removeDeadEntities();
-		addFutureEntities();
-		
-		updateInput();
-		
-		onUpdate(delta);
 	}
 
 	private void updateInput() {
@@ -802,6 +808,41 @@ public abstract class GameLayer extends AgdxLayer implements MenuOwner {
 			throw new AgdxmlParsingException(e);
 		}
 	}
-	
+
+	/**
+	 * Get the current time multiplier.
+	 * 
+	 * A time multiplier will make the game run (not render) two times as fast
+	 * for each render-call two update-calls will be executed
+	 * 
+	 * @return the time multiplier
+	 */
+	public int getTimeMultiplier() {
+		return timeMultiplier;
+	}
+
+	/**
+	 * Change the time multiplier for this layer
+	 * 
+	 * A time multiplier will make the game run (not render) two times as fast
+	 * for each render-call two update-calls will be executed
+	 * 
+	 * @param timeMultiplier the time multiplier
+	 */
+	public void setTimeMultiplier(int timeMultiplier) {
+		this.timeMultiplier = timeMultiplier;
+	}
+
+	/**
+	 * Reset the time multiplier to the standard value (1)
+	 * 
+	 * This is equivalent to calling `setTimeMultiplier(1);`
+	 * 
+	 * A time multiplier will make the game run (not render) two times as fast
+	 * for each render-call two update-calls will be executed
+	 */
+	public void resetTimeMultiplier() {
+		setTimeMultiplier(1);
+	}
 	
 }

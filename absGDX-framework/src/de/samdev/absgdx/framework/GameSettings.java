@@ -114,6 +114,10 @@ public class GameSettings {
 	public ColorProperty debugEntitiesSpeedColor;
 	/** Track FPS, RenderTime, UpdateTime etc when debugEnabled = false */
 	public BooleanProperty debugBackgroundFPSCapture;
+	/** Show warning if the delta Time is greater AgdxGame.MAX_UPDATE_DELTA  */
+	public BooleanProperty warnOnDeltaExplode;
+	/** The amount consecutive delta trims to trigger an warning  */
+	public IntegerProperty warnOnDeltaExplodeBuffer;
 	
 	/**
 	 * Creates a new instance of GameSettings
@@ -128,6 +132,11 @@ public class GameSettings {
 		root = new RootProperty("absGDX");
 		{
 			versionNumber = new ConstantStringProperty("versionNumber", "1.0", root);
+			
+			warnOnDeltaExplode = new BooleanProperty("warnOnDeltaExplode", true, root);
+			{
+				warnOnDeltaExplodeBuffer = new IntegerProperty("warnOnDeltaExplodeBuffer", 5, warnOnDeltaExplode);
+			}
 			
 			debugmode = new ConstantBooleanProperty("debugmode", DEBUG_ENABLED, root);
 			{

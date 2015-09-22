@@ -64,6 +64,7 @@ public abstract class AgdxGame implements ApplicationListener {
 	public final GameSettings settings = new GameSettings();
 
 	private float currentDeltaSum = 0f;
+	private int deltaExplodeCounter = 0;
 	
 	@Override
 	public void create() {
@@ -296,7 +297,17 @@ public abstract class AgdxGame implements ApplicationListener {
 
 	private void doUpdate() {
 		float delta = Gdx.graphics.getDeltaTime() * 1000f;
-		delta = Math.min(delta, MAX_UPDATE_DELTA); // TODO What do when delta > MAX_UPDATE_DELTA (Warning / abort / nothing  ???)
+		
+		if (delta > MAX_UPDATE_DELTA && settings.warnOnDeltaExplode.isActive() ) { // short-circuit is awesome
+			if (deltaExplodeCounter >= settings.warnOnDeltaExplodeBuffer.get()) {
+				System.out.println(String.format("delta value too big (%f > %f) - capping value", delta, MAX_UPDATE_DELTA));
+			} else {
+				deltaExplodeCounter++;
+			}
+			delta = MAX_UPDATE_DELTA;
+		} else {
+			deltaExplodeCounter = 0;
+		}
 
 		currentDeltaSum += delta;
 		

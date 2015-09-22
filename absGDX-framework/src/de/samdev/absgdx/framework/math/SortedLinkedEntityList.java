@@ -20,7 +20,7 @@ import de.samdev.absgdx.framework.entities.Entity;
  */
 public class SortedLinkedEntityList implements List<Entity> {
 
-	private LinkedList<Entity> list; //TODO ArrayList is faster on Insert by a factor of [4] - (and its nowhere slower) :-/
+	private LinkedList<Entity> list; // ArrayList is faster on Insert by a factor of [4] - (and its nowhere slower) :-/
 	
 	private final static Comparator<Entity> layerComparator = new Comparator<Entity>() {
 		@Override

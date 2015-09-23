@@ -3,6 +3,7 @@ package de.samdev.absgdx.menudesigner;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -37,10 +38,11 @@ import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.JToolBar;
+import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
@@ -48,6 +50,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.filechooser.FileFilter;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
@@ -56,12 +59,13 @@ import com.badlogic.gdx.math.GridPoint2;
 
 import de.samdev.absgdx.framework.util.AndroidResolutions;
 import de.samdev.absgdx.framework.util.exceptions.AgdxmlParsingException;
-import javax.swing.ListSelectionModel;
+import java.awt.Dimension;
 
 public class DesignFrame extends JFrame {
 	private static final long serialVersionUID = 5936312660450931611L;
-	
+
 	private final static String EMPTYDOC = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<frame>\r\n\t<!-- content -->\r\n</frame>";
+	private final static String EMPTYTEXDEF = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<texturedefinitions>\r\n\t<!-- content -->\r\n</texturedefinitions>";
 	
 	private JPanel contentPane;
 	private JSplitPane splitPane;
@@ -90,15 +94,31 @@ public class DesignFrame extends JFrame {
 	private JMenuItem mntmSaveAs;
 	private JSeparator separator;
 
-	private String filename = null;
+	private String filename_agdxml = null;
+	private String filename_agdtexdef = null;
 	private JPanel rootPane;
 	private JToolBar toolBar;
 	private JButton btnNew;
-	private JButton btnOpen;
+	private JButton btnOpenAgdxml;
 	private JButton btnSaveAs;
 	private JButton btnSave;
 	private JComboBox<GridPoint2> cbxSize;
 	private JList<AGDXMLTagDefinition.TagAttribute> lstAttributes;
+	private JTabbedPane tabbedPane;
+	private JPanel panel;
+	private JPanel panel_1;
+	private JButton btnNewButton;
+	private JButton btnNewButton_1;
+	private JPanel panel_2;
+	private JTabbedPane tabbedPane_1;
+	private JScrollPane scrollPane;
+	private RSyntaxTextArea edTextureDef;
+	private JPanel panel_3;
+	private JTextField edTexturePath;
+	private JMenuItem mntmOpenAgdtexdef;
+	private JButton btnOpenTexDef;
+	private JPanel panel_4;
+	private JTabbedPane tabbedPane_2;
 	
 	public DesignFrame() {
 		try {
@@ -129,10 +149,6 @@ public class DesignFrame extends JFrame {
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		splitPane.setResizeWeight(0.565);
 		
-		lblDraw = new GUIPreviewPanel(900, 300, new AgdxmlPreviewLayerDummy(EMPTYDOC, 900, 300) { @Override public void initialize() { /**/ } });
-		splitPane.setLeftComponent(lblDraw);
-		lblDraw.setLayout(null);
-		
 		pnlBottom = new JPanel();
 		splitPane.setRightComponent(pnlBottom);
 		pnlBottom.setLayout(new BorderLayout(0, 0));
@@ -141,45 +157,8 @@ public class DesignFrame extends JFrame {
 		pnlSettings.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 		pnlBottom.add(pnlSettings, BorderLayout.EAST);
 		
-		tabComponents = new JPanel();
-		pnlSettings.addTab("Components", null, tabComponents, null);
-		tabComponents.setLayout(new BorderLayout(0, 0));
-		
-		lstComponents = new JList<AGDXMLTagDefinition>();
-		lstComponents.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount() == 2) {
-					int caretPos = edCode.getLineEndOffsetOfCurrentLine();
-					String line = edCode.getText().substring(edCode.getLineStartOffsetOfCurrentLine(), edCode.getLineEndOffsetOfCurrentLine());
-					
-					String start = edCode.getText().substring(0, caretPos);
-					String end = edCode.getText().substring(caretPos);
-					
-					String mid = "<" + lstComponents.getSelectedValue().tag + " />\r\n";
-					
-					Matcher mt = Pattern.compile("^[\\t ]*").matcher(line);
-					if (mt.find()) mid = mt.group() + mid;
-					
-					edCode.setText(start + mid + end);
-					edCode.setCaretPosition(start.length() + mid.length() - 4);
-				}
-			}
-		});
-		lstComponents.setModel(listModel);
-		tabComponents.add(lstComponents);
-		
-		pnlProperties = new JPanel();
-		pnlSettings.addTab("Properties", null, pnlProperties, null);
-		pnlProperties.setLayout(new BorderLayout(0, 0));
-		
-		lstAttributes = new JList<AGDXMLTagDefinition.TagAttribute>();
-		lstAttributes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		pnlProperties.add(lstAttributes);
-		
 		tabSettings = new JPanel();
 		pnlSettings.addTab("Settings", null, tabSettings, null);
-		pnlSettings.setSelectedIndex(2);
 		GridBagLayout gbl_tabSettings = new GridBagLayout();
 		gbl_tabSettings.columnWidths = new int[] {100, 100};
 		gbl_tabSettings.columnWeights = new double[]{1.0, 0.0};
@@ -285,57 +264,43 @@ public class DesignFrame extends JFrame {
 		memoError.setRows(8);
 		scrollPane_0.setViewportView(memoError);
 		
+		tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
+		pnlBottomLeft.add(tabbedPane_1, BorderLayout.CENTER);
+		
+		panel_4 = new JPanel();
+		tabbedPane_1.addTab("New tab", null, panel_4, null);
+		panel_4.setLayout(new BorderLayout(0, 0));
+		
 		scrollPane_1 = new JScrollPane();
-		pnlBottomLeft.add(scrollPane_1, BorderLayout.CENTER);
+		panel_4.add(scrollPane_1);
 		
 		edCode = new RSyntaxTextArea();
 		scrollPane_1.setViewportView(edCode);
 		edCode.getDocument().addDocumentListener(new DocumentListener() {
-			
 			@Override
 			public void removeUpdate(DocumentEvent de) {
-				memoError.setText("");
-				try {
-					lblDraw.setMenuLayer(edCode.getText());
-				} catch (AgdxmlParsingException e) {
-					memoError.setText(e.toString());
-
-					lblDraw.drawError();
-				}
+				refreshLblDraw();
 			}
 			
 			@Override
 			public void insertUpdate(DocumentEvent de) {
-				memoError.setText("");
-				try {
-					lblDraw.setMenuLayer(edCode.getText());
-				} catch (AgdxmlParsingException e) {
-					memoError.setText(e.toString());
-
-					lblDraw.drawError();
-				}
+				refreshLblDraw();
 			}
 			
 			@Override
 			public void changedUpdate(DocumentEvent de) {
-				memoError.setText("");
-				try {
-					lblDraw.setMenuLayer(edCode.getText());
-				} catch (AgdxmlParsingException e) {
-					memoError.setText(e.toString());
-
-					lblDraw.drawError();
-				}
+				refreshLblDraw();
 			}
 		});
 		edCode.addCaretListener(new CaretListener() {
 			@Override
 			public void caretUpdate(CaretEvent e) {
+				if (lstAttributes == null) return;
+				
 				DefaultListModel<AGDXMLTagDefinition.TagAttribute> model = new DefaultListModel<AGDXMLTagDefinition.TagAttribute>();
 				
 				String line = edCode.getText().substring(edCode.getLineStartOffsetOfCurrentLine(), edCode.getLineEndOffsetOfCurrentLine());
 				
-
 				Matcher mt = Pattern.compile("<([a-z\\.]*)").matcher(line);
 				if (mt.find()) {
 					String tag = mt.group(1);
@@ -355,6 +320,87 @@ public class DesignFrame extends JFrame {
 		edCode.setText(EMPTYDOC);
 		edCode.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_XML);
 		edCode.setCodeFoldingEnabled(true);
+		new FileDrop(edCode, new FileDrop.Listener() {@Override public void filesDropped(File[] files) { if (files.length > 0) openFileCode(files[0].getAbsolutePath()); }});
+		
+		tabbedPane_2 = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane_2.setPreferredSize(new Dimension(200, 5));
+		tabbedPane_2.setMinimumSize(new Dimension(200, 5));
+		panel_4.add(tabbedPane_2, BorderLayout.EAST);
+		
+		tabComponents = new JPanel();
+		tabbedPane_2.addTab("Components", null, tabComponents, null);
+		tabComponents.setLayout(new BorderLayout(0, 0));
+		
+		lstComponents = new JList<AGDXMLTagDefinition>();
+		lstComponents.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					int caretPos = edCode.getLineEndOffsetOfCurrentLine();
+					String line = edCode.getText().substring(edCode.getLineStartOffsetOfCurrentLine(), edCode.getLineEndOffsetOfCurrentLine());
+					
+					String start = edCode.getText().substring(0, caretPos);
+					String end = edCode.getText().substring(caretPos);
+					
+					String mid = "<" + lstComponents.getSelectedValue().tag + " />\r\n";
+					
+					Matcher mt = Pattern.compile("^[\\t ]*").matcher(line);
+					if (mt.find()) mid = mt.group() + mid;
+					
+					edCode.setText(start + mid + end);
+					edCode.setCaretPosition(start.length() + mid.length() - 4);
+				}
+			}
+		});
+		lstComponents.setModel(listModel);
+		tabComponents.add(lstComponents);
+		
+		pnlProperties = new JPanel();
+		tabbedPane_2.addTab("Properties", null, pnlProperties, null);
+		pnlProperties.setLayout(new BorderLayout(0, 0));
+		
+		lstAttributes = new JList<AGDXMLTagDefinition.TagAttribute>();
+		lstAttributes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		pnlProperties.add(lstAttributes);
+		
+		panel_3 = new JPanel();
+		tabbedPane_1.addTab("AGDTEXDEF", null, panel_3, null);
+		panel_3.setLayout(new BorderLayout(0, 0));
+		
+		scrollPane = new JScrollPane();
+		panel_3.add(scrollPane);
+		
+		edTextureDef = new RSyntaxTextArea();
+		edTextureDef.setSyntaxEditingStyle("text/xml");
+		edTextureDef.setBracketMatchingEnabled(false);
+		edTextureDef.setCloseCurlyBraces(false);
+		edTextureDef.setCloseMarkupTags(false);
+		edTextureDef.setCodeFoldingEnabled(true);
+		edTextureDef.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void removeUpdate(DocumentEvent de) {
+				//refreshLblDraw();
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent de) {
+				//refreshLblDraw();
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent de) {
+				//refreshLblDraw();
+			}
+		});
+		scrollPane.setViewportView(edTextureDef);
+		edTextureDef.setText(EMPTYTEXDEF);
+		new FileDrop(edTextureDef, new FileDrop.Listener() {@Override public void filesDropped(File[] files) { if (files.length > 0) openFileTexDef(files[0].getAbsolutePath()); }});
+		
+		edTexturePath = new JTextField();
+		edTexturePath.setText("path to texture");
+		panel_3.add(edTexturePath, BorderLayout.NORTH);
+		edTexturePath.setColumns(10);
+		new FileDrop(edTexturePath, new FileDrop.Listener() {@Override public void filesDropped(File[] files) { if (files.length > 0) openFileTexture(files[0].getAbsolutePath()); }});
 		
 		menuBar = new JMenuBar();
 		contentPane.add(menuBar, BorderLayout.NORTH);
@@ -371,14 +417,23 @@ public class DesignFrame extends JFrame {
 			}
 		});
 		
-		mntmOpen = new JMenuItem("Open");
+		mntmOpen = new JMenuItem("Open AGDXML");
 		mnFile.add(mntmOpen);
 		mntmOpen.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				openDocument();
+				openDocument_AGDXML();
 			}
 		});
+		
+		mntmOpenAgdtexdef = new JMenuItem("Open AGDTEXDEF");
+		mntmOpenAgdtexdef.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				openDocument_AGDTEXDEF();
+			}
+		});
+		mnFile.add(mntmOpenAgdtexdef);
 		
 		separator = new JSeparator();
 		mnFile.add(separator);
@@ -403,8 +458,7 @@ public class DesignFrame extends JFrame {
 		
 		toolBar = new JToolBar();
 		toolBar.setFloatable(false);
-		toolBar.setOrientation(SwingConstants.VERTICAL);
-		contentPane.add(toolBar, BorderLayout.WEST);
+		contentPane.add(toolBar, BorderLayout.SOUTH);
 		
 		btnNew = new JButton("NEW");
 		btnNew.addActionListener(new ActionListener() {
@@ -415,14 +469,14 @@ public class DesignFrame extends JFrame {
 		});
 		toolBar.add(btnNew);
 		
-		btnOpen = new JButton("OPEN");
-		btnOpen.addActionListener(new ActionListener() {
+		btnOpenAgdxml = new JButton("OPEN AGDXML");
+		btnOpenAgdxml.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				openDocument();
+				openDocument_AGDXML();
 			}
 		});
-		toolBar.add(btnOpen);
+		toolBar.add(btnOpenAgdxml);
 		
 		btnSave = new JButton("SAVE");
 		btnSave.addActionListener(new ActionListener() {
@@ -431,6 +485,15 @@ public class DesignFrame extends JFrame {
 				saveDocument();
 			}
 		});
+		
+		btnOpenTexDef = new JButton("OPEN AGDTEXDEF");
+		btnOpenTexDef.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				openDocument_AGDTEXDEF();
+			}
+		});
+		toolBar.add(btnOpenTexDef);
 		toolBar.add(btnSave);
 		
 		btnSaveAs = new JButton("SAVE AS");
@@ -441,23 +504,56 @@ public class DesignFrame extends JFrame {
 			}
 		});
 		toolBar.add(btnSaveAs);
-
-		new FileDrop(contentPane, new FileDrop.Listener() {@Override public void filesDropped(File[] files) { if (files.length > 0) openFile(files[0].getAbsolutePath()); }});
-		new FileDrop(edCode, new FileDrop.Listener() {@Override public void filesDropped(File[] files) { if (files.length > 0) openFile(files[0].getAbsolutePath()); }});
-		new FileDrop(pnlSettings, new FileDrop.Listener() {@Override public void filesDropped(File[] files) { if (files.length > 0) openFile(files[0].getAbsolutePath()); }});
-		new FileDrop(lblDraw, new FileDrop.Listener() {@Override public void filesDropped(File[] files) { if (files.length > 0) openFile(files[0].getAbsolutePath()); }});
-		new FileDrop(memoError, new FileDrop.Listener() {@Override public void filesDropped(File[] files) { if (files.length > 0) openFile(files[0].getAbsolutePath()); }});
+		
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		splitPane.setLeftComponent(tabbedPane);
+		
+		lblDraw = new GUIPreviewPanel(900, 300, new AgdxmlPreviewLayerDummy(EMPTYDOC, 900, 300) { @Override public void initialize() { /**/ } });
+		tabbedPane.addTab("Layout", null, lblDraw, null);
+		lblDraw.setLayout(null);
+		
+		panel = new JPanel();
+		tabbedPane.addTab("Render", null, panel, null);
+		panel.setLayout(new BorderLayout(0, 0));
+		
+		panel_1 = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) panel_1.getLayout();
+		flowLayout.setVgap(0);
+		flowLayout.setHgap(0);
+		flowLayout.setAlignment(FlowLayout.LEFT);
+		panel.add(panel_1, BorderLayout.NORTH);
+		
+		btnNewButton = new JButton("Refresh");
+		panel_1.add(btnNewButton);
+		
+		btnNewButton_1 = new JButton("Debug");
+		panel_1.add(btnNewButton_1);
+		
+		panel_2 = new JPanel();
+		panel_2.setBorder(null);
+		panel_2.setBackground(Color.BLACK);
+		panel.add(panel_2, BorderLayout.CENTER);
 	}
 
 	protected void saveDocument() {
-		if (filename == null) {
-			saveDocumentAs();
+		saveDocumentCode();
+		saveDocumentTexDef();
+	}
+
+	protected void saveDocumentAs() {
+		saveDocumentCodeAs();
+		saveDocumentTexDefAs();
+	}
+	
+	protected void saveDocumentCode() {
+		if (filename_agdxml == null) {
+			saveDocumentCodeAs();
 			return;
 		}
 		
 		BufferedWriter writer = null;
         try {
-            writer = new BufferedWriter(new FileWriter(filename));
+            writer = new BufferedWriter(new FileWriter(filename_agdxml));
             writer.write(edCode.getText());
         } catch (Exception e) {
             e.printStackTrace();
@@ -470,31 +566,75 @@ public class DesignFrame extends JFrame {
         }
 	}
 
-	protected void saveDocumentAs() {
+	protected void saveDocumentCodeAs() {
 		final JFileChooser fc = new JFileChooser();
 		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		fc.setDialogTitle("Save AGDXML as ...");
 		
 		if ( fc.showSaveDialog(DesignFrame.this) == JFileChooser.APPROVE_OPTION) {
-			filename = fc.getSelectedFile().getAbsolutePath();
+			filename_agdxml = fc.getSelectedFile().getAbsolutePath();
+			saveDocument();
+		}
+	}
+	
+	protected void saveDocumentTexDef() {
+		if (filename_agdtexdef == null) {
+			saveDocumentCodeAs();
+			return;
+		}
+		
+		BufferedWriter writer = null;
+        try {
+            writer = new BufferedWriter(new FileWriter(filename_agdtexdef));
+            writer.write(edTextureDef.getText());
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                writer.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+	}
+
+	protected void saveDocumentTexDefAs() {
+		final JFileChooser fc = new JFileChooser();
+		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		fc.setDialogTitle("Save AGDTEXDEF as ...");
+		
+		if ( fc.showSaveDialog(DesignFrame.this) == JFileChooser.APPROVE_OPTION) {
+			filename_agdtexdef = fc.getSelectedFile().getAbsolutePath();
 			saveDocument();
 		}
 	}
 
 	private void updateTitle() {
-		if (filename == null) 
-			setTitle("absGDX - Menu Designer <>");
+		String tile = "absGDX - Menu Designer ";
+		
+		if (filename_agdxml == null) 
+			tile += "<>";
 		else
-			setTitle("absGDX - Menu Designer <" + (new File(filename)).getName() + ">");			
+			tile += "<" + (new File(filename_agdxml)).getName() + ">";
+		
+		tile += " - ";
+		
+		if (filename_agdtexdef == null) 
+			tile += "<>";
+		else
+			tile += "<" + (new File(filename_agdtexdef)).getName() + ">";
+		
+		setTitle(tile);
 	}
 
-	private void openFile(final String path) {
-		filename = path;
+	private void openFileCode(final String path) {
+		filename_agdxml = path;
 		
 		updateTitle();
 		
 		BufferedReader br;
 		try {
-			br = new BufferedReader(new FileReader(filename));
+			br = new BufferedReader(new FileReader(filename_agdxml));
 		    try {
 		        StringBuilder sb = new StringBuilder();
 		        String line = br.readLine();
@@ -514,19 +654,96 @@ public class DesignFrame extends JFrame {
 		}
 	}
 
-	private void openDocument() {
+	private void openFileTexDef(final String path) {
+		filename_agdtexdef = path;
+		
+		updateTitle();
+		
+		BufferedReader br;
+		try {
+			br = new BufferedReader(new FileReader(filename_agdtexdef));
+		    try {
+		        StringBuilder sb = new StringBuilder();
+		        String line = br.readLine();
+
+		        while (line != null) {
+		            sb.append(line);
+		            sb.append(System.lineSeparator());
+		            line = br.readLine();
+		        }
+		        
+		        edTextureDef.setText(sb.toString());
+		    } finally {
+		        br.close();
+		    }
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+	}
+
+	private void openFileTexture(final String path) {
+		edTexturePath.setText(path);
+	}
+
+	private void openDocument_AGDXML() {
 		final JFileChooser fc = new JFileChooser();
 		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		fc.setFileFilter(new FileFilter() {
+			@Override
+			public String getDescription() {
+				return "AGDXML";
+			}
+			
+			@Override
+			public boolean accept(File f) {
+				return f.getPath().toLowerCase().endsWith(".agdxml");
+			}
+		});
 		
 		if ( fc.showOpenDialog(DesignFrame.this) == JFileChooser.APPROVE_OPTION) {
-			openFile(fc.getSelectedFile().getAbsolutePath());
+			openFileCode(fc.getSelectedFile().getAbsolutePath());
+		}
+	}
+
+	private void openDocument_AGDTEXDEF() {
+		final JFileChooser fc = new JFileChooser();
+		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		fc.setFileFilter(new FileFilter() {
+			@Override
+			public String getDescription() {
+				return "AGDTEXDEF";
+			}
+			
+			@Override
+			public boolean accept(File f) {
+				return f.getPath().toLowerCase().endsWith(".agdtexdef");
+			}
+		});
+		
+		if ( fc.showOpenDialog(DesignFrame.this) == JFileChooser.APPROVE_OPTION) {
+			openFileTexDef(fc.getSelectedFile().getAbsolutePath());
 		}
 	}
 
 	private void newDocument() {
-		filename = null;
+		filename_agdxml = null;
+		filename_agdtexdef = null;
 		edCode.setText(EMPTYDOC);
+		edTextureDef.setText(EMPTYTEXDEF);
 		
 		updateTitle();
+	}
+
+	private void refreshLblDraw() {
+		if (lblDraw == null) return;
+		
+		memoError.setText("");
+		try {
+			lblDraw.setMenuLayer(edCode.getText());
+		} catch (AgdxmlParsingException e) {
+			memoError.setText(e.toString());
+
+			lblDraw.drawError();
+		}
 	}
 }

@@ -4,6 +4,8 @@ import java.util.HashMap;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import de.samdev.absgdx.framework.menu.attributes.CheckState;
+import de.samdev.absgdx.framework.menu.attributes.FocusState;
 import de.samdev.absgdx.framework.menu.attributes.TristateBoolean;
 import de.samdev.absgdx.framework.menu.attributes.VisualButtonState;
 import de.samdev.absgdx.framework.menu.elements.MenuButton;
@@ -242,7 +244,7 @@ public class GUITextureProvider {
 	 * @param texture the textures ordered in a 3x3 square ( TextureRegion[Y][X] )
 	 * @param focused If the Edit has focus
 	 */
-	public void setMenuEditTexture(TextureRegion[][] texture, boolean focused) {
+	public void setMenuEditTexture(TextureRegion[][] texture, FocusState focused) {
 		setGeneric9SideTexture(MenuEdit.class, texture, focused);
 	}
 	
@@ -252,7 +254,7 @@ public class GUITextureProvider {
 	 * @param texture the texture
 	 * @param checked if it is checked
 	 */
-	public void setMenuCheckBoxTexture(TextureRegion texture, boolean checked) {
+	public void setMenuCheckBoxTexture(TextureRegion texture, CheckState checked) {
 		set(MenuCheckBox.class, IDENT_TEX_CHECK_IMG, checked, texture);
 	}
 	
@@ -262,7 +264,7 @@ public class GUITextureProvider {
 	 * @param texture the texture
 	 * @param checked if it is checked
 	 */
-	public void setMenuRadioButtonTexture(TextureRegion texture, boolean checked) {
+	public void setMenuRadioButtonTexture(TextureRegion texture, CheckState checked) {
 		set(MenuRadioButton.class, IDENT_TEX_CHECK_IMG, checked, texture);
 	}
 	
@@ -272,7 +274,7 @@ public class GUITextureProvider {
 	 * @param texture the texture
 	 * @param checked if it is checked
 	 */
-	public void setMenuSettingsTreeButtonTexture(TextureRegion texture, boolean checked) {
+	public void setMenuSettingsTreeButtonTexture(TextureRegion texture, CheckState checked) {
 		set(MenuSettingsTree.class, IDENT_TEX_CHECK_IMG, checked, texture);
 	}
 	

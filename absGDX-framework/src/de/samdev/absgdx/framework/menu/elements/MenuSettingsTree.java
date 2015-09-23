@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 import de.samdev.absgdx.framework.GameSettings;
 import de.samdev.absgdx.framework.menu.GUITextureProvider;
+import de.samdev.absgdx.framework.menu.attributes.CheckState;
 import de.samdev.absgdx.framework.menu.attributes.RectangleRadius;
 import de.samdev.absgdx.framework.menu.attributes.TristateBoolean;
 import de.samdev.absgdx.framework.menu.attributes.VisualButtonState;
@@ -58,7 +59,7 @@ public class MenuSettingsTree extends MenuBaseElement {
 			if (children.isEmpty()) {
 				return getTextureProvider().get(treeowner.getClass(), GUITextureProvider.IDENT_TEX_DEPTREE_LEAF);
 			} else {				
-				return getTextureProvider().get(treeowner.getClass(), GUITextureProvider.IDENT_TEX_CHECK_IMG, isChecked());
+				return getTextureProvider().get(treeowner.getClass(), GUITextureProvider.IDENT_TEX_CHECK_IMG, CheckState.fromBoolean(isChecked()));
 			}
 		}	
 		

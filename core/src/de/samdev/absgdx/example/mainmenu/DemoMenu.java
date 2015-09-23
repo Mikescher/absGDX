@@ -7,6 +7,8 @@ import de.samdev.absgdx.example.Textures;
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.layer.AgdxmlLayer;
 import de.samdev.absgdx.framework.menu.GUITextureProvider;
+import de.samdev.absgdx.framework.menu.attributes.CheckState;
+import de.samdev.absgdx.framework.menu.attributes.FocusState;
 import de.samdev.absgdx.framework.menu.attributes.TristateBoolean;
 import de.samdev.absgdx.framework.menu.attributes.VisualButtonState;
 import de.samdev.absgdx.framework.menu.elements.MenuBaseElement;
@@ -29,17 +31,17 @@ public class DemoMenu extends AgdxmlLayer {
 
 		prov.setMenuPanelTexture(Textures.tex_panelgui);
 		
-		prov.setMenuEditTexture(Textures.tex_textfield, false);
-		prov.setMenuEditTexture(Textures.tex_textfield_focus, true);
+		prov.setMenuEditTexture(Textures.tex_textfield, FocusState.UNFOCUSED);
+		prov.setMenuEditTexture(Textures.tex_textfield_focus, FocusState.FOCUSED);
 		
-		prov.setMenuCheckBoxTexture(Textures.tex_gui_checkers[0][0], true);
-		prov.setMenuCheckBoxTexture(Textures.tex_gui_checkers[0][1], false);
+		prov.setMenuCheckBoxTexture(Textures.tex_gui_checkers[0][0], CheckState.CHECKED);
+		prov.setMenuCheckBoxTexture(Textures.tex_gui_checkers[0][1], CheckState.UNCHECKED);
 		
-		prov.setMenuRadioButtonTexture(Textures.tex_gui_checkers[3][0], true);
-		prov.setMenuRadioButtonTexture(Textures.tex_gui_checkers[3][1], false);
+		prov.setMenuRadioButtonTexture(Textures.tex_gui_checkers[3][0], CheckState.CHECKED);
+		prov.setMenuRadioButtonTexture(Textures.tex_gui_checkers[3][1], CheckState.UNCHECKED);
 
-		prov.setMenuSettingsTreeButtonTexture(Textures.tex_gui_checkers[2][0], true);
-		prov.setMenuSettingsTreeButtonTexture(Textures.tex_gui_checkers[2][1], false);
+		prov.setMenuSettingsTreeButtonTexture(Textures.tex_gui_checkers[2][0], CheckState.CHECKED);
+		prov.setMenuSettingsTreeButtonTexture(Textures.tex_gui_checkers[2][1], CheckState.UNCHECKED);
 		prov.setMenuSettingsTreeValueTexture(Textures.tex_gui_checkers[1][0], TristateBoolean.FALSE);
 		prov.setMenuSettingsTreeValueTexture(Textures.tex_gui_checkers[0][2], TristateBoolean.INTERMEDIATE);
 		prov.setMenuSettingsTreeValueTexture(Textures.tex_gui_checkers[0][0], TristateBoolean.TRUE);

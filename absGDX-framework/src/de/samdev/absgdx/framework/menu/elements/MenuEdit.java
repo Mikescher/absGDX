@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 import de.samdev.absgdx.framework.GameSettings;
 import de.samdev.absgdx.framework.menu.GUITextureProvider;
+import de.samdev.absgdx.framework.menu.attributes.FocusState;
 import de.samdev.absgdx.framework.menu.attributes.HorzAlign;
 import de.samdev.absgdx.framework.menu.attributes.RectangleRadius;
 import de.samdev.absgdx.framework.menu.attributes.TextAutoScaleMode;
@@ -113,8 +114,8 @@ public class MenuEdit extends MenuBaseElement { //TODO Does not work on mobile -
 		
 		innerLabel.setContent(disp);
 		
-		if (getTextureProvider().hasGeneric9SideTextures(getClass(), isFocused())) {
-			render9SideTexture(sbatch, isFocused());
+		if (getTextureProvider().hasGeneric9SideTextures(getClass(), FocusState.fromBoolean(isFocused()))) {
+			render9SideTexture(sbatch, FocusState.fromBoolean(isFocused()));
 		} else {
 			renderSimple(srenderer);
 		}

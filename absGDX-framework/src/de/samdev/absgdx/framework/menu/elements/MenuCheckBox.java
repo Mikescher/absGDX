@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 import de.samdev.absgdx.framework.GameSettings;
 import de.samdev.absgdx.framework.menu.GUITextureProvider;
+import de.samdev.absgdx.framework.menu.attributes.CheckState;
 import de.samdev.absgdx.framework.menu.attributes.HorzAlign;
 import de.samdev.absgdx.framework.menu.attributes.RectangleRadius;
 import de.samdev.absgdx.framework.menu.attributes.TextAutoScaleMode;
@@ -111,7 +112,7 @@ public class MenuCheckBox extends MenuBaseElement {
 	}
 
 	protected TextureRegion getCheckTexture() {
-		return getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_CHECK_IMG, isChecked());
+		return getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_CHECK_IMG, CheckState.fromBoolean(isChecked()));
 	}
 
 	private void renderTextured(SpriteBatch sbatch, TextureRegion texture) {

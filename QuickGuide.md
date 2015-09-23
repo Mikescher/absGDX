@@ -484,3 +484,88 @@ public class DemoMenu extends AgdxmlLayer {
 		System.out.println("button clicked");
 	}
 ~~~
+
+###Loading Textures via the AgdxTextureDefinitionLoader
+
+You can define your texturesheet with an xml file and load then load it with the `AgdxTextureDefinitionLoader`.
+
+An example agdtexdef file could look like this:
+
+~~~xml
+<?xml version="1.0" encoding="UTF-8"?>
+<texturedefinitions>
+	<gui>
+		<textureprovider identifier="defaultprov_01">
+			<MenuButton coordinates_offset="0,0">
+				<state appendix="NORMAL" coordinates_offset="0,0">
+					<texture identifier="topleft"     coordinates="0,0     4,4" />
+					<texture identifier="top"         coordinates="5,0     1,4" />
+					<texture identifier="topright"    coordinates="7,0     4,4" />
+					<!-- ... -->
+				</state>
+				<!-- ... -->
+			</MenuButton>
+		</textureprovider>
+
+		<textureprovider identifier="altprov">
+			<!-- ... -->
+		</textureprovider>
+	</gui>
+
+	<texture identifier="texDoorBottomTile" coordinates=" 4,  7     70, 70" tile_coords="true" />
+	<texture identifier="texDoorTopTile"    coordinates=" 3,  8     70, 70" tile_coords="true" />
+	<group coordinates_offset="32,32">
+		<texture identifier="texTorch1" coordinates="17,  3     70, 70" />
+		<texture identifier="texTorch2" coordinates="20,  0     70, 70" />
+	</group>
+
+	<array identifier="tex_chess_tiles" >
+		<texture coordinates="6, 0   128, 128" tile_coords="true" />
+		<texture coordinates="7, 0   128, 128" tile_coords="true" />
+		<texture coordinates="6, 1   128, 128" tile_coords="true" />
+		<!-- ... -->
+	</array>
+
+	<flatten_array>
+		<array_2d coordinates_offset="0,0" identifier="tex_chess_figures" width="128" height="256" size_x="6" size_y="2" />
+	</flatten_array>
+
+	<array_1d coordinates_offset="0,000" identifier="tex_chess_figures_white" width="128" height="256" size_x="6" orientation="horizontal" />
+</texturedefinitions>
+~~~
+
+####AgdxTextureDefinitions for UI
+
+Under the tag `<gui>` we can define one or multiple textureprovider for AgdxmlMenu's with the `<textureprovider>`-tag.
+Under this tag we create tags with the classnames of the components we want to define textures for *(non case-sensitive)*.
+
+The we can either define textures with the `<texture>` tag or group textures together in states wit the `<state>`-tag (this will set the appendix for all sub tags, this is also possible with an `appendix` attribute directly on the `<texture>` tag).
+
+The central part is the `coordinates` attribute on the `<texture>` tag. It defines the position of the texture in the spritemap.
+This position is relative to all `coordinate_offset` attributes of its parents.
+You can also use additional `<group>` tags to further adjust the relative coordinate offset.
+
+####AgdxTextureDefinitions for normal textures
+
+Textures not definied in the `<gui>` tag are "normal" textures and can be accessed by their id.
+There are a few different tags possible:
+
+ - `<texture>`: A simple texture 
+ - `<group>`: groups textures together and applies a `coordinate_offset` to all of them
+ - `<array>`: a manual definied array (by sub-texture-tags)
+ - `<array_1d>`: an automatic 1D array *(see examples)*
+ - `<array_2d>`: an automatic 2D array *(see examples)*
+ - `<flatten_array>`: flattens an 2D array (definied by sub-tag) to an 1D array
+
+You can access the object with these methods:
+
+~~~java
+texdef_map = new AgdxTextureDefinitionLoader(Gdx.files.internal("map.agdtexdef"), Textures.texmap);
+texdef_map.parse();
+
+tex_dirt          = texdef_map.getSingleTexture("tex_dirt");
+tex_AbyssTile     = texdef_map.getSingleTexture("tex_AbyssTile");
+
+tex_chess_tiles   = texdef_map.getTextureArray("tex_chess_tiles");
+tex_chess_figures = texdef_map.getTextureArray2D("tex_chess_figures");
+~~~

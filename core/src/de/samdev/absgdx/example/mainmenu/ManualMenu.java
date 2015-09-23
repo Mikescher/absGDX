@@ -44,46 +44,8 @@ public class ManualMenu extends MenuLayer {
 		
 		// Don't make manual menus like this - it's heavily deprecated
 		
-		GUITextureProvider prov = new GUITextureProvider();
-		{
-			prov.setMenuButtonTexture(Textures.tex_buttongui[0], VisualButtonState.NORMAL);
-			prov.setMenuButtonTexture(Textures.tex_buttongui[1], VisualButtonState.HOVERED);
-			prov.setMenuButtonTexture(Textures.tex_buttongui[2], VisualButtonState.PRESSED);
-			prov.setMenuButtonTexture(Textures.tex_buttongui[3], VisualButtonState.DISABLED);
-	
-			prov.setMenuPanelTexture(Textures.tex_panelgui);
-	
-			prov.setMenuEditTexture(Textures.tex_textfield, FocusState.UNFOCUSED);
-			prov.setMenuEditTexture(Textures.tex_textfield_focus, FocusState.FOCUSED);
-	
-			prov.setMenuCheckBoxTexture(Textures.tex_gui_checkers[0][0], CheckState.CHECKED);
-			prov.setMenuCheckBoxTexture(Textures.tex_gui_checkers[0][1], CheckState.UNCHECKED);
-	
-			prov.setMenuRadioButtonTexture(Textures.tex_gui_checkers[3][0], CheckState.CHECKED);
-			prov.setMenuRadioButtonTexture(Textures.tex_gui_checkers[3][1], CheckState.UNCHECKED);
-	
-			prov.setMenuSettingsTreeTexture(Textures.tex_panelgui);
-			prov.setMenuSettingsTreeButtonTexture(Textures.tex_gui_checkers[2][0], CheckState.CHECKED);
-			prov.setMenuSettingsTreeButtonTexture(Textures.tex_gui_checkers[2][1], CheckState.UNCHECKED);
-			prov.setMenuSettingsTreeValueTexture(Textures.tex_gui_checkers[1][0], TristateBoolean.FALSE);
-			prov.setMenuSettingsTreeValueTexture(Textures.tex_gui_checkers[0][2], TristateBoolean.INTERMEDIATE);
-			prov.setMenuSettingsTreeValueTexture(Textures.tex_gui_checkers[0][0], TristateBoolean.TRUE);
-			prov.setMenuSettingsTreeLeafTexture(Textures.tex_gui_checkers[0][1]);
-	
-			prov.set(MenuProgressbar.class, "0", Textures.tex_gui_progressbar[0]);
-			prov.set(MenuProgressbar.class, "1", Textures.tex_gui_progressbar[1]);
-			prov.set(MenuProgressbar.class, "2", Textures.tex_gui_progressbar[2]);
-			prov.set(MenuProgressbar.class, "3", Textures.tex_gui_progressbar[3]);
-			prov.set(MenuProgressbar.class, "4", Textures.tex_gui_progressbar[4]);
-		}
-		
-		GUITextureProvider prov2 = new GUITextureProvider();
-		{
-			prov2.setMenuButtonTexture(Textures.tex_buttongui[4], VisualButtonState.NORMAL);
-			prov2.setMenuButtonTexture(Textures.tex_buttongui[5], VisualButtonState.HOVERED);
-			prov2.setMenuButtonTexture(Textures.tex_buttongui[6], VisualButtonState.PRESSED);
-			prov2.setMenuButtonTexture(Textures.tex_buttongui[7], VisualButtonState.DISABLED);
-		}
+		GUITextureProvider prov = Textures.texdef_gui.GetGuiProvider("defaultprov_01");
+		GUITextureProvider prov2 = Textures.texdef_gui.GetGuiProvider("altprov");
 		
 		final MenuPanel p = new MenuPanel(prov);
 		p.setBoundaries(50, 50, 600, 310);
@@ -273,7 +235,7 @@ public class ManualMenu extends MenuLayer {
 		
 		//#######################################################
 		
-		final MenuSettingsTree p3 = new MenuSettingsTree(prov, owner.settings.root);
+		final MenuSettingsTree p3 = new MenuSettingsTree(prov2, owner.settings.root);
 		p3.setBoundaries(700, 50, 550, 600);
 		p3.setColor(Color.WHITE);
 		p3.setVisible(true);

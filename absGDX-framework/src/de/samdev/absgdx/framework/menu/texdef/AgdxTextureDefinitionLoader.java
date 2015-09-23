@@ -32,6 +32,7 @@ public class AgdxTextureDefinitionLoader {
 	private final static String TAG_TEXPROVIDER = "textureprovider";
 	private final static String TAG_STATE       = "state";
 	private final static String TAG_TEXTURE     = "texture";
+	private final static String TAG_GROUP       = "group";
 
 	private final static String ATTR_OFFSET         = "coordinates_offset";
 	private final static String ATTR_TEXPROVIDER_ID = "id";
@@ -119,6 +120,7 @@ public class AgdxTextureDefinitionLoader {
 		}
 	}
 
+	/** [textureprovider] */
 	private GUITextureProvider parseTextureProvider(Vector2 parent_offset, Element element) throws AgdtexdefParsingException {
 		Vector2 offset = parseOffset(parent_offset, element);
 		
@@ -127,34 +129,45 @@ public class AgdxTextureDefinitionLoader {
 		for (int i = 0; i < element.getChildCount(); i++) {
 			Element child = element.getChild(i);
 			
-			parseTextureProviderClassElement(provider, offset, child);
+			parseTextureProviderClassElement(provider, child.getName(), offset, child);
 		}
 		
 		return provider;
 	}
 
-	private void parseTextureProviderClassElement(GUITextureProvider provider, Vector2 parent_offset, Element element) throws AgdtexdefParsingException {
+	/** [???] (classname) */
+	private void parseTextureProviderClassElement(GUITextureProvider provider, String classname, Vector2 parent_offset, Element element) throws AgdtexdefParsingException {
 		Vector2 offset = parseOffset(parent_offset, element);
-		String classname = element.getName();
 		
 		for (Element state : element.getChildrenByName(TAG_STATE)) {
-			parseTextureProviderClassElementState(provider, classname, offset, state);
+			String appendix = state.getAttribute(ATTR_APPENDIX);
+			
+			parseTextureProviderClassElementState(provider, classname, appendix, offset, state);
 		}
 
 		for (Element texture : element.getChildrenByName(TAG_TEXTURE)) {
 			parseTextureProviderTexture(provider, classname, null, offset, texture);
 		}
+
+		for (Element group : element.getChildrenByName(TAG_GROUP)) {
+			parseTextureProviderClassElement(provider, classname, offset, group);
+		}
 	}
 
-	private void parseTextureProviderClassElementState(GUITextureProvider provider, String classname, Vector2 parent_offset, Element element) throws AgdtexdefParsingException {
+	/** [state] */
+	private void parseTextureProviderClassElementState(GUITextureProvider provider, String classname, String appendix, Vector2 parent_offset, Element element) throws AgdtexdefParsingException {
 		Vector2 offset = parseOffset(parent_offset, element);
-		String appendix = element.getAttribute(ATTR_APPENDIX);
 
 		for (Element texture : element.getChildrenByName(TAG_TEXTURE)) {
 			parseTextureProviderTexture(provider, classname, appendix, offset, texture);
 		}
+
+		for (Element group : element.getChildrenByName(TAG_GROUP)) {
+			parseTextureProviderClassElementState(provider, classname, appendix, offset, group);
+		}
 	}
 
+	/** [texture] */
 	private void parseTextureProviderTexture(GUITextureProvider provider, String classname, String parent_appendix, Vector2 offset, Element element) throws AgdtexdefParsingException {
 		String identifier = element.getAttribute(ATTR_TEXTURE_ID);
 		Rectangle coordinates = parseCoordinates(offset, element.getAttribute(ATTR_TEXTURE_COORDS));
@@ -163,5 +176,19 @@ public class AgdxTextureDefinitionLoader {
 		TextureRegion region = new TextureRegion(texture, (int)coordinates.x, (int)coordinates.y, (int)coordinates.width, (int)coordinates.height);
 		
 		provider.set(classname, identifier, appendix, region);
+	}
+
+	/**
+	 * Return the GuiTextureProivider with the specified identifier
+	 * or NULLL if there is no such provider
+	 * 
+	 * @param identifier the identifier (case-sensitive)
+	 * @return the GUITextureProvider or NULL
+	 */
+	public GUITextureProvider GetGuiProvider(String identifier) {
+		for (Pair<String, GUITextureProvider> pair : gui_provider) {
+			if (pair.getKey().equals(identifier)) return pair.getValue();
+		}
+		return null;
 	}
 }

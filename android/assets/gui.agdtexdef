@@ -50,27 +50,27 @@
 			</MenuButton>
 
 			<MenuEdit>
-				<state appendix="focused" coordinates_offset="48,16">
+				<state appendix="unfocused" coordinates_offset="48,16">
 					<texture identifier="topleft"     coordinates="0,0     1,1" />
 					<texture identifier="top"         coordinates="2,0     1,1" />
 					<texture identifier="topright"    coordinates="4,0     1,1" />
-					<texture identifier="right"       coordinates="0,2     1,1" />
-					<texture identifier="bottomright" coordinates="2,2     1,1" />
-					<texture identifier="bottom"      coordinates="4,2     1,1" />
+					<texture identifier="right"       coordinates="4,2     1,1" />
+					<texture identifier="bottomright" coordinates="4,4     1,1" />
+					<texture identifier="bottom"      coordinates="2,4     1,1" />
 					<texture identifier="bottomleft"  coordinates="0,4     1,1" />
-					<texture identifier="left"        coordinates="2,4     1,1" />
-					<texture identifier="center"      coordinates="4,4     1,1" />
+					<texture identifier="left"        coordinates="0,2     1,1" />
+					<texture identifier="center"      coordinates="2,2     1,1" />
 				</state>
-				<state appendix="unfocused" coordinates_offset="48,22">
+				<state appendix="focused" coordinates_offset="48,22">
 					<texture identifier="topleft"     coordinates="0,0     1,1" />
 					<texture identifier="top"         coordinates="2,0     1,1" />
 					<texture identifier="topright"    coordinates="4,0     1,1" />
-					<texture identifier="right"       coordinates="0,2     1,1" />
-					<texture identifier="bottomright" coordinates="2,2     1,1" />
-					<texture identifier="bottom"      coordinates="4,2     1,1" />
+					<texture identifier="right"       coordinates="4,2     1,1" />
+					<texture identifier="bottomright" coordinates="4,4     1,1" />
+					<texture identifier="bottom"      coordinates="2,4     1,1" />
 					<texture identifier="bottomleft"  coordinates="0,4     1,1" />
-					<texture identifier="left"        coordinates="2,4     1,1" />
-					<texture identifier="center"      coordinates="4,4     1,1" />
+					<texture identifier="left"        coordinates="0,2     1,1" />
+					<texture identifier="center"      coordinates="2,2     1,1" />
 				</state>
 			</MenuEdit>
 
@@ -97,12 +97,16 @@
 			</MenuPanel>
 
 			<MenuSettingsTree>
-				<texture identifier="checkimg" appendix="checked"   coordinates="00, 78   22, 22" />
-				<texture identifier="checkimg" appendix="unchecked" coordinates="24, 78   22, 22" />
+				<group coordinates_offset="0,78">
+					<texture identifier="checkimg" appendix="unchecked" coordinates="00, 00   22, 22" />
+					<texture identifier="checkimg" appendix="checked"   coordinates="24, 00   22, 22" />
+				</group>
 
-				<texture identifier="settingstreevalue" appendix="TRUE"         coordinates="00, 55   22, 22" />
-				<texture identifier="settingstreevalue" appendix="INTERMEDIATE" coordinates="48, 32   22, 22" />
-				<texture identifier="settingstreevalue" appendix="FALSE"        coordinates="00, 32   22, 22" />
+				<group>
+					<texture identifier="settingstreevalue" appendix="FALSE"        coordinates="00, 55   22, 22" />
+					<texture identifier="settingstreevalue" appendix="INTERMEDIATE" coordinates="48, 32   22, 22" />
+					<texture identifier="settingstreevalue" appendix="TRUE"         coordinates="00, 32   22, 22" />
+				</group>
 
 				<texture identifier="settingstreeleaf"                          coordinates="24, 32   22, 22" />
 			</MenuSettingsTree>
@@ -114,6 +118,78 @@
 				<texture identifier="3" coordinates="34, 32    01, 01" />
 				<texture identifier="4" coordinates="00, 46    59, 30" />
 			</MenuProgressbar>
+		</textureprovider>
+
+		<textureprovider id="altprov">
+			<MenuButton coordinates_offset="0,16">
+				<state appendix="NORMAL" coordinates_offset="0,0">
+					<texture identifier="topleft"     coordinates="0,0     4,4" />
+					<texture identifier="top"         coordinates="5,0     1,4" />
+					<texture identifier="topright"    coordinates="7,0     4,4" />
+					<texture identifier="right"       coordinates="7,5     4,1" />
+					<texture identifier="bottomright" coordinates="7,7     4,6" />
+					<texture identifier="bottom"      coordinates="5,7     1,6" />
+					<texture identifier="bottomleft"  coordinates="0,7     4,6" />
+					<texture identifier="left"        coordinates="0,5     4,1" />
+					<texture identifier="center"      coordinates="5,5     1,1" />
+				</state>
+				<state appendix="HOVERED" coordinates_offset="12,0">
+					<texture identifier="topleft"     coordinates="0,0     4,4" />
+					<texture identifier="top"         coordinates="5,0     1,4" />
+					<texture identifier="topright"    coordinates="7,0     4,4" />
+					<texture identifier="right"       coordinates="7,5     4,1" />
+					<texture identifier="bottomright" coordinates="7,7     4,6" />
+					<texture identifier="bottom"      coordinates="5,7     1,6" />
+					<texture identifier="bottomleft"  coordinates="0,7     4,6" />
+					<texture identifier="left"        coordinates="0,5     4,1" />
+					<texture identifier="center"      coordinates="5,5     1,1" />
+				</state>
+				<state appendix="PRESSED" coordinates_offset="24,0">
+					<texture identifier="topleft"     coordinates="0,0     4,4" />
+					<texture identifier="top"         coordinates="5,0     1,4" />
+					<texture identifier="topright"    coordinates="7,0     4,4" />
+					<texture identifier="right"       coordinates="7,5     4,1" />
+					<texture identifier="bottomright" coordinates="7,7     4,6" />
+					<texture identifier="bottom"      coordinates="5,7     1,6" />
+					<texture identifier="bottomleft"  coordinates="0,7     4,6" />
+					<texture identifier="left"        coordinates="0,5     4,1" />
+					<texture identifier="center"      coordinates="5,5     1,1" />
+				</state>
+				<state appendix="DISABLED" coordinates_offset="36,0">
+					<texture identifier="topleft"     coordinates="0,0     4,4" />
+					<texture identifier="top"         coordinates="5,0     1,4" />
+					<texture identifier="topright"    coordinates="7,0     4,4" />
+					<texture identifier="right"       coordinates="7,5     4,1" />
+					<texture identifier="bottomright" coordinates="7,7     4,6" />
+					<texture identifier="bottom"      coordinates="5,7     1,6" />
+					<texture identifier="bottomleft"  coordinates="0,7     4,6" />
+					<texture identifier="left"        coordinates="0,5     4,1" />
+					<texture identifier="center"      coordinates="5,5     1,1" />
+				</state>
+			</MenuButton>
+
+			<MenuSettingsTree>
+				<group coordinates_offset="48,0">
+					<texture identifier="topleft"     coordinates="0,0     1,1" />
+					<texture identifier="top"         coordinates="2,0     1,1" />
+					<texture identifier="topright"    coordinates="4,0     1,1" />
+					<texture identifier="right"       coordinates="4,2     1,1" />
+					<texture identifier="bottomright" coordinates="4,4     1,3" />
+					<texture identifier="bottom"      coordinates="2,4     1,3" />
+					<texture identifier="bottomleft"  coordinates="0,4     1,3" />
+					<texture identifier="left"        coordinates="0,2     1,1" />
+					<texture identifier="center"      coordinates="2,2     1,1" />
+				</group>
+
+				<texture identifier="checkimg" appendix="unchecked" coordinates="00, 78   22, 22" />
+				<texture identifier="checkimg" appendix="checked"   coordinates="24, 78   22, 22" />
+
+				<texture identifier="settingstreevalue" appendix="FALSE"        coordinates="00, 55   22, 22" />
+				<texture identifier="settingstreevalue" appendix="INTERMEDIATE" coordinates="48, 32   22, 22" />
+				<texture identifier="settingstreevalue" appendix="TRUE"         coordinates="00, 32   22, 22" />
+
+				<texture identifier="settingstreeleaf"                          coordinates="24, 32   22, 22" />
+			</MenuSettingsTree>
 		</textureprovider>
 	</gui>
 </texturedefinitions>

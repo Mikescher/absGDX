@@ -68,14 +68,6 @@ public final class Textures {
 	public static TextureRegion[] tex_player_still;
 	public static TextureRegion[] tex_china_still;
 
-	public static TextureRegion[][][] tex_buttongui;
-	public static TextureRegion[][] tex_framegui;
-	public static TextureRegion[][] tex_panelgui;
-	public static TextureRegion[][] tex_textfield;
-	public static TextureRegion[][] tex_textfield_focus;
-	public static TextureRegion[][] tex_gui_checkers;
-	public static TextureRegion[] tex_gui_progressbar;
-
 	public static TextureRegion[] tex_chess_tiles;
 	public static TextureRegion[][] tex_chess_figures;
 
@@ -155,71 +147,6 @@ public final class Textures {
 			tex_china_still[y] = new TextureRegion(texchinaset_td, 0*150 + 30, y*117 + 25, 75, 92);
 		}
 		
-		tex_buttongui = new TextureRegion[8][3][3];
-		
-		loadSingleButtonGuiTex(0, 00, 00);
-		loadSingleButtonGuiTex(1, 12, 00);
-		loadSingleButtonGuiTex(2, 24, 00);
-		loadSingleButtonGuiTex(3, 36, 16);
-		loadSingleButtonGuiTex(4, 00, 16);
-		loadSingleButtonGuiTex(5, 12, 16);
-		loadSingleButtonGuiTex(6, 24, 16);
-		loadSingleButtonGuiTex(7, 36, 16);
-		
-		tex_panelgui = new TextureRegion[3][3];
-		tex_panelgui[0][0] = new TextureRegion(tex_gui, 48, 0, 1, 1);
-		tex_panelgui[1][0] = new TextureRegion(tex_gui, 48, 2, 1, 1);
-		tex_panelgui[2][0] = new TextureRegion(tex_gui, 48, 4, 1, 3);
-		tex_panelgui[0][1] = new TextureRegion(tex_gui, 50, 0, 1, 1);
-		tex_panelgui[1][1] = new TextureRegion(tex_gui, 50, 2, 1, 1);
-		tex_panelgui[2][1] = new TextureRegion(tex_gui, 50, 4, 1, 3);
-		tex_panelgui[0][2] = new TextureRegion(tex_gui, 52, 0, 1, 1);
-		tex_panelgui[1][2] = new TextureRegion(tex_gui, 52, 2, 1, 1);
-		tex_panelgui[2][2] = new TextureRegion(tex_gui, 52, 4, 1, 3);
-
-		tex_textfield = new TextureRegion[3][3];
-		tex_textfield[0][0] = new TextureRegion(tex_gui, 48, 16, 1, 1);
-		tex_textfield[1][0] = new TextureRegion(tex_gui, 48, 18, 1, 1);
-		tex_textfield[2][0] = new TextureRegion(tex_gui, 48, 20, 1, 1);
-		tex_textfield[0][1] = new TextureRegion(tex_gui, 50, 16, 1, 1);
-		tex_textfield[1][1] = new TextureRegion(tex_gui, 50, 18, 1, 1);
-		tex_textfield[2][1] = new TextureRegion(tex_gui, 50, 20, 1, 1);
-		tex_textfield[0][2] = new TextureRegion(tex_gui, 52, 16, 1, 1);
-		tex_textfield[1][2] = new TextureRegion(tex_gui, 52, 18, 1, 1);
-		tex_textfield[2][2] = new TextureRegion(tex_gui, 52, 20, 1, 1);
-
-		tex_textfield_focus = new TextureRegion[3][3];
-		tex_textfield_focus[0][0] = new TextureRegion(tex_gui, 48, 22, 1, 1);
-		tex_textfield_focus[1][0] = new TextureRegion(tex_gui, 48, 24, 1, 1);
-		tex_textfield_focus[2][0] = new TextureRegion(tex_gui, 48, 26, 1, 1);
-		tex_textfield_focus[0][1] = new TextureRegion(tex_gui, 50, 22, 1, 1);
-		tex_textfield_focus[1][1] = new TextureRegion(tex_gui, 50, 24, 1, 1);
-		tex_textfield_focus[2][1] = new TextureRegion(tex_gui, 50, 26, 1, 1);
-		tex_textfield_focus[0][2] = new TextureRegion(tex_gui, 52, 22, 1, 1);
-		tex_textfield_focus[1][2] = new TextureRegion(tex_gui, 52, 24, 1, 1);
-		tex_textfield_focus[2][2] = new TextureRegion(tex_gui, 52, 26, 1, 1);
-		
-		tex_gui_checkers = new TextureRegion[4][3];
-		tex_gui_checkers[0][0] = new TextureRegion(tex_gui, 00, 32,  22, 22);
-		tex_gui_checkers[0][1] = new TextureRegion(tex_gui, 24, 32,  22, 22);
-		tex_gui_checkers[0][2] = new TextureRegion(tex_gui, 48, 32,  22, 22);
-		tex_gui_checkers[1][0] = new TextureRegion(tex_gui, 00, 55,  22, 22);
-		tex_gui_checkers[1][1] = new TextureRegion(tex_gui, 24, 55,  22, 22);
-		tex_gui_checkers[1][2] = new TextureRegion(tex_gui, 48, 55,  22, 22);
-		tex_gui_checkers[2][0] = new TextureRegion(tex_gui, 00, 78,  22, 22);
-		tex_gui_checkers[2][1] = new TextureRegion(tex_gui, 24, 78,  22, 22);
-		tex_gui_checkers[2][2] = new TextureRegion(tex_gui, 48, 78,  22, 22);
-		tex_gui_checkers[3][0] = new TextureRegion(tex_gui, 00, 101, 22, 22);
-		tex_gui_checkers[3][1] = new TextureRegion(tex_gui, 24, 101, 22, 22);
-		tex_gui_checkers[3][2] = new TextureRegion(tex_gui, 48, 101, 22, 22);
-		
-		tex_gui_progressbar = new TextureRegion[5];
-		tex_gui_progressbar[0] = new TextureRegion(tex_gui, 80, 32, 16, 30);
-		tex_gui_progressbar[1] = new TextureRegion(tex_gui, 98, 32, 16, 30);
-		tex_gui_progressbar[2] = new TextureRegion(tex_gui, 95, 64, 1, 1);
-		tex_gui_progressbar[3] = new TextureRegion(tex_gui, 98, 64, 1, 1);
-		tex_gui_progressbar[4] = new TextureRegion(tex_gui, 64, 78, 59, 30);
-
 		tex_chess_tiles = new TextureRegion[]
 		{
 			TextureHelper.loadSingleTile(texchess, 6, 0, 128, 128), 
@@ -232,19 +159,5 @@ public final class Textures {
 			TextureHelper.loadSingleTile(texchess, 7, 3, 128, 128),
 		};
 		tex_chess_figures = TextureHelper.load2DArray(texchess, 128, 256);
-	}
-
-	private static void loadSingleButtonGuiTex(int id, int ox, int oy) {
-		int scl = 1;
-		
-		tex_buttongui[id][0][0] = new TextureRegion(tex_gui, (ox + 0)*scl, (oy + 0)*scl, 4*scl, 4*scl);
-		tex_buttongui[id][0][1] = new TextureRegion(tex_gui, (ox + 5)*scl, (oy + 0)*scl, 1*scl, 4*scl);
-		tex_buttongui[id][0][2] = new TextureRegion(tex_gui, (ox + 7)*scl, (oy + 0)*scl, 4*scl, 4*scl);
-		tex_buttongui[id][1][0] = new TextureRegion(tex_gui, (ox + 0)*scl, (oy + 5)*scl, 4*scl, 1*scl);
-		tex_buttongui[id][1][1] = new TextureRegion(tex_gui, (ox + 5)*scl, (oy + 5)*scl, 1*scl, 1*scl);
-		tex_buttongui[id][1][2] = new TextureRegion(tex_gui, (ox + 7)*scl, (oy + 5)*scl, 4*scl, 1*scl);
-		tex_buttongui[id][2][0] = new TextureRegion(tex_gui, (ox + 0)*scl, (oy + 7)*scl, 4*scl, 6*scl);
-		tex_buttongui[id][2][1] = new TextureRegion(tex_gui, (ox + 5)*scl, (oy + 7)*scl, 1*scl, 6*scl);
-		tex_buttongui[id][2][2] = new TextureRegion(tex_gui, (ox + 7)*scl, (oy + 7)*scl, 4*scl, 6*scl);
 	}
 }

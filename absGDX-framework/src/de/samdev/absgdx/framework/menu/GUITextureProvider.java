@@ -85,7 +85,7 @@ public class GUITextureProvider {
 	public void set(Class<?> target, String identifier, Object appendix, TextureRegion texture) {
 		String app = (appendix == null || appendix.toString().isEmpty()) ? "" : ("#" + appendix.toString());
 		
-		map.put(target.getName() + ":" + identifier + app, texture);
+		map.put(target.getSimpleName() + ":" + identifier + app, texture);
 	}
 
 	/**
@@ -112,8 +112,8 @@ public class GUITextureProvider {
 	public TextureRegion get(Class<?> target, String identifier, Object appendix) {
 		String app = (appendix == null || appendix.toString().isEmpty()) ? "" : ("#" + appendix.toString());
 		
-		if (map.containsKey(target.getName() + ":" + identifier + app)) 
-			return map.get(target.getName() + ":" + identifier + app);
+		if (map.containsKey(target.getSimpleName() + ":" + identifier + app)) 
+			return map.get(target.getSimpleName() + ":" + identifier + app);
 		else 
 			return null;
 	}
@@ -126,7 +126,7 @@ public class GUITextureProvider {
 	 */
 	public boolean hasTextures(Class<?> target) {
 		for (String key : map.keySet()) {
-			if (key.startsWith(target.getName() + ":"))
+			if (key.startsWith(target.getSimpleName() + ":"))
 				return true;
 		}
 		

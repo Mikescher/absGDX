@@ -68,7 +68,7 @@ project(":core") {
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
-        compile name: 'absGDX-framework-1.0'
+        compile name: 'absGDX-framework-1.1'
     }
 }
 

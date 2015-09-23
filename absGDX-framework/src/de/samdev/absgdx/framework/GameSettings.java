@@ -131,7 +131,7 @@ public class GameSettings {
 	private void init() {
 		root = new RootProperty("absGDX");
 		{
-			versionNumber = new ConstantStringProperty("versionNumber", "1.0", root);
+			versionNumber = new ConstantStringProperty("versionNumber", "1.1", root);
 			
 			warnOnDeltaExplode = new BooleanProperty("warnOnDeltaExplode", true, root);
 			{

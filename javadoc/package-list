@@ -13,6 +13,7 @@ de.samdev.absgdx.framework.menu.agdxml
 de.samdev.absgdx.framework.menu.attributes
 de.samdev.absgdx.framework.menu.elements
 de.samdev.absgdx.framework.menu.events
+de.samdev.absgdx.framework.menu.texdef
 de.samdev.absgdx.framework.renderer
 de.samdev.absgdx.framework.util
 de.samdev.absgdx.framework.util.dependentProperties

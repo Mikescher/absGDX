@@ -3,6 +3,7 @@ package de.samdev.absgdx.menudesigner;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -59,7 +60,7 @@ import com.badlogic.gdx.math.GridPoint2;
 
 import de.samdev.absgdx.framework.util.AndroidResolutions;
 import de.samdev.absgdx.framework.util.exceptions.AgdxmlParsingException;
-import java.awt.Dimension;
+import de.samdev.absgdx.menudesigner.renderPreview.RenderPreviewPanel;
 
 public class DesignFrame extends JFrame {
 	private static final long serialVersionUID = 5936312660450931611L;
@@ -107,17 +108,17 @@ public class DesignFrame extends JFrame {
 	private JTabbedPane tabbedPane;
 	private JPanel panel;
 	private JPanel panel_1;
-	private JButton btnNewButton;
-	private JButton btnNewButton_1;
-	private JPanel panel_2;
+	private JButton btnRenderRefresh;
+	private JButton btnRenderDebug;
+	private RenderPreviewPanel pnlRenderGUI;
 	private JTabbedPane tabbedPane_1;
 	private JScrollPane scrollPane;
 	private RSyntaxTextArea edTextureDef;
-	private JPanel panel_3;
+	private JPanel pnlAGDTEXDEF;
 	private JTextField edTexturePath;
 	private JMenuItem mntmOpenAgdtexdef;
 	private JButton btnOpenTexDef;
-	private JPanel panel_4;
+	private JPanel pnlAGDXML;
 	private JTabbedPane tabbedPane_2;
 	
 	public DesignFrame() {
@@ -267,12 +268,12 @@ public class DesignFrame extends JFrame {
 		tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
 		pnlBottomLeft.add(tabbedPane_1, BorderLayout.CENTER);
 		
-		panel_4 = new JPanel();
-		tabbedPane_1.addTab("New tab", null, panel_4, null);
-		panel_4.setLayout(new BorderLayout(0, 0));
+		pnlAGDXML = new JPanel();
+		tabbedPane_1.addTab("AGDXML", null, pnlAGDXML, null);
+		pnlAGDXML.setLayout(new BorderLayout(0, 0));
 		
 		scrollPane_1 = new JScrollPane();
-		panel_4.add(scrollPane_1);
+		pnlAGDXML.add(scrollPane_1);
 		
 		edCode = new RSyntaxTextArea();
 		scrollPane_1.setViewportView(edCode);
@@ -325,7 +326,7 @@ public class DesignFrame extends JFrame {
 		tabbedPane_2 = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane_2.setPreferredSize(new Dimension(200, 5));
 		tabbedPane_2.setMinimumSize(new Dimension(200, 5));
-		panel_4.add(tabbedPane_2, BorderLayout.EAST);
+		pnlAGDXML.add(tabbedPane_2, BorderLayout.EAST);
 		
 		tabComponents = new JPanel();
 		tabbedPane_2.addTab("Components", null, tabComponents, null);
@@ -363,12 +364,12 @@ public class DesignFrame extends JFrame {
 		lstAttributes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		pnlProperties.add(lstAttributes);
 		
-		panel_3 = new JPanel();
-		tabbedPane_1.addTab("AGDTEXDEF", null, panel_3, null);
-		panel_3.setLayout(new BorderLayout(0, 0));
+		pnlAGDTEXDEF = new JPanel();
+		tabbedPane_1.addTab("AGDTEXDEF", null, pnlAGDTEXDEF, null);
+		pnlAGDTEXDEF.setLayout(new BorderLayout(0, 0));
 		
 		scrollPane = new JScrollPane();
-		panel_3.add(scrollPane);
+		pnlAGDTEXDEF.add(scrollPane);
 		
 		edTextureDef = new RSyntaxTextArea();
 		edTextureDef.setSyntaxEditingStyle("text/xml");
@@ -398,7 +399,7 @@ public class DesignFrame extends JFrame {
 		
 		edTexturePath = new JTextField();
 		edTexturePath.setText("path to texture");
-		panel_3.add(edTexturePath, BorderLayout.NORTH);
+		pnlAGDTEXDEF.add(edTexturePath, BorderLayout.NORTH);
 		edTexturePath.setColumns(10);
 		new FileDrop(edTexturePath, new FileDrop.Listener() {@Override public void filesDropped(File[] files) { if (files.length > 0) openFileTexture(files[0].getAbsolutePath()); }});
 		
@@ -523,16 +524,31 @@ public class DesignFrame extends JFrame {
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		panel.add(panel_1, BorderLayout.NORTH);
 		
-		btnNewButton = new JButton("Refresh");
-		panel_1.add(btnNewButton);
+		btnRenderRefresh = new JButton("Refresh");
+		btnRenderRefresh.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					pnlRenderGUI.refresh(edCode.getText(), edTextureDef.getText(), edTexturePath.getText());
+				} catch (Exception e) {
+					memoError.setText(e.toString());
+				}
+			}
+		});
+		panel_1.add(btnRenderRefresh);
 		
-		btnNewButton_1 = new JButton("Debug");
-		panel_1.add(btnNewButton_1);
+		btnRenderDebug = new JButton("Debug");
+		btnRenderDebug.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				//pnlRenderGUI.switchDebug();
+			}
+		});
+		panel_1.add(btnRenderDebug);
 		
-		panel_2 = new JPanel();
-		panel_2.setBorder(null);
-		panel_2.setBackground(Color.BLACK);
-		panel.add(panel_2, BorderLayout.CENTER);
+		pnlRenderGUI = new RenderPreviewPanel();
+		pnlRenderGUI.setBorder(null);
+		panel.add(pnlRenderGUI, BorderLayout.CENTER);
 	}
 
 	protected void saveDocument() {

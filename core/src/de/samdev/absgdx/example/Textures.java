@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import de.samdev.absgdx.framework.menu.texdef.AgdxTextureDefinitionLoader;
 import de.samdev.absgdx.framework.util.TextureHelper;
+import de.samdev.absgdx.framework.util.exceptions.AgdtexdefLoadException;
 import de.samdev.absgdx.framework.util.exceptions.AgdtexdefParsingException;
 
 public final class Textures {
@@ -21,6 +22,9 @@ public final class Textures {
 	public static Texture tex_gui;
 	
 	public static AgdxTextureDefinitionLoader texdef_gui;
+	public static AgdxTextureDefinitionLoader texdef_map;
+	public static AgdxTextureDefinitionLoader texdef_side;
+	public static AgdxTextureDefinitionLoader texdef_chesset;
 	
 	public static TextureRegion tex_dirt;
 	
@@ -71,7 +75,7 @@ public final class Textures {
 	public static TextureRegion[] tex_chess_tiles;
 	public static TextureRegion[][] tex_chess_figures;
 
-	public static void init() throws AgdtexdefParsingException {
+	public static void init() throws AgdtexdefParsingException, AgdtexdefLoadException {
 		texmap = new Texture("map.png");
 		texsidemap = new Texture("side.png");
 		texplayerset_td = new Texture("tdplayer.png");
@@ -86,40 +90,51 @@ public final class Textures {
 		
 		texdef_gui = new AgdxTextureDefinitionLoader(Gdx.files.internal("gui.agdtexdef"), Textures.tex_gui);
 		texdef_gui.parse();
+
+		texdef_map = new AgdxTextureDefinitionLoader(Gdx.files.internal("map.agdtexdef"), Textures.texmap);
+		texdef_map.parse();
+
+		texdef_side = new AgdxTextureDefinitionLoader(Gdx.files.internal("side.agdtexdef"), Textures.texsidemap);
+		texdef_side.parse();
+
+		texdef_chesset = new AgdxTextureDefinitionLoader(Gdx.files.internal("chessset.agdtexdef"), Textures.texchess);
+		texdef_chesset.parse();
 		
 		//#################################################################################################
 		
-		tex_dirt          = TextureHelper.loadSingleTile(texmap,  9,  9, 16, 16);
-		tex_GroundTile_TL = TextureHelper.loadSingleTile(texmap,  0,  6, 16, 16);
-		tex_GroundTile_TR = TextureHelper.loadSingleTile(texmap,  1,  6, 16, 16);
-		tex_GroundTile_BL = TextureHelper.loadSingleTile(texmap,  0,  7, 16, 16);
-		tex_GroundTile_BR = TextureHelper.loadSingleTile(texmap,  1,  7, 16, 16);
-		tex_AbyssTile     = TextureHelper.loadSingleTile(texmap, 10, 40, 16, 16);
+		tex_dirt              = texdef_map.getSingleTexture("tex_dirt");
+		tex_GroundTile_TL     = texdef_map.getSingleTexture("tex_GroundTile_TL");
+		tex_GroundTile_TR     = texdef_map.getSingleTexture("tex_GroundTile_TR");
+		tex_GroundTile_BL     = texdef_map.getSingleTexture("tex_GroundTile_BL");
+		tex_GroundTile_BR     = texdef_map.getSingleTexture("tex_GroundTile_BR");
+		tex_AbyssTile         = texdef_map.getSingleTexture("tex_AbyssTile");
 
-		texDoorBottomTile = TextureHelper.loadSingleTile(texsidemap,  4,  7, 70, 70);
-		texDoorTopTile    = TextureHelper.loadSingleTile(texsidemap,  3,  8, 70, 70);
-		texSlideTile      = TextureHelper.loadSingleTile(texsidemap,  2, 11, 70, 70);
-		texSpike          = TextureHelper.loadSingleTile(texsidemap,  6,  4, 70, 70);
-		texBush           = TextureHelper.loadSingleTile(texsidemap,  2,  0, 70, 70);
-		texLever          = TextureHelper.loadSingleTile(texsidemap,  6,  5, 70, 70);
-		texCactus         = TextureHelper.loadSingleTile(texsidemap,  4,  0, 70, 70);
-		texLadder         = TextureHelper.loadSingleTile(texsidemap,  7,  7, 70, 70);
-		texLadderTop      = TextureHelper.loadSingleTile(texsidemap,  2,  9, 70, 70);
-		texJumpPad        = TextureHelper.loadSingleTile(texsidemap,  5,  5, 70, 70);
-		texJumpPadEx      = TextureHelper.loadSingleTile(texsidemap,  4,  6, 70, 70);
-		texTorch1         = TextureHelper.loadSingleTile(texsidemap, 17,  3, 70, 70);
-		texTorch2         = TextureHelper.loadSingleTile(texsidemap, 20,  0, 70, 70);
-		
-		tex_Bucket_empty      = TextureHelper.loadSingleTile(texmap, 10, 24, 32, 32);
-		tex_Bucket_full       = TextureHelper.loadSingleTile(texmap, 11, 24, 32, 32);
-		tex_Bucket_hay        = TextureHelper.loadSingleTile(texmap, 12, 24, 32, 32);
-		tex_Flowers_empty     = TextureHelper.loadSingleTile(texmap,  8, 25, 32, 32);
-		tex_Bush_empty        = TextureHelper.loadSingleTile(texmap, 10, 26, 32, 32);
-		tex_Bush_full         = TextureHelper.loadSingleTile(texmap, 10, 27, 32, 32);
-		tex_Anchorpoint_empty = TextureHelper.loadSingleTile(texmap,  8, 24, 32, 32);
-		tex_Anchorpoint_full  = TextureHelper.loadSingleTile(texmap,  9, 24, 32, 32);
-		
-		tex_Angel         = TextureHelper.loadSingleTile(texmap,  8, 13, 32, 64);
+		tex_Bucket_empty      = texdef_map.getSingleTexture("tex_Bucket_empty");
+		tex_Bucket_full       = texdef_map.getSingleTexture("tex_Bucket_full");
+		tex_Bucket_hay        = texdef_map.getSingleTexture("tex_Bucket_hay");
+		tex_Flowers_empty     = texdef_map.getSingleTexture("tex_Flowers_empty");
+		tex_Bush_empty        = texdef_map.getSingleTexture("tex_Bush_empty");
+		tex_Bush_full         = texdef_map.getSingleTexture("tex_Bush_full");
+		tex_Anchorpoint_empty = texdef_map.getSingleTexture("tex_Anchorpoint_empty");
+		tex_Anchorpoint_full  = texdef_map.getSingleTexture("tex_Anchorpoint_full");
+		tex_Angel             = texdef_map.getSingleTexture("tex_Angel");
+
+		texDoorBottomTile     = texdef_side.getSingleTexture("texDoorBottomTile");
+		texDoorTopTile        = texdef_side.getSingleTexture("texDoorTopTile");
+		texSlideTile          = texdef_side.getSingleTexture("texSlideTile");
+		texSpike              = texdef_side.getSingleTexture("texSpike");
+		texBush               = texdef_side.getSingleTexture("texBush");
+		texLever              = texdef_side.getSingleTexture("texLever");
+		texCactus             = texdef_side.getSingleTexture("texCactus");
+		texLadder             = texdef_side.getSingleTexture("texLadder");
+		texLadderTop          = texdef_side.getSingleTexture("texLadderTop");
+		texJumpPad            = texdef_side.getSingleTexture("texJumpPad");
+		texJumpPadEx          = texdef_side.getSingleTexture("texJumpPadEx");
+		texTorch1             = texdef_side.getSingleTexture("texTorch1");
+		texTorch2             = texdef_side.getSingleTexture("texTorch2");
+
+		tex_chess_tiles = texdef_chesset.getTextureArray("tex_chess_tiles");
+		tex_chess_figures = texdef_chesset.getTextureArray2D("tex_chess_figures");
 		
 		tex_player     = TextureHelper.load1DArray("playerSet.png", 72, 97, 10);
 		tex_bulletbill = TextureHelper.load1DArray("bullbill.png",  27, 14);
@@ -146,18 +161,6 @@ public final class Textures {
 		for (int y = 0; y < 4; y++) {
 			tex_china_still[y] = new TextureRegion(texchinaset_td, 0*150 + 30, y*117 + 25, 75, 92);
 		}
-		
-		tex_chess_tiles = new TextureRegion[]
-		{
-			TextureHelper.loadSingleTile(texchess, 6, 0, 128, 128), 
-			TextureHelper.loadSingleTile(texchess, 7, 0, 128, 128), 
-			TextureHelper.loadSingleTile(texchess, 6, 1, 128, 128),
-			TextureHelper.loadSingleTile(texchess, 7, 1, 128, 128),
-			TextureHelper.loadSingleTile(texchess, 6, 2, 128, 128),
-			TextureHelper.loadSingleTile(texchess, 7, 2, 128, 128),
-			TextureHelper.loadSingleTile(texchess, 6, 3, 128, 128),
-			TextureHelper.loadSingleTile(texchess, 7, 3, 128, 128),
-		};
-		tex_chess_figures = TextureHelper.load2DArray(texchess, 128, 256);
+
 	}
 }

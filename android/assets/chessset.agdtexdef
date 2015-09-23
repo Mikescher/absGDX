@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<texturedefinitions>
+	<array identifier="tex_chess_tiles" >
+		<texture coordinates="6, 0   128, 128" tile_coords="true" />
+		<texture coordinates="7, 0   128, 128" tile_coords="true" />
+		<texture coordinates="6, 1   128, 128" tile_coords="true" />
+		<texture coordinates="7, 1   128, 128" tile_coords="true" />
+		<texture coordinates="6, 2   128, 128" tile_coords="true" />
+		<texture coordinates="7, 2   128, 128" tile_coords="true" />
+		<texture coordinates="6, 3   128, 128" tile_coords="true" />
+		<texture coordinates="7, 3   128, 128" tile_coords="true" />
+	</array>
+
+	<array_2d coordinates_offset="0,0" identifier="tex_chess_figures" width="128" height="256" size_x="6" size_y="2" />
+
+	<array_1d coordinates_offset="0,000" identifier="tex_chess_figures_white" width="128" height="256" size_x="6" orientation="horizontal" />
+	<array_1d coordinates_offset="0,256" identifier="tex_chess_figures_black" width="128" height="256" size_x="6" orientation="horizontal" />
+</texturedefinitions>

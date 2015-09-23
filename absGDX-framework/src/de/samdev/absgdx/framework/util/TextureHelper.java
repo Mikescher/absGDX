@@ -132,6 +132,20 @@ public class TextureHelper {
 	/**
 	 * Loads a Tileset Texture into an two-dimensional array
 	 * 
+	 * @param tex the tileset texture
+	 * @param width the width of a single tile
+	 * @param height the height of a single tile
+	 * @param offsetX the X-offset of all tiles
+	 * @param offsetY the Y-offset of all tiles
+	 * @return an array with the distinct tiles
+	 */
+	public static TextureRegion[][] load2DArray(Texture tex, int offsetX, int offsetY, int width, int height) {
+		return load2DArray(tex, width, height, offsetX, offsetY, ((tex.getWidth() - offsetX)/width), ((tex.getHeight() - offsetY)/height));
+	}
+
+	/**
+	 * Loads a Tileset Texture into an two-dimensional array
+	 * 
 	 * @param tex the tileset texture (as an resource name)
 	 * @param width the width of a single tile
 	 * @param height the height of a single tile
@@ -167,6 +181,82 @@ public class TextureHelper {
 			for (int x = 0; x < xc; x++) {
 				result[y][x] = new TextureRegion(tex, offsetX + x*width, offsetY + y*height, width, height);
 			}
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * Loads a Tileset Texture into an one-dimensional array (no flattening)
+	 * The textures are side-by-side in the texture-file
+	 * 
+	 * @param tex the tileset texture
+	 * @param width the width of a single tile
+	 * @param height the height of a single tile
+	 * @param offsetX the X-offset of all tiles
+	 * @param offsetY the Y-offset of all tiles
+	 * @return an array with the distinct tiles
+	 */
+	public static TextureRegion[] load1DArray_horz(Texture tex, int width, int height, int offsetX, int offsetY) {
+		return load1DArray_horz(tex, width, height, offsetX, offsetY, (tex.getWidth() - offsetX)  / width);
+	}
+	
+	/**
+	 * Loads a Tileset Texture into an one-dimensional array (no flattening)
+	 * The textures are side-by-side in the texture-file
+	 * 
+	 * @param tex the tileset texture
+	 * @param width the width of a single tile
+	 * @param height the height of a single tile
+	 * @param offsetX the X-offset of all tiles
+	 * @param offsetY the Y-offset of all tiles
+	 * @param countX the amount of tiles horizontally
+	 * @return an array with the distinct tiles
+	 */
+	public static TextureRegion[] load1DArray_horz(Texture tex, int width, int height, int offsetX, int offsetY, int countX) {
+		int xc = Math.min((tex.getWidth() - offsetX)  / width,  countX);
+		
+		TextureRegion[] result = new TextureRegion[countX];
+		for (int x = 0; x < xc; x++) {
+			result[x] = new TextureRegion(tex, offsetX + x*width, offsetY, width, height);
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * Loads a Tileset Texture into an one-dimensional array (no flattening)
+	 * The textures are on-top-of-each-other in the texture-file
+	 * 
+	 * @param tex the tileset texture
+	 * @param width the width of a single tile
+	 * @param height the height of a single tile
+	 * @param offsetX the X-offset of all tiles
+	 * @param offsetY the Y-offset of all tiles
+	 * @return an array with the distinct tiles
+	 */
+	public static TextureRegion[] load1DArray_vert(Texture tex, int width, int height, int offsetX, int offsetY) {
+		return load1DArray_horz(tex, width, height, offsetX, offsetY, (tex.getHeight() - offsetY) / height);
+	}
+	
+	/**
+	 * Loads a Tileset Texture into an one-dimensional array (no flattening)
+	 * The textures are on-top-of-each-other in the texture-file
+	 * 
+	 * @param tex the tileset texture
+	 * @param width the width of a single tile
+	 * @param height the height of a single tile
+	 * @param offsetX the X-offset of all tiles
+	 * @param offsetY the Y-offset of all tiles
+	 * @param countY the amount of tiles vertically
+	 * @return an array with the distinct tiles
+	 */
+	public static TextureRegion[] load1DArray_vert(Texture tex, int width, int height, int offsetX, int offsetY, int countY) {
+		int yc = Math.min((tex.getHeight() - offsetY) / height, countY);
+		
+		TextureRegion[] result = new TextureRegion[countY];
+		for (int y = 0; y < yc; y++) {
+			result[y] = new TextureRegion(tex, offsetX, offsetY + y*height, width, height);
 		}
 		
 		return result;

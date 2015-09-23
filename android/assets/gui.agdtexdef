@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <texturedefinitions>
 	<gui>
-		<textureprovider id="defaultprov_01">
+		<textureprovider identifier="defaultprov_01">
 			<MenuButton coordinates_offset="0,0">
 				<state appendix="NORMAL" coordinates_offset="0,0">
 					<texture identifier="topleft"     coordinates="0,0     4,4" />
@@ -120,7 +120,7 @@
 			</MenuProgressbar>
 		</textureprovider>
 
-		<textureprovider id="altprov">
+		<textureprovider identifier="altprov">
 			<MenuButton coordinates_offset="0,16">
 				<state appendix="NORMAL" coordinates_offset="0,0">
 					<texture identifier="topleft"     coordinates="0,0     4,4" />

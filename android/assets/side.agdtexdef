@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<texturedefinitions>
+	<texture identifier="texDoorBottomTile"  coordinates=" 4,  7     70, 70" tile_coords="true" />
+	<texture identifier="texDoorTopTile"     coordinates=" 3,  8     70, 70" tile_coords="true" />
+	<texture identifier="texSlideTile"       coordinates=" 2, 11     70, 70" tile_coords="true" />
+	<texture identifier="texSpike"           coordinates=" 6,  4     70, 70" tile_coords="true" />
+	<texture identifier="texBush"            coordinates=" 2,  0     70, 70" tile_coords="true" />
+	<texture identifier="texLever"           coordinates=" 6,  5     70, 70" tile_coords="true" />
+	<texture identifier="texCactus"          coordinates=" 4,  0     70, 70" tile_coords="true" />
+	<texture identifier="texLadder"          coordinates=" 7,  7     70, 70" tile_coords="true" />
+	<texture identifier="texLadderTop"       coordinates=" 2,  9     70, 70" tile_coords="true" />
+	<texture identifier="texJumpPad"         coordinates=" 5,  5     70, 70" tile_coords="true" />
+	<texture identifier="texJumpPadEx"       coordinates=" 4,  6     70, 70" tile_coords="true" />
+	<texture identifier="texTorch1"          coordinates="17,  3     70, 70" tile_coords="true" />
+	<texture identifier="texTorch2"          coordinates="20,  0     70, 70" tile_coords="true" />
+</texturedefinitions>

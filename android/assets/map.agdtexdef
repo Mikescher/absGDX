@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<texturedefinitions>
+	<texture identifier="tex_dirt"               coordinates=" 9,  9   16, 16" tile_coords="true" />
+	<texture identifier="tex_GroundTile_TL"      coordinates=" 0,  6   16, 16" tile_coords="true" />
+	<texture identifier="tex_GroundTile_TR"      coordinates=" 1,  6   16, 16" tile_coords="true" />
+	<texture identifier="tex_GroundTile_BL"      coordinates=" 0,  7   16, 16" tile_coords="true" />
+	<texture identifier="tex_GroundTile_BR"      coordinates=" 1,  7   16, 16" tile_coords="true" />
+	<texture identifier="tex_AbyssTile"          coordinates="10, 40   16, 16" tile_coords="true" />
+
+	<texture identifier="tex_Bucket_empty"       coordinates="10, 24   32, 32" tile_coords="true" />
+	<texture identifier="tex_Bucket_full"        coordinates="11, 24   32, 32" tile_coords="true" />
+	<texture identifier="tex_Bucket_hay"         coordinates="12, 24   32, 32" tile_coords="true" />
+	<texture identifier="tex_Flowers_empty"      coordinates=" 8, 25   32, 32" tile_coords="true" />
+	<texture identifier="tex_Bush_empty"         coordinates="10, 26   32, 32" tile_coords="true" />
+	<texture identifier="tex_Bush_full"          coordinates="10, 27   32, 32" tile_coords="true" />
+	<texture identifier="tex_Anchorpoint_empty"  coordinates=" 8, 24   32, 32" tile_coords="true" />
+	<texture identifier="tex_Anchorpoint_full"   coordinates=" 9, 24   32, 32" tile_coords="true" />
+
+	<texture identifier="tex_Angel"              coordinates=" 8, 13   32, 64" tile_coords="true" />
+</texturedefinitions>

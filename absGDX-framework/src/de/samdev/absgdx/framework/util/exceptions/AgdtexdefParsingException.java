@@ -1,9 +1,9 @@
 package de.samdev.absgdx.framework.util.exceptions;
 
 /**
- * Gets thrown when an Error while parsing a AGDTEXDEF file occurs
+ * Gets thrown when an error while parsing a AGDTEXDEF file occurs
  */
-public class AgdtexdefParsingException extends Exception {
+public class AgdtexdefParsingException extends AgdxTexDefException {
 	private static final long serialVersionUID = -4927888687576415436L;
 
 	/**

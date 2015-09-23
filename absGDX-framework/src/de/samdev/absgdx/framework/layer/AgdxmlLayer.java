@@ -1,6 +1,9 @@
 package de.samdev.absgdx.framework.layer;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
@@ -9,6 +12,8 @@ import de.samdev.absgdx.framework.menu.GUITextureProvider;
 import de.samdev.absgdx.framework.menu.agdxml.AgdxmlLayerBoundaryElement;
 import de.samdev.absgdx.framework.menu.agdxml.AgdxmlParser;
 import de.samdev.absgdx.framework.menu.agdxml.AgdxmlTextureProviderIDMap;
+import de.samdev.absgdx.framework.menu.texdef.AgdxTextureDefinitionLoader;
+import de.samdev.absgdx.framework.util.exceptions.AgdtexdefParsingException;
 import de.samdev.absgdx.framework.util.exceptions.AgdxmlParsingException;
 
 /**
@@ -94,6 +99,34 @@ public abstract class AgdxmlLayer extends MenuLayer {
 	 */
 	public void addAgdxmlGuiTextureProvider(String key, GUITextureProvider value) {
 		mapAgdxmlIDs.putGUITextureProvider(key, value);
+	}
+	
+	/**
+	 * Load the AgdxmlGuiTextureprovider via a TextureDefinition file (and the AgdxTextureDefinitionLoader class)
+	 * 
+	 * @param definitionsFile the texdef file
+	 * @param texture the texture
+	 * @throws AgdtexdefParsingException if the texdef file cannot be parsed
+	 */
+	public void loadGuiTextureProviderFromTextureDefinition(FileHandle definitionsFile, Texture texture) throws AgdtexdefParsingException {
+		AgdxTextureDefinitionLoader loader = new AgdxTextureDefinitionLoader(definitionsFile, texture);
+		
+		loader.parse();
+		
+		for (Pair<String, GUITextureProvider> providerPair : loader.gui_provider) {
+			addAgdxmlGuiTextureProvider(providerPair.getKey(), providerPair.getValue());
+		}
+	}
+	
+	/**
+	 * Load the AgdxmlGuiTextureprovider via a TextureDefinition file (and the AgdxTextureDefinitionLoader class)
+	 * 
+	 * @param loader the loader of the texdef file (must be already parsed)
+	 */
+	public void loadGuiTextureProviderFromTextureDefinition(AgdxTextureDefinitionLoader loader) {
+		for (Pair<String, GUITextureProvider> providerPair : loader.gui_provider) {
+			addAgdxmlGuiTextureProvider(providerPair.getKey(), providerPair.getValue());
+		}
 	}
 
 	/**

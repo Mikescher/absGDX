@@ -83,9 +83,23 @@ public class GUITextureProvider {
 	 * @param texture the texture to use
 	 */
 	public void set(Class<?> target, String identifier, Object appendix, TextureRegion texture) {
+		set(target.getSimpleName(), identifier, appendix, texture);
+	}
+	
+	/**
+	 * Add a Texture to the provider, textures are identified by a class and an identifier
+	 * 
+	 * @param target the identifier classname
+	 * @param identifier the identifier string
+	 * @param appendix an optional appendix to the identifier
+	 * @param texture the texture to use
+	 */
+	public void set(String target, String identifier, Object appendix, TextureRegion texture) {
 		String app = (appendix == null || appendix.toString().isEmpty()) ? "" : ("#" + appendix.toString());
+
+		String key = (target + ":" + identifier + app).toLowerCase();
 		
-		map.put(target.getSimpleName() + ":" + identifier + app, texture);
+		map.put(key, texture);
 	}
 
 	/**
@@ -112,8 +126,10 @@ public class GUITextureProvider {
 	public TextureRegion get(Class<?> target, String identifier, Object appendix) {
 		String app = (appendix == null || appendix.toString().isEmpty()) ? "" : ("#" + appendix.toString());
 		
-		if (map.containsKey(target.getSimpleName() + ":" + identifier + app)) 
-			return map.get(target.getSimpleName() + ":" + identifier + app);
+		String key = (target.getSimpleName() + ":" + identifier + app).toLowerCase();
+		
+		if (map.containsKey(key)) 
+			return map.get(key);
 		else 
 			return null;
 	}
@@ -125,8 +141,10 @@ public class GUITextureProvider {
 	 * @return true if textures are found
 	 */
 	public boolean hasTextures(Class<?> target) {
+		String key_start = (target.getSimpleName() + ":").toLowerCase();
+		
 		for (String key : map.keySet()) {
-			if (key.startsWith(target.getSimpleName() + ":"))
+			if (key.startsWith(key_start))
 				return true;
 		}
 		
@@ -151,10 +169,8 @@ public class GUITextureProvider {
 	 * @return if all 9 Textures for the class has been set
 	 */
 	public boolean hasGeneric9SideTextures(Class<?> tclass, Object appendix) {
-		String app = (appendix == null || appendix.toString().isEmpty()) ? "" : ("#" + appendix.toString());
-		
 		for (String ident : IDENT_TEX_GENERIC) {
-			if (get(tclass, ident + app) == null) return false;
+			if (get(tclass, ident, appendix) == null) return false;
 		}
 		
 		return true;

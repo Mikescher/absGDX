@@ -42,6 +42,8 @@ public class ManualMenu extends MenuLayer {
 		root.setWidth(1280);
 		root.setHeight(720);
 		
+		// Don't make manual menus like this - it's heavily deprecated
+		
 		GUITextureProvider prov = new GUITextureProvider();
 		{
 			prov.setMenuButtonTexture(Textures.tex_buttongui[0], VisualButtonState.NORMAL);

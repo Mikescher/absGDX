@@ -1,9 +1,12 @@
 package de.samdev.absgdx.example;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import de.samdev.absgdx.framework.menu.texdef.AgdxTextureDefinitionLoader;
 import de.samdev.absgdx.framework.util.TextureHelper;
+import de.samdev.absgdx.framework.util.exceptions.AgdtexdefParsingException;
 
 public final class Textures {
 	public static Texture texmap;
@@ -16,6 +19,8 @@ public final class Textures {
 	public static Texture texParallax_1;
 	public static Texture texParallax_2;
 	public static Texture tex_gui;
+	
+	public static AgdxTextureDefinitionLoader texdef_gui;
 	
 	public static TextureRegion tex_dirt;
 	
@@ -74,7 +79,7 @@ public final class Textures {
 	public static TextureRegion[] tex_chess_tiles;
 	public static TextureRegion[][] tex_chess_figures;
 
-	public static void init() {
+	public static void init() throws AgdtexdefParsingException {
 		texmap = new Texture("map.png");
 		texsidemap = new Texture("side.png");
 		texplayerset_td = new Texture("tdplayer.png");
@@ -84,6 +89,13 @@ public final class Textures {
 		texParallax_1 = new Texture("parallax_1.png");
 		texParallax_2 = new Texture("parallax_2.png");
 		tex_gui = new Texture("gui.png");
+
+		//#################################################################################################
+		
+		texdef_gui = new AgdxTextureDefinitionLoader(Gdx.files.internal("gui.agdtexdef"), Textures.tex_gui);
+		texdef_gui.parse();
+		
+		//#################################################################################################
 		
 		tex_dirt          = TextureHelper.loadSingleTile(texmap,  9,  9, 16, 16);
 		tex_GroundTile_TL = TextureHelper.loadSingleTile(texmap,  0,  6, 16, 16);

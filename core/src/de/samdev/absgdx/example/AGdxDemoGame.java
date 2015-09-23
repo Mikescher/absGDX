@@ -6,11 +6,16 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
 import de.samdev.absgdx.example.mainmenu.ManualMenu;
 import de.samdev.absgdx.framework.AgdxGame;
+import de.samdev.absgdx.framework.util.exceptions.AgdtexdefParsingException;
 
 public class AGdxDemoGame extends AgdxGame {	
 	@Override
 	public void onCreate() {
-		Textures.init();
+		try {
+			Textures.init();
+		} catch (AgdtexdefParsingException e) {
+			throw new RuntimeException(e);
+		}
 		
 		pushLayer(new ManualMenu(this));
 		

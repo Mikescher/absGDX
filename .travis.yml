@@ -3,6 +3,8 @@ env:
   global:
    - secure: "NR2E/YM3AydGg/HrcdJ8qXbQbxpSgvYOg0QQN0x/R0HnQaOt80YnBx4ZMu7Ok986vJfX8Qn6po0xiZpRIEV87y40nMkHy8oPXAFiBLNRjmcG30sDChwXiylMeXlwbtlrNRiBav2b5Klm1Z4EhLKWHya0rK5maOKcRcB9m21SqVg="
 
+sudo: false
+
 before_install:
  - chmod +x gradlew
  - chmod +x .utility/push-javadoc-to-gh-pages.sh

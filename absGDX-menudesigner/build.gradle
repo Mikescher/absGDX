@@ -16,6 +16,7 @@ eclipse.project {
 
 dependencies {
     compile project(":absGDX-framework")
+    compile project(":desktop")
 
     compile 'com.fifesoft:rsyntaxtextarea:2.5.6'
 }

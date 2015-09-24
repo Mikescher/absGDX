@@ -1,5 +1,7 @@
 package de.samdev.absgdx.framework.layer;
 
+import java.util.Map.Entry;
+
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.badlogic.gdx.files.FileHandle;
@@ -113,9 +115,7 @@ public abstract class AgdxmlLayer extends MenuLayer {
 		
 		loader.parse();
 		
-		for (Pair<String, GUITextureProvider> providerPair : loader.gui_provider) {
-			addAgdxmlGuiTextureProvider(providerPair.getKey(), providerPair.getValue());
-		}
+		loadGuiTextureProviderFromTextureDefinition(loader);
 	}
 	
 	/**
@@ -126,6 +126,14 @@ public abstract class AgdxmlLayer extends MenuLayer {
 	public void loadGuiTextureProviderFromTextureDefinition(AgdxTextureDefinitionLoader loader) {
 		for (Pair<String, GUITextureProvider> providerPair : loader.gui_provider) {
 			addAgdxmlGuiTextureProvider(providerPair.getKey(), providerPair.getValue());
+		}
+		
+		for (Entry<String, Object> texturePair : loader.texture_objects.entrySet()) {
+			if (texturePair.getValue() instanceof TextureRegion) {
+				addAgdxmlImageTexture(texturePair.getKey(), (TextureRegion)texturePair.getValue());
+			} else if (texturePair.getValue() instanceof TextureRegion[]) {
+				addAgdxmlImageTexture(texturePair.getKey(), (TextureRegion[])texturePair.getValue());
+			}
 		}
 	}
 

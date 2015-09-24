@@ -114,7 +114,7 @@ public class AgdxmlParser {
 			if (xmlRootElement.getAttribute("visible", null) != null) root.setVisible(xmlRootElement.getAttribute("visible").toLowerCase().equals("true"));
 			if (xmlRootElement.getAttribute("renderTexture", null) != null) root.setRenderTexture(xmlRootElement.getAttribute("renderTexture").toLowerCase().equals("true"));
 			
-			GUITextureProvider rootProvider = getTextureProviderFromMap(xmlRootElement, new GUITextureProvider());
+			GUITextureProvider rootProvider = getTextureProviderFromMap(xmlRootElement.getAttribute("textures", null), new GUITextureProvider());
 			
 			for (int i = 0; i < xmlRootElement.getChildCount(); i++) {
 				Element child = xmlRootElement.getChild(i);
@@ -139,24 +139,23 @@ public class AgdxmlParser {
 		boundaryRootElement.updateRoot(layer.getAgdxGame().getScreenWidth(), layer.getAgdxGame().getScreenHeight());
 	}
 	
-	private TextureRegion getSingleImageTextureFromMap(Element xmlElement) {
-		TextureRegion[] result = mapAgdxmlIDs.getImageTexture(xmlElement.getAttribute("texture", null));
+	private TextureRegion getSingleImageTextureFromMap(String ident) {
+		TextureRegion[] result = mapAgdxmlIDs.getImageTexture(ident);
 		if (result == null) return new TextureRegion();
 		if (result.length < 1) return new TextureRegion();
 		return result[0];
 	}
 	
-	private TextureRegion[] getMultiImageTextureFromMap(Element xmlElement) {
-		TextureRegion[] result = mapAgdxmlIDs.getImageTexture(xmlElement.getAttribute("texture", null));
+	private TextureRegion[] getMultiImageTextureFromMap(String ident) {
+		TextureRegion[] result = mapAgdxmlIDs.getImageTexture(ident);
 		if (result == null) result = new TextureRegion[]{ new TextureRegion() };
 		return result;
 	}
 	
-	private GUITextureProvider getTextureProviderFromMap(Element xmlElement, GUITextureProvider defaultProvider) {
-		String attr = xmlElement.getAttribute("textures", null);
-		if (attr == null) return defaultProvider;
+	private GUITextureProvider getTextureProviderFromMap(String ident, GUITextureProvider defaultProvider) {
+		if (ident == null) return defaultProvider;
 		
-		GUITextureProvider result = mapAgdxmlIDs.getGUITextureProvider(attr);
+		GUITextureProvider result = mapAgdxmlIDs.getGUITextureProvider(ident);
 		if (result == null) return new GUITextureProvider();
 		
 		return result;
@@ -185,7 +184,7 @@ public class AgdxmlParser {
 
 	private MenuBaseElement calculateSettingsTree(Rectangle boundaries, Element xmlElement, AgdxmlLayerBoundaryElement parent, GUITextureProvider rootProvider) throws AgdxmlParsingException, ReflectionException {
 		String id = xmlElement.getAttribute("id", "{" + java.util.UUID.randomUUID().toString() + "}");
-		GUITextureProvider tprox = getTextureProviderFromMap(xmlElement, rootProvider);
+		GUITextureProvider tprox = getTextureProviderFromMap(xmlElement.getAttribute("textures", null), rootProvider);
 		
 		MenuSettingsTree elem = new MenuSettingsTree(id, tprox, layer.getAgdxGame().settings.root);
 		AgdxmlLayerBoundaryElement boundelem = new AgdxmlLayerBoundaryElement(elem, xmlElement);
@@ -252,7 +251,7 @@ public class AgdxmlParser {
 
 	private MenuBaseElement calculateLabel(Rectangle boundaries, Element xmlElement, AgdxmlLayerBoundaryElement parent, GUITextureProvider rootProvider) throws AgdxmlParsingException, ReflectionException {
 		String id = xmlElement.getAttribute("id", "{" + java.util.UUID.randomUUID().toString() + "}");
-		GUITextureProvider tprox = getTextureProviderFromMap(xmlElement, rootProvider);
+		GUITextureProvider tprox = getTextureProviderFromMap(xmlElement.getAttribute("textures", null), rootProvider);
 		
 		MenuLabel elem = new MenuLabel(id, tprox);
 		AgdxmlLayerBoundaryElement boundelem = new AgdxmlLayerBoundaryElement(elem, xmlElement);
@@ -320,7 +319,7 @@ public class AgdxmlParser {
 
 	private MenuBaseElement calculateRadioButton(Rectangle boundaries, Element xmlElement, AgdxmlLayerBoundaryElement parent, GUITextureProvider rootProvider) throws AgdxmlParsingException, ReflectionException {
 		String id = xmlElement.getAttribute("id", "{" + java.util.UUID.randomUUID().toString() + "}");
-		GUITextureProvider tprox = getTextureProviderFromMap(xmlElement, rootProvider);
+		GUITextureProvider tprox = getTextureProviderFromMap(xmlElement.getAttribute("textures", null), rootProvider);
 		
 		MenuRadioButton elem = new MenuRadioButton(id, tprox);
 		AgdxmlLayerBoundaryElement boundelem = new AgdxmlLayerBoundaryElement(elem, xmlElement);
@@ -393,7 +392,7 @@ public class AgdxmlParser {
 
 	private MenuBaseElement calculateCheckBox(Rectangle boundaries, Element xmlElement, AgdxmlLayerBoundaryElement parent, GUITextureProvider rootProvider) throws AgdxmlParsingException, ReflectionException {
 		String id = xmlElement.getAttribute("id", "{" + java.util.UUID.randomUUID().toString() + "}");
-		GUITextureProvider tprox = getTextureProviderFromMap(xmlElement, rootProvider);
+		GUITextureProvider tprox = getTextureProviderFromMap(xmlElement.getAttribute("textures", null), rootProvider);
 		
 		MenuCheckBox elem = new MenuCheckBox(id, tprox);
 		AgdxmlLayerBoundaryElement boundelem = new AgdxmlLayerBoundaryElement(elem, xmlElement);
@@ -466,7 +465,7 @@ public class AgdxmlParser {
 
 	private MenuBaseElement calculateButton(Rectangle boundaries, Element xmlElement, AgdxmlLayerBoundaryElement parent, GUITextureProvider rootProvider) throws AgdxmlParsingException, ReflectionException {
 		String id = xmlElement.getAttribute("id", "{" + java.util.UUID.randomUUID().toString() + "}");
-		GUITextureProvider tprox = getTextureProviderFromMap(xmlElement, rootProvider);
+		GUITextureProvider tprox = getTextureProviderFromMap(xmlElement.getAttribute("textures", null), rootProvider);
 		
 		MenuButton elem = new MenuButton(id, tprox);
 		AgdxmlLayerBoundaryElement boundelem = new AgdxmlLayerBoundaryElement(elem, xmlElement);
@@ -480,6 +479,10 @@ public class AgdxmlParser {
 		if (xmlElement.getAttribute("fontScale", null) != null)    elem.setFontScale(xmlElement.getFloat("fontScale"));
 		if (xmlElement.getAttribute("fontColor", null) != null)    elem.setColor(AgdxmlParserHelper.parseColor(xmlElement.getAttribute("fontColor")));
 		if (xmlElement.getAttribute("autoScale", null) != null)    elem.setAutoScale(AgdxmlParserHelper.parseTextAutoScaleMode(xmlElement.getAttribute("autoScale")));
+		if (xmlElement.getAttribute("imagePadding", null) != null)    elem.setImagePadding(xmlElement.getInt("imagePadding"));
+		if (xmlElement.getAttribute("image", null) != null) {
+			elem.setImage(getSingleImageTextureFromMap(xmlElement.getAttribute("image", null)));
+		}
 		
 		final HashMap<String, Method> events = new HashMap<String, Method>();
 		
@@ -529,7 +532,7 @@ public class AgdxmlParser {
 
 	private MenuBaseElement calculateImage(Rectangle boundaries, Element xmlElement, AgdxmlLayerBoundaryElement parent, GUITextureProvider rootProvider) throws AgdxmlParsingException, ReflectionException {
 		String id = xmlElement.getAttribute("id", "{" + java.util.UUID.randomUUID().toString() + "}");
-		GUITextureProvider tprox = getTextureProviderFromMap(xmlElement, rootProvider);
+		GUITextureProvider tprox = getTextureProviderFromMap(xmlElement.getAttribute("textures", null), rootProvider);
 		
 		MenuImage elem = new MenuImage(id, tprox);
 		AgdxmlLayerBoundaryElement boundelem = new AgdxmlLayerBoundaryElement(elem, xmlElement);
@@ -538,9 +541,9 @@ public class AgdxmlParser {
 		if (xmlElement.getAttribute("visible", null) != null) elem.setVisible(xmlElement.getAttribute("visible").toLowerCase().equals("true"));
 		if (xmlElement.getAttribute("texture", null) != null) {
 			if (xmlElement.getIntAttribute("animation", 0) > 0) {
-				elem.setImage(getMultiImageTextureFromMap(xmlElement), xmlElement.getIntAttribute("animation", 0));
+				elem.setImage(getMultiImageTextureFromMap(xmlElement.getAttribute("texture", null)), xmlElement.getIntAttribute("animation", 0));
 			} else {
-				elem.setImage(getSingleImageTextureFromMap(xmlElement));
+				elem.setImage(getSingleImageTextureFromMap(xmlElement.getAttribute("texture", null)));
 			}
 		}
 		if (xmlElement.getAttribute("behavior", null) != null)  elem.setBehavior(AgdxmlParserHelper.parseImageBehavior(xmlElement.getAttribute("behavior")));
@@ -593,7 +596,7 @@ public class AgdxmlParser {
 
 	private MenuBaseElement calculatePanel(Rectangle boundaries, Element xmlElement, AgdxmlLayerBoundaryElement parent, GUITextureProvider rootProvider) throws AgdxmlParsingException, ReflectionException {
 		String id = xmlElement.getAttribute("id", "{" + java.util.UUID.randomUUID().toString() + "}");
-		GUITextureProvider tprox = getTextureProviderFromMap(xmlElement, rootProvider);
+		GUITextureProvider tprox = getTextureProviderFromMap(xmlElement.getAttribute("textures", null), rootProvider);
 
 		boolean iscontainer = xmlElement.getAttribute("iscontainer", "false").toLowerCase().equals("true");
 		MenuContainer elem;
@@ -663,7 +666,7 @@ public class AgdxmlParser {
 
 	private MenuBaseElement calculateGrid(Rectangle boundaries, Element xmlElement, AgdxmlLayerBoundaryElement parent, GUITextureProvider rootProvider) throws AgdxmlParsingException, ReflectionException {
 		String id = xmlElement.getAttribute("id", "{" + java.util.UUID.randomUUID().toString() + "}");
-		GUITextureProvider tprox = getTextureProviderFromMap(xmlElement, rootProvider);
+		GUITextureProvider tprox = getTextureProviderFromMap(xmlElement.getAttribute("textures", null), rootProvider);
 
 		boolean iscontainer = xmlElement.getAttribute("iscontainer", "false").toLowerCase().equals("true");
 		MenuContainer elem;
@@ -735,7 +738,7 @@ public class AgdxmlParser {
 	
 	private MenuBaseElement calculateEdit(Rectangle boundaries, Element xmlElement, AgdxmlLayerBoundaryElement parent, GUITextureProvider rootProvider) throws AgdxmlParsingException, ReflectionException {
 		String id = xmlElement.getAttribute("id", "{" + java.util.UUID.randomUUID().toString() + "}");
-		GUITextureProvider tprox = getTextureProviderFromMap(xmlElement, rootProvider);
+		GUITextureProvider tprox = getTextureProviderFromMap(xmlElement.getAttribute("textures", null), rootProvider);
 		
 		MenuEdit elem = new MenuEdit(id, tprox);
 		AgdxmlLayerBoundaryElement boundelem = new AgdxmlLayerBoundaryElement(elem, xmlElement);

@@ -6,6 +6,7 @@ import java.util.List;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
@@ -17,16 +18,30 @@ import de.samdev.absgdx.framework.menu.attributes.TextAutoScaleMode;
 import de.samdev.absgdx.framework.menu.attributes.VertAlign;
 import de.samdev.absgdx.framework.menu.attributes.VisualButtonState;
 import de.samdev.absgdx.framework.menu.events.MenuButtonListener;
+import de.samdev.absgdx.framework.util.MenuRenderHelper;
 
 /**
  * A click-able Button
  */
 public class MenuButton extends MenuBaseElement {
+	
+	//######## STATE ########
+	
 	private final MenuLabel innerLabel;
+	
+	private TextureRegion image = null;
+	private int imagePadding = 0;
 	
 	private RectangleRadius padding = new RectangleRadius(5, 5, 5, 5);
 	
 	private VisualButtonState visualState = VisualButtonState.NORMAL;
+
+	//######## CACHE ########
+	
+	private int imageWidth = 0;
+	private int imageHeight = 0;
+	private int imageX = 0;
+	private int imageY = 0;
 	
 	/**
 	 * Creates a new MenuButton
@@ -72,22 +87,44 @@ public class MenuButton extends MenuBaseElement {
 			setPadding(get9SidePadding(VisualButtonState.NORMAL));
 	}
 
+	private void updateLayout() {
+		if (hasImage())	{
+			imageHeight = getHeight() - padding.getVerticalSum();
+			imageWidth = (int)((image.getRegionWidth()*imageHeight) / (image.getRegionHeight() * 1f));
+			
+			imageX = getPositionX() + padding.left;
+			imageY = getPositionY() + padding.top;
+			
+			innerLabel.setPosition(getPositionX() + padding.left + imageWidth + imagePadding, getPositionY() + padding.top);
+			innerLabel.setSize(getWidth() - (padding.getHorizontalSum() + imageWidth + imagePadding), getHeight() - padding.getVerticalSum());
+		} else {
+			innerLabel.setPosition(getPositionX() + padding.left, getPositionY() + padding.top);
+			innerLabel.setSize(getWidth() - padding.getHorizontalSum(), getHeight() - padding.getVerticalSum());
+			
+			imageWidth = 0;
+		}
+	}
+	
 	@Override
 	public void renderDebugGridLines(ShapeRenderer srenderer, GameSettings settings) {
 		super.renderDebugGridLines(srenderer, settings);
 		
+		updateLayout();
+
 		srenderer.begin(ShapeType.Line);
 		{
 			srenderer.setColor(settings.debugMenuBordersColorL2.get());
 			srenderer.rect(innerLabel.getPositionX(), innerLabel.getPositionY(), innerLabel.getWidth(), innerLabel.getHeight());
+			
+			if (hasImage())
+				srenderer.rect(imageX, imageY, imageWidth, imageHeight);
 		}
 		srenderer.end();
 	}
 
 	@Override
 	public void render(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
-		innerLabel.setPosition(getPositionX() + padding.left, getPositionY() + padding.top);
-		innerLabel.setSize(getWidth() - padding.getHorizontalSum(), getHeight() - padding.getVerticalSum());
+		updateLayout();
 		
 		if (getTextureProvider().hasGeneric9SideTextures(getClass(), visualState)) {
 			render9SideTexture(sbatch, visualState);
@@ -99,7 +136,13 @@ public class MenuButton extends MenuBaseElement {
 			renderPaddingTexture(sbatch, visualState);
 		} else if (getTextureProvider().hasPaddingTextures(getClass())) {
 			renderPaddingTexture(sbatch);
-		} 
+		}
+		
+		if (hasImage()) {
+			sbatch.begin();
+			MenuRenderHelper.drawTextureStretched(sbatch, image, imageX, imageY, imageWidth, imageHeight);
+			sbatch.end();
+		}
 	
 		innerLabel.render(sbatch, srenderer, font);
 	}
@@ -324,5 +367,39 @@ public class MenuButton extends MenuBaseElement {
 	@Override
 	public MenuBaseElement getElementByID(String id) {
 		return identifier.equals(id) ? this : null;
+	}
+
+	/**
+	 * Set the image padding (distance between image and text)
+	 * 
+	 * @param pad the padding
+	 */
+	public void setImagePadding(int pad) {
+		imagePadding = pad;
+	}
+
+	/**
+	 * Set an image to display in the button
+	 * 
+	 * @param texture the image
+	 */
+	public void setImage(TextureRegion texture) {
+		image = texture;
+	}
+
+	/**
+	 * Clear the displayed image (only show text)
+	 */
+	public void clearImage() {
+		setImage(null);
+	}
+	
+	/**
+	 * If this button has an image set
+	 * 
+	 * @return true if image is set
+	 */
+	public boolean hasImage() {
+		return image != null;
 	}
 }

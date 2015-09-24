@@ -213,4 +213,6 @@
 			</MenuSettingsTree>
 		</textureprovider>
 	</gui>
+
+	<texture identifier="img_play" coordinates="48,55  22,22" />
 </texturedefinitions>

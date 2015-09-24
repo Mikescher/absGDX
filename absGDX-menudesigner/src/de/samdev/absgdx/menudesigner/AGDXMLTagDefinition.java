@@ -177,6 +177,8 @@ public class AGDXMLTagDefinition {
 			new TagAttribute("fontScale", "float"),
 			new TagAttribute("fontColor", "color"),
 			new TagAttribute("autoScale", "enum"),
+			new TagAttribute("image", "id"),
+			new TagAttribute("imagePadding", "int"),
 	
 			new TagAttribute("onClicked", "event"),
 			new TagAttribute("onPointerDown", "event"),

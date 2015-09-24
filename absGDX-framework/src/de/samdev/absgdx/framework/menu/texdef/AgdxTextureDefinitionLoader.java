@@ -203,7 +203,7 @@ public class AgdxTextureDefinitionLoader {
 		
 		for (int i = 0; i < element.getChildCount(); i++) {
 			Element child = element.getChild(i);
-			
+
 			parseTextureProviderClassElement(provider, child.getName(), offset, child);
 		}
 		

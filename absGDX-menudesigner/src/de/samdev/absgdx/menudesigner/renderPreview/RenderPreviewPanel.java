@@ -27,6 +27,13 @@ public class RenderPreviewPanel extends JPanel  {
 	}
 
 	public void refresh(String agdxml, String agdtexdef, String tex_path) throws Exception {
-		game.setLayer(new PreviewLayer(game, agdxml, agdtexdef, Gdx.files.absolute(tex_path)));
+		game.tex = Gdx.files.absolute(tex_path);
+		game.texdef = agdtexdef;
+		
+		game.code = agdxml;
+	}
+
+	public void switchDebug() {
+		game.settings.debugEnabled.doSwitch();
 	}
 }

@@ -380,17 +380,17 @@ public class DesignFrame extends JFrame {
 		edTextureDef.getDocument().addDocumentListener(new DocumentListener() {
 			@Override
 			public void removeUpdate(DocumentEvent de) {
-				//refreshLblDraw();
+				refreshLblDraw();
 			}
 			
 			@Override
 			public void insertUpdate(DocumentEvent de) {
-				//refreshLblDraw();
+				refreshLblDraw();
 			}
 			
 			@Override
 			public void changedUpdate(DocumentEvent de) {
-				//refreshLblDraw();
+				refreshLblDraw();
 			}
 		});
 		scrollPane.setViewportView(edTextureDef);
@@ -399,6 +399,22 @@ public class DesignFrame extends JFrame {
 		
 		edTexturePath = new JTextField();
 		edTexturePath.setText("path to texture");
+		edTexturePath.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void removeUpdate(DocumentEvent de) {
+				refreshLblDraw();
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent de) {
+				refreshLblDraw();
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent de) {
+				refreshLblDraw();
+			}
+		});
 		pnlAGDTEXDEF.add(edTexturePath, BorderLayout.NORTH);
 		edTexturePath.setColumns(10);
 		new FileDrop(edTexturePath, new FileDrop.Listener() {@Override public void filesDropped(File[] files) { if (files.length > 0) openFileTexture(files[0].getAbsolutePath()); }});
@@ -541,7 +557,7 @@ public class DesignFrame extends JFrame {
 		btnRenderDebug.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				//pnlRenderGUI.switchDebug();
+				pnlRenderGUI.switchDebug();
 			}
 		});
 		panel_1.add(btnRenderDebug);
@@ -756,7 +772,8 @@ public class DesignFrame extends JFrame {
 		memoError.setText("");
 		try {
 			lblDraw.setMenuLayer(edCode.getText());
-		} catch (AgdxmlParsingException e) {
+			pnlRenderGUI.refresh(edCode.getText(), edTextureDef.getText(), edTexturePath.getText());
+		} catch (Exception e) {
 			memoError.setText(e.toString());
 
 			lblDraw.drawError();

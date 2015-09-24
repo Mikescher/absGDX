@@ -1,10 +1,14 @@
 package de.samdev.absgdx.menudesigner.renderPreview;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.URL;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -18,41 +22,50 @@ import de.samdev.absgdx.framework.renderer.DebugTextRenderer;
 import de.samdev.absgdx.framework.util.exceptions.AgdxmlParsingException;
 
 public class PreviewLayer extends AgdxmlLayer {
-
-	private FileHandle tex;
-	private String texdef;
-	private BitmapFont fnt;
-	
-	public PreviewLayer(PreviewGame owner, String agdxml, String agdtexdef, FileHandle texture) throws AgdxmlParsingException {
+	public PreviewLayer(PreviewGame owner, String agdxml) throws AgdxmlParsingException {
 		super(owner, null, agdxml);
-		
-		this.tex = texture;
-		this.texdef = agdtexdef;
 	}
 
 	@Override
 	public void initialize() {
 		try {
-			fnt = new BitmapFont(Gdx.files.absolute("F:\\Eigene Dateien\\Dropbox\\Programming\\Java\\workspace\\absGDX\\android\\assets\\consolefont.fnt")); //TODO move to resources (then copy to temp ?)
-			
-			File tmp = File.createTempFile(Math.random() + "_absgdx_menudesigner_" + System.currentTimeMillis(), ".agdtexdef");
+			File tmp = File.createTempFile(Math.random() + "_absgdx_menudesigner_" + System.currentTimeMillis(), "_.agdtexdef");
 			
 			PrintWriter out = new PrintWriter(tmp);
-			out.write(texdef);
+			out.write(((PreviewGame)owner).texdef);
 			out.close();
 			
-			loadGuiTextureProviderFromTextureDefinition(Gdx.files.absolute(tmp.getAbsolutePath()), new Texture(tex));
+			loadGuiTextureProviderFromTextureDefinition(Gdx.files.absolute(tmp.getAbsolutePath()), new Texture(((PreviewGame)owner).tex));
 			
 			tmp.delete();
 		} catch (Exception e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 		}
 	}
 	
 
 	@Override
 	public void render(SpriteBatch sbatch, ShapeRenderer srenderer, DebugTextRenderer tRenderer) {
-		if (fnt == null) initialize();
+		if (((PreviewGame)owner).fnt == null) {
+			try {
+				File tmp0 = File.createTempFile("__000_absgdx_menudesigner_font_" + System.currentTimeMillis(), "_agdx_fnt");
+				tmp0.delete();
+				tmp0.mkdir();
+				File tmp1 = new File(tmp0, "consolefont.fnt");
+				File tmp2 = new File(tmp0, "consolefont.png");
+
+				writeEmbeddedResourceToLocalFile("consolefont.fnt", tmp1);
+				writeEmbeddedResourceToLocalFile("consolefont.png", tmp2);
+				
+				((PreviewGame)owner).fnt = new BitmapFont(Gdx.files.absolute(tmp1.getAbsolutePath()));
+
+				tmp1.delete();
+				tmp2.delete();
+				tmp0.delete();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 		
 		srenderer.identity();
 		sbatch.getTransformMatrix().idt();
@@ -66,7 +79,28 @@ public class PreviewLayer extends AgdxmlLayer {
 		sbatch.enableBlending();
 		srenderer.setAutoShapeType(true);
 		
-		getMenuRoot().renderElement(sbatch, srenderer, fnt, this);
+		getMenuRoot().renderElement(sbatch, srenderer, ((PreviewGame)owner).fnt, this);
+	}
+	
+	public void writeEmbeddedResourceToLocalFile(final String resourceName, final File configFile) throws IOException {
+		final URL resourceUrl = getClass().getClassLoader().getResource( resourceName );
+
+		byte[] buffer = new byte[1024];
+		int byteCount = 0;
+
+		InputStream inputStream = null;
+		OutputStream outputStream = null;
+
+		inputStream = resourceUrl.openStream();
+		outputStream = new FileOutputStream(configFile);
+
+		while((byteCount = inputStream.read(buffer)) >= 0) {
+			outputStream.write(buffer, 0, byteCount);
+		}
+		
+	    inputStream.close();
+	    outputStream.flush();
+	    outputStream.close();
 	}
 
 	@Override

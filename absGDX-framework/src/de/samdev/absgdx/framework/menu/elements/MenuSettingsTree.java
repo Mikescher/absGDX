@@ -260,6 +260,10 @@ public class MenuSettingsTree extends MenuBaseElement {
 		} else {
 			renderSimple(srenderer);
 		}
+		
+		if (getTextureProvider().hasPaddingTextures(getClass())) {
+			renderPaddingTexture(sbatch);
+		} 
 
 		srenderer.translate(getPositionX(), getPositionY(), 0);
 		sbatch.getTransformMatrix().translate(getPositionX(), getPositionY(), 0);

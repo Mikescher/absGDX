@@ -86,7 +86,7 @@ public class AgdxTextureDefinitionLoader {
 
 	/**
 	 * Return the GuiTextureProivider with the specified identifier
-	 * or NULLL if there is no such provider
+	 * or NULL if there is no such provider
 	 * 
 	 * @param identifier the identifier (case-sensitive)
 	 * @return the GUITextureProvider or NULL

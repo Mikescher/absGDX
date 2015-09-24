@@ -94,6 +94,12 @@ public class MenuButton extends MenuBaseElement {
 		} else {
 			renderSimple(srenderer);
 		}
+		
+		if (getTextureProvider().hasPaddingTextures(getClass(), visualState)) {
+			renderPaddingTexture(sbatch, visualState);
+		} else if (getTextureProvider().hasPaddingTextures(getClass())) {
+			renderPaddingTexture(sbatch);
+		} 
 	
 		innerLabel.render(sbatch, srenderer, font);
 	}

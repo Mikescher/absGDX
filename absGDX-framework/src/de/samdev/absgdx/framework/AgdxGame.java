@@ -131,7 +131,7 @@ public abstract class AgdxGame implements ApplicationListener {
 		}
 	}
 
-	private void renderDebugTextOverlay() {
+	private void renderDebugTextOverlay() { //TODO spritebatch infos (rendercalls + spritesinbatch)
 		debugTextRenderer.begin(settings.debugTextSize.get());
 
 		if (settings.debugTextFPS.isActive()) {

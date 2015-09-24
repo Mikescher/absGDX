@@ -6,13 +6,15 @@ import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.Collis
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionCircle;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionTriangle;
+import de.samdev.absgdx.framework.util.exceptions.NonInstantiableException;
 
 /**
  * This class contains mathematical methods for 2D Geometry
- *
  */
 public class ShapeMath {
 
+	private ShapeMath() throws NonInstantiableException { throw new NonInstantiableException(); }
+	
 	/**
 	 * Get the X-distance the two geometries (a circle and a rectangle) can minimally have 
 	 * (at this distance they don't intersect but touch)

@@ -22,6 +22,12 @@ import de.samdev.absgdx.framework.menu.elements.MenuSettingsTree;
  */
 public class GUITextureProvider {
 	
+	// TL  TT  TR
+	//
+	// LL  CC  RR
+	//
+	// BL  BB  BR
+	
 	/** Identifier for a specific texture (??? :: TopLeft) */
 	public final static String IDENT_TEX_GENERIC_TL = "topleft";
 	/** Identifier for a specific texture (??? :: Top) */
@@ -40,6 +46,48 @@ public class GUITextureProvider {
 	public final static String IDENT_TEX_GENERIC_LL = "left";
 	/** Identifier for a specific texture (??? :: Center) */
 	public final static String IDENT_TEX_GENERIC_CC = "center";
+	
+	// TL NL   TT   NR TR
+	// NT              ET
+	//
+	// LL              RR
+	//                     
+	// NB              EB
+	// BL SL   BB   SR BR
+	
+	/** Identifier for a specific texture (??? :: Padding-TopLeft) */
+	public final static String IDENT_TEX_PADDING_TL = "pad-topleft";
+	/** Identifier for a specific texture (??? :: Padding-Top) */
+	public final static String IDENT_TEX_PADDING_TT = "pad-top";
+	/** Identifier for a specific texture (??? :: Padding-TopRight) */
+	public final static String IDENT_TEX_PADDING_TR = "pad-topright";
+	/** Identifier for a specific texture (??? :: Padding-Right) */
+	public final static String IDENT_TEX_PADDING_RR = "pad-right";
+	/** Identifier for a specific texture (??? :: Padding-BottomRight) */
+	public final static String IDENT_TEX_PADDING_BR = "pad-bottomright";
+	/** Identifier for a specific texture (??? :: Padding-Bottom) */
+	public final static String IDENT_TEX_PADDING_BB = "pad-bottom";
+	/** Identifier for a specific texture (??? :: Padding-BottomLeft) */
+	public final static String IDENT_TEX_PADDING_BL = "pad-bottomleft";
+	/** Identifier for a specific texture (??? :: Padding-Left) */
+	public final static String IDENT_TEX_PADDING_LL = "pad-left";
+	/** Identifier for a specific texture (??? :: Padding-NorthLeft) */
+	public final static String IDENT_TEX_PADDING_NL = "pad-northleft";
+	/** Identifier for a specific texture (??? :: Padding-NorthRight) */
+	public final static String IDENT_TEX_PADDING_NR = "pad-northright";
+	/** Identifier for a specific texture (??? :: Padding-EastTop) */
+	public final static String IDENT_TEX_PADDING_ET = "pad-easttop";
+	/** Identifier for a specific texture (??? :: Padding-EastBottom) */
+	public final static String IDENT_TEX_PADDING_EB = "pad-eastbottom";
+	/** Identifier for a specific texture (??? :: Padding-SouthLeft) */
+	public final static String IDENT_TEX_PADDING_SL = "pad-southleft";
+	/** Identifier for a specific texture (??? :: Padding-SouthRight) */
+	public final static String IDENT_TEX_PADDING_SR = "pad-southright";
+	/** Identifier for a specific texture (??? :: Padding-WestTop) */
+	public final static String IDENT_TEX_PADDING_WT = "pad-westtop";
+	/** Identifier for a specific texture (??? :: Padding-WestBottom) */
+	public final static String IDENT_TEX_PADDING_WB = "pad-westbottom";
+	
 	/** Identifier for the checkbox/radiobutton [on|off] texture */
 	public final static String IDENT_TEX_CHECK_IMG = "checkimg";
 	/** Identifier for the MenuSettingsTree boolean checkbox */
@@ -47,11 +95,21 @@ public class GUITextureProvider {
 	/** Identifier for the MenuSettingsTree leaf checkbox */
 	public final static String IDENT_TEX_DEPTREE_LEAF = "settingstreeleaf";
 
-	/** Identifier for all MenuButton textures */
+	/** Identifier for all Generic textures */
 	public final static String[] IDENT_TEX_GENERIC = {
 		IDENT_TEX_GENERIC_TL, IDENT_TEX_GENERIC_TT, IDENT_TEX_GENERIC_TR, 
 		IDENT_TEX_GENERIC_LL, IDENT_TEX_GENERIC_CC, IDENT_TEX_GENERIC_RR, 
 		IDENT_TEX_GENERIC_BL, IDENT_TEX_GENERIC_BB, IDENT_TEX_GENERIC_BR
+	};
+	
+
+	/** Identifier for all Padding textures */
+	public final static String[] IDENT_TEX_PADDING = {
+		IDENT_TEX_PADDING_TL, IDENT_TEX_PADDING_NL, IDENT_TEX_PADDING_TT, IDENT_TEX_PADDING_NR, IDENT_TEX_PADDING_TR, 
+		IDENT_TEX_PADDING_WT,                                                                   IDENT_TEX_PADDING_ET, 
+		IDENT_TEX_PADDING_LL,                                                                   IDENT_TEX_PADDING_RR, 
+		IDENT_TEX_PADDING_WB,                                                                   IDENT_TEX_PADDING_EB, 
+		IDENT_TEX_PADDING_BL, IDENT_TEX_PADDING_SL, IDENT_TEX_PADDING_BB, IDENT_TEX_PADDING_SR, IDENT_TEX_PADDING_BR, 
 	};
 	
 	private final HashMap<String, TextureRegion> map = new HashMap<String, TextureRegion>();
@@ -170,6 +228,31 @@ public class GUITextureProvider {
 	 */
 	public boolean hasGeneric9SideTextures(Class<?> tclass, Object appendix) {
 		for (String ident : IDENT_TEX_GENERIC) {
+			if (get(tclass, ident, appendix) == null) return false;
+		}
+		
+		return true;
+	}
+
+	/**
+	 * Test for existing padding Textures for a class
+	 * @param tclass the class to test
+	 * 
+	 * @return if all 16 Textures for the class has been set
+	 */
+	public boolean hasPaddingTextures(Class<?> tclass) {
+		return hasPaddingTextures(tclass, null);
+	}
+
+	/**
+	 * Test for existing padding Textures for a class
+	 * @param tclass the class to test
+	 * @param appendix an optional appendix to the identifier
+	 * 
+	 * @return if all 16 Textures for the class has been set
+	 */
+	public boolean hasPaddingTextures(Class<?> tclass, Object appendix) {
+		for (String ident : IDENT_TEX_PADDING) {
 			if (get(tclass, ident, appendix) == null) return false;
 		}
 		

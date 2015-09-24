@@ -97,6 +97,8 @@ public class MenuEdit extends MenuBaseElement { //TODO Does not work on mobile -
 
 	@Override
 	public void render(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
+		FocusState fState = FocusState.fromBoolean(isFocused());
+		
 		innerLabel.setPosition(getPositionX() + padding.left, getPositionY() + padding.top);
 		innerLabel.setSize(getWidth() - padding.getHorizontalSum(), getHeight() - padding.getVerticalSum());
 		
@@ -114,11 +116,17 @@ public class MenuEdit extends MenuBaseElement { //TODO Does not work on mobile -
 		
 		innerLabel.setContent(disp);
 		
-		if (getTextureProvider().hasGeneric9SideTextures(getClass(), FocusState.fromBoolean(isFocused()))) {
-			render9SideTexture(sbatch, FocusState.fromBoolean(isFocused()));
+		if (getTextureProvider().hasGeneric9SideTextures(getClass(), fState)) {
+			render9SideTexture(sbatch, fState);
 		} else {
 			renderSimple(srenderer);
 		}
+		
+		if (getTextureProvider().hasPaddingTextures(getClass(), fState)) {
+			renderPaddingTexture(sbatch, fState);
+		} else if (getTextureProvider().hasPaddingTextures(getClass())) {
+			renderPaddingTexture(sbatch);
+		} 
 		
 		if (blinkCounter * 2 < BLINK_DELAY && isFocused()) {
 			srenderer.begin(ShapeType.Filled);

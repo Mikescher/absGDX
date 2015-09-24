@@ -24,6 +24,27 @@
 					<texture identifier="bottomleft"  coordinates="0,7     4,6" />
 					<texture identifier="left"        coordinates="0,5     4,1" />
 					<texture identifier="center"      coordinates="5,5     1,1" />
+					
+					
+					<group coordinates_offset="116, 0">
+						<texture identifier="pad-topleft"     coordinates="00,00 16,16" />
+						<texture identifier="pad-top"         coordinates="30,00 01,16" />
+						<texture identifier="pad-topright"    coordinates="45,00 16,16" />
+						<texture identifier="pad-right"       coordinates="45,30 16,01" />
+						<texture identifier="pad-bottomright" coordinates="45,45 16,16" />
+						<texture identifier="pad-bottom"      coordinates="30,45 01,16" />
+						<texture identifier="pad-bottomleft"  coordinates="00,45 16,16" />
+						<texture identifier="pad-left"        coordinates="00,30 16,01" />
+						
+						<texture identifier="pad-northleft"   coordinates="16,00 13,16" />
+						<texture identifier="pad-northright"  coordinates="32,00 13,16" />
+						<texture identifier="pad-easttop"     coordinates="45,16 16,13" />
+						<texture identifier="pad-eastbottom"  coordinates="45,32 16,13" />
+						<texture identifier="pad-southleft"   coordinates="16,45 13,16" />
+						<texture identifier="pad-southright"  coordinates="32,45 13,16" />
+						<texture identifier="pad-westtop"     coordinates="00,16 16,13" />
+						<texture identifier="pad-westbottom"  coordinates="00,32 16,13" />
+					</group>
 				</state>
 				<state appendix="PRESSED" coordinates_offset="24,0">
 					<texture identifier="topleft"     coordinates="0,0     4,4" />

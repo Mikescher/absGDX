@@ -1,16 +1,18 @@
 package de.samdev.absgdx.framework.math;
 
+import de.samdev.absgdx.framework.util.exceptions.NonInstantiableException;
 
 /**
  * This class contains mathematical methods for Float Operations 
  * 
  * mostly convenient methods that are normally in double precision
- *
  */
 public class FloatMath {
 	/** the mathematical constant PI in float precision */
 	public static final float PI = (float) Math.PI;
 
+	private FloatMath() throws NonInstantiableException { throw new NonInstantiableException(); }
+	
 	/**
 	 * Calculates the square (of a float)
 	 * 

@@ -47,7 +47,7 @@ public class RectangleRadius {
 	}
 
 	/**
-	 * @return teh sum of top and bottom
+	 * @return the sum of top and bottom
 	 */
 	public int getVerticalSum() {
 		return top + bottom;

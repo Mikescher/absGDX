@@ -77,6 +77,10 @@ public class MenuImage extends MenuBaseElement {
 		TextureRegion image = getTexture();
 		if (image == null || image.getTexture() == null) return;
 		
+		if (getTextureProvider().hasPaddingTextures(getClass())) {
+			renderPaddingTexture(sbatch);
+		} 
+		
 		sbatch.begin();
 
 		float texWidth;

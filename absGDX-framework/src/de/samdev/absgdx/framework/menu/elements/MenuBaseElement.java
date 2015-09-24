@@ -12,8 +12,10 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.framework.GameSettings;
+import de.samdev.absgdx.framework.math.AbsMath;
 import de.samdev.absgdx.framework.menu.GUITextureProvider;
 import de.samdev.absgdx.framework.menu.MenuOwner;
+import de.samdev.absgdx.framework.menu.attributes.ExtendedRectangleRadius;
 import de.samdev.absgdx.framework.menu.attributes.RectangleRadius;
 import de.samdev.absgdx.framework.menu.events.MenuBaseElementListener;
 import de.samdev.absgdx.framework.util.MenuRenderHelper;
@@ -90,10 +92,21 @@ public abstract class MenuBaseElement {
 		this.textureprovider = texprovider;
 	}
 
+	/**
+	 * Renders the generic (9 sided) texture for this element
+	 * 
+	 * @param sbatch the spritebatch used to render
+	 */
 	protected void render9SideTexture(SpriteBatch sbatch) {
 		render9SideTexture(sbatch, null);
 	}
 	
+	/**
+	 * Renders the generic (9 sided) texture for this element
+	 * 
+	 * @param sbatch the spritebatch used to render
+	 * @param appendix an optional appendix to the identifier
+	 */
 	protected void render9SideTexture(SpriteBatch sbatch, Object appendix) {
 		String app = (appendix == null || appendix.toString().isEmpty()) ? "" : ("#" + appendix.toString());
 		
@@ -127,11 +140,18 @@ public abstract class MenuBaseElement {
 		// ######## Center ########
 
 		MenuRenderHelper.drawTextureStretched(sbatch, tex_CC, tex_TL.getRegionWidth(), tex_TL.getRegionHeight(), getWidth() - tex_BR.getRegionWidth() - tex_TL.getRegionWidth(), getHeight() - tex_BR.getRegionHeight() - tex_TL.getRegionHeight());
-	
+
+		// ########################
+		
 		sbatch.end();
 		sbatch.getTransformMatrix().translate(-getPositionX(), -getPositionY(), 0);
 	}
-	
+
+	/**
+	 * Gets the size of the textures for the rendering of a generic 9-sided texture
+	 * 
+	 * @param appendix an optional appendix to the identifier
+	 */
 	protected RectangleRadius get9SidePadding(Object appendix) {
 		String app = (appendix == null || appendix.toString().isEmpty()) ? "" : ("#" + appendix.toString());
 		
@@ -150,13 +170,141 @@ public abstract class MenuBaseElement {
 		int pad_rig_1 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_RR + app).getRegionWidth();
 		int pad_rig_2 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_TR + app).getRegionWidth();
 		int pad_rig_3 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_BR + app).getRegionWidth();
-		
-		int pad_top = Math.max(Math.max(pad_top_1, pad_top_2), pad_top_3);
-		int pad_lef = Math.max(Math.max(pad_lef_1, pad_lef_2), pad_lef_3);
-		int pad_bot = Math.max(Math.max(pad_bot_1, pad_bot_2), pad_bot_3);
-		int pad_rig = Math.max(Math.max(pad_rig_1, pad_rig_2), pad_rig_3);
+
+		int pad_top = AbsMath.imax(pad_top_1, pad_top_2, pad_top_3);
+		int pad_lef = AbsMath.imax(pad_lef_1, pad_lef_2, pad_lef_3);
+		int pad_bot = AbsMath.imax(pad_bot_1, pad_bot_2, pad_bot_3);
+		int pad_rig = AbsMath.imax(pad_rig_1, pad_rig_2, pad_rig_3);
 		
 		return new RectangleRadius(pad_top, pad_lef, pad_bot, pad_rig);
+	}
+
+	/**
+	 * Renders the generic (9 sided) texture for this element
+	 * 
+	 * @param sbatch the spritebatch used to render
+	 */
+	protected void renderPaddingTexture(SpriteBatch sbatch) {
+		renderPaddingTexture(sbatch, null);
+	}
+
+	/**
+	 * Renders the generic (9 sided) texture for this element
+	 * 
+	 * @param sbatch the spritebatch used to render
+	 * @param appendix an optional appendix to the identifier
+	 */
+	protected void renderPaddingTexture(SpriteBatch sbatch, Object appendix) {
+		String app = (appendix == null || appendix.toString().isEmpty()) ? "" : ("#" + appendix.toString());
+		
+		TextureRegion tex_TL = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_TL + app);
+		TextureRegion tex_TT = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_TT + app);
+		TextureRegion tex_TR = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_TR + app);
+		TextureRegion tex_LL = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_LL + app);
+		TextureRegion tex_RR = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_RR + app);
+		TextureRegion tex_BL = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_BL + app);
+		TextureRegion tex_BB = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_BB + app);
+		TextureRegion tex_BR = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_BR + app);
+		TextureRegion tex_NL = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_NL + app);
+		TextureRegion tex_NR = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_NR + app);
+		TextureRegion tex_ET = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_ET + app);
+		TextureRegion tex_EB = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_EB + app);
+		TextureRegion tex_SL = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_SL + app);
+		TextureRegion tex_SR = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_SR + app);
+		TextureRegion tex_WT = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_WT + app);
+		TextureRegion tex_WB = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_WB + app);
+		
+		ExtendedRectangleRadius padding = getPaddingTexturePadding(appendix);
+
+		sbatch.getTransformMatrix().translate(getPositionX(), getPositionY(), 0);
+		sbatch.begin();
+
+		// ######## Corners ########
+		
+		MenuRenderHelper.drawTexture(sbatch, tex_TL, -padding.left, -padding.top);
+		MenuRenderHelper.drawTexture(sbatch, tex_TR, getWidth(),    -padding.top);
+		MenuRenderHelper.drawTexture(sbatch, tex_BL, -padding.left, getHeight());
+		MenuRenderHelper.drawTexture(sbatch, tex_BR, getWidth(),    getHeight());
+
+		// ######## Corner Extensions ########
+
+		MenuRenderHelper.drawTexture(sbatch, tex_NL, 0, -padding.top);
+		MenuRenderHelper.drawTexture(sbatch, tex_NR, getWidth() - padding.offsetE, -padding.top);
+		MenuRenderHelper.drawTexture(sbatch, tex_WT, -padding.left, 0);
+		MenuRenderHelper.drawTexture(sbatch, tex_WB, -padding.left, getHeight() - padding.offsetS);
+		MenuRenderHelper.drawTexture(sbatch, tex_SL, 0, getHeight());
+		MenuRenderHelper.drawTexture(sbatch, tex_SR, getWidth() - padding.offsetE, getHeight());
+		MenuRenderHelper.drawTexture(sbatch, tex_ET, getWidth(), 0);
+		MenuRenderHelper.drawTexture(sbatch, tex_EB, getWidth(), getHeight() - padding.offsetS);
+	
+		// ######## Edges ########
+
+		MenuRenderHelper.drawTextureStretched(sbatch, tex_TT, padding.offsetW, -padding.top, padding.innerWidth, padding.top);
+		MenuRenderHelper.drawTextureStretched(sbatch, tex_LL, -padding.left, padding.offsetN, padding.left, padding.innerHeight);
+		MenuRenderHelper.drawTextureStretched(sbatch, tex_BB, padding.offsetW, getHeight(), padding.innerWidth, padding.top);
+		MenuRenderHelper.drawTextureStretched(sbatch, tex_RR, getWidth(), padding.offsetN, padding.left, padding.innerHeight);
+
+		// ########################
+		
+		sbatch.end();
+		sbatch.getTransformMatrix().translate(-getPositionX(), -getPositionY(), 0);
+	}
+
+	/**
+	 * Gets the size of the textures for the rendering of a padding texture
+	 * 
+	 * @param appendix an optional appendix to the identifier
+	 */
+	protected ExtendedRectangleRadius getPaddingTexturePadding(Object appendix) {
+		String app = (appendix == null || appendix.toString().isEmpty()) ? "" : ("#" + appendix.toString());
+		
+		int pad_top_1 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_TL + app).getRegionHeight();
+		int pad_top_2 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_WT + app).getRegionHeight();
+		int pad_top_3 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_TT + app).getRegionHeight();
+		int pad_top_4 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_WB + app).getRegionHeight();
+		int pad_top_5 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_TR + app).getRegionHeight();
+
+		int pad_lef_1 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_LL + app).getRegionWidth();
+		int pad_lef_2 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_NL + app).getRegionWidth();
+		int pad_lef_3 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_TL + app).getRegionWidth();
+		int pad_lef_4 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_NR + app).getRegionWidth();
+		int pad_lef_5 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_BL + app).getRegionWidth();
+
+		int pad_bot_1 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_BL + app).getRegionHeight();
+		int pad_bot_2 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_SL + app).getRegionHeight();
+		int pad_bot_3 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_BB + app).getRegionHeight();
+		int pad_bot_4 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_SR + app).getRegionHeight();
+		int pad_bot_5 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_BR + app).getRegionHeight();
+
+		int pad_rig_1 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_RR + app).getRegionWidth();
+		int pad_rig_2 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_ET + app).getRegionWidth();
+		int pad_rig_3 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_TR + app).getRegionWidth();
+		int pad_rig_4 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_EB + app).getRegionWidth();
+		int pad_rig_5 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_BR + app).getRegionWidth();
+
+		int pad_n_1 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_WT + app).getRegionHeight();
+		int pad_n_2 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_ET + app).getRegionHeight();
+
+		int pad_e_1 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_NR + app).getRegionWidth();
+		int pad_e_2 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_SR + app).getRegionWidth();
+
+		int pad_s_1 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_WB + app).getRegionHeight();
+		int pad_s_2 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_EB + app).getRegionHeight();
+
+		int pad_w_1 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_NL + app).getRegionWidth();
+		int pad_w_2 = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_SL + app).getRegionWidth();
+		
+		int pad_top = AbsMath.imax(pad_top_1, pad_top_2, pad_top_3, pad_top_4, pad_top_5);
+		int pad_lef = AbsMath.imax(pad_lef_1, pad_lef_2, pad_lef_3, pad_lef_4, pad_lef_5);
+		int pad_bot = AbsMath.imax(pad_bot_1, pad_bot_2, pad_bot_3, pad_bot_4, pad_bot_5);
+		int pad_rig = AbsMath.imax(pad_rig_1, pad_rig_2, pad_rig_3, pad_rig_4, pad_rig_5);
+
+		int pad_N = AbsMath.imax(pad_n_1, pad_n_2);
+		int pad_E = AbsMath.imax(pad_e_1, pad_e_2);
+		int pad_S = AbsMath.imax(pad_s_1, pad_s_2);
+		int pad_W = AbsMath.imax(pad_w_1, pad_w_2);
+		
+		return new ExtendedRectangleRadius(pad_top, pad_lef, pad_bot, pad_rig, pad_N, pad_E, pad_S, pad_W, getWidth(), getHeight());
 	}
 
 	/**

@@ -58,6 +58,10 @@ public class MenuPanel extends MenuContainer {
 			renderSimple(srenderer);
 		}
 		
+		if (getTextureProvider().hasPaddingTextures(getClass())) {
+			renderPaddingTexture(sbatch);
+		} 
+		
 		renderChildren(sbatch, srenderer, font);
 	}
 

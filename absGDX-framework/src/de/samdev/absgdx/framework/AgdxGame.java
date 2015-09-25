@@ -109,6 +109,9 @@ public abstract class AgdxGame implements ApplicationListener {
 	}
 
 	private void doRender() {
+		layerSpriteRenderer.maxSpritesInBatch = 0;
+		layerSpriteRenderer.totalRenderCalls = 0;
+		
 		Gdx.gl.glClearColor(0, 0, 0, 1); // MAGENTA
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -274,6 +277,12 @@ public abstract class AgdxGame implements ApplicationListener {
 			debugTextRenderer.drawFormatted("UpdateTime: %sms (%d%%)", DebugFormatter.fmtD(freqMeter.updateTime / 1000000d, 2), (int)freqMeter.getUpdatePercentage());
 			debugTextRenderer.drawFormatted("TotalTime:  %sms (%d%%) (real: %sms)", DebugFormatter.fmtD(freqMeter.effectivetotalTime / 1000000d, 2), (int)freqMeter.getTotalPercentage(), DebugFormatter.fmtD(freqMeter.totalTime / 1000000d, 2));
 			debugTextRenderer.drawFormatted("GDX-DeltaTime:  %sms", DebugFormatter.fmtF(Gdx.graphics.getDeltaTime()*1000f, 1));
+			debugTextRenderer.draw();
+		}
+
+		if (settings.debugTextRenderCalls.isActive()) {
+			debugTextRenderer.drawFormatted("RenderCalls: %d", layerSpriteRenderer.totalRenderCalls);
+			debugTextRenderer.drawFormatted("Sprites in batch (max): %d", layerSpriteRenderer.maxSpritesInBatch);
 			debugTextRenderer.draw();
 		}
 

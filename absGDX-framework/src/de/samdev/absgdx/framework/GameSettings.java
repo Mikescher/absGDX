@@ -44,6 +44,8 @@ public class GameSettings {
 	public BooleanProperty debugTextInput;
 	/** Show memory information */
 	public BooleanProperty debugTextMemory;
+	/** Show render information */
+	public BooleanProperty debugTextRenderCalls;
 	/** Show TileMap information */
 	public BooleanProperty debugTextMap;
 	/** Show visual information on top of the map */
@@ -146,17 +148,19 @@ public class GameSettings {
 				{
 					debugTextInfos = new BooleanProperty("debugTextInfos", true, debugEnabled);
 					{
+						debugTextSize = new IntegerProperty("debugTextSize", 1, debugTextInfos);
+						
+						debugTextFPS = new BooleanProperty("debugTextFPS", true, debugTextInfos);
+						debugTextTiming = new BooleanProperty("debugTextTiming", true, debugTextInfos);
+						debugTextMemory = new BooleanProperty("debugTextMemory", true, debugTextInfos);
+						debugTextInput = new BooleanProperty("debugTextInput", true, debugTextInfos);
+						debugTextRenderCalls = new BooleanProperty("debugTextRenderCalls", true, debugTextInfos);
+						
 						debugGameLayerTextInfos = new BooleanProperty("debugGameLayerTextInfos", true, debugTextInfos);
 						{
-							debugTextSize = new IntegerProperty("debugTextSize", 1, debugGameLayerTextInfos);
-							
-							debugTextFPS = new BooleanProperty("debugTextFPS", true, debugGameLayerTextInfos);
-							debugTextTiming = new BooleanProperty("debugTextTiming", true, debugGameLayerTextInfos);
-							debugTextMemory = new BooleanProperty("debugTextMemory", true, debugGameLayerTextInfos);
 							debugTextMap = new BooleanProperty("debugTextMap", true, debugGameLayerTextInfos);
 							debugTextEntities = new BooleanProperty("debugTextEntities", true, debugGameLayerTextInfos);
 							debugTextCollisionGeometries = new BooleanProperty("debugTextCollisionGeometries", true, debugGameLayerTextInfos);
-							debugTextInput = new BooleanProperty("debugTextInput", true, debugGameLayerTextInfos);
 						}
 
 						debugMenuLayerTextInfos = new BooleanProperty("debugMenuLayerTextInfos", true, debugTextInfos);

@@ -37,6 +37,7 @@ import de.samdev.absgdx.framework.menu.MenuOwner;
 import de.samdev.absgdx.framework.menu.agdxml.AgdxmlParser;
 import de.samdev.absgdx.framework.menu.agdxml.AgdxmlTextureProviderIDMap;
 import de.samdev.absgdx.framework.menu.elements.MenuFrame;
+import de.samdev.absgdx.framework.menu.texdef.AgdxTextureDefinitionLoader;
 import de.samdev.absgdx.framework.renderer.DebugTextOrientation;
 import de.samdev.absgdx.framework.renderer.DebugTextRenderer;
 import de.samdev.absgdx.framework.util.DebugFormatter;
@@ -754,7 +755,7 @@ public abstract class GameLayer extends AgdxLayer implements MenuOwner {
 	}
 	
 	/**
-	 * Set the HUD from n AGDXML layout definition
+	 * Set the HUD from an AGDXML layout definition
 	 * 
 	 * @param agdxmlFile the AGDXML file
 	 * @param mapAgdxmlIDs the ID map for the AGDXML file
@@ -811,6 +812,22 @@ public abstract class GameLayer extends AgdxLayer implements MenuOwner {
 			
 			throw new AgdxmlParsingException(e);
 		}
+	}
+
+	/**
+	 * Set the HUD from n AGDXML layout definition (and an AGDTEXDEF file)
+	 * 
+	 * @param agdxmlFile the AGDXML file
+	 * @param provider the AGDTEXDEF loader (must be loaded)
+	 * @param font the font used by the HUD element
+	 * 
+	 * @throws AgdxmlParsingException if the agdxmlFile has Errors
+	 */
+	public void setHUDFromAgdxml(FileHandle agdxmlFile, AgdxTextureDefinitionLoader provider, BitmapFont font) throws AgdxmlParsingException {
+		AgdxmlTextureProviderIDMap map = new AgdxmlTextureProviderIDMap();
+		provider.fillIdMap(map);
+		
+		setHUDFromAgdxml(agdxmlFile, map, font);
 	}
 
 	/**

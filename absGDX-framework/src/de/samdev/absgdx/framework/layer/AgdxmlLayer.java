@@ -1,9 +1,5 @@
 package de.samdev.absgdx.framework.layer;
 
-import java.util.Map.Entry;
-
-import org.apache.commons.lang3.tuple.Pair;
-
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -124,17 +120,7 @@ public abstract class AgdxmlLayer extends MenuLayer {
 	 * @param loader the loader of the texdef file (must be already parsed)
 	 */
 	public void loadGuiTextureProviderFromTextureDefinition(AgdxTextureDefinitionLoader loader) {
-		for (Pair<String, GUITextureProvider> providerPair : loader.gui_provider) {
-			addAgdxmlGuiTextureProvider(providerPair.getKey(), providerPair.getValue());
-		}
-		
-		for (Entry<String, Object> texturePair : loader.texture_objects.entrySet()) {
-			if (texturePair.getValue() instanceof TextureRegion) {
-				addAgdxmlImageTexture(texturePair.getKey(), (TextureRegion)texturePair.getValue());
-			} else if (texturePair.getValue() instanceof TextureRegion[]) {
-				addAgdxmlImageTexture(texturePair.getKey(), (TextureRegion[])texturePair.getValue());
-			}
-		}
+		loader.fillIdMap(mapAgdxmlIDs);
 	}
 
 	/**

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,6 +20,7 @@ import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlReader.Element;
 
 import de.samdev.absgdx.framework.menu.GUITextureProvider;
+import de.samdev.absgdx.framework.menu.agdxml.AgdxmlTextureProviderIDMap;
 import de.samdev.absgdx.framework.util.TextureHelper;
 import de.samdev.absgdx.framework.util.exceptions.AgdtexdefLoadException;
 import de.samdev.absgdx.framework.util.exceptions.AgdtexdefParsingException;
@@ -466,5 +468,24 @@ public class AgdxTextureDefinitionLoader {
 			return (TextureRegion[][])result;
 		else
 			throw new AgdtexdefLoadException("texture-array-2d not found: " + identifier);
+	}
+
+	/**
+	 * Fills an AgdxmlTextureProviderIDMap with the values from this texture definition file
+	 * 
+	 * @param map
+	 */
+	public void fillIdMap(AgdxmlTextureProviderIDMap map) {
+		for (Pair<String, GUITextureProvider> providerPair : this.gui_provider) {
+			map.putGUITextureProvider(providerPair.getKey(), providerPair.getValue());
+		}
+		
+		for (Entry<String, Object> texturePair : this.texture_objects.entrySet()) {
+			if (texturePair.getValue() instanceof TextureRegion) {
+				map.putImageTexture(texturePair.getKey(), (TextureRegion)texturePair.getValue());
+			} else if (texturePair.getValue() instanceof TextureRegion[]) {
+				map.putImageTexture(texturePair.getKey(), (TextureRegion[])texturePair.getValue());
+			}
+		}
 	}
 }

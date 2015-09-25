@@ -374,13 +374,13 @@ public class AgdxTextureDefinitionLoader {
 		
 		TextureRegion[][] result_2d = parseArrayTexture_2D(tex_childs.first(), offset);
 		
-		int size_1 = result_2d.length;
-		int size_2 = result_2d[0].length;
-		TextureRegion[] result = new TextureRegion[size_1 * size_2];
+		int size_Y = result_2d.length;
+		int size_X = result_2d[0].length;
+		TextureRegion[] result = new TextureRegion[size_X * size_Y];
 		
-		for (int y = 0; y < size_2; y++) {
-			for (int x = 0; x < size_1; x++) {
-				result[y*size_1 + x] = result_2d[x][y];
+		for (int y = 0; y < size_Y; y++) {
+			for (int x = 0; x < size_X; x++) {
+				result[y*size_X + x] = result_2d[y][x];
 			}
 		}
 

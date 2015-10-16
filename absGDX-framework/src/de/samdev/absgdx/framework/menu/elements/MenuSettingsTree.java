@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
+import de.samdev.absgdx.framework.GameSettings;
 import de.samdev.absgdx.framework.menu.GUITextureProvider;
 import de.samdev.absgdx.framework.menu.attributes.CheckState;
 import de.samdev.absgdx.framework.menu.attributes.RectangleRadius;
@@ -142,14 +143,14 @@ public class MenuSettingsTree extends MenuBaseElement {
 			return positionY;
 		}
 		
-		public int innerDebugRender(ShapeRenderer srenderer, int positionY, int depth) {
+		public int innerDebugRender(ShapeRenderer srenderer, int positionY, int depth, int offX, int offY) {
 			setUpInnerElements(positionY, depth);
 			
 			if (positionY >= treeowner.padding.top) {
 				srenderer.begin(ShapeType.Line);
 				{
 					srenderer.setColor(treeowner.owner.getAgdxGame().settings.debugMenuBordersColorL2.get());
-					srenderer.rect(getPositionX(), getPositionY(), getWidth(), getHeight());
+					srenderer.rect(offX + getPositionX(), offY + getPositionY(), getWidth(), getHeight());
 				}
 				srenderer.end();
 			}
@@ -161,7 +162,7 @@ public class MenuSettingsTree extends MenuBaseElement {
 					if (positionY + treeowner.rowHeight > treeowner.getHeight() - treeowner.padding.bottom)
 						return positionY;
 					
-					positionY = child.innerDebugRender(srenderer, positionY, depth+1);
+					positionY = child.innerDebugRender(srenderer, positionY, depth+1, offX, offY);
 				}
 			}
 			
@@ -275,14 +276,10 @@ public class MenuSettingsTree extends MenuBaseElement {
 	}
 
 	@Override
-	public void renderDebug(ShapeRenderer srenderer) {
-		if (owner.getAgdxGame().settings.debugMenuBorders.isActive())
+	public void renderDebug(ShapeRenderer srenderer, GameSettings settings, int offX, int offY) {
+		if (settings.debugMenuBorders.isActive())
 		{
-			srenderer.translate(getPositionX(), getPositionY(), 0);
-			{
-				root.innerDebugRender(srenderer, padding.top - scroll * (rowHeight + rowGap), 0);
-			}
-			srenderer.translate(-getPositionX(), -getPositionY(), 0);
+			root.innerDebugRender(srenderer, padding.top - scroll * (rowHeight + rowGap), 0, offX + getPositionX(), offY + getPositionY());
 		}
 	}
 

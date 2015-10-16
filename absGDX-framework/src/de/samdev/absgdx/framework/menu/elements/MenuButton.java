@@ -106,23 +106,6 @@ public class MenuButton extends MenuBaseElement {
 	}
 	
 	@Override
-	public void renderDebugGridLines(ShapeRenderer srenderer, GameSettings settings) {
-		super.renderDebugGridLines(srenderer, settings);
-		
-		updateLayout();
-
-		srenderer.begin(ShapeType.Line);
-		{
-			srenderer.setColor(settings.debugMenuBordersColorL2.get());
-			srenderer.rect(innerLabel.getPositionX(), innerLabel.getPositionY(), innerLabel.getWidth(), innerLabel.getHeight());
-			
-			if (hasImage())
-				srenderer.rect(imageX, imageY, imageWidth, imageHeight);
-		}
-		srenderer.end();
-	}
-
-	@Override
 	public void render(SpriteBatch sbatch, BitmapFont font, int offX, int offY) {
 		updateLayout();
 		
@@ -144,8 +127,21 @@ public class MenuButton extends MenuBaseElement {
 	}
 
 	@Override
-	public void renderDebug(ShapeRenderer srenderer) {
-		innerLabel.renderElementDebug(srenderer, owner);
+	public void renderDebug(ShapeRenderer srenderer, GameSettings settings, int offX, int offY) {
+		innerLabel.renderElementDebug(srenderer, owner, settings, offX, offY);
+
+		if (settings.debugMenuBorders.isActive())
+		{
+			srenderer.begin(ShapeType.Line);
+			{
+				srenderer.setColor(settings.debugMenuBordersColorL2.get());
+				srenderer.rect(offX + innerLabel.getPositionX(), offY + innerLabel.getPositionY(), innerLabel.getWidth(), innerLabel.getHeight());
+				
+				if (hasImage())
+					srenderer.rect(offX + imageX, offY + imageY, imageWidth, imageHeight);
+			}
+			srenderer.end();
+		}
 	}
 
 	@Override

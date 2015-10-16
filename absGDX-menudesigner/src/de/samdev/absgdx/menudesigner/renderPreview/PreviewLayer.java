@@ -79,7 +79,7 @@ public class PreviewLayer extends AgdxmlLayer {
 		sbatch.enableBlending();
 		srenderer.setAutoShapeType(true);
 		
-		getMenuRoot().renderElement(sbatch, ((PreviewGame)owner).fnt, this);
+		getMenuRoot().renderRoot(sbatch, srenderer, ((PreviewGame)owner).fnt, this);
 	}
 	
 	public void writeEmbeddedResourceToLocalFile(final String resourceName, final File configFile) throws IOException {

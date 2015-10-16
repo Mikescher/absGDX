@@ -393,22 +393,25 @@ public abstract class MenuBaseElement {
 	 * 
 	 * @param srenderer the ShapeRenderer (from LibGDX)
 	 * @param owner the Menu in which this element exists
+	 * @param settings Settings of this AgdxGame instance
+	 * @param offX render offset in X
+	 * @param offY render offset in Y
 	 */
-	public final void renderElementDebug(ShapeRenderer srenderer, MenuOwner owner) {
+	public final void renderElementDebug(ShapeRenderer srenderer, MenuOwner owner, GameSettings settings, int offX, int offY) {
 		if (visible) {
-			renderDebug(srenderer);
+			renderDebug(srenderer, settings, offX, offY);
 		}
 		
 		if (owner != null && owner.getAgdxGame().settings.debugMenuBorders.isActive()) {
-			renderDebugGridLines(srenderer, owner.getAgdxGame().settings);
+			renderDebugGridLines(srenderer, settings, offX, offY);
 		}
 	}
 
-	protected void renderDebugGridLines(ShapeRenderer srenderer, GameSettings settings) {
+	protected void renderDebugGridLines(ShapeRenderer srenderer, GameSettings settings, int offX, int offY) {
 		srenderer.begin(ShapeType.Line);
 		{
 			srenderer.setColor(settings.debugMenuBordersColor.get());
-			srenderer.rect(getPositionX(), getPositionY(), getWidth(), getHeight());
+			srenderer.rect(offX + getPositionX(), offY + getPositionY(), getWidth(), getHeight());
 		}
 		srenderer.end();
 	}
@@ -442,8 +445,11 @@ public abstract class MenuBaseElement {
 	 * Don't call begin end in this method - this is done by the caller
 	 * 
 	 * @param srenderer the ShapeRenderer (from LibGDX)
+	 * @param settings Settings of this AgdxGame instance
+	 * @param offX render offset in X
+	 * @param offY render offset in Y
 	 */
-	public abstract void renderDebug(ShapeRenderer srenderer);
+	public abstract void renderDebug(ShapeRenderer srenderer, GameSettings settings, int offX, int offY);
 	
 	/**
 	 * @param delta the time since the last update (in ms) - can be averaged over he last few cycles

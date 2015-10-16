@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import de.samdev.absgdx.framework.GameSettings;
 import de.samdev.absgdx.framework.menu.GUITextureProvider;
 import de.samdev.absgdx.framework.menu.attributes.HorzAlign;
 import de.samdev.absgdx.framework.menu.attributes.RectangleRadius;
@@ -82,8 +83,8 @@ public class MenuProgressbar extends MenuBaseElement {
 	}
 
 	@Override
-	public void renderDebug(ShapeRenderer srenderer) {
-		innerLabel.renderDebug(srenderer);
+	public void renderDebug(ShapeRenderer srenderer, GameSettings settings, int offX, int offY) {
+		innerLabel.renderDebug(srenderer, settings, offX, offY);
 	}
 
 	public int direction = 1;

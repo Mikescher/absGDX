@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import de.samdev.absgdx.framework.GameSettings;
 import de.samdev.absgdx.framework.menu.GUITextureProvider;
 import de.samdev.absgdx.framework.menu.MenuOwner;
 import de.samdev.absgdx.framework.menu.events.MenuContainerListener;
@@ -79,18 +80,14 @@ public class MenuContainer extends MenuBaseElement {
 	}
 	
 	@Override
-	public void renderDebug(ShapeRenderer srenderer) {
-		renderChildrenDebug(srenderer);
+	public void renderDebug(ShapeRenderer srenderer, GameSettings settings, int offX, int offY) {
+		renderChildrenDebug(srenderer, settings, offX, offY);
 	}
 
-	protected void renderChildrenDebug(ShapeRenderer srenderer) {
-		srenderer.translate(getPositionX(), getPositionY(), 0);
-
+	protected void renderChildrenDebug(ShapeRenderer srenderer, GameSettings settings, int offX, int offY) {
 		for (MenuBaseElement element : elements) {
-			element.renderElementDebug(srenderer, owner);
+			element.renderElementDebug(srenderer, owner, settings, offX + getPositionX(), offY + getPositionY());
 		}
-
-		srenderer.translate(-getPositionX(), -getPositionY(), 0);
 	}
 
 	@Override

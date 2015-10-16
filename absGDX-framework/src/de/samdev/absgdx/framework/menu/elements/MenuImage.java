@@ -53,11 +53,6 @@ public class MenuImage extends MenuBaseElement {
 	}
 
 	@Override
-	public void renderDebugGridLines(ShapeRenderer srenderer, GameSettings settings) {
-		super.renderDebugGridLines(srenderer, settings);
-	}
-
-	@Override
 	public void render(SpriteBatch sbatch, BitmapFont font, int offX, int offY) {
 		if (getWidth() == 0 || getHeight() == 0) return;
 		
@@ -108,18 +103,16 @@ public class MenuImage extends MenuBaseElement {
 	}
 	
 	@Override
-	public void renderDebug(ShapeRenderer srenderer) {
-		GameSettings settings = owner.getAgdxGame().settings;
-		
+	public void renderDebug(ShapeRenderer srenderer, GameSettings settings, int offX, int offY) {
 		if (settings.debugMenuImageAnimation.isActive() && isAnimated()) {
 			srenderer.begin(ShapeType.Filled);
 			{
 				srenderer.setColor(settings.debugMenuBordersColor.get());
 				
-				srenderer.rect(getPositionX(), getPositionY(), (animationPos/animationLength) * getWidth(), 3);
-				srenderer.rect(getPositionX() + getWidth(), getPositionY() + getHeight(), -(animationPos/animationLength) * getWidth(), -4);
-				srenderer.rect(getPositionX(), getPositionY() + getHeight(), 3, -(animationPos/animationLength) * getHeight());
-				srenderer.rect(getPositionX() + getWidth(), getPositionY(), -4, (animationPos/animationLength) * getHeight());
+				srenderer.rect(offX + getPositionX(), offY + getPositionY(), (animationPos/animationLength) * getWidth(), 3);
+				srenderer.rect(offX + getPositionX() + getWidth(), offY + getPositionY() + getHeight(), -(animationPos/animationLength) * getWidth(), -4);
+				srenderer.rect(offX + getPositionX(), offY + getPositionY() + getHeight(), 3, -(animationPos/animationLength) * getHeight());
+				srenderer.rect(offX + getPositionX() + getWidth(), offY + getPositionY(), -4, (animationPos/animationLength) * getHeight());
 			}
 			srenderer.end();
 		}

@@ -76,19 +76,6 @@ public class MenuCheckBox extends MenuBaseElement {
 		innerLabel.setAutoScale(TextAutoScaleMode.VERTICAL);
 		innerLabel.setAlign(HorzAlign.LEFT, VertAlign.CENTER);
 	}
-
-	@Override
-	public void renderDebugGridLines(ShapeRenderer srenderer, GameSettings settings) {
-		super.renderDebugGridLines(srenderer, settings);
-		
-		srenderer.begin(ShapeType.Line);
-		{
-			srenderer.setColor(settings.debugMenuBordersColorL2.get());
-			srenderer.rect(innerLabel.getPositionX(), innerLabel.getPositionY(), innerLabel.getWidth(), innerLabel.getHeight());
-			srenderer.rect(innerImage.getPositionX(), innerImage.getPositionY(), innerImage.getWidth(), innerImage.getHeight());
-		}
-		srenderer.end();
-	}
 	
 	@Override
 	public void render(SpriteBatch sbatch, BitmapFont font, int offX, int offY) {
@@ -117,9 +104,20 @@ public class MenuCheckBox extends MenuBaseElement {
 	}
 	
 	@Override
-	public void renderDebug(ShapeRenderer srenderer) {
+	public void renderDebug(ShapeRenderer srenderer, GameSettings settings, int offX, int offY) {
+		if (settings.debugMenuBorders.isActive())
+		{
+			srenderer.begin(ShapeType.Line);
+			{
+				srenderer.setColor(settings.debugMenuBordersColorL2.get());
+				srenderer.rect(offX + innerLabel.getPositionX(), offY + innerLabel.getPositionY(), innerLabel.getWidth(), innerLabel.getHeight());
+				srenderer.rect(offX + innerImage.getPositionX(), offY + innerImage.getPositionY(), innerImage.getWidth(), innerImage.getHeight());
+			}
+			srenderer.end();
+		}
+		
 		if (renderLabel) {
-			innerLabel.renderElementDebug(srenderer, owner);		
+			innerLabel.renderElementDebug(srenderer, owner, settings, offX, offY);
 		}
 	}
 

@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import de.samdev.absgdx.framework.GameSettings;
 import de.samdev.absgdx.framework.menu.GUITextureProvider;
 import de.samdev.absgdx.framework.menu.attributes.HorzAlign;
 import de.samdev.absgdx.framework.menu.attributes.TextAutoScaleMode;
@@ -107,7 +108,7 @@ public class MenuLabel extends MenuBaseElement {
 	}
 
 	@Override
-	public void renderDebug(ShapeRenderer srenderer) {
+	public void renderDebug(ShapeRenderer srenderer, GameSettings settings, int offX, int offY) {
 		// NOP
 	}
 

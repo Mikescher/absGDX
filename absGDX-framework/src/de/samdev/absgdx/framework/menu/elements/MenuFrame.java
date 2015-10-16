@@ -60,14 +60,24 @@ public class MenuFrame extends MenuPanel {
 	 * @param owner the Menu in which this element exists
 	 */
 	public void renderRoot(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font, MenuOwner owner) {
+		
+		//####################################
+		
 		sbatch.begin();
 		{
 			this.renderElement(sbatch, font, owner, 0, 0);
 		}
 		sbatch.end();
 		
+		//####################################
+		
 		this.renderElementCustom(sbatch, srenderer, font, owner, 0, 0);
-		this.renderElementDebug(srenderer, owner);
+		
+		//####################################
+		
+		this.renderElementDebug(srenderer, owner, owner.getAgdxGame().settings, 0, 0);
+		
+		//####################################
 	}
 	
 	@Override

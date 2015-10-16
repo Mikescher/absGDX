@@ -84,18 +84,6 @@ public class MenuEdit extends MenuBaseElement { //TODO Does not work on mobile -
 	}
 
 	@Override
-	public void renderDebugGridLines(ShapeRenderer srenderer, GameSettings settings) {
-		super.renderDebugGridLines(srenderer, settings);
-		
-		srenderer.begin(ShapeType.Line);
-		{
-			srenderer.setColor(settings.debugMenuBordersColorL2.get());
-			srenderer.rect(innerLabel.getPositionX(), innerLabel.getPositionY(), innerLabel.getWidth(), innerLabel.getHeight());
-		}
-		srenderer.end();
-	}
-
-	@Override
 	public void render(SpriteBatch sbatch, BitmapFont font, int offX, int offY) {
 		FocusState fState = FocusState.fromBoolean(isFocused());
 		
@@ -150,8 +138,18 @@ public class MenuEdit extends MenuBaseElement { //TODO Does not work on mobile -
 	}
 
 	@Override
-	public void renderDebug(ShapeRenderer srenderer) {
-		innerLabel.renderElementDebug(srenderer, owner);
+	public void renderDebug(ShapeRenderer srenderer, GameSettings settings, int offX, int offY) {
+		if (settings.debugMenuBorders.isActive())
+		{
+			srenderer.begin(ShapeType.Line);
+			{
+				srenderer.setColor(settings.debugMenuBordersColorL2.get());
+				srenderer.rect(offX + innerLabel.getPositionX(), offY + innerLabel.getPositionY(), innerLabel.getWidth(), innerLabel.getHeight());
+			}
+			srenderer.end();
+		}
+		
+		innerLabel.renderElementDebug(srenderer, owner, settings, offX, offY);
 	}
 
 	@Override

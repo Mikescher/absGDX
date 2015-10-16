@@ -359,13 +359,9 @@ public abstract class MenuBaseElement {
 				render(sbatch, srenderer, defaultfont);
 			}
 		}
-		try {
+		
 		if (owner != null && owner.getAgdxGame().settings.debugMenuBorders.isActive()) {
 			renderDebugGridLines(srenderer, owner.getAgdxGame().settings);
-		}
-		} catch (RuntimeException e) {
-			owner.getAgdxGame();
-			throw e;
 		}
 	}
 

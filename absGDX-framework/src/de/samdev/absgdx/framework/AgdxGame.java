@@ -105,7 +105,6 @@ public abstract class AgdxGame implements ApplicationListener {
 			doUpdate();
 			doRender();
 		}
-		
 	}
 
 	private void doRender() {

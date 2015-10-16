@@ -65,18 +65,6 @@ public abstract class MenuLayer extends AgdxLayer implements MenuOwner {
 
 	@Override
 	public void render(SpriteBatch sbatch, ShapeRenderer srenderer, DebugTextRenderer tRenderer) {
-		srenderer.identity();
-		sbatch.getTransformMatrix().idt();
-		
-		srenderer.translate(0, owner.getScreenHeight(), 0);
-		srenderer.scale(1, -1, 1);
-
-		sbatch.getTransformMatrix().translate(0, owner.getScreenHeight(), 0);
-		sbatch.getTransformMatrix().scale(1, -1, 1);
-		
-		sbatch.enableBlending();
-		srenderer.setAutoShapeType(true);
-		
 		root.renderRoot(sbatch, srenderer, font, this);
 	}
 

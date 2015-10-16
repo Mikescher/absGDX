@@ -129,20 +129,6 @@ public abstract class GameLayer extends AgdxLayer implements MenuOwner {
 	}
 
 	private void renderHUD(SpriteBatch sbatch, ShapeRenderer srenderer) {
-		srenderer.identity();
-		sbatch.getTransformMatrix().idt();
-		
-		srenderer.translate(0, owner.getScreenHeight(), 0);
-		srenderer.scale(1, -1, 1);
-
-		sbatch.getTransformMatrix().translate(0, owner.getScreenHeight(), 0);
-		sbatch.getTransformMatrix().scale(1, -1, 1);
-		
-		sbatch.enableBlending();
-		srenderer.setAutoShapeType(true);
-		
-		//#####################################################################
-
 		getHUDRoot().renderRoot(sbatch, srenderer, hudFont, this);
 	}
 

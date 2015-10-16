@@ -60,7 +60,17 @@ public class MenuFrame extends MenuPanel {
 	 * @param owner the Menu in which this element exists
 	 */
 	public void renderRoot(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font, MenuOwner owner) {
+		srenderer.identity();
+		sbatch.getTransformMatrix().idt();
 		
+		srenderer.translate(0, owner.getAgdxGame().getScreenHeight(), 0);
+		srenderer.scale(1, -1, 1);
+
+		sbatch.getTransformMatrix().translate(0, owner.getAgdxGame().getScreenHeight(), 0);
+		sbatch.getTransformMatrix().scale(1, -1, 1);
+		
+		sbatch.enableBlending();
+		srenderer.setAutoShapeType(true);
 		//####################################
 		
 		sbatch.begin();

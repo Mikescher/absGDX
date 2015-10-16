@@ -138,7 +138,7 @@ public final class Textures {
 		
 		tex_player     = TextureHelper.load1DArray("playerSet.png", 72, 97, 10);
 		tex_bulletbill = TextureHelper.load1DArray("bullbill.png",  27, 14);
-		tex_animation  = TextureHelper.load1DArray("animation.png", 400, 400);
+		tex_animation  = TextureHelper.load1DArray("animation.png", 370, 370);
 		
 		tex_player_td = new TextureRegion[4][6];
 		for (int y = 0; y < 4; y++) {

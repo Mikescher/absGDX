@@ -49,16 +49,16 @@ public class MenuPanel extends MenuContainer {
 	}
 	
 	@Override
-	public void render(SpriteBatch sbatch, BitmapFont font) {
+	public void render(SpriteBatch sbatch, BitmapFont font, int offX, int offY) {
 		if (getTextureProvider().hasGeneric9SideTextures(getClass())) {
-			render9SideTexture(sbatch);
+			render9SideTexture(sbatch, offX, offY);
 		}
 		
 		if (getTextureProvider().hasPaddingTextures(getClass())) {
-			renderPaddingTexture(sbatch);
+			renderPaddingTexture(sbatch, offX, offY);
 		} 
 		
-		renderChildren(sbatch, font);
+		renderChildren(sbatch, font, offX, offY);
 	}
 	
 	/**

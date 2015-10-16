@@ -96,7 +96,7 @@ public class MenuEdit extends MenuBaseElement { //TODO Does not work on mobile -
 	}
 
 	@Override
-	public void render(SpriteBatch sbatch, BitmapFont font) {
+	public void render(SpriteBatch sbatch, BitmapFont font, int offX, int offY) {
 		FocusState fState = FocusState.fromBoolean(isFocused());
 		
 		innerLabel.setPosition(getPositionX() + padding.left, getPositionY() + padding.top);
@@ -118,16 +118,16 @@ public class MenuEdit extends MenuBaseElement { //TODO Does not work on mobile -
 		innerLabel.setContent(disp);
 		
 		if (getTextureProvider().hasGeneric9SideTextures(getClass(), fState)) {
-			render9SideTexture(sbatch, fState);
+			render9SideTexture(sbatch, fState, offX, offY);
 		}
 		
 		if (getTextureProvider().hasPaddingTextures(getClass(), fState)) {
-			renderPaddingTexture(sbatch, fState);
+			renderPaddingTexture(sbatch, fState, offX, offY);
 		} else if (getTextureProvider().hasPaddingTextures(getClass())) {
-			renderPaddingTexture(sbatch);
+			renderPaddingTexture(sbatch, offX, offY);
 		} 
 		
-		innerLabel.render(sbatch, font);
+		innerLabel.render(sbatch, font, offX, offY);
 	}
 
 	@Override

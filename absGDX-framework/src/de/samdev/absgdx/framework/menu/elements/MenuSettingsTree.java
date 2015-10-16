@@ -120,12 +120,12 @@ public class MenuSettingsTree extends MenuBaseElement {
 			return result;
 		}
 		
-		public int innerRender(SpriteBatch sbatch, BitmapFont font, int positionY, int depth) {
+		public int innerRender(SpriteBatch sbatch, BitmapFont font, int positionY, int depth, int offX, int offY) {
 			setUpInnerElements(positionY, depth);
 			
 			if (positionY >= treeowner.padding.top) {
-				super.render(sbatch, font);
-				innerImageRight.render(sbatch, font);
+				super.render(sbatch, font, offX, offY);
+				innerImageRight.render(sbatch, font, offX, offY);
 			}
 			
 			positionY += getHeight() + treeowner.rowGap;
@@ -135,7 +135,7 @@ public class MenuSettingsTree extends MenuBaseElement {
 					if (positionY + treeowner.rowHeight > treeowner.getHeight() - treeowner.padding.bottom)
 						return positionY;
 					
-					positionY = child.innerRender(sbatch, font, positionY, depth+1);
+					positionY = child.innerRender(sbatch, font, positionY, depth+1, offX, offY);
 				}
 			}
 			
@@ -242,21 +242,17 @@ public class MenuSettingsTree extends MenuBaseElement {
 	}
 
 	@Override
-	public void render(SpriteBatch sbatch, BitmapFont font) {
+	public void render(SpriteBatch sbatch, BitmapFont font, int offX, int offY) {
 		if (getTextureProvider().hasGeneric9SideTextures(getClass())) {
-			render9SideTexture(sbatch);
+			render9SideTexture(sbatch, offX, offY);
 		}
 		
 		if (getTextureProvider().hasPaddingTextures(getClass())) {
-			renderPaddingTexture(sbatch);
+			renderPaddingTexture(sbatch, offX, offY);
 		}
 		
-		sbatch.getTransformMatrix().translate(getPositionX(), getPositionY(), 0);
-		{
-			root.innerRender(sbatch, font, padding.top - scroll * (rowHeight + rowGap), 0);
+		root.innerRender(sbatch, font, padding.top - scroll * (rowHeight + rowGap), 0, offX + getPositionX(), offY + getPositionY());
 		}
-		sbatch.getTransformMatrix().translate(-getPositionX(), -getPositionY(), 0);
-	}
 
 	@Override
 	public void renderCustom(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {

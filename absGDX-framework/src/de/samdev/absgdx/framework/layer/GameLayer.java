@@ -143,9 +143,7 @@ public abstract class GameLayer extends AgdxLayer implements MenuOwner {
 		
 		//#####################################################################
 
-		getHUDRoot().renderElement(sbatch, hudFont, this);
-		getHUDRoot().renderElementCustom(sbatch, srenderer, hudFont, this);
-		getHUDRoot().renderElementDebug(srenderer, this);
+		getHUDRoot().renderRoot(sbatch, srenderer, hudFont, this);
 	}
 
 	private void renderGame(SpriteBatch sbatch, ShapeRenderer srenderer, DebugTextRenderer trenderer) {

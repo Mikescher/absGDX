@@ -96,9 +96,11 @@ public abstract class MenuBaseElement {
 	 * Renders the generic (9 sided) texture for this element
 	 * 
 	 * @param sbatch the spritebatch used to render
+	 * @param offX render offset in X
+	 * @param offY render offset in Y
 	 */
-	protected void render9SideTexture(SpriteBatch sbatch) {
-		render9SideTexture(sbatch, null);
+	protected void render9SideTexture(SpriteBatch sbatch, int offX, int offY) {
+		render9SideTexture(sbatch, null, offX, offY);
 	}
 	
 	/**
@@ -106,8 +108,10 @@ public abstract class MenuBaseElement {
 	 * 
 	 * @param sbatch the spritebatch used to render
 	 * @param appendix an optional appendix to the identifier
+	 * @param offX render offset in X
+	 * @param offY render offset in Y
 	 */
-	protected void render9SideTexture(SpriteBatch sbatch, Object appendix) {
+	protected void render9SideTexture(SpriteBatch sbatch, Object appendix, int offX, int offY) {
 		String app = (appendix == null || appendix.toString().isEmpty()) ? "" : ("#" + appendix.toString());
 		
 		TextureRegion tex_TL = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_TL + app);
@@ -119,32 +123,31 @@ public abstract class MenuBaseElement {
 		TextureRegion tex_BL = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_BL + app);
 		TextureRegion tex_BB = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_BB + app);
 		TextureRegion tex_BR = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_GENERIC_BR + app);
-		
-		sbatch.getTransformMatrix().translate(getPositionX(), getPositionY(), 0);
-		sbatch.begin();
+
+		// ########################
+
+		float coordX = offX + getPositionX();
+		float coordY = offY + getPositionY();
 		
 		// ######## Corners ########
 		
-		MenuRenderHelper.drawTexture(sbatch, tex_TL, 0, 0);
-		MenuRenderHelper.drawTexture(sbatch, tex_TR, getWidth() - tex_TR.getRegionWidth(), 0);
-		MenuRenderHelper.drawTexture(sbatch, tex_BL, 0, getHeight() - tex_BL.getRegionHeight());
-		MenuRenderHelper.drawTexture(sbatch, tex_BR, getWidth() - tex_BR.getRegionWidth(), getHeight() - tex_BR.getRegionHeight());
+		MenuRenderHelper.drawTexture(sbatch, tex_TL, coordX, coordY);
+		MenuRenderHelper.drawTexture(sbatch, tex_TR, coordX + getWidth() - tex_TR.getRegionWidth(), coordY);
+		MenuRenderHelper.drawTexture(sbatch, tex_BL, coordX, coordY + getHeight() - tex_BL.getRegionHeight());
+		MenuRenderHelper.drawTexture(sbatch, tex_BR, coordX + getWidth() - tex_BR.getRegionWidth(), coordY + getHeight() - tex_BR.getRegionHeight());
 		
 		// ######## Edges ########
 
-		MenuRenderHelper.drawTextureStretched(sbatch, tex_TT, tex_TL.getRegionWidth(), 0, getWidth() - tex_TL.getRegionWidth() - tex_TR.getRegionWidth(), tex_TT.getRegionHeight());
-		MenuRenderHelper.drawTextureStretched(sbatch, tex_LL, 0, tex_TL.getRegionHeight(), tex_LL.getRegionWidth(), getHeight() - tex_TL.getRegionHeight() - tex_BL.getRegionHeight());
-		MenuRenderHelper.drawTextureStretched(sbatch, tex_BB, tex_TL.getRegionWidth(), getHeight() -tex_BB.getRegionHeight(), getWidth() - tex_TL.getRegionWidth() - tex_TR.getRegionWidth(), tex_BB.getRegionHeight());
-		MenuRenderHelper.drawTextureStretched(sbatch, tex_RR, getWidth() - tex_RR.getRegionWidth(), tex_TL.getRegionHeight(), tex_LL.getRegionWidth(), getHeight() - tex_TL.getRegionHeight() - tex_BL.getRegionHeight());
+		MenuRenderHelper.drawTextureStretched(sbatch, tex_TT, coordX + tex_TL.getRegionWidth(), coordY, getWidth() - tex_TL.getRegionWidth() - tex_TR.getRegionWidth(), tex_TT.getRegionHeight());
+		MenuRenderHelper.drawTextureStretched(sbatch, tex_LL, coordX, coordY + tex_TL.getRegionHeight(), tex_LL.getRegionWidth(), getHeight() - tex_TL.getRegionHeight() - tex_BL.getRegionHeight());
+		MenuRenderHelper.drawTextureStretched(sbatch, tex_BB, coordX + tex_TL.getRegionWidth(), coordY + getHeight() - tex_BB.getRegionHeight(), getWidth() - tex_TL.getRegionWidth() - tex_TR.getRegionWidth(), tex_BB.getRegionHeight());
+		MenuRenderHelper.drawTextureStretched(sbatch, tex_RR, coordX + getWidth() - tex_RR.getRegionWidth(), coordY + tex_TL.getRegionHeight(), tex_LL.getRegionWidth(), getHeight() - tex_TL.getRegionHeight() - tex_BL.getRegionHeight());
 
 		// ######## Center ########
 
-		MenuRenderHelper.drawTextureStretched(sbatch, tex_CC, tex_TL.getRegionWidth(), tex_TL.getRegionHeight(), getWidth() - tex_BR.getRegionWidth() - tex_TL.getRegionWidth(), getHeight() - tex_BR.getRegionHeight() - tex_TL.getRegionHeight());
+		MenuRenderHelper.drawTextureStretched(sbatch, tex_CC, coordX + tex_TL.getRegionWidth(), coordY + tex_TL.getRegionHeight(), getWidth() - tex_BR.getRegionWidth() - tex_TL.getRegionWidth(), getHeight() - tex_BR.getRegionHeight() - tex_TL.getRegionHeight());
 
 		// ########################
-		
-		sbatch.end();
-		sbatch.getTransformMatrix().translate(-getPositionX(), -getPositionY(), 0);
 	}
 
 	/**
@@ -183,9 +186,11 @@ public abstract class MenuBaseElement {
 	 * Renders the generic (9 sided) texture for this element
 	 * 
 	 * @param sbatch the spritebatch used to render
+	 * @param offX render offset in X
+	 * @param offY render offset in Y
 	 */
-	protected void renderPaddingTexture(SpriteBatch sbatch) {
-		renderPaddingTexture(sbatch, null);
+	protected void renderPaddingTexture(SpriteBatch sbatch, int offX, int offY) {
+		renderPaddingTexture(sbatch, null, offX, offY);
 	}
 
 	/**
@@ -193,8 +198,10 @@ public abstract class MenuBaseElement {
 	 * 
 	 * @param sbatch the spritebatch used to render
 	 * @param appendix an optional appendix to the identifier
+	 * @param offX render offset in X
+	 * @param offY render offset in Y
 	 */
-	protected void renderPaddingTexture(SpriteBatch sbatch, Object appendix) {
+	protected void renderPaddingTexture(SpriteBatch sbatch, Object appendix, int offX, int offY) {
 		String app = (appendix == null || appendix.toString().isEmpty()) ? "" : ("#" + appendix.toString());
 		
 		TextureRegion tex_TL = getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_PADDING_TL + app);
@@ -216,38 +223,35 @@ public abstract class MenuBaseElement {
 		
 		ExtendedRectangleRadius padding = getPaddingTexturePadding(appendix);
 
-		sbatch.getTransformMatrix().translate(getPositionX(), getPositionY(), 0);
-		sbatch.begin();
+		// ########################
 
+		float coordX = offX + getPositionX();
+		float coordY = offY + getPositionY();
+		
 		// ######## Corners ########
 		
-		MenuRenderHelper.drawTexture(sbatch, tex_TL, -padding.left, -padding.top);
-		MenuRenderHelper.drawTexture(sbatch, tex_TR, getWidth(),    -padding.top);
-		MenuRenderHelper.drawTexture(sbatch, tex_BL, -padding.left, getHeight());
-		MenuRenderHelper.drawTexture(sbatch, tex_BR, getWidth(),    getHeight());
+		MenuRenderHelper.drawTexture(sbatch, tex_TL, coordX - padding.left, coordY - padding.top);
+		MenuRenderHelper.drawTexture(sbatch, tex_TR, coordX + getWidth(),   coordY - padding.top);
+		MenuRenderHelper.drawTexture(sbatch, tex_BL, coordX - padding.left, coordY + getHeight());
+		MenuRenderHelper.drawTexture(sbatch, tex_BR, coordX + getWidth(),   coordY + getHeight());
 
 		// ######## Corner Extensions ########
 
-		MenuRenderHelper.drawTexture(sbatch, tex_NL, 0, -padding.top);
-		MenuRenderHelper.drawTexture(sbatch, tex_NR, getWidth() - padding.offsetE, -padding.top);
-		MenuRenderHelper.drawTexture(sbatch, tex_WT, -padding.left, 0);
-		MenuRenderHelper.drawTexture(sbatch, tex_WB, -padding.left, getHeight() - padding.offsetS);
-		MenuRenderHelper.drawTexture(sbatch, tex_SL, 0, getHeight());
-		MenuRenderHelper.drawTexture(sbatch, tex_SR, getWidth() - padding.offsetE, getHeight());
-		MenuRenderHelper.drawTexture(sbatch, tex_ET, getWidth(), 0);
-		MenuRenderHelper.drawTexture(sbatch, tex_EB, getWidth(), getHeight() - padding.offsetS);
+		MenuRenderHelper.drawTexture(sbatch, tex_NL, coordX, coordY - padding.top);
+		MenuRenderHelper.drawTexture(sbatch, tex_NR, coordX + getWidth() - padding.offsetE, coordY - padding.top);
+		MenuRenderHelper.drawTexture(sbatch, tex_WT, coordX - padding.left, coordY);
+		MenuRenderHelper.drawTexture(sbatch, tex_WB, coordX - padding.left, coordY + getHeight() - padding.offsetS);
+		MenuRenderHelper.drawTexture(sbatch, tex_SL, coordX, coordY + getHeight());
+		MenuRenderHelper.drawTexture(sbatch, tex_SR, coordX + getWidth() - padding.offsetE, coordY + getHeight());
+		MenuRenderHelper.drawTexture(sbatch, tex_ET, coordX + getWidth(), coordY);
+		MenuRenderHelper.drawTexture(sbatch, tex_EB, coordX + getWidth(), coordY + getHeight() - padding.offsetS);
 	
 		// ######## Edges ########
 
-		MenuRenderHelper.drawTextureStretched(sbatch, tex_TT, padding.offsetW, -padding.top, padding.innerWidth, padding.top);
-		MenuRenderHelper.drawTextureStretched(sbatch, tex_LL, -padding.left, padding.offsetN, padding.left, padding.innerHeight);
-		MenuRenderHelper.drawTextureStretched(sbatch, tex_BB, padding.offsetW, getHeight(), padding.innerWidth, padding.top);
-		MenuRenderHelper.drawTextureStretched(sbatch, tex_RR, getWidth(), padding.offsetN, padding.left, padding.innerHeight);
-
-		// ########################
-		
-		sbatch.end();
-		sbatch.getTransformMatrix().translate(-getPositionX(), -getPositionY(), 0);
+		MenuRenderHelper.drawTextureStretched(sbatch, tex_TT, coordX + padding.offsetW, coordY - padding.top, padding.innerWidth, padding.top);
+		MenuRenderHelper.drawTextureStretched(sbatch, tex_LL, coordX - padding.left, coordY + padding.offsetN, padding.left, padding.innerHeight);
+		MenuRenderHelper.drawTextureStretched(sbatch, tex_BB, coordX + padding.offsetW, coordY + getHeight(), padding.innerWidth, padding.top);
+		MenuRenderHelper.drawTextureStretched(sbatch, tex_RR, coordX + getWidth(), coordY + padding.offsetN, padding.left, padding.innerHeight);
 	}
 
 	/**
@@ -349,13 +353,15 @@ public abstract class MenuBaseElement {
 	 * @param sbatch the BatchRenderer (from LibGDX)
 	 * @param defaultfont the default font to use
 	 * @param owner the Menu in which this element exists
+	 * @param offX render offset in X
+	 * @param offY render offset in Y
 	 */
-	public final void renderElement(SpriteBatch sbatch, BitmapFont defaultfont, MenuOwner owner) {
+	public final void renderElement(SpriteBatch sbatch, BitmapFont defaultfont, MenuOwner owner, int offX, int offY) {
 		if (visible) {
 			if (font != null) {
-				render(sbatch, font);
+				render(sbatch, font, offX, offY);
 			} else {
-				render(sbatch, defaultfont);
+				render(sbatch, defaultfont, offX, offY);
 			}
 		}
 	}
@@ -412,8 +418,10 @@ public abstract class MenuBaseElement {
 	 * 
 	 * @param sbatch the BatchRenderer (from LibGDX)
 	 * @param font the font to use
+	 * @param offX render offset in X
+	 * @param offY render offset in Y
 	 */
-	public abstract void render(SpriteBatch sbatch, BitmapFont font);
+	public abstract void render(SpriteBatch sbatch, BitmapFont font, int offX, int offY);
 
 	/**
 	 * Renders additional elements (you must call begin end on your own here)

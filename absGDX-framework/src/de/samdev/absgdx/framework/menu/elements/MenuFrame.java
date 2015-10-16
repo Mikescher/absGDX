@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import de.samdev.absgdx.framework.menu.GUITextureProvider;
 import de.samdev.absgdx.framework.menu.MenuOwner;
@@ -50,12 +51,31 @@ public class MenuFrame extends MenuPanel {
 		setDepth(0);
 	}
 	
+	/**
+	 * Renders the complete menu tree
+	 * 
+	 * @param sbatch the BatchRenderer (from LibGDX)
+	 * @param srenderer the ShapeRenderer (from LibGDX)
+	 * @param font the default font to use
+	 * @param owner the Menu in which this element exists
+	 */
+	public void renderRoot(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font, MenuOwner owner) {
+		sbatch.begin();
+		{
+			this.renderElement(sbatch, font, owner, 0, 0);
+		}
+		sbatch.end();
+		
+		this.renderElementCustom(sbatch, srenderer, font, owner);
+		this.renderElementDebug(srenderer, owner);
+	}
+	
 	@Override
-	public void render(SpriteBatch sbatch, BitmapFont font) {
+	public void render(SpriteBatch sbatch, BitmapFont font, int offX, int offY) {
 		if (isRenderTexture()) {
-			super.render(sbatch, font);
+			super.render(sbatch, font, offX, offY);
 		} else {
-			renderChildren(sbatch, font);
+			renderChildren(sbatch, font, offX, offY);
 		}
 	}
 	

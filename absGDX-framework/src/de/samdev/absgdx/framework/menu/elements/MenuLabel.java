@@ -57,7 +57,7 @@ public class MenuLabel extends MenuBaseElement {
 	}
 
 	@Override
-	public void render(SpriteBatch sbatch, BitmapFont font) {
+	public void render(SpriteBatch sbatch, BitmapFont font, int offX, int offY) {
 		if (getWidth() == 0 || getHeight() == 0) return;
 		
 		doAutoScale(font);
@@ -98,9 +98,7 @@ public class MenuLabel extends MenuBaseElement {
 			return;
 		}
 		
-		sbatch.begin();
-		font.draw(sbatch, content, x, y);
-		sbatch.end();
+		font.draw(sbatch, content, offX + x, offY + y);
 	}
 
 	@Override

@@ -123,26 +123,24 @@ public class MenuButton extends MenuBaseElement {
 	}
 
 	@Override
-	public void render(SpriteBatch sbatch, BitmapFont font) {
+	public void render(SpriteBatch sbatch, BitmapFont font, int offX, int offY) {
 		updateLayout();
 		
 		if (getTextureProvider().hasGeneric9SideTextures(getClass(), visualState)) {
-			render9SideTexture(sbatch, visualState);
+			render9SideTexture(sbatch, visualState, offX, offY);
 		}
 		
 		if (getTextureProvider().hasPaddingTextures(getClass(), visualState)) {
-			renderPaddingTexture(sbatch, visualState);
+			renderPaddingTexture(sbatch, visualState, offX, offY);
 		} else if (getTextureProvider().hasPaddingTextures(getClass())) {
-			renderPaddingTexture(sbatch);
+			renderPaddingTexture(sbatch, offX, offY);
 		}
 		
 		if (hasImage()) {
-			sbatch.begin();
-			MenuRenderHelper.drawTextureStretched(sbatch, image, imageX, imageY, imageWidth, imageHeight);
-			sbatch.end();
+			MenuRenderHelper.drawTextureStretched(sbatch, image, offX + imageX, offY + imageY, imageWidth, imageHeight);
 		}
 	
-		innerLabel.render(sbatch, font);
+		innerLabel.render(sbatch, font, offX, offY);
 	}
 
 	@Override

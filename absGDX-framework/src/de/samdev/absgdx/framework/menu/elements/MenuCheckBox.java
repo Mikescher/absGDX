@@ -91,7 +91,7 @@ public class MenuCheckBox extends MenuBaseElement {
 	}
 	
 	@Override
-	public void render(SpriteBatch sbatch, BitmapFont font) {
+	public void render(SpriteBatch sbatch, BitmapFont font, int offX, int offY) {
 		TextureRegion tex = getCheckTexture();
 		
 		innerImage.setPosition(getPositionX() + img_padding.left, getPositionY() + img_padding.top);
@@ -101,11 +101,11 @@ public class MenuCheckBox extends MenuBaseElement {
 		innerLabel.setSize(getWidth() - getHeight() - img_padding.getHorizontalSum() - lbl_padding.getHorizontalSum(), getHeight() - lbl_padding.getVerticalSum());
 		
 		if (tex != null) {
-			renderTextured(sbatch, tex);
+			renderTextured(sbatch, tex, offX, offY);
 		}
 	
 		if (renderLabel) {
-			innerLabel.render(sbatch, font);			
+			innerLabel.render(sbatch, font, offX, offY);			
 		}
 	}
 
@@ -127,13 +127,9 @@ public class MenuCheckBox extends MenuBaseElement {
 		return getTextureProvider().get(getClass(), GUITextureProvider.IDENT_TEX_CHECK_IMG, CheckState.fromBoolean(isChecked()));
 	}
 
-	private void renderTextured(SpriteBatch sbatch, TextureRegion texture) {
+	private void renderTextured(SpriteBatch sbatch, TextureRegion texture, int offX, int offY) {
 		if (renderImage) {
-			sbatch.begin();
-			
-			MenuRenderHelper.drawTextureStretched(sbatch, texture, getPositionX() + img_padding.left, getPositionY() + img_padding.top, getHeight() - img_padding.getVerticalSum(), getHeight() - img_padding.getHorizontalSum());
-			
-			sbatch.end();
+			MenuRenderHelper.drawTextureStretched(sbatch, texture, offX + getPositionX() + img_padding.left, offY + getPositionY() + img_padding.top, getHeight() - img_padding.getVerticalSum(), getHeight() - img_padding.getHorizontalSum());
 		}
 	}
 

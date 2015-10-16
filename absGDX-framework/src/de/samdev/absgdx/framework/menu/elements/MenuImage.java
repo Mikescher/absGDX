@@ -58,17 +58,15 @@ public class MenuImage extends MenuBaseElement {
 	}
 
 	@Override
-	public void render(SpriteBatch sbatch, BitmapFont font) {
+	public void render(SpriteBatch sbatch, BitmapFont font, int offX, int offY) {
 		if (getWidth() == 0 || getHeight() == 0) return;
 		
 		TextureRegion image = getTexture();
 		if (image == null || image.getTexture() == null) return;
 		
 		if (getTextureProvider().hasPaddingTextures(getClass())) {
-			renderPaddingTexture(sbatch);
-		} 
-		
-		sbatch.begin();
+			renderPaddingTexture(sbatch, offX, offY);
+		}
 
 		float texWidth;
 		float texHeight;
@@ -101,9 +99,7 @@ public class MenuImage extends MenuBaseElement {
 			break;
 		}
 
-		sbatch.draw(image, getPositionX(), getPositionY() + texHeight, texWidth, -texHeight);
-		
-		sbatch.end();
+		sbatch.draw(image, offX + getPositionX(), offY + getPositionY() + texHeight, texWidth, -texHeight);
 	}
 
 	@Override

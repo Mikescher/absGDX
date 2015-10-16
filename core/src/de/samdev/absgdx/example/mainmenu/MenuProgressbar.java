@@ -41,7 +41,7 @@ public class MenuProgressbar extends MenuBaseElement {
 	}
 
 	@Override
-	public void render(SpriteBatch sbatch, BitmapFont font) {
+	public void render(SpriteBatch sbatch, BitmapFont font, int offX, int offY) {
 		
 		TextureRegion tex0 = getTextureProvider().get(getClass(), "0");
 		float tex0_w = getHeight() * (tex0.getRegionWidth() * 1f/ tex0.getRegionHeight());
@@ -61,25 +61,19 @@ public class MenuProgressbar extends MenuBaseElement {
 		innerLabel.setColor(Color.WHITE);
 		innerLabel.setAutoScale(TextAutoScaleMode.BOTH);
 		innerLabel.setAlign(HorzAlign.CENTER, VertAlign.CENTER);
-		
-		sbatch.getTransformMatrix().translate(getPositionX(), getPositionY(), 0);
-		sbatch.begin();
-		{
-			MenuRenderHelper.drawTextureStretched(sbatch, tex0, 0, 0, tex0_w, getHeight());
-			MenuRenderHelper.drawTextureStretched(sbatch, tex1, getWidth() - tex1_w, 0, tex1_w, getHeight());
 
-			if (percpos > tex0_w)
-				MenuRenderHelper.drawTextureStretched(sbatch, tex2, tex0_w, 0, percpos - tex0_w, getHeight());
+		MenuRenderHelper.drawTextureStretched(sbatch, tex0, offX + getPositionX(), offY + getPositionY(), tex0_w, getHeight());
+		MenuRenderHelper.drawTextureStretched(sbatch, tex1, offX + getPositionX() + getWidth() - tex1_w, offY + getPositionY(), tex1_w, getHeight());
 
-			if (percpos > tex0_w)
-				MenuRenderHelper.drawTextureStretched(sbatch, tex3, percpos, 0, getWidth() - percpos - tex1_w, getHeight());
-			
-			MenuRenderHelper.drawTexture(sbatch, tex4, percpos - tex4.getRegionWidth()/2, 0);
-		}
-		sbatch.end();
-		sbatch.getTransformMatrix().translate(-getPositionX(), -getPositionY(), 0);
+		if (percpos > tex0_w)
+			MenuRenderHelper.drawTextureStretched(sbatch, tex2, offX + getPositionX() + tex0_w, offY + getPositionY(), percpos - tex0_w, getHeight());
+
+		if (percpos > tex0_w)
+			MenuRenderHelper.drawTextureStretched(sbatch, tex3, offX + getPositionX() + percpos, offY + getPositionY(), getWidth() - percpos - tex1_w, getHeight());
 		
-		innerLabel.render(sbatch, font);
+		MenuRenderHelper.drawTexture(sbatch, tex4, offX + getPositionX() + percpos - tex4.getRegionWidth()/2, offY + getPositionY());
+		
+		innerLabel.render(sbatch, font, offX, offY);
 	}
 
 	@Override

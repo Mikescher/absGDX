@@ -61,18 +61,14 @@ public class MenuContainer extends MenuBaseElement {
 	}
 	
 	@Override
-	public void render(SpriteBatch sbatch, BitmapFont font) {
-		renderChildren(sbatch, font);
+	public void render(SpriteBatch sbatch, BitmapFont font, int offX, int offY) {
+		renderChildren(sbatch, font, offX, offY);
 	}
 
-	protected void renderChildren(SpriteBatch sbatch, BitmapFont font) {
-		sbatch.getTransformMatrix().translate(getPositionX(), getPositionY(), 0);
-		
+	protected void renderChildren(SpriteBatch sbatch, BitmapFont font, int offX, int offY) {
 		for (MenuBaseElement element : elements) {
-			element.renderElement(sbatch, font, owner);
+			element.renderElement(sbatch, font, owner, offX + getPositionX(), offY + getPositionY());
 		}
-
-		sbatch.getTransformMatrix().translate(-getPositionX(), -getPositionY(), 0);
 	}
 
 	@Override

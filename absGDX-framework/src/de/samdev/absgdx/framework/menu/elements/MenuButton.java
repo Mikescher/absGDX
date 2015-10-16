@@ -149,8 +149,8 @@ public class MenuButton extends MenuBaseElement {
 	}
 
 	@Override
-	public void renderCustom(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
-		innerLabel.renderElementCustom(sbatch, srenderer, font, owner);
+	public void renderCustom(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font, int offX, int offY) {
+		innerLabel.renderElementCustom(sbatch, srenderer, font, owner, offX, offY);
 	}
 
 	@Override

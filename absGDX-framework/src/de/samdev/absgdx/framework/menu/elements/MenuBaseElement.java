@@ -374,13 +374,15 @@ public abstract class MenuBaseElement {
 	 * @param srenderer the ShapeRenderer (from LibGDX)
 	 * @param defaultfont the default font to use
 	 * @param owner the Menu in which this element exists
+	 * @param offX render offset in X
+	 * @param offY render offset in Y
 	 */
-	public final void renderElementCustom(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont defaultfont, MenuOwner owner) {
+	public final void renderElementCustom(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont defaultfont, MenuOwner owner, int offX, int offY) {
 		if (visible) {
 			if (font != null) {
-				renderCustom(sbatch, srenderer, font);
+				renderCustom(sbatch, srenderer, font, offX, offY);
 			} else {
-				renderCustom(sbatch, srenderer, defaultfont);
+				renderCustom(sbatch, srenderer, defaultfont, offX, offY);
 			}
 		}
 	}
@@ -429,8 +431,10 @@ public abstract class MenuBaseElement {
 	 * @param sbatch the BatchRenderer (from LibGDX)
 	 * @param srenderer the ShapeRenderer (from LibGDX)
 	 * @param font the font to use
+	 * @param offX render offset in X
+	 * @param offY render offset in Y
 	 */
-	public abstract void renderCustom(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font);
+	public abstract void renderCustom(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font, int offX, int offY);
 
 	/**
 	 * Renders the debug overlay of the element

@@ -66,7 +66,7 @@ public class MenuFrame extends MenuPanel {
 		}
 		sbatch.end();
 		
-		this.renderElementCustom(sbatch, srenderer, font, owner);
+		this.renderElementCustom(sbatch, srenderer, font, owner, 0, 0);
 		this.renderElementDebug(srenderer, owner);
 	}
 	

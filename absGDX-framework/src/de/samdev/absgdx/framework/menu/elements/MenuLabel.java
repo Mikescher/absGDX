@@ -102,7 +102,7 @@ public class MenuLabel extends MenuBaseElement {
 	}
 
 	@Override
-	public void renderCustom(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
+	public void renderCustom(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font, int offX, int offY) {
 		// NOP
 	}
 

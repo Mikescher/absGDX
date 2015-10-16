@@ -110,9 +110,9 @@ public class MenuCheckBox extends MenuBaseElement {
 	}
 
 	@Override
-	public void renderCustom(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
+	public void renderCustom(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font, int offX, int offY) {
 		if (renderLabel) {
-			innerLabel.renderElementCustom(sbatch, srenderer, font, owner);		
+			innerLabel.renderElementCustom(sbatch, srenderer, font, owner, offX, offY);
 		}
 	}
 	

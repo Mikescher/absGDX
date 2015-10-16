@@ -255,27 +255,23 @@ public class MenuSettingsTree extends MenuBaseElement {
 		}
 
 	@Override
-	public void renderCustom(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
-		srenderer.translate(getPositionX(), getPositionY(), 0);
-		{
-			int rows = root.getAllVisibleChildren().size();
-			int vrows = (getHeight() - padding.getVerticalSum()) / (rowHeight + rowGap);
+	public void renderCustom(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font, int offX, int offY) {
+		int rows = root.getAllVisibleChildren().size();
+		int vrows = (getHeight() - padding.getVerticalSum()) / (rowHeight + rowGap);
+		
+		if (vrows < rows) {
+			float sbheight = (vrows * 1f / rows) * getHeight();
+			float sbfreespace = getHeight() - sbheight;
+			float sbperc = scroll * 1f / (rows - vrows);
+			float sby = sbperc * sbfreespace;
 			
-			if (vrows < rows) {
-				float sbheight = (vrows * 1f / rows) * getHeight();
-				float sbfreespace = getHeight() - sbheight;
-				float sbperc = scroll * 1f / (rows - vrows);
-				float sby = sbperc * sbfreespace;
-				
-				srenderer.begin(ShapeType.Filled);
-				{
-					srenderer.setColor(getScrollbarColor());
-					srenderer.rect(getWidth() - 1, sby + 1, -scrollbarWidth, sbheight - 2);
-				}
-				srenderer.end();
+			srenderer.begin(ShapeType.Filled);
+			{
+				srenderer.setColor(getScrollbarColor());
+				srenderer.rect(offX + getPositionX() + getWidth() - 1, offY + getPositionY() + sby + 1, -scrollbarWidth, sbheight - 2);
 			}
+			srenderer.end();
 		}
-		srenderer.translate(-getPositionX(), -getPositionY(), 0);
 	}
 
 	@Override

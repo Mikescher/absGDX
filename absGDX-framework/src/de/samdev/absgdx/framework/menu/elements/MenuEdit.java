@@ -131,7 +131,7 @@ public class MenuEdit extends MenuBaseElement { //TODO Does not work on mobile -
 	}
 
 	@Override
-	public void renderCustom(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
+	public void renderCustom(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font, int offX, int offY) {
 		if (blinkCounter * 2 < BLINK_DELAY && isFocused()) {
 			float cbWidth = innerLabel.getHeight() / 9f;
 			float innerScale = innerLabel.getRealFontScale(font);
@@ -141,12 +141,12 @@ public class MenuEdit extends MenuBaseElement { //TODO Does not work on mobile -
 			{
 				srenderer.setColor(getColor());
 	
-				srenderer.rect(innerLabel.getPositionX() + font.getBounds(innerLabel.getContent()).width + cbWidth, innerLabel.getPositionY(), cbWidth, innerLabel.getHeight());
+				srenderer.rect(offX + innerLabel.getPositionX() + font.getBounds(innerLabel.getContent()).width + cbWidth, offY + innerLabel.getPositionY(), cbWidth, innerLabel.getHeight());
 			}
 			srenderer.end();
 		}
 
-		innerLabel.renderCustom(sbatch, srenderer, font);
+		innerLabel.renderCustom(sbatch, srenderer, font, offX, offY);
 	}
 
 	@Override

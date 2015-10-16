@@ -72,16 +72,10 @@ public class MenuContainer extends MenuBaseElement {
 	}
 
 	@Override
-	public void renderCustom(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
-		sbatch.getTransformMatrix().translate(getPositionX(), getPositionY(), 0);
-		srenderer.translate(getPositionX(), getPositionY(), 0);
-		
+	public void renderCustom(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font, int offX, int offY) {
 		for (MenuBaseElement element : elements) {
-			element.renderElementCustom(sbatch, srenderer, font, owner);
+			element.renderElementCustom(sbatch, srenderer, font, owner, offX + getPositionX(), offY + getPositionY());
 		}
-
-		srenderer.translate(-getPositionX(), -getPositionY(), 0);
-		sbatch.getTransformMatrix().translate(-getPositionX(), -getPositionY(), 0);
 	}
 	
 	@Override

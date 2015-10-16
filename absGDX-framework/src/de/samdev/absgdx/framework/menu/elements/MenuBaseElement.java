@@ -36,7 +36,7 @@ public abstract class MenuBaseElement {
 
 	private BitmapFont font = null;
 	
-	protected final GUITextureProvider textureprovider;
+	protected GUITextureProvider textureprovider;
 	protected List<MenuBaseElementListener> listeners = new ArrayList<MenuBaseElementListener>();
 	
 	/**
@@ -347,17 +347,48 @@ public abstract class MenuBaseElement {
 	 * Performs preparation needed before rendering
 	 * 
 	 * @param sbatch the BatchRenderer (from LibGDX)
+	 * @param defaultfont the default font to use
+	 * @param owner the Menu in which this element exists
+	 */
+	public final void renderElement(SpriteBatch sbatch, BitmapFont defaultfont, MenuOwner owner) {
+		if (visible) {
+			if (font != null) {
+				render(sbatch, font);
+			} else {
+				render(sbatch, defaultfont);
+			}
+		}
+	}
+
+	/**
+	 * Renders the element (always call this function instead of directly calling render )
+	 * Performs preparation needed before rendering
+	 * 
+	 * @param sbatch the BatchRenderer (from LibGDX)
 	 * @param srenderer the ShapeRenderer (from LibGDX)
 	 * @param defaultfont the default font to use
 	 * @param owner the Menu in which this element exists
 	 */
-	public final void renderElement(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont defaultfont, MenuOwner owner) {
+	public final void renderElementCustom(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont defaultfont, MenuOwner owner) {
 		if (visible) {
 			if (font != null) {
-				render(sbatch, srenderer, font);
+				renderCustom(sbatch, srenderer, font);
 			} else {
-				render(sbatch, srenderer, defaultfont);
+				renderCustom(sbatch, srenderer, defaultfont);
 			}
+		}
+	}
+
+	/**
+	 * Renders the debug overlay of the element (always call this function instead of directly calling render)
+	 * Performs preparation needed before rendering
+	 * 
+	 * @param srenderer the ShapeRenderer (from LibGDX)
+	 * @param owner the Menu in which this element exists
+	 */
+	public final void renderElementDebug(ShapeRenderer srenderer, MenuOwner owner) {
+		if (visible) {
+			renderDebug(srenderer);
 		}
 		
 		if (owner != null && owner.getAgdxGame().settings.debugMenuBorders.isActive()) {
@@ -373,15 +404,34 @@ public abstract class MenuBaseElement {
 		}
 		srenderer.end();
 	}
-	
+
 	/**
 	 * Renders the Element
+	 * 
+	 * Don't call begin end in this method - this is done by the caller
+	 * 
+	 * @param sbatch the BatchRenderer (from LibGDX)
+	 * @param font the font to use
+	 */
+	public abstract void render(SpriteBatch sbatch, BitmapFont font);
+
+	/**
+	 * Renders additional elements (you must call begin end on your own here)
 	 * 
 	 * @param sbatch the BatchRenderer (from LibGDX)
 	 * @param srenderer the ShapeRenderer (from LibGDX)
 	 * @param font the font to use
 	 */
-	public abstract void render(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font);
+	public abstract void renderCustom(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font);
+
+	/**
+	 * Renders the debug overlay of the element
+	 * 
+	 * Don't call begin end in this method - this is done by the caller
+	 * 
+	 * @param srenderer the ShapeRenderer (from LibGDX)
+	 */
+	public abstract void renderDebug(ShapeRenderer srenderer);
 	
 	/**
 	 * @param delta the time since the last update (in ms) - can be averaged over he last few cycles

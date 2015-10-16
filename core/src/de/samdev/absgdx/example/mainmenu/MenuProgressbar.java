@@ -41,7 +41,7 @@ public class MenuProgressbar extends MenuBaseElement {
 	}
 
 	@Override
-	public void render(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
+	public void render(SpriteBatch sbatch, BitmapFont font) {
 		
 		TextureRegion tex0 = getTextureProvider().get(getClass(), "0");
 		float tex0_w = getHeight() * (tex0.getRegionWidth() * 1f/ tex0.getRegionHeight());
@@ -79,7 +79,17 @@ public class MenuProgressbar extends MenuBaseElement {
 		sbatch.end();
 		sbatch.getTransformMatrix().translate(-getPositionX(), -getPositionY(), 0);
 		
-		innerLabel.render(sbatch, srenderer, font);
+		innerLabel.render(sbatch, font);
+	}
+
+	@Override
+	public void renderCustom(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
+		// NOP
+	}
+
+	@Override
+	public void renderDebug(ShapeRenderer srenderer) {
+		innerLabel.renderDebug(srenderer);
 	}
 
 	public int direction = 1;

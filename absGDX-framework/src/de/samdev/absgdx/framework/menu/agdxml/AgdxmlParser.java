@@ -116,6 +116,8 @@ public class AgdxmlParser {
 			
 			GUITextureProvider rootProvider = getTextureProviderFromMap(xmlRootElement.getAttribute("textures", null), new GUITextureProvider());
 			
+			root.setTextureProvider(rootProvider);
+			
 			for (int i = 0; i < xmlRootElement.getChildCount(); i++) {
 				Element child = xmlRootElement.getChild(i);
 				

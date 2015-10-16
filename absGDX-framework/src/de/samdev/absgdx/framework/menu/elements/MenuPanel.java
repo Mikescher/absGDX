@@ -4,8 +4,6 @@ import java.util.List;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 import de.samdev.absgdx.framework.menu.GUITextureProvider;
 import de.samdev.absgdx.framework.menu.events.MenuPanelListener;
@@ -51,28 +49,16 @@ public class MenuPanel extends MenuContainer {
 	}
 	
 	@Override
-	public void render(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
+	public void render(SpriteBatch sbatch, BitmapFont font) {
 		if (getTextureProvider().hasGeneric9SideTextures(getClass())) {
 			render9SideTexture(sbatch);
-		} else {
-			renderSimple(srenderer);
 		}
 		
 		if (getTextureProvider().hasPaddingTextures(getClass())) {
 			renderPaddingTexture(sbatch);
 		} 
 		
-		renderChildren(sbatch, srenderer, font);
-	}
-
-	private void renderSimple(ShapeRenderer srenderer) {
-		srenderer.begin(ShapeType.Filled);
-		{
-			float grayValue = 1f - (getDepth() % 16) / 15f;
-			srenderer.setColor(grayValue, grayValue, grayValue, 1f);
-			srenderer.rect(getPositionX(), getPositionY(), getWidth(), getHeight());
-		}
-		srenderer.end();
+		renderChildren(sbatch, font);
 	}
 	
 	/**

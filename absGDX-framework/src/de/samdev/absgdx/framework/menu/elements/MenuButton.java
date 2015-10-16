@@ -123,13 +123,11 @@ public class MenuButton extends MenuBaseElement {
 	}
 
 	@Override
-	public void render(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
+	public void render(SpriteBatch sbatch, BitmapFont font) {
 		updateLayout();
 		
 		if (getTextureProvider().hasGeneric9SideTextures(getClass(), visualState)) {
 			render9SideTexture(sbatch, visualState);
-		} else {
-			renderSimple(srenderer);
 		}
 		
 		if (getTextureProvider().hasPaddingTextures(getClass(), visualState)) {
@@ -144,24 +142,17 @@ public class MenuButton extends MenuBaseElement {
 			sbatch.end();
 		}
 	
-		innerLabel.render(sbatch, srenderer, font);
+		innerLabel.render(sbatch, font);
 	}
 
-	private void renderSimple(ShapeRenderer srenderer) {
-		srenderer.begin(ShapeType.Filled);
-		{
-			float grayValue = 1f - (getDepth() % 16) / 15f;
-			srenderer.setColor(grayValue, grayValue, visualState.ordinal() /3f, 1f);
-			srenderer.rect(getPositionX(), getPositionY(), getWidth(), getHeight());
-		}
-		srenderer.end();
-		
-		srenderer.begin(ShapeType.Line);
-		{
-			srenderer.setColor(Color.BLACK);
-			srenderer.rect(getPositionX(), getPositionY(), getWidth(), getHeight());
-		}
-		srenderer.end();
+	@Override
+	public void renderDebug(ShapeRenderer srenderer) {
+		innerLabel.renderElementDebug(srenderer, owner);
+	}
+
+	@Override
+	public void renderCustom(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
+		innerLabel.renderElementCustom(sbatch, srenderer, font, owner);
 	}
 
 	@Override

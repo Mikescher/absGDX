@@ -142,8 +142,10 @@ public abstract class GameLayer extends AgdxLayer implements MenuOwner {
 		srenderer.setAutoShapeType(true);
 		
 		//#####################################################################
-		
-		getHUDRoot().renderElement(sbatch, srenderer, hudFont, this);
+
+		getHUDRoot().renderElement(sbatch, hudFont, this);
+		getHUDRoot().renderElementCustom(sbatch, srenderer, hudFont, this);
+		getHUDRoot().renderElementDebug(srenderer, this);
 	}
 
 	private void renderGame(SpriteBatch sbatch, ShapeRenderer srenderer, DebugTextRenderer trenderer) {

@@ -57,7 +57,7 @@ public class MenuLabel extends MenuBaseElement {
 	}
 
 	@Override
-	public void render(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
+	public void render(SpriteBatch sbatch, BitmapFont font) {
 		if (getWidth() == 0 || getHeight() == 0) return;
 		
 		doAutoScale(font);
@@ -101,6 +101,16 @@ public class MenuLabel extends MenuBaseElement {
 		sbatch.begin();
 		font.draw(sbatch, content, x, y);
 		sbatch.end();
+	}
+
+	@Override
+	public void renderCustom(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
+		// NOP
+	}
+
+	@Override
+	public void renderDebug(ShapeRenderer srenderer) {
+		// NOP
 	}
 
 	private float doAutoScale(BitmapFont font) {

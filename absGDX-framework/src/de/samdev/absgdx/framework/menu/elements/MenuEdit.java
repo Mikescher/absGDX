@@ -96,13 +96,14 @@ public class MenuEdit extends MenuBaseElement { //TODO Does not work on mobile -
 	}
 
 	@Override
-	public void render(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
+	public void render(SpriteBatch sbatch, BitmapFont font) {
 		FocusState fState = FocusState.fromBoolean(isFocused());
 		
 		innerLabel.setPosition(getPositionX() + padding.left, getPositionY() + padding.top);
 		innerLabel.setSize(getWidth() - padding.getHorizontalSum(), getHeight() - padding.getVerticalSum());
 		
 		innerLabel.setContent(content);
+
 		float innerScale = innerLabel.getRealFontScale(font);
 		font.setScale(innerScale, -innerScale);
 
@@ -118,8 +119,6 @@ public class MenuEdit extends MenuBaseElement { //TODO Does not work on mobile -
 		
 		if (getTextureProvider().hasGeneric9SideTextures(getClass(), fState)) {
 			render9SideTexture(sbatch, fState);
-		} else {
-			renderSimple(srenderer);
 		}
 		
 		if (getTextureProvider().hasPaddingTextures(getClass(), fState)) {
@@ -128,32 +127,31 @@ public class MenuEdit extends MenuBaseElement { //TODO Does not work on mobile -
 			renderPaddingTexture(sbatch);
 		} 
 		
-		if (blinkCounter * 2 < BLINK_DELAY && isFocused()) {
-			srenderer.begin(ShapeType.Filled);
-			
-			srenderer.setColor(getColor());
-			srenderer.rect(innerLabel.getPositionX() + font.getBounds(disp).width + cbWidth, innerLabel.getPositionY(), cbWidth, innerLabel.getHeight());
-			
-			srenderer.end();
-		}
-		
-		innerLabel.render(sbatch, srenderer, font);
+		innerLabel.render(sbatch, font);
 	}
 
-	private void renderSimple(ShapeRenderer srenderer) {
-		srenderer.begin(ShapeType.Filled);
-		{
-			srenderer.setColor(Color.WHITE);
-			srenderer.rect(getPositionX(), getPositionY(), getWidth(), getHeight());
+	@Override
+	public void renderCustom(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
+		if (blinkCounter * 2 < BLINK_DELAY && isFocused()) {
+			float cbWidth = innerLabel.getHeight() / 9f;
+			float innerScale = innerLabel.getRealFontScale(font);
+			font.setScale(innerScale, -innerScale);
+						
+			srenderer.begin(ShapeType.Filled);
+			{
+				srenderer.setColor(getColor());
+	
+				srenderer.rect(innerLabel.getPositionX() + font.getBounds(innerLabel.getContent()).width + cbWidth, innerLabel.getPositionY(), cbWidth, innerLabel.getHeight());
+			}
+			srenderer.end();
 		}
-		srenderer.end();
-		
-		srenderer.begin(ShapeType.Line);
-		{
-			srenderer.setColor(Color.BLACK);
-			srenderer.rect(getPositionX(), getPositionY(), getWidth(), getHeight());
-		}
-		srenderer.end();
+
+		innerLabel.renderCustom(sbatch, srenderer, font);
+	}
+
+	@Override
+	public void renderDebug(ShapeRenderer srenderer) {
+		innerLabel.renderElementDebug(srenderer, owner);
 	}
 
 	@Override

@@ -91,7 +91,7 @@ public class MenuCheckBox extends MenuBaseElement {
 	}
 	
 	@Override
-	public void render(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
+	public void render(SpriteBatch sbatch, BitmapFont font) {
 		TextureRegion tex = getCheckTexture();
 		
 		innerImage.setPosition(getPositionX() + img_padding.left, getPositionY() + img_padding.top);
@@ -102,12 +102,24 @@ public class MenuCheckBox extends MenuBaseElement {
 		
 		if (tex != null) {
 			renderTextured(sbatch, tex);
-		} else {
-			renderSimple(srenderer);			
 		}
 	
 		if (renderLabel) {
-			innerLabel.render(sbatch, srenderer, font);			
+			innerLabel.render(sbatch, font);			
+		}
+	}
+
+	@Override
+	public void renderCustom(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
+		if (renderLabel) {
+			innerLabel.renderElementCustom(sbatch, srenderer, font, owner);		
+		}
+	}
+	
+	@Override
+	public void renderDebug(ShapeRenderer srenderer) {
+		if (renderLabel) {
+			innerLabel.renderElementDebug(srenderer, owner);		
 		}
 	}
 
@@ -123,28 +135,6 @@ public class MenuCheckBox extends MenuBaseElement {
 			
 			sbatch.end();
 		}
-	}
-
-	private void renderSimple(ShapeRenderer srenderer) {
-		srenderer.begin(ShapeType.Filled);
-		{
-			float grayValue = 1f - (getDepth() % 16) / 15f;
-			srenderer.setColor(grayValue, grayValue, grayValue, 1f);
-			srenderer.rect(getPositionX(), getPositionY(), getHeight(), getHeight());
-		}
-		srenderer.end();
-		
-		srenderer.begin(ShapeType.Line);
-		{
-			srenderer.setColor(Color.BLACK);
-			srenderer.rect(getPositionX(), getPositionY(), getHeight(), getHeight());
-			
-			if (isChecked()) {
-				srenderer.line(getPositionX(), getPositionY(), getPositionX() + getHeight(), getPositionY() + getHeight());
-				srenderer.line(getPositionX() + getHeight(), getPositionY(), getPositionX(), getPositionY() + getHeight());
-			}
-		}
-		srenderer.end();
 	}
 
 	@Override

@@ -61,19 +61,45 @@ public class MenuContainer extends MenuBaseElement {
 	}
 	
 	@Override
-	public void render(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
-		renderChildren(sbatch, srenderer, font);
+	public void render(SpriteBatch sbatch, BitmapFont font) {
+		renderChildren(sbatch, font);
 	}
 
-	protected void renderChildren(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
-		srenderer.translate(getPositionX(), getPositionY(), 0);
+	protected void renderChildren(SpriteBatch sbatch, BitmapFont font) {
 		sbatch.getTransformMatrix().translate(getPositionX(), getPositionY(), 0);
 		
 		for (MenuBaseElement element : elements) {
-			element.renderElement(sbatch, srenderer, font, owner);
+			element.renderElement(sbatch, font, owner);
 		}
 
 		sbatch.getTransformMatrix().translate(-getPositionX(), -getPositionY(), 0);
+	}
+
+	@Override
+	public void renderCustom(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
+		sbatch.getTransformMatrix().translate(getPositionX(), getPositionY(), 0);
+		srenderer.translate(getPositionX(), getPositionY(), 0);
+		
+		for (MenuBaseElement element : elements) {
+			element.renderElementCustom(sbatch, srenderer, font, owner);
+		}
+
+		srenderer.translate(-getPositionX(), -getPositionY(), 0);
+		sbatch.getTransformMatrix().translate(-getPositionX(), -getPositionY(), 0);
+	}
+	
+	@Override
+	public void renderDebug(ShapeRenderer srenderer) {
+		renderChildrenDebug(srenderer);
+	}
+
+	protected void renderChildrenDebug(ShapeRenderer srenderer) {
+		srenderer.translate(getPositionX(), getPositionY(), 0);
+
+		for (MenuBaseElement element : elements) {
+			element.renderElementDebug(srenderer, owner);
+		}
+
 		srenderer.translate(-getPositionX(), -getPositionY(), 0);
 	}
 

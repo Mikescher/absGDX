@@ -76,8 +76,10 @@ public abstract class MenuLayer extends AgdxLayer implements MenuOwner {
 		
 		sbatch.enableBlending();
 		srenderer.setAutoShapeType(true);
-		
-		root.renderElement(sbatch, srenderer, font, this);
+
+		root.renderElement(sbatch, font, this);
+		root.renderElementCustom(sbatch, srenderer, font, this);
+		root.renderElementDebug(srenderer, this);
 	}
 
 	@Override

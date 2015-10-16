@@ -43,6 +43,8 @@ public class ManualMenu extends MenuLayer {
 		GUITextureProvider prov = Textures.texdef_gui.GetGuiProvider("defaultprov_01");
 		GUITextureProvider prov2 = Textures.texdef_gui.GetGuiProvider("altprov");
 		
+		getMenuRoot().setTextureProvider(prov);
+		
 		final MenuPanel p = new MenuPanel(prov);
 		p.setBoundaries(50, 50, 600, 310);
 		

@@ -55,23 +55,10 @@ public class MenuImage extends MenuBaseElement {
 	@Override
 	public void renderDebugGridLines(ShapeRenderer srenderer, GameSettings settings) {
 		super.renderDebugGridLines(srenderer, settings);
-		
-		if (settings.debugMenuImageAnimation.isActive() && isAnimated()) {
-			srenderer.begin(ShapeType.Filled);
-			{
-				srenderer.setColor(settings.debugMenuBordersColor.get());
-				
-				srenderer.rect(getPositionX(), getPositionY(), (animationPos/animationLength) * getWidth(), 3);
-				srenderer.rect(getPositionX() + getWidth(), getPositionY() + getHeight(), -(animationPos/animationLength) * getWidth(), -4);
-				srenderer.rect(getPositionX(), getPositionY() + getHeight(), 3, -(animationPos/animationLength) * getHeight());
-				srenderer.rect(getPositionX() + getWidth(), getPositionY(), -4, (animationPos/animationLength) * getHeight());
-			}
-			srenderer.end();
-		}
 	}
 
 	@Override
-	public void render(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
+	public void render(SpriteBatch sbatch, BitmapFont font) {
 		if (getWidth() == 0 || getHeight() == 0) return;
 		
 		TextureRegion image = getTexture();
@@ -117,6 +104,29 @@ public class MenuImage extends MenuBaseElement {
 		sbatch.draw(image, getPositionX(), getPositionY() + texHeight, texWidth, -texHeight);
 		
 		sbatch.end();
+	}
+
+	@Override
+	public void renderCustom(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
+		// NOP
+	}
+	
+	@Override
+	public void renderDebug(ShapeRenderer srenderer) {
+		GameSettings settings = owner.getAgdxGame().settings;
+		
+		if (settings.debugMenuImageAnimation.isActive() && isAnimated()) {
+			srenderer.begin(ShapeType.Filled);
+			{
+				srenderer.setColor(settings.debugMenuBordersColor.get());
+				
+				srenderer.rect(getPositionX(), getPositionY(), (animationPos/animationLength) * getWidth(), 3);
+				srenderer.rect(getPositionX() + getWidth(), getPositionY() + getHeight(), -(animationPos/animationLength) * getWidth(), -4);
+				srenderer.rect(getPositionX(), getPositionY() + getHeight(), 3, -(animationPos/animationLength) * getHeight());
+				srenderer.rect(getPositionX() + getWidth(), getPositionY(), -4, (animationPos/animationLength) * getHeight());
+			}
+			srenderer.end();
+		}
 	}
 	
 	/**

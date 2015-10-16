@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
-import de.samdev.absgdx.framework.GameSettings;
 import de.samdev.absgdx.framework.menu.GUITextureProvider;
 import de.samdev.absgdx.framework.menu.attributes.CheckState;
 import de.samdev.absgdx.framework.menu.attributes.RectangleRadius;
@@ -121,12 +120,12 @@ public class MenuSettingsTree extends MenuBaseElement {
 			return result;
 		}
 		
-		public int innerRender(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font, int positionY, int depth) {
+		public int innerRender(SpriteBatch sbatch, BitmapFont font, int positionY, int depth) {
 			setUpInnerElements(positionY, depth);
 			
 			if (positionY >= treeowner.padding.top) {
-				super.render(sbatch, srenderer, font);
-				innerImageRight.render(sbatch, srenderer, font);
+				super.render(sbatch, font);
+				innerImageRight.render(sbatch, font);
 			}
 			
 			positionY += getHeight() + treeowner.rowGap;
@@ -136,7 +135,7 @@ public class MenuSettingsTree extends MenuBaseElement {
 					if (positionY + treeowner.rowHeight > treeowner.getHeight() - treeowner.padding.bottom)
 						return positionY;
 					
-					positionY = child.innerRender(sbatch, srenderer, font, positionY, depth+1);
+					positionY = child.innerRender(sbatch, font, positionY, depth+1);
 				}
 			}
 			
@@ -243,33 +242,26 @@ public class MenuSettingsTree extends MenuBaseElement {
 	}
 
 	@Override
-	public void renderDebugGridLines(ShapeRenderer srenderer, GameSettings settings) {
-		super.renderDebugGridLines(srenderer, settings);
-		
-		srenderer.translate(getPositionX(), getPositionY(), 0);
-		{
-			root.innerDebugRender(srenderer, padding.top - scroll * (rowHeight + rowGap), 0);
-		}
-		srenderer.translate(-getPositionX(), -getPositionY(), 0);
-	}
-
-	@Override
-	public void render(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
+	public void render(SpriteBatch sbatch, BitmapFont font) {
 		if (getTextureProvider().hasGeneric9SideTextures(getClass())) {
 			render9SideTexture(sbatch);
-		} else {
-			renderSimple(srenderer);
 		}
 		
 		if (getTextureProvider().hasPaddingTextures(getClass())) {
 			renderPaddingTexture(sbatch);
-		} 
-
-		srenderer.translate(getPositionX(), getPositionY(), 0);
+		}
+		
 		sbatch.getTransformMatrix().translate(getPositionX(), getPositionY(), 0);
 		{
-			root.innerRender(sbatch, srenderer, font, padding.top - scroll * (rowHeight + rowGap), 0);
-			
+			root.innerRender(sbatch, font, padding.top - scroll * (rowHeight + rowGap), 0);
+		}
+		sbatch.getTransformMatrix().translate(-getPositionX(), -getPositionY(), 0);
+	}
+
+	@Override
+	public void renderCustom(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
+		srenderer.translate(getPositionX(), getPositionY(), 0);
+		{
 			int rows = root.getAllVisibleChildren().size();
 			int vrows = (getHeight() - padding.getVerticalSum()) / (rowHeight + rowGap);
 			
@@ -280,23 +272,26 @@ public class MenuSettingsTree extends MenuBaseElement {
 				float sby = sbperc * sbfreespace;
 				
 				srenderer.begin(ShapeType.Filled);
-				srenderer.setColor(getScrollbarColor());
-				srenderer.rect(getWidth() - 1, sby + 1, -scrollbarWidth, sbheight - 2);
+				{
+					srenderer.setColor(getScrollbarColor());
+					srenderer.rect(getWidth() - 1, sby + 1, -scrollbarWidth, sbheight - 2);
+				}
 				srenderer.end();
 			}
 		}
-		sbatch.getTransformMatrix().translate(-getPositionX(), -getPositionY(), 0);
 		srenderer.translate(-getPositionX(), -getPositionY(), 0);
 	}
 
-	private void renderSimple(ShapeRenderer srenderer) {
-		srenderer.begin(ShapeType.Filled);
+	@Override
+	public void renderDebug(ShapeRenderer srenderer) {
+		if (owner.getAgdxGame().settings.debugMenuBorders.isActive())
 		{
-			float grayValue = 1f - (getDepth() % 16) / 15f;
-			srenderer.setColor(grayValue, grayValue, grayValue, 1f);
-			srenderer.rect(getPositionX(), getPositionY(), getWidth(), getHeight());
+			srenderer.translate(getPositionX(), getPositionY(), 0);
+			{
+				root.innerDebugRender(srenderer, padding.top - scroll * (rowHeight + rowGap), 0);
+			}
+			srenderer.translate(-getPositionX(), -getPositionY(), 0);
 		}
-		srenderer.end();
 	}
 
 	@Override

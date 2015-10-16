@@ -7,8 +7,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import de.samdev.absgdx.framework.menu.GUITextureProvider;
 import de.samdev.absgdx.framework.menu.MenuOwner;
 import de.samdev.absgdx.framework.menu.events.MenuFrameListener;
 
@@ -51,12 +51,12 @@ public class MenuFrame extends MenuPanel {
 	}
 	
 	@Override
-	public void render(SpriteBatch sbatch, ShapeRenderer srenderer, BitmapFont font) {
+	public void render(SpriteBatch sbatch, BitmapFont font) {
 		if (isRenderTexture()) {
-			super.render(sbatch, srenderer, font);
+			super.render(sbatch, font);
+		} else {
+			renderChildren(sbatch, font);
 		}
-		
-		renderChildren(sbatch, srenderer, font);
 	}
 	
 	/**
@@ -235,5 +235,16 @@ public class MenuFrame extends MenuPanel {
 	 */
 	public void setRenderTexture(boolean renderTexture) {
 		this.renderTexture = renderTexture;
+	}
+
+	
+	/**
+	 * Changes the textureprovider
+	 * (only used by AGDXML loading - because its possible to set the texprov on an frame root element)
+	 * 
+	 * @param prov teh new texture provider
+	 */
+	public void setTextureProvider(GUITextureProvider prov) {
+		this.textureprovider = prov;
 	}
 }

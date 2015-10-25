@@ -112,13 +112,26 @@ public class GUITextureProvider {
 		IDENT_TEX_PADDING_BL, IDENT_TEX_PADDING_SL, IDENT_TEX_PADDING_BB, IDENT_TEX_PADDING_SR, IDENT_TEX_PADDING_BR, 
 	};
 	
-	private final HashMap<String, TextureRegion> map = new HashMap<String, TextureRegion>();
+	private final HashMap<Integer, TextureRegion> map = new HashMap<Integer, TextureRegion>();
 	
 	/**
 	 * Create a new (empty) GUITextureProvider
 	 */
 	public GUITextureProvider() {
 		//
+	}
+	
+	private int getTextureHash(String target, String identifier, Object appendix) {
+		int hashcode = (997 * target.toLowerCase().hashCode()) ^  (991 * identifier.toLowerCase().hashCode());
+		if (appendix != null)
+		{
+			String hcs = appendix.toString().toLowerCase();
+			if (! hcs.isEmpty())
+			{
+				hashcode = hashcode ^ (1009 * hcs.hashCode());
+			}
+		}
+		return hashcode;
 	}
 	
 	/**
@@ -153,11 +166,7 @@ public class GUITextureProvider {
 	 * @param texture the texture to use
 	 */
 	public void set(String target, String identifier, Object appendix, TextureRegion texture) {
-		String app = (appendix == null || appendix.toString().isEmpty()) ? "" : ("#" + appendix.toString());
-
-		String key = (target + ":" + identifier + app).toLowerCase();
-		
-		map.put(key, texture);
+		map.put(getTextureHash(target, identifier, appendix), texture);
 	}
 
 	/**
@@ -182,31 +191,12 @@ public class GUITextureProvider {
 	 * @return the texture identified by {target + ':' + identifier + '#' + appendix}
 	 */
 	public TextureRegion get(Class<?> target, String identifier, Object appendix) {
-		String app = (appendix == null || appendix.toString().isEmpty()) ? "" : ("#" + appendix.toString());
-		
-		String key = (target.getSimpleName() + ":" + identifier + app).toLowerCase();
-		
-		if (map.containsKey(key)) 
-			return map.get(key);
+		int hashcode = getTextureHash(target.getSimpleName(), identifier, appendix);
+
+		if (map.containsKey(hashcode)) 
+			return map.get(hashcode);
 		else 
 			return null;
-	}
-	
-	/**
-	 * Test if their any registered Textures for this class
-	 * 
-	 * @param target the target class
-	 * @return true if textures are found
-	 */
-	public boolean hasTextures(Class<?> target) {
-		String key_start = (target.getSimpleName() + ":").toLowerCase();
-		
-		for (String key : map.keySet()) {
-			if (key.startsWith(key_start))
-				return true;
-		}
-		
-		return false;
 	}
 	
 	/**

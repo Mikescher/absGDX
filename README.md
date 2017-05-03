@@ -7,7 +7,7 @@ This is an add on to the mobile framework [LibGDX](http://libgdx.badlogicgames.c
 It is based on the idea to simply develop mobile games in an desktop environment.
 It is made to create two-dimensional games that consist of an (tiled) map and multiple entities on this map.
 
-###[> Main features](#this)
+### [> Main features](#this)
 
  - Tiled map system
  - Entity system
@@ -19,14 +19,14 @@ It is made to create two-dimensional games that consist of an (tiled) map and mu
  - loading dynamic menu layouts from XML-like files (a little bit like Microsoft-WPF)
  - external menu designer (absGDX-menudesigner)
 
-###[> Quick guide](https://github.com/Mikescher/absGDX/blob/master/QuickGuide.md)
+### [> Quick guide](https://github.com/Mikescher/absGDX/blob/master/QuickGuide.md)
 
-###[> JavaDoc](http://mikescher.github.io/absGDX/javadoc/)
+### [> JavaDoc](http://mikescher.github.io/absGDX/javadoc/)
 
 [![wercker status](https://app.wercker.com/status/91f3088dcb06f3d5e1d114aef291e80c/m "wercker status")](https://app.wercker.com/project/bykey/91f3088dcb06f3d5e1d114aef291e80c)
 
-###[> Download](https://github.com/Mikescher/absGDX/tree/master/manual-demo-builds)
+### [> Download](https://github.com/Mikescher/absGDX/tree/master/manual-demo-builds)
 
-###[> Written thesis (version 1.0)](https://github.com/Mikescher/DHBW-Studienarbeit-absGDX)
+### [> Written thesis (version 1.0)](https://github.com/Mikescher/DHBW-Studienarbeit-absGDX)
 
 <sup><sup>*more info coming soon-ish*</sup></sup>
